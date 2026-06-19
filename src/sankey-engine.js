@@ -57,6 +57,20 @@
       labelDimOpacity: 0.2,
       focusOpacity: 1,
       transitionMs: 120,
+      tooltip: {
+        enabled: true,
+        percentDecimals: 1,
+        fontSize: 28,
+        fontWeight: 600,
+        textColor: '#35566f',
+        background: '#f8fbfc',
+        backgroundOpacity: 0.88,
+        stroke: '#d9e3e8',
+        strokeOpacity: 0.65,
+        paddingX: 14,
+        paddingY: 8,
+        radius: 4,
+      },
     },
   };
 
@@ -88,6 +102,13 @@
     const num = Number.isInteger(v) ? v : v.toFixed(meta.decimals != null ? meta.decimals : 1);
     const body = `${cur}${num}${unit}`;
     return node.type === 'cost' ? `(${body})` : body;
+  }
+
+  function trimFixed(value, decimals) {
+    return value
+      .toFixed(decimals)
+      .replace(/\.0+$/, '')
+      .replace(/(\.\d*?)0+$/, '$1');
   }
 
   // default label side when a node doesn't specify one
@@ -310,6 +331,7 @@
         .attr('stroke-width', Math.max(1, lk.width))
         .attr('stroke-opacity', cfg.linkOpacity)
         .attr('stroke-linecap', 'butt')
+        .style('pointer-events', 'stroke')
         .style('cursor', 'pointer');
     });
 
@@ -663,12 +685,145 @@
           .text(meta.periodNote);
     }
 
+    const tooltipCfg =
+      cfg.interaction && cfg.interaction.tooltip && cfg.interaction.tooltip.enabled
+        ? cfg.interaction.tooltip
+        : null;
+    const linkTooltipLayer = tooltipCfg
+      ? svg
+          .append('g')
+          .attr('class', 'sankey-link-tooltips')
+          .attr('aria-hidden', 'true')
+          .style('display', 'none')
+          .style('pointer-events', 'none')
+          .style('filter', 'drop-shadow(0 2px 6px rgba(0,0,0,0.10))')
+      : null;
+
+    function numericLinkValue(lk) {
+      const raw = lk.raw || {};
+      const v = raw.value != null ? raw.value : lk.value;
+      return Number.isFinite(Number(v)) ? Number(v) : 0;
+    }
+
+    function linkSum(linksToSum) {
+      return (linksToSum || []).reduce((sum, lk) => sum + numericLinkValue(lk), 0);
+    }
+
+    function linkPercent(lk) {
+      const raw = lk.raw || {};
+      if (raw.percentText != null) return String(raw.percentText);
+      if (raw.percentageText != null) return String(raw.percentageText);
+
+      const explicit = raw.percent != null ? raw.percent : raw.percentage;
+      const decimals = tooltipCfg && tooltipCfg.percentDecimals != null ? tooltipCfg.percentDecimals : 1;
+      if (explicit != null && Number.isFinite(Number(explicit))) {
+        const pct = Math.abs(Number(explicit)) <= 1 ? Number(explicit) * 100 : Number(explicit);
+        return `${trimFixed(pct, decimals)}%`;
+      }
+
+      const value = numericLinkValue(lk);
+      const sourceLinks = lk.source && lk.source.sourceLinks ? lk.source.sourceLinks : [];
+      const targetLinks = lk.target && lk.target.targetLinks ? lk.target.targetLinks : [];
+      const sourceTotal = linkSum(sourceLinks);
+      const targetTotal = linkSum(targetLinks);
+      let denominator = 0;
+
+      if (sourceLinks.length > 1 && sourceTotal > 0) denominator = sourceTotal;
+      else if (targetLinks.length > 1 && targetTotal > 0) denominator = targetTotal;
+      else denominator = sourceTotal || targetTotal;
+
+      if (!denominator) return '';
+      return `${trimFixed((value / denominator) * 100, decimals)}%`;
+    }
+
+    function linkTooltipAnchor(path, lk) {
+      if (path && isFn(path.getTotalLength) && isFn(path.getPointAtLength)) {
+        const length = path.getTotalLength();
+        if (Number.isFinite(length) && length > 0) {
+          const point = path.getPointAtLength(length / 2);
+          return [point.x, point.y];
+        }
+      }
+      return [(lk.source.x1 + lk.target.x0) / 2, (lk.y0 + lk.y1) / 2];
+    }
+
+    function showLinkTooltips(items) {
+      if (!linkTooltipLayer) return;
+      const rows = items
+        .map((item) => Object.assign({}, item, { text: linkPercent(item.lk) }))
+        .filter((item) => item.text);
+
+      linkTooltipLayer.style('display', rows.length ? null : 'none');
+      const tips = linkTooltipLayer
+        .selectAll('g.sankey-link-tooltip')
+        .data(rows, (item) => item.lk.index);
+
+      tips.exit().remove();
+
+      const entered = tips
+        .enter()
+        .append('g')
+        .attr('class', 'sankey-link-tooltip');
+      entered
+        .append('rect')
+        .attr('fill', tooltipCfg.background)
+        .attr('fill-opacity', tooltipCfg.backgroundOpacity)
+        .attr('stroke', tooltipCfg.stroke)
+        .attr('stroke-opacity', tooltipCfg.strokeOpacity)
+        .attr('rx', tooltipCfg.radius);
+      entered
+        .append('text')
+        .attr('font-size', tooltipCfg.fontSize)
+        .attr('font-weight', tooltipCfg.fontWeight)
+        .attr('fill', tooltipCfg.textColor)
+        .attr('letter-spacing', '0');
+
+      const merged = entered.merge(tips);
+      merged.each(function (item) {
+        const tip = d3.select(this);
+        const text = tip
+          .select('text')
+          .text(item.text)
+          .attr('x', tooltipCfg.paddingX)
+          .attr('y', 0);
+        const textBox = text.node().getBBox();
+        const width = textBox.width + tooltipCfg.paddingX * 2;
+        const height = textBox.height + tooltipCfg.paddingY * 2;
+        const textY = tooltipCfg.paddingY - textBox.y;
+        const [ax, ay] = linkTooltipAnchor(item.path, item.lk);
+        let x = ax - width / 2;
+        let y = ay - height / 2;
+
+        x = Math.max(8, Math.min(W - width - 8, x));
+        y = Math.max(8, Math.min(H - height - 8, y));
+
+        tip.select('rect').attr('width', width).attr('height', height);
+        text.attr('y', textY);
+        tip.attr('transform', `translate(${x},${y})`);
+      });
+    }
+
+    function showLinkTooltip(path, lk) {
+      showLinkTooltips([{ path, lk }]);
+    }
+
+    function hideLinkTooltip() {
+      if (linkTooltipLayer) {
+        linkTooltipLayer.style('display', 'none');
+        linkTooltipLayer.selectAll('g.sankey-link-tooltip').remove();
+      }
+    }
+
     /* ---------- hover interactions ---------- */
     if (cfg.interaction && cfg.interaction.enabled) {
       const ixn = cfg.interaction;
       const linkPaths = linkLayer.selectAll('path.sankey-link');
       const nodeRects = nodeLayer.selectAll('rect.sankey-node');
       const labelItems = labelLayer.selectAll('.sankey-label');
+      const linkPathByIndex = new Map();
+      linkPaths.each(function (lk) {
+        linkPathByIndex.set(lk.index, this);
+      });
 
       function collectNodeContext(start) {
         const activeNodes = new Set([start]);
@@ -740,6 +895,7 @@
 
       function resetHighlight() {
         const dur = ixn.transitionMs;
+        hideLinkTooltip();
         linkPaths
           .interrupt()
           .transition()
@@ -753,10 +909,13 @@
       const focusNode = (event, n) => {
         const ctx = collectNodeContext(n);
         applyHighlight(ctx.activeNodes, ctx.activeLinks);
+        const directLinks = [...(n.targetLinks || []), ...(n.sourceLinks || [])];
+        showLinkTooltips(directLinks.map((lk) => ({ path: linkPathByIndex.get(lk.index), lk })));
       };
 
       const focusLink = (event, lk) => {
         applyHighlight(new Set([lk.source, lk.target]), new Set([lk]));
+        showLinkTooltip(event.currentTarget, lk);
       };
 
       nodeRects.on('mouseenter', focusNode).on('mouseleave', resetHighlight);

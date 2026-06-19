@@ -4,7 +4,8 @@
   "type": "module",
   "packageManager": "pnpm@11.5.2",
   "scripts": {
-    "verify:d3": "node scripts/verify-d3.mjs"
+    "verify:d3": "node scripts/verify-d3.mjs",
+    "verify:ssot": "node scripts/verify-ssot.mjs"
   },
   "devDependencies": {
     "@fontsource/montserrat": "5.2.8",

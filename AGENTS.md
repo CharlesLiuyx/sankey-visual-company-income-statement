@@ -18,6 +18,7 @@ stable datasets and run a d3-sankey fidelity loop automatically.
    - `input/processed/<dataset-key>.png`
 4. Create or update:
    - `data/<dataset-key>.js`
+   - `data/income-statements.js`
    - `index.html` dataset script registration
 5. Set `meta.referenceImage` to the processed PNG with exact source dimensions.
 6. Keep `input/pending/` empty except `.gitkeep` after processing.
@@ -33,6 +34,11 @@ Prefer the existing project patterns:
 - Keep costs as positive numbers; the renderer formats `type: 'cost'` as
   parenthesized values.
 - Register new datasets after dependencies and after any dataset they reuse.
+- Keep `data/income-statements.js` as the pure financial-statement SSOT for
+  every registered real dataset. It should contain comparable reported totals,
+  line items, notes, currency, unit, period, and source image only. Do not put
+  Sankey `nodes`, `links`, `layout`, `render`, SVG, colors, or pixel geometry
+  in the SSOT.
 
 For NVIDIA-like charts:
 
@@ -148,6 +154,8 @@ Before final response, verify:
 - New processed image exists at `input/processed/<dataset-key>.png`.
 - Dataset script is registered in `index.html`.
 - `node --check data/<dataset-key>.js` passes.
+- `node --check data/income-statements.js` passes.
+- `pnpm verify:ssot` passes.
 - If renderer code changed, `node --check src/sankey-engine.js` passes.
 - `pnpm verify:d3 -- <dataset-key>` passes.
 - d3 output purity was checked (`imageCount: 0` inside `#chart > svg`).
@@ -160,6 +168,7 @@ In the final response, include:
 
 - Files changed.
 - Whether pending input was cleared.
+- Whether the pure data SSOT was updated.
 - The final d3 loop metrics.
 - Any known residual fidelity limits.
 - Any commands that could not be run.

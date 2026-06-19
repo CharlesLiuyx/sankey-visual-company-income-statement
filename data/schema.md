@@ -9,6 +9,69 @@ object that `SankeyEngine.render(selector, data)` consumes.
 - **Low-level** — write `nodes` + `links` by hand for full control over
   columns, ordering and label placement. See below.
 
+Separately, `data/income-statements.js` is the pure financial-statement SSOT.
+Every registered real dataset should have one matching record there. Keep it to
+reported totals, line items, notes, currency, units, and source metadata only;
+do not put `nodes`, `links`, `layout`, `render`, SVG, colors, or pixel geometry
+in that file. Run `pnpm verify:ssot` after adding or materially changing a
+dataset.
+
+---
+
+## Pure data SSOT
+
+```js
+{
+  key: 'nvidia-q1-fy27',
+  company: 'NVIDIA',
+  period: 'Q1 FY27',
+  periodNote: 'Ending Apr. 2026',
+  currency: '$',
+  unit: 'B',
+  decimals: 1,
+  sourceImage: 'input/processed/nvidia-q1-fy27.png',
+  roundingTolerance: 0.15,
+  revenue: {
+    total: 81.6,
+    notes: ['+85% Y/Y'],
+    items: [
+      {
+        id: 'data_center',
+        label: 'Data Center',
+        value: 75.2,
+        children: [
+          { id: 'hyperscale', label: 'Hyperscale', value: 37.9 },
+        ],
+      },
+    ],
+  },
+  costs: {
+    costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 20.5 },
+    operatingExpenses: {
+      total: 7.6,
+      items: [
+        { id: 'rnd', label: 'Research & Development', value: 6.3 },
+      ],
+    },
+    tax: { id: 'tax', label: 'Tax', value: 11.6 },
+  },
+  otherIncome: {
+    total: 16.4,
+    items: [{ id: 'investments', label: 'Investments', value: 16.4 }],
+  },
+  profit: {
+    gross: { id: 'gross_profit', label: 'Gross profit', value: 61.2 },
+    operating: { id: 'operating_profit', label: 'Operating profit', value: 53.5 },
+    net: { id: 'net_profit', label: 'Net profit', value: 58.3 },
+  },
+}
+```
+
+The `id` fields should match the relevant Sankey node ids when a corresponding
+node exists. The verifier checks every `index.html` dataset script has a
+matching SSOT record, compares key totals and line items against Sankey node
+values, and allows small published-rounding differences via `roundingTolerance`.
+
 ---
 
 ## Low-level format

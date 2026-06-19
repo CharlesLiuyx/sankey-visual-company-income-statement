@@ -34,16 +34,21 @@ another fidelity loop:
 2. After processing, move the durable reference image to `input/processed/` and
    name it with the dataset key, for example `salesforce-q1-fy27.png`.
 3. Set `meta.referenceImage` on the matching dataset to that processed path.
-4. Install the pinned local tooling once:
+4. Add or update the matching pure-data record in
+   `data/income-statements.js`. This file is the comparable financial
+   statement SSOT: reported totals, line items, notes, currency and units only,
+   with no Sankey layout or render settings.
+5. Install the pinned local tooling once:
 
    ```bash
    pnpm install --frozen-lockfile
    pnpm exec playwright install chromium
    ```
 
-5. Run the deterministic d3 render/compare loop:
+6. Run the deterministic data and d3 checks:
 
    ```bash
+   pnpm verify:ssot
    pnpm verify:d3 -- <dataset-key>
    ```
 
@@ -77,9 +82,11 @@ exactly; use d3-sankey for editable or new-company charts.
 
 ## Add your company
 
-Create a file in `data/`, register it on the global `DATASETS` array, and add
-one `<script>` line in `index.html`. The fastest path is the high-level helper —
-you supply the line items and it derives every subtotal and flow:
+Create a file in `data/`, register it on the global `DATASETS` array, add one
+`<script>` line in `index.html`, and add the comparable financial statement
+record to `data/income-statements.js`. The fastest Sankey path is the
+high-level helper — you supply the line items and it derives every subtotal and
+flow:
 
 ```js
 // data/my-company-fy25.js
@@ -117,8 +124,10 @@ you supply the line items and it derives every subtotal and flow:
 ```
 
 That's it. The helper computes Revenue, Gross / Operating / Net profit and wires
-all the flows for you. For pixel-level control over columns, ordering, icons and
-label placement, author `nodes` + `links` directly instead — see
+all the flows for you. Keep `data/income-statements.js` updated with the same
+reported totals and line items, then run `pnpm verify:ssot` to confirm the SSOT
+still covers every registered dataset. For pixel-level control over columns,
+ordering, icons and label placement, author `nodes` + `links` directly instead — see
 [`data/schema.md`](data/schema.md). `data/nvidia-q1-fy27.js` is a full
 hand-authored example; `data/nvidia-from-figures.js` builds the same chart from
 raw figures via the helper.
@@ -130,6 +139,7 @@ raw figures via the helper.
 | `src/sankey-engine.js`      | **d3-sankey** renderer: layout + custom nodes/links/labels/logo/interactions |
 | `src/income-statement.js`   | `fromIncomeStatement()` — figures → `{nodes, links}`         |
 | `src/icons.js`              | Lucide icon set (inline SVG) + the NVIDIA brand glyph         |
+| `data/income-statements.js` | pure financial-statement SSOT for totals and line items       |
 | `data/*.js`                 | datasets (one per company/period)                             |
 | `vendor/`                   | d3 v7 and d3-sankey — vendored for offline use                |
 | `index.html`                | viewer shell: mode switcher + two-level dataset navigator + SVG/PNG export |

@@ -12,34 +12,113 @@
       rel="stylesheet"
     />
     <style>
-      :root { --bg: #eef1f0; --ink: #15436b; --bar: #ffffff; --line: #e2e6e6; }
+      :root {
+        --bg: #eef1f0;
+        --ink: #15436b;
+        --bar: #ffffff;
+        --line: #e2e6e6;
+        --muted: #6a7078;
+        --soft: #f6f8f8;
+        --soft-strong: #e9eff1;
+        --focus: #c2d9e6;
+      }
       * { box-sizing: border-box; }
       html, body {
         margin: 0;
+        min-height: 100%;
         background: #dfe3e3;
         font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         color: #2a2f34;
       }
       .toolbar {
-        display: flex; align-items: center; gap: 12px;
-        padding: 12px 20px; background: var(--bar);
+        display: flex; align-items: center; gap: 8px;
+        min-height: 46px; padding: 6px 12px; background: var(--bar);
         border-bottom: 1px solid var(--line);
-        position: sticky; top: 0; z-index: 5; flex-wrap: wrap;
+        position: sticky; top: 0; z-index: 10; flex-wrap: wrap;
       }
-      .toolbar h1 { font-size: 15px; font-weight: 800; margin: 0 6px 0 0; color: var(--ink); }
+      .toolbar h1 { font-size: 14px; font-weight: 800; margin: 0 8px 0 0; color: var(--ink); }
       .toolbar label { font-size: 12px; font-weight: 700; color: #6a7078; margin-left: 6px; }
-      .seg { display: inline-flex; border: 1px solid #cfd5d5; border-radius: 9px; overflow: hidden; }
-      .seg button { border: 0; border-right: 1px solid #cfd5d5; background: #fff; padding: 7px 14px; font: inherit; font-size: 13px; font-weight: 700; color: #5a6066; cursor: pointer; }
+      .seg { display: inline-flex; border: 1px solid #cfd5d5; overflow: hidden; }
+      .seg button { border: 0; border-right: 1px solid #cfd5d5; background: #fff; padding: 5px 11px; font: inherit; font-size: 12px; font-weight: 700; color: #5a6066; cursor: pointer; }
       .seg button:last-child { border-right: 0; }
       .seg button.active { background: var(--ink); color: #fff; }
-      select, .btn {
-        font: inherit; font-size: 13px; font-weight: 600; padding: 7px 12px;
-        border-radius: 8px; border: 1px solid #cfd5d5; background: #fff; color: #2a2f34; cursor: pointer;
+      .seg.compact button { padding: 4px 8px; font-size: 11px; }
+      .btn {
+        font: inherit; font-size: 12px; font-weight: 700; padding: 5px 9px;
+        border: 1px solid #cfd5d5; background: #fff; color: #2a2f34; cursor: pointer;
+        display: inline-flex; align-items: center; gap: 5px;
       }
-      .btn:hover, select:hover { border-color: #9aa3a3; }
+      .btn svg { width: 14px; height: 14px; stroke-width: 2.25; }
+      .btn:hover { border-color: #9aa3a3; }
       .btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
       .spacer { flex: 1; }
-      .stage { padding: 24px; display: flex; justify-content: center; }
+
+      .app {
+        display: grid;
+        grid-template-columns: minmax(236px, 282px) minmax(0, 1fr);
+        min-height: calc(100vh - 46px);
+      }
+      .dataset-panel {
+        height: calc(100vh - 46px);
+        position: sticky; top: 46px; align-self: start;
+        display: flex; flex-direction: column; gap: 10px;
+        overflow: hidden; padding: 10px 8px;
+        background: var(--bar); border-right: 1px solid var(--line);
+      }
+      .panel-head { padding: 0 2px 2px; }
+      .eyebrow { display: block; font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; }
+      .active-dataset { margin-top: 2px; font-size: 14px; line-height: 1.2; font-weight: 800; color: var(--ink); }
+      .active-period { margin-top: 2px; font-size: 11px; line-height: 1.25; color: var(--muted); }
+      .panel-section { min-height: 0; display: flex; flex-direction: column; gap: 5px; }
+      .company-section { flex: 0 0 auto; max-height: 38%; min-height: 92px; }
+      .company-section .nav-list { max-height: min(220px, 25vh); }
+      .period-section { flex: 1 1 auto; min-height: 0; }
+      .section-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+      .section-bar label,
+      .panel-section > label {
+        font-size: 11px; font-weight: 800; color: #525b62;
+      }
+      .search-box { position: relative; }
+      .search-box svg {
+        position: absolute; left: 8px; top: 50%; transform: translateY(-50%);
+        width: 13px; height: 13px; color: #7d878d; pointer-events: none;
+      }
+      .search-box input {
+        width: 100%; height: 28px; padding: 5px 8px 5px 27px;
+        border: 1px solid #d2d9d9;
+        background: #fff; color: #2a2f34; font: inherit; font-size: 11.5px; font-weight: 600;
+      }
+      .search-box input:focus { outline: 2px solid var(--focus); outline-offset: 0; border-color: #a9c7d7; }
+      .nav-list {
+        min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: 2px;
+      }
+      .nav-item {
+        width: 100%; border: 1px solid transparent;
+        background: transparent; padding: 4px 7px; text-align: left;
+        font: inherit; cursor: pointer; color: #263238;
+      }
+      .nav-item:hover { background: var(--soft); border-color: #dce3e3; }
+      .nav-item.active { background: #e8f1f6; border-color: #9dc6d9; box-shadow: inset 3px 0 0 var(--ink); }
+      .item-top { display: flex; align-items: center; gap: 6px; min-width: 0; height: 22px; }
+      .item-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 800; }
+      .company-item .item-name { max-width: 46%; }
+      .period-item .item-name { font-size: 12.5px; }
+      .count-pill {
+        margin-left: auto; min-width: 21px; padding: 1px 5px;
+        background: var(--soft-strong); color: #54616a; text-align: center;
+        font-size: 10px; font-weight: 800;
+      }
+      .item-meta {
+        min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        font-size: 10.5px; line-height: 1; color: var(--muted);
+      }
+      .empty-state {
+        border: 1px dashed #d3dbdb; padding: 8px;
+        color: var(--muted); background: var(--soft); font-size: 11px; line-height: 1.3;
+      }
+
+      .content { min-width: 0; display: flex; flex-direction: column; }
+      .stage { padding: 10px; display: flex; justify-content: center; }
       .card {
         background: var(--bg); border-radius: 0;
         box-shadow: 0 8px 30px rgba(20, 40, 60, 0.12);
@@ -49,7 +128,28 @@
       #chart svg { display: block; width: 100%; height: auto; }
       #chart img { display: block; width: 100%; height: auto; }
       .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-      .note { padding: 0 24px 22px; max-width: 2862px; margin: 0 auto; color: #6a7078; font-size: 12.5px; }
+      .note { padding: 0 10px 12px; max-width: 2862px; margin: 0 auto; color: #6a7078; font-size: 11.5px; }
+
+      @media (max-width: 900px) {
+        .app { grid-template-columns: 1fr; }
+        .dataset-panel {
+          position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line);
+          display: grid; grid-template-columns: 1fr 1fr; align-items: start; overflow: visible;
+        }
+        .panel-head { grid-column: 1 / -1; }
+        .company-section, .period-section { min-height: 0; }
+        .company-section { max-height: none; }
+        .company-section .nav-list { max-height: 210px; }
+        .nav-list { max-height: 210px; }
+        .stage { padding: 8px; }
+      }
+      @media (max-width: 620px) {
+        .toolbar { padding: 6px 8px; }
+        .toolbar h1 { flex-basis: 100%; }
+        .dataset-panel { grid-template-columns: 1fr; padding: 8px; }
+        .seg button { padding: 5px 9px; }
+        .btn { padding: 5px 8px; }
+      }
     </style>
   </head>
   <body>
@@ -60,15 +160,55 @@
         <button data-lib="reference" class="active">Reference</button>
         <button data-lib="d3">d3-sankey</button>
       </div>
-      <label for="ds">Dataset</label>
-      <select id="ds"></select>
       <div class="spacer"></div>
-      <button class="btn" id="svgBtn">Download SVG</button>
-      <button class="btn primary" id="pngBtn">Download PNG</button>
+      <button class="btn" id="svgBtn" title="Download SVG">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+        <span>SVG</span>
+      </button>
+      <button class="btn primary" id="pngBtn" title="Download PNG">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+        <span>PNG</span>
+      </button>
     </div>
 
-    <div class="stage"><div class="card"><div id="chart"></div></div></div>
-    <div class="note" id="libNote"></div>
+    <div class="app">
+      <aside class="dataset-panel" aria-label="Dataset navigation">
+        <div class="panel-head">
+          <span class="eyebrow">Dataset</span>
+          <div class="active-dataset" id="activeDatasetName"></div>
+          <div class="active-period" id="activeDatasetPeriod"></div>
+        </div>
+
+        <section class="panel-section company-section">
+          <label for="companySearch">Company</label>
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <input id="companySearch" type="search" placeholder="Search companies" autocomplete="off" />
+          </div>
+          <div class="nav-list" id="companyList" role="listbox" aria-label="Companies"></div>
+        </section>
+
+        <section class="panel-section period-section">
+          <div class="section-bar">
+            <label for="periodSearch">Data point time</label>
+            <div class="seg compact" id="periodSort" aria-label="Sort time points">
+              <button data-sort="desc" class="active" title="Newest first">Desc</button>
+              <button data-sort="asc" title="Oldest first">Asc</button>
+            </div>
+          </div>
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <input id="periodSearch" type="search" placeholder="Search time points" autocomplete="off" />
+          </div>
+          <div class="nav-list" id="periodList" role="listbox" aria-label="Data point times"></div>
+        </section>
+      </aside>
+
+      <main class="content">
+        <div class="stage"><div class="card"><div id="chart"></div></div></div>
+        <div class="note" id="libNote"></div>
+      </main>
+    </div>
 
     <!-- libraries (vendored, offline) -->
     <script src="vendor/d3.min.js"></script>
@@ -109,42 +249,227 @@
       };
 
       const sets = window.DATASETS || [];
-      const sel = document.getElementById('ds');
-      sets.forEach((d, i) => {
-        const o = document.createElement('option');
-        o.value = i; o.textContent = d.name || d.meta?.title || 'Dataset ' + (i + 1);
-        sel.appendChild(o);
+      const companySearch = document.getElementById('companySearch');
+      const periodSearch = document.getElementById('periodSearch');
+      const companyList = document.getElementById('companyList');
+      const periodList = document.getElementById('periodList');
+      const activeDatasetName = document.getElementById('activeDatasetName');
+      const activeDatasetPeriod = document.getElementById('activeDatasetPeriod');
+
+      function normalize(value) {
+        return String(value || '').toLowerCase().replace(/\s+/g, ' ').trim();
+      }
+      function escapeHtml(value) {
+        return String(value || '').replace(/[&<>"']/g, (char) => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+        }[char]));
+      }
+      function matches(text, query) {
+        const haystack = normalize(text);
+        return normalize(query).split(' ').filter(Boolean).every((token) => haystack.includes(token));
+      }
+      function clean(value) {
+        return String(value || '').replace(/\s+/g, ' ').trim();
+      }
+      function formatPeriodFromKey(key) {
+        const match = clean(key).match(/((?:q[1-4]-)?fy\d{2,4})/i);
+        return match ? match[1].replace('-', ' ').toUpperCase() : '';
+      }
+      function periodFor(dataset) {
+        if (dataset.meta?.period) return clean(dataset.meta.period);
+        const name = clean(dataset.name || dataset.meta?.title);
+        if (name.includes('·')) return clean(name.split('·').slice(1).join('·'));
+        return formatPeriodFromKey(dataset.key) || 'Unspecified';
+      }
+      function companyFor(dataset) {
+        if (dataset.company) return clean(dataset.company);
+        if (dataset.meta?.company) return clean(dataset.meta.company);
+        const name = clean(dataset.name || dataset.meta?.title);
+        if (name.includes('·')) return clean(name.split('·')[0]);
+        const keyCompany = clean(dataset.key).match(/^(.*?)-(?:q[1-4]-)?fy\d{2,4}/i);
+        if (keyCompany?.[1]) {
+          return keyCompany[1].split('-').map((part) => part ? part[0].toUpperCase() + part.slice(1) : part).join(' ');
+        }
+        const period = periodFor(dataset);
+        return clean(name.replace(period, '').replace(/income statement/i, '')) || 'Company';
+      }
+      function periodSortValue(record, fallback) {
+        const period = `${record.period} ${record.dataset.key || ''}`;
+        const fy = period.match(/FY\s*(20\d{2}|\d{2})/i);
+        const quarter = period.match(/Q\s*([1-4])/i);
+        if (fy) {
+          let year = Number(fy[1]);
+          if (year < 100) year += 2000;
+          return year * 10 + (quarter ? Number(quarter[1]) : 5);
+        }
+        const months = {
+          jan: 1, january: 1, feb: 2, february: 2, mar: 3, march: 3,
+          apr: 4, april: 4, may: 5, jun: 6, june: 6, jul: 7, july: 7,
+          aug: 8, august: 8, sep: 9, sept: 9, september: 9, oct: 10,
+          october: 10, nov: 11, november: 11, dec: 12, december: 12,
+        };
+        const noteMatch = clean(record.periodNote).match(/([A-Za-z.]+)\s+(\d{4})/);
+        if (noteMatch) {
+          const month = months[noteMatch[1].replace('.', '').toLowerCase()];
+          if (month) return Number(noteMatch[2]) * 12 + month;
+        }
+        return fallback;
+      }
+
+      const records = sets.map((dataset, index) => {
+        const period = periodFor(dataset);
+        const periodNote = clean(dataset.meta?.periodNote);
+        const company = companyFor(dataset);
+        const label = clean(dataset.name || dataset.meta?.title || dataset.key || `Dataset ${index + 1}`);
+        return { dataset, index, company, period, periodNote, label, sortValue: 0 };
+      });
+      records.forEach((record, index) => {
+        record.sortValue = periodSortValue(record, index);
+        record.searchText = [record.company, record.period, record.periodNote, record.label, record.dataset.key].join(' ');
+      });
+      const groups = Array.from(records.reduce((map, record) => {
+        if (!map.has(record.company)) map.set(record.company, { company: record.company, records: [] });
+        map.get(record.company).records.push(record);
+        return map;
+      }, new Map()).values()).map((group) => {
+        group.records.sort((a, b) => b.sortValue - a.sortValue || a.period.localeCompare(b.period));
+        group.latest = group.records[0];
+        group.searchText = [group.company, ...group.records.map((record) => record.searchText)].join(' ');
+        return group;
+      }).sort((a, b) => a.company.localeCompare(b.company));
+
+      const defaultIndex = sets.findIndex((d) => d.key === 'salesforce-q1-fy27');
+      const activeStart = records[defaultIndex >= 0 ? defaultIndex : 0];
+      const state = {
+        lib: 'reference',
+        sort: 'desc',
+        activeIndex: activeStart?.index || 0,
+        company: activeStart?.company || groups[0]?.company || '',
+      };
+
+      function currentRecord() {
+        return records.find((record) => record.index === state.activeIndex) || records[0];
+      }
+      function currentDataset() {
+        return currentRecord()?.dataset || sets[0];
+      }
+      function groupFor(company) {
+        return groups.find((group) => group.company === company) || groups[0];
+      }
+      function sortedRecords(group) {
+        const direction = state.sort === 'asc' ? 1 : -1;
+        return [...(group?.records || [])].sort((a, b) => direction * (a.sortValue - b.sortValue) || a.period.localeCompare(b.period));
+      }
+      function renderActiveSummary() {
+        const record = currentRecord();
+        activeDatasetName.textContent = record ? record.company : 'No datasets';
+        activeDatasetPeriod.textContent = record
+          ? [record.period, record.periodNote].filter(Boolean).join(' - ')
+          : '';
+      }
+      function renderCompanies() {
+        const visibleGroups = groups.filter((group) => matches(group.searchText, companySearch.value));
+        companyList.innerHTML = '';
+        if (!visibleGroups.length) {
+          companyList.innerHTML = '<div class="empty-state">No matching companies.</div>';
+          return;
+        }
+        visibleGroups.forEach((group) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'nav-item company-item' + (group.company === state.company ? ' active' : '');
+          button.setAttribute('role', 'option');
+          button.setAttribute('aria-selected', group.company === state.company ? 'true' : 'false');
+          button.dataset.company = group.company;
+          button.innerHTML = `
+            <div class="item-top">
+              <span class="item-name">${escapeHtml(group.company)}</span>
+              <span class="item-meta">Latest ${escapeHtml(group.latest.period)}</span>
+              <span class="count-pill">${group.records.length}</span>
+            </div>
+          `;
+          button.addEventListener('click', () => {
+            state.company = group.company;
+            const next = sortedRecords(group).find((record) => matches(record.searchText, periodSearch.value)) || sortedRecords(group)[0];
+            if (next) state.activeIndex = next.index;
+            renderAll();
+            draw();
+          });
+          companyList.appendChild(button);
+        });
+      }
+      function renderPeriods() {
+        const group = groupFor(state.company);
+        const visibleRecords = sortedRecords(group).filter((record) => matches(record.searchText, periodSearch.value));
+        periodList.innerHTML = '';
+        if (!visibleRecords.length) {
+          periodList.innerHTML = '<div class="empty-state">No matching time points.</div>';
+          return;
+        }
+        visibleRecords.forEach((record) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'nav-item period-item' + (record.index === state.activeIndex ? ' active' : '');
+          button.setAttribute('role', 'option');
+          button.setAttribute('aria-selected', record.index === state.activeIndex ? 'true' : 'false');
+          button.dataset.index = record.index;
+          button.innerHTML = `
+            <div class="item-top">
+              <span class="item-name">${escapeHtml(record.period)}</span>
+              <span class="item-meta">${escapeHtml(record.periodNote || record.label)}</span>
+            </div>
+          `;
+          button.addEventListener('click', () => {
+            state.activeIndex = record.index;
+            state.company = record.company;
+            renderAll();
+            draw();
+          });
+          periodList.appendChild(button);
+        });
+      }
+      function renderAll() {
+        renderActiveSummary();
+        renderCompanies();
+        renderPeriods();
+      }
+
+      companySearch.addEventListener('input', renderCompanies);
+      periodSearch.addEventListener('input', renderPeriods);
+      document.getElementById('periodSort').addEventListener('click', (e) => {
+        const button = e.target.closest('button');
+        if (!button) return;
+        state.sort = button.dataset.sort;
+        [...button.parentElement.children].forEach((child) => child.classList.toggle('active', child === button));
+        renderPeriods();
       });
 
-      let lib = 'reference';
-      const defaultIndex = sets.findIndex((d) => d.key === 'salesforce-q1-fy27');
-      if (defaultIndex >= 0) sel.value = defaultIndex;
       function chartWidth(d) {
         const ref = d.meta?.referenceImage;
-        if (lib === 'reference' && ref && typeof ref === 'object' && ref.width) return ref.width;
+        if (state.lib === 'reference' && ref && typeof ref === 'object' && ref.width) return ref.width;
         return d.render?.width || window.SankeyEngine.DEFAULTS?.width || 2862;
       }
       function draw() {
-        const d = sets[+sel.value] || sets[0];
+        const d = currentDataset();
         const maxWidth = chartWidth(d);
         document.querySelector('.card').style.maxWidth = maxWidth + 'px';
         document.getElementById('libNote').style.maxWidth = maxWidth + 'px';
-        if (d) RENDERERS[lib].fn(d);
-        document.getElementById('libNote').textContent = RENDERERS[lib].note;
+        if (d) RENDERERS[state.lib].fn(d);
+        document.getElementById('libNote').textContent = RENDERERS[state.lib].note;
         document.getElementById('svgBtn').disabled = !document.querySelector('#chart svg');
       }
 
       document.getElementById('libSeg').addEventListener('click', (e) => {
         const b = e.target.closest('button'); if (!b) return;
-        lib = b.dataset.lib;
+        state.lib = b.dataset.lib;
         [...e.currentTarget.children].forEach((c) => c.classList.toggle('active', c === b));
         draw();
       });
-      sel.addEventListener('change', draw);
 
       let rt;
       window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(draw, 200); });
 
+      renderAll();
       draw();
 
       /* ---- export (works for whichever library is active) ---- */
@@ -164,7 +489,7 @@
         const r = svg.getBoundingClientRect();
         return [r.width, r.height];
       }
-      const fname = () => (sets[+sel.value].key || 'sankey') + '-' + lib;
+      const fname = () => (currentDataset()?.key || 'sankey') + '-' + state.lib;
       document.getElementById('svgBtn').onclick = () => {
         if (!currentSvg()) return;
         const a = document.createElement('a');

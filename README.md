@@ -21,8 +21,9 @@ python3 -m http.server 8000
 …or just **double-click `index.html`** — d3 and d3-sankey are vendored locally
 in `vendor/`, so it works fully offline.
 
-Use the **Mode** switcher (Reference / d3-sankey) and the **Dataset** dropdown,
-and **Download SVG/PNG** to export the current chart at 2× resolution.
+Use the **Mode** switcher (Reference / d3-sankey), pick datasets from the left
+Company / Data point time navigator, and **Download SVG/PNG** to export the
+current chart at 2× resolution.
 
 ## Visual loop workflow
 
@@ -131,7 +132,7 @@ raw figures via the helper.
 | `src/icons.js`              | Lucide icon set (inline SVG) + the NVIDIA brand glyph         |
 | `data/*.js`                 | datasets (one per company/period)                             |
 | `vendor/`                   | d3 v7 and d3-sankey — vendored for offline use                |
-| `index.html`                | viewer shell: mode switcher + dataset dropdown + SVG/PNG export |
+| `index.html`                | viewer shell: mode switcher + two-level dataset navigator + SVG/PNG export |
 
 Design choices that keep every chart **aligned and consistent**:
 

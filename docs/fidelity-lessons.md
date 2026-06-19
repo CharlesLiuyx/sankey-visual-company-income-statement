@@ -141,9 +141,9 @@ are accepted, not bugs:
   stylistic residuals as "accepted" so the loop terminates instead of chasing
   noise.
 - **L8 — Keep comparison renderers in lockstep.** Tuning the d3 DEFAULTS changed
-  the canonical aspect (1920×1000). The app now has only Reference and
-  d3-sankey modes, so the viewer no longer has parallel chart-library sizes to
-  keep synchronized.
+  the canonical aspect (1920×1000). The viewer now ships only d3-sankey mode,
+  so reference rasters stay out of the runtime and cannot create a second
+  app-rendering path to synchronize.
 
 ---
 
@@ -220,3 +220,12 @@ valid d3-sankey fidelity-loop outputs**:
   existing SVG `viewBox`, `transform`, size, or placement; do not add a second
   eye glyph or overlapping logo as a visual patch. Duplicate marks may lower
   local pixel error during tuning, but they are a visible fidelity regression.
+
+### Lesson from Codex sandbox verification
+
+- **L11 — Run `pnpm verify:d3` with local-server permissions up front.** The
+  verifier starts an ephemeral `127.0.0.1` static server before launching
+  Playwright. In restricted Codex sandboxes this can fail immediately with
+  `listen EPERM: operation not permitted 127.0.0.1`. Treat that as an
+  environment permission issue, not a d3/render regression, and rerun with
+  escalated shell permissions instead of first spending a failed sandbox pass.

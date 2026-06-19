@@ -10,7 +10,7 @@ Drop in a new company's numbers and you get the same chart.
 
 ## Run it
 
-It's a static site with no build step. Either:
+It's a static site for development and local preview. Either:
 
 ```bash
 # from the project root
@@ -19,11 +19,24 @@ python3 -m http.server 8000
 ```
 
 …or just **double-click `index.html`** — d3 and d3-sankey are vendored locally
-in `vendor/`, so it works fully offline.
+in `vendor/`, so it works offline as long as the repository files are present.
 
-Use the **Mode** switcher (d3-sankey / Reference), pick datasets from the left
-Company / Data point time navigator, and **Download SVG/PNG** to export the
-current chart at 2× resolution.
+For a single self-contained HTML file that does not depend on sibling CSS, JS,
+font, vendor, data, or reference PNG files, build the standalone artifact:
+
+```bash
+pnpm build:standalone
+pnpm verify:standalone
+```
+
+The generated file is
+`output/sankey-visual-company-income-statement.html`. It inlines the viewer CSS,
+all ordered scripts, local Montserrat font files, and datasets. It does not
+inline or request processed reference PNGs; those remain verification inputs
+only.
+
+Pick datasets from the left Company / Data point time navigator, and
+**Download SVG/PNG** to export the current d3-sankey chart at 2× resolution.
 
 ## Visual loop workflow
 
@@ -68,17 +81,12 @@ Reference mode, a direct `<img>` of the source PNG, or any source-image crop /
 raster overlay placed into the d3 output. The source PNG is only the standard to
 measure against, never part of the d3-sankey render being scored.
 
-## Rendering modes
+## Rendering
 
-The app keeps two modes:
-
-| Mode | File | Strengths | Trade-offs |
-|---|---|---|---|
-| **d3-sankey** (default) | `src/sankey-engine.js` | Editable data-driven SVG with custom nodes, links, labels, hover highlighting, explicit column + vertical order, fixed-layout overrides, and export. | Not pixel-identical to the hand-made reference PNG. |
-| **Reference** | `meta.referenceImage` | Pixel-exact reference output for datasets with a processed PNG. | Raster-only. Datasets without `meta.referenceImage` fall back to d3-sankey. |
-
-**Recommendation:** use Reference when a chart must match a supplied PNG
-exactly; use d3-sankey for editable or new-company charts.
+The viewer renders only the editable d3-sankey SVG from
+`src/sankey-engine.js`. Processed reference PNGs are kept in
+`input/processed/` and referenced by `meta.referenceImage` for the fidelity
+verifier, but they are not part of the app runtime or standalone HTML artifact.
 
 ## Add your company
 
@@ -136,13 +144,18 @@ raw figures via the helper.
 
 | file                        | role                                                          |
 |-----------------------------|---------------------------------------------------------------|
+| `index.html`                | static viewer shell and ordered script registration           |
+| `src/app.css`               | viewer layout, controls, sidebar, and responsive styles       |
+| `src/app.js`                | viewer app logic: navigation, mode switching, resizing, export |
 | `src/sankey-engine.js`      | **d3-sankey** renderer: layout + custom nodes/links/labels/logo/interactions |
 | `src/income-statement.js`   | `fromIncomeStatement()` — figures → `{nodes, links}`         |
 | `src/icons.js`              | Lucide icon set (inline SVG) + the NVIDIA brand glyph         |
+| `scripts/build-standalone.mjs` | builds the self-contained HTML artifact                    |
+| `scripts/verify-standalone.mjs` | opens the artifact via `file://` and checks d3 rendering |
+| `scripts/script-sources.mjs`| shared script classification for page and verifier harnesses  |
 | `data/income-statements.js` | pure financial-statement SSOT for totals and line items       |
 | `data/*.js`                 | datasets (one per company/period)                             |
 | `vendor/`                   | d3 v7 and d3-sankey — vendored for offline use                |
-| `index.html`                | viewer shell: mode switcher + two-level dataset navigator + SVG/PNG export |
 
 Design choices that keep every chart **aligned and consistent**:
 

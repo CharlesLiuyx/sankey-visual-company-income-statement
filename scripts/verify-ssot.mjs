@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
+import { dataScriptsFromIndex } from './script-sources.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,20 +13,8 @@ function readProjectFile(relativePath) {
   return readFileSync(path.join(rootDir, relativePath), 'utf8');
 }
 
-function scriptSources(indexHtml) {
-  const sources = [];
-  const scriptRe = /<script\b[^>]*\bsrc=["']([^"']+)["'][^>]*><\/script>/gi;
-  let match;
-  while ((match = scriptRe.exec(indexHtml))) {
-    sources.push(match[1]);
-  }
-  return sources;
-}
-
 function dataScripts() {
-  return scriptSources(readProjectFile('index.html'))
-    .filter((src) => /^data\/.+\.js$/.test(src))
-    .filter((src) => src !== 'data/income-statements.js');
+  return dataScriptsFromIndex(readProjectFile('index.html'));
 }
 
 function loadBrowserData(scripts) {

@@ -3,4 +3,5 @@ node_modules/
 .playwright-cli/
 compare/*
 !compare/.gitkeep
-output/
+output/*
+!output/sankey-visual-company-income-statement.html

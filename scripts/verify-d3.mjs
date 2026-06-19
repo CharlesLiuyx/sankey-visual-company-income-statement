@@ -6,6 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PNG } from 'pngjs';
 import { chromium } from 'playwright';
+import { dataScriptsFromIndex, renderHarnessScripts } from './script-sources.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -89,16 +90,6 @@ async function startStaticServer() {
     baseUrl: `http://127.0.0.1:${address.port}`,
     close: () => new Promise((resolve, reject) => server.close((err) => (err ? reject(err) : resolve()))),
   };
-}
-
-function scriptSources(indexHtml) {
-  const sources = [];
-  const scriptRe = /<script\b[^>]*\bsrc=["']([^"']+)["'][^>]*><\/script>/gi;
-  let match;
-  while ((match = scriptRe.exec(indexHtml))) {
-    sources.push(match[1]);
-  }
-  return sources;
 }
 
 function toUrl(baseUrl, src) {
@@ -197,8 +188,9 @@ async function main() {
   }
 
   const indexHtml = await readFile(path.join(rootDir, 'index.html'), 'utf8');
-  const scripts = scriptSources(indexHtml);
-  if (!scripts.includes(`data/${datasetKey}.js`)) {
+  const scripts = renderHarnessScripts(indexHtml);
+  const datasetScripts = dataScriptsFromIndex(indexHtml);
+  if (!datasetScripts.includes(`data/${datasetKey}.js`)) {
     throw new Error(`Dataset script is not registered in index.html: data/${datasetKey}.js`);
   }
 

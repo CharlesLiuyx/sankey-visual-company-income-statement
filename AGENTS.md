@@ -76,6 +76,12 @@ Run this loop automatically after creating or materially changing a dataset:
    screenshots `#chart > svg`, checks purity, computes metrics, closes the
    browser/server, and cleans `compare/`.
 
+   In Codex desktop / restricted-sandbox environments, run `pnpm verify:d3`
+   with escalated shell permissions from the start. The script must bind a
+   local `127.0.0.1` server; trying it inside the sandbox first can fail with
+   `listen EPERM: operation not permitted 127.0.0.1` and wastes a verification
+   cycle.
+
 3. Assert output purity before scoring:
    - The candidate must be a d3/SVG render.
    - `#chart > svg image` count must be `0`.
@@ -99,7 +105,7 @@ Run this loop automatically after creating or materially changing a dataset:
    - renderer support for SVG geometry or text controls
 
 6. Iterate until improvements plateau or the output is visually close enough.
-   Do not claim a 99%+ d3 result by switching to Reference mode or source
+   Do not claim a 99%+ d3 result by switching to a reference raster or source
    overlays.
 
 Use `pnpm verify:d3 -- <dataset-key> --keep` only when you need to inspect the
@@ -108,8 +114,13 @@ finishing.
 
 ## Hard Rules
 
-- Reference mode is allowed for exact raster display, but it is not a valid
-  d3-sankey fidelity-loop candidate.
+- The viewer ships only d3-sankey mode. Reference PNGs remain verification
+  standards only; do not reintroduce a Reference mode into the app runtime or
+  standalone HTML artifact.
+- When a shareable final HTML artifact is requested, produce the standalone
+  file with `pnpm build:standalone`. The artifact must be self-contained: no
+  sibling CSS, JS, font, vendor, data, or reference PNG files should be needed
+  at runtime.
 - A direct `<img>` of the source PNG is not a render.
 - Raster overlays extracted from the source image are not allowed in d3-sankey
   mode.
@@ -156,6 +167,8 @@ Before final response, verify:
 - `node --check data/<dataset-key>.js` passes.
 - `node --check data/income-statements.js` passes.
 - `pnpm verify:ssot` passes.
+- If a standalone HTML artifact is required, `pnpm build:standalone` and
+  `pnpm verify:standalone` pass.
 - If renderer code changed, `node --check src/sankey-engine.js` passes.
 - `pnpm verify:d3 -- <dataset-key>` passes.
 - d3 output purity was checked (`imageCount: 0` inside `#chart > svg`).

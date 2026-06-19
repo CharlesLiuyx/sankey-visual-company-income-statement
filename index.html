@@ -21,6 +21,8 @@
         --soft: #f6f8f8;
         --soft-strong: #e9eff1;
         --focus: #c2d9e6;
+        --toolbar-height: 46px;
+        --sidebar-width: 282px;
       }
       * { box-sizing: border-box; }
       html, body {
@@ -36,7 +38,10 @@
         border-bottom: 1px solid var(--line);
         position: sticky; top: 0; z-index: 10; flex-wrap: wrap;
       }
-      .toolbar h1 { font-size: 14px; font-weight: 800; margin: 0 8px 0 0; color: var(--ink); }
+      .toolbar h1 {
+        min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        font-size: 14px; font-weight: 800; margin: 0 8px 0 0; color: var(--ink);
+      }
       .toolbar label { font-size: 12px; font-weight: 700; color: #6a7078; margin-left: 6px; }
       .seg { display: inline-flex; border: 1px solid #cfd5d5; overflow: hidden; }
       .seg button { border: 0; border-right: 1px solid #cfd5d5; background: #fff; padding: 5px 11px; font: inherit; font-size: 12px; font-weight: 700; color: #5a6066; cursor: pointer; }
@@ -51,19 +56,52 @@
       .btn svg { width: 14px; height: 14px; stroke-width: 2.25; }
       .btn:hover { border-color: #9aa3a3; }
       .btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+      .icon-btn {
+        width: 32px; height: 32px; padding: 0; justify-content: center; flex: 0 0 auto;
+      }
+      .icon-btn svg { width: 17px; height: 17px; }
       .spacer { flex: 1; }
 
       .app {
         display: grid;
-        grid-template-columns: minmax(236px, 282px) minmax(0, 1fr);
-        min-height: calc(100vh - 46px);
+        grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+        min-height: calc(100vh - var(--toolbar-height));
+        transition: grid-template-columns 160ms ease;
+      }
+      .app.sidebar-collapsed {
+        grid-template-columns: 0 minmax(0, 1fr);
       }
       .dataset-panel {
-        height: calc(100vh - 46px);
-        position: sticky; top: 46px; align-self: start;
+        height: calc(100vh - var(--toolbar-height));
+        position: sticky; top: var(--toolbar-height); align-self: start;
         display: flex; flex-direction: column; gap: 10px;
-        overflow: hidden; padding: 10px 8px;
+        min-width: 0; overflow: hidden; padding: 10px 8px;
         background: var(--bar); border-right: 1px solid var(--line);
+      }
+      .app.sidebar-collapsed .dataset-panel {
+        padding: 0; border-right: 0; pointer-events: none;
+      }
+      .app.sidebar-collapsed .dataset-panel > :not(.sidebar-resizer) {
+        display: none;
+      }
+      .sidebar-resizer {
+        position: absolute; top: 0; right: 0; bottom: 0; width: 9px;
+        cursor: col-resize; touch-action: none; z-index: 2;
+        background: transparent; border: 0; padding: 0;
+      }
+      .sidebar-resizer::after {
+        content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 2px;
+        background: transparent;
+      }
+      .sidebar-resizer:hover::after,
+      .sidebar-resizer:focus-visible::after,
+      body.is-resizing-sidebar .sidebar-resizer::after {
+        background: #8eb8cc;
+      }
+      .sidebar-resizer:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+      .app.sidebar-collapsed .sidebar-resizer { display: none; }
+      body.is-resizing-sidebar {
+        cursor: col-resize; user-select: none;
       }
       .panel-head { padding: 0 2px 2px; }
       .eyebrow { display: block; font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; }
@@ -131,11 +169,19 @@
       .note { padding: 0 10px 12px; max-width: 2862px; margin: 0 auto; color: #6a7078; font-size: 11.5px; }
 
       @media (max-width: 900px) {
-        .app { grid-template-columns: 1fr; }
+        .toolbar { gap: 6px; }
+        #svgBtn,
+        #pngBtn { width: 32px; justify-content: center; }
+        #svgBtn span,
+        #pngBtn span { display: none; }
+        .app,
+        .app.sidebar-collapsed { grid-template-columns: 1fr; }
         .dataset-panel {
           position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line);
           display: grid; grid-template-columns: 1fr 1fr; align-items: start; overflow: visible;
         }
+        .app.sidebar-collapsed .dataset-panel { display: none; }
+        .sidebar-resizer { display: none; }
         .panel-head { grid-column: 1 / -1; }
         .company-section, .period-section { min-height: 0; }
         .company-section { max-height: none; }
@@ -154,6 +200,9 @@
   </head>
   <body>
     <div class="toolbar">
+      <button class="btn icon-btn" id="sidebarToggle" aria-label="Collapse dataset panel" aria-expanded="true" aria-controls="datasetPanel" title="Collapse dataset panel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="m16 9-3 3 3 3"/></svg>
+      </button>
       <h1>sankey-visual-company-income-statement</h1>
       <label>Mode</label>
       <div class="seg" id="libSeg">
@@ -172,7 +221,7 @@
     </div>
 
     <div class="app">
-      <aside class="dataset-panel" aria-label="Dataset navigation">
+      <aside class="dataset-panel" id="datasetPanel" aria-label="Dataset navigation">
         <div class="panel-head">
           <span class="eyebrow">Dataset</span>
           <div class="active-dataset" id="activeDatasetName"></div>
@@ -202,6 +251,7 @@
           </div>
           <div class="nav-list" id="periodList" role="listbox" aria-label="Data point times"></div>
         </section>
+        <div class="sidebar-resizer" id="sidebarResizer" role="separator" aria-orientation="vertical" aria-label="Resize dataset panel" tabindex="0"></div>
       </aside>
 
       <main class="content">
@@ -257,6 +307,51 @@
       const periodList = document.getElementById('periodList');
       const activeDatasetName = document.getElementById('activeDatasetName');
       const activeDatasetPeriod = document.getElementById('activeDatasetPeriod');
+      const app = document.querySelector('.app');
+      const toolbar = document.querySelector('.toolbar');
+      const sidebarToggle = document.getElementById('sidebarToggle');
+      const sidebarResizer = document.getElementById('sidebarResizer');
+      const SIDEBAR_WIDTH_KEY = 'sankey.sidebar.width';
+      const SIDEBAR_COLLAPSED_KEY = 'sankey.sidebar.collapsed';
+      const SIDEBAR_MIN = 220;
+      const SIDEBAR_MAX = 560;
+      const SIDEBAR_DEFAULT = 282;
+      const DESKTOP_BREAKPOINT = 900;
+
+      function readStoredNumber(key, fallback) {
+        try {
+          const value = Number(window.localStorage.getItem(key));
+          return Number.isFinite(value) && value > 0 ? value : fallback;
+        } catch (error) {
+          return fallback;
+        }
+      }
+      function readStoredBoolean(key, fallback) {
+        try {
+          const value = window.localStorage.getItem(key);
+          return value === null ? fallback : value === 'true';
+        } catch (error) {
+          return fallback;
+        }
+      }
+      function writeStoredValue(key, value) {
+        try {
+          window.localStorage.setItem(key, String(value));
+        } catch (error) {
+          /* Ignore storage failures in private browsing or file previews. */
+        }
+      }
+      function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+      }
+      function isDesktopLayout() {
+        return window.matchMedia(`(min-width: ${DESKTOP_BREAKPOINT + 1}px)`).matches;
+      }
+      function sidebarBounds() {
+        const viewport = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+        const responsiveMax = isDesktopLayout() && viewport ? Math.floor(viewport * 0.45) : SIDEBAR_MAX;
+        return { min: SIDEBAR_MIN, max: Math.max(SIDEBAR_MIN, Math.min(SIDEBAR_MAX, responsiveMax)) };
+      }
 
       function normalize(value) {
         return String(value || '').toLowerCase().replace(/\s+/g, ' ').trim();
@@ -347,7 +442,49 @@
         sort: 'desc',
         activeIndex: activeStart?.index || 0,
         company: activeStart?.company || groups[0]?.company || '',
+        sidebarWidth: readStoredNumber(SIDEBAR_WIDTH_KEY, SIDEBAR_DEFAULT),
+        sidebarCollapsed: readStoredBoolean(SIDEBAR_COLLAPSED_KEY, false),
       };
+
+      function sidebarToggleIcon(expanded) {
+        const arrow = expanded ? '<path d="m16 9-3 3 3 3"/>' : '<path d="m13 9 3 3-3 3"/>';
+        return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/>${arrow}</svg>`;
+      }
+      function applySidebarWidth(width, persist = false) {
+        const bounds = sidebarBounds();
+        const nextWidth = Math.round(clamp(width, bounds.min, bounds.max));
+        state.sidebarWidth = nextWidth;
+        document.documentElement.style.setProperty('--sidebar-width', `${nextWidth}px`);
+        sidebarResizer.setAttribute('aria-valuemin', String(bounds.min));
+        sidebarResizer.setAttribute('aria-valuemax', String(bounds.max));
+        sidebarResizer.setAttribute('aria-valuenow', String(nextWidth));
+        if (persist) writeStoredValue(SIDEBAR_WIDTH_KEY, nextWidth);
+      }
+      function syncToolbarHeight() {
+        const height = Math.ceil(toolbar.getBoundingClientRect().height || 46);
+        document.documentElement.style.setProperty('--toolbar-height', `${height}px`);
+      }
+      function syncSidebarControls() {
+        const expanded = !state.sidebarCollapsed;
+        app.classList.toggle('sidebar-collapsed', state.sidebarCollapsed);
+        sidebarToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        sidebarToggle.setAttribute('aria-label', expanded ? 'Collapse dataset panel' : 'Show dataset panel');
+        sidebarToggle.title = expanded ? 'Collapse dataset panel' : 'Show dataset panel';
+        sidebarToggle.innerHTML = sidebarToggleIcon(expanded);
+        sidebarResizer.tabIndex = expanded && isDesktopLayout() ? 0 : -1;
+        sidebarResizer.setAttribute('aria-hidden', expanded && isDesktopLayout() ? 'false' : 'true');
+      }
+      function setSidebarCollapsed(collapsed, persist = true, redraw = true) {
+        state.sidebarCollapsed = collapsed;
+        syncSidebarControls();
+        if (persist) writeStoredValue(SIDEBAR_COLLAPSED_KEY, collapsed);
+        if (redraw) draw();
+      }
+      function syncResponsiveLayout() {
+        syncToolbarHeight();
+        applySidebarWidth(state.sidebarWidth);
+        syncSidebarControls();
+      }
 
       function currentRecord() {
         return records.find((record) => record.index === state.activeIndex) || records[0];
@@ -445,6 +582,44 @@
         [...button.parentElement.children].forEach((child) => child.classList.toggle('active', child === button));
         renderPeriods();
       });
+      sidebarToggle.addEventListener('click', () => {
+        setSidebarCollapsed(!state.sidebarCollapsed);
+      });
+
+      let sidebarDrag = null;
+      sidebarResizer.addEventListener('pointerdown', (e) => {
+        if (!isDesktopLayout() || state.sidebarCollapsed) return;
+        sidebarDrag = { pointerId: e.pointerId, x: e.clientX, width: state.sidebarWidth };
+        sidebarResizer.setPointerCapture(e.pointerId);
+        document.body.classList.add('is-resizing-sidebar');
+        e.preventDefault();
+      });
+      sidebarResizer.addEventListener('pointermove', (e) => {
+        if (!sidebarDrag || e.pointerId !== sidebarDrag.pointerId) return;
+        applySidebarWidth(sidebarDrag.width + e.clientX - sidebarDrag.x);
+      });
+      function finishSidebarResize(e) {
+        if (!sidebarDrag || e.pointerId !== sidebarDrag.pointerId) return;
+        sidebarDrag = null;
+        document.body.classList.remove('is-resizing-sidebar');
+        applySidebarWidth(state.sidebarWidth, true);
+        draw();
+      }
+      sidebarResizer.addEventListener('pointerup', finishSidebarResize);
+      sidebarResizer.addEventListener('pointercancel', finishSidebarResize);
+      sidebarResizer.addEventListener('keydown', (e) => {
+        if (!isDesktopLayout() || state.sidebarCollapsed) return;
+        const bounds = sidebarBounds();
+        let nextWidth = state.sidebarWidth;
+        if (e.key === 'ArrowLeft') nextWidth -= e.shiftKey ? 48 : 16;
+        else if (e.key === 'ArrowRight') nextWidth += e.shiftKey ? 48 : 16;
+        else if (e.key === 'Home') nextWidth = bounds.min;
+        else if (e.key === 'End') nextWidth = bounds.max;
+        else return;
+        e.preventDefault();
+        applySidebarWidth(nextWidth, true);
+        draw();
+      });
 
       function chartWidth(d) {
         const ref = d.meta?.referenceImage;
@@ -469,8 +644,15 @@
       });
 
       let rt;
-      window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(draw, 200); });
+      window.addEventListener('resize', () => {
+        clearTimeout(rt);
+        rt = setTimeout(() => {
+          syncResponsiveLayout();
+          draw();
+        }, 200);
+      });
 
+      syncResponsiveLayout();
       renderAll();
       draw();
 

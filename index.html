@@ -143,7 +143,59 @@
       .item-top { display: flex; align-items: center; gap: 6px; min-width: 0; height: 22px; }
       .item-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 800; }
       .company-item .item-name { max-width: 46%; }
-      .period-item .item-name { font-size: 12.5px; }
+      .period-item {
+        --timeline-color: #8e9aa1;
+        --timeline-line-color: #d4dcdc;
+        --timeline-ring-color: #c1cbcc;
+        --timeline-active-ring-color: #d6e7ef;
+        display: grid; grid-template-columns: 18px minmax(0, 1fr); column-gap: 4px;
+        min-height: 30px; padding: 0; border-color: transparent; background: transparent;
+      }
+      .period-item:hover,
+      .period-item.active {
+        background: transparent; border-color: transparent; box-shadow: none;
+      }
+      .timeline-list { gap: 0; padding: 1px 0 3px; }
+      .timeline-marker {
+        position: relative; align-self: stretch; min-height: 30px;
+      }
+      .timeline-marker::before,
+      .timeline-marker::after {
+        content: ""; position: absolute; left: 50%; width: 2px; margin-left: -1px;
+        background: var(--timeline-line-color);
+      }
+      .timeline-marker::before { top: 0; bottom: 50%; }
+      .timeline-marker::after { top: 50%; bottom: 0; }
+      .period-item:first-of-type .timeline-marker::before,
+      .period-item:last-of-type .timeline-marker::after {
+        background: transparent;
+      }
+      .timeline-dot {
+        position: absolute; left: 50%; top: 50%; z-index: 1;
+        width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px;
+        border-radius: 999px; background: var(--timeline-color);
+        box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--timeline-ring-color);
+      }
+      .timeline-content {
+        align-self: center; min-width: 0;
+        border: 0; padding: 0 3px;
+      }
+      .period-item:hover .timeline-content {
+        background: #f9fbfb;
+      }
+      .period-item.active .timeline-content {
+        background: transparent; box-shadow: none;
+      }
+      .period-item.active .timeline-dot {
+        width: 10px; height: 10px; margin: -5px 0 0 -5px;
+        background: var(--timeline-color); box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--timeline-active-ring-color);
+      }
+      .period-item.active .item-name,
+      .period-item.active .item-meta {
+        color: var(--timeline-color);
+      }
+      .period-item .item-top { height: 28px; min-height: 0; }
+      .period-item .item-name { flex: 0 0 auto; font-size: 11.5px; font-weight: 400; }
       .count-pill {
         margin-left: auto; min-width: 21px; padding: 1px 5px;
         background: var(--soft-strong); color: #54616a; text-align: center;
@@ -252,7 +304,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
             <input id="periodSearch" type="search" placeholder="Search time points" autocomplete="off" />
           </div>
-          <div class="nav-list" id="periodList" role="listbox" aria-label="Data point times"></div>
+          <div class="nav-list timeline-list" id="periodList" role="listbox" aria-label="Data point times"></div>
         </section>
         <div class="sidebar-resizer" id="sidebarResizer" role="separator" aria-orientation="vertical" aria-label="Resize dataset panel" tabindex="0"></div>
       </aside>
@@ -524,6 +576,21 @@
         const direction = state.sort === 'asc' ? 1 : -1;
         return [...(group?.records || [])].sort((a, b) => direction * (a.sortValue - b.sortValue) || a.period.localeCompare(b.period));
       }
+      function timelineColors(record, group) {
+        const values = (group?.records || []).map((item) => item.sortValue);
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        const ratio = max === min ? 1 : (record.sortValue - min) / (max - min);
+        const hue = 204;
+        const saturation = Math.round(10 + ratio * 63);
+        const lightness = Math.round(67 - ratio * 32);
+        return {
+          dot: `hsl(${hue} ${saturation}% ${lightness}%)`,
+          line: `hsl(${hue} ${Math.round(8 + ratio * 35)}% ${Math.round(86 - ratio * 20)}%)`,
+          ring: `hsl(${hue} ${Math.round(10 + ratio * 40)}% ${Math.round(80 - ratio * 20)}%)`,
+          activeRing: `hsl(${hue} ${Math.round(20 + ratio * 42)}% ${Math.round(88 - ratio * 12)}%)`,
+        };
+      }
       function renderActiveSummary() {
         const record = currentRecord();
         activeDatasetName.textContent = record ? record.company : 'No datasets';
@@ -579,12 +646,21 @@
           button.className = 'nav-item period-item' + (record.index === state.activeIndex ? ' active' : '');
           button.setAttribute('role', 'option');
           button.setAttribute('aria-selected', record.index === state.activeIndex ? 'true' : 'false');
+          button.setAttribute('aria-label', [record.period, record.periodNote || record.label].filter(Boolean).join(', '));
+          const colors = timelineColors(record, group);
+          button.style.setProperty('--timeline-color', colors.dot);
+          button.style.setProperty('--timeline-line-color', colors.line);
+          button.style.setProperty('--timeline-ring-color', colors.ring);
+          button.style.setProperty('--timeline-active-ring-color', colors.activeRing);
           button.dataset.index = record.index;
           button.innerHTML = `
-            <div class="item-top">
-              <span class="item-name">${escapeHtml(record.period)}</span>
-              <span class="item-meta">${escapeHtml(record.periodNote || record.label)}</span>
-            </div>
+            <span class="timeline-marker" aria-hidden="true"><span class="timeline-dot"></span></span>
+            <span class="timeline-content">
+              <span class="item-top">
+                <span class="item-name">${escapeHtml(record.period)}</span>
+                <span class="item-meta">${escapeHtml(record.periodNote || record.label)}</span>
+              </span>
+            </span>
           `;
           button.addEventListener('click', () => {
             state.activeIndex = record.index;

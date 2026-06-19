@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Income-Statement Sankey</title>
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root { --bg: #eef1f0; --ink: #15436b; --bar: #ffffff; --line: #e2e6e6; }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        background: #dfe3e3;
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        color: #2a2f34;
+      }
+      .toolbar {
+        display: flex; align-items: center; gap: 12px;
+        padding: 12px 20px; background: var(--bar);
+        border-bottom: 1px solid var(--line);
+        position: sticky; top: 0; z-index: 5; flex-wrap: wrap;
+      }
+      .toolbar h1 { font-size: 15px; font-weight: 800; margin: 0 6px 0 0; color: var(--ink); }
+      .toolbar label { font-size: 12px; font-weight: 700; color: #6a7078; margin-left: 6px; }
+      .seg { display: inline-flex; border: 1px solid #cfd5d5; border-radius: 9px; overflow: hidden; }
+      .seg button { border: 0; border-right: 1px solid #cfd5d5; background: #fff; padding: 7px 14px; font: inherit; font-size: 13px; font-weight: 700; color: #5a6066; cursor: pointer; }
+      .seg button:last-child { border-right: 0; }
+      .seg button.active { background: var(--ink); color: #fff; }
+      select, .btn {
+        font: inherit; font-size: 13px; font-weight: 600; padding: 7px 12px;
+        border-radius: 8px; border: 1px solid #cfd5d5; background: #fff; color: #2a2f34; cursor: pointer;
+      }
+      .btn:hover, select:hover { border-color: #9aa3a3; }
+      .btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+      .spacer { flex: 1; }
+      .stage { padding: 24px; display: flex; justify-content: center; }
+      .card {
+        background: var(--bg); border-radius: 0;
+        box-shadow: 0 8px 30px rgba(20, 40, 60, 0.12);
+        width: 100%; max-width: 2862px; overflow: hidden;
+      }
+      #chart { width: 100%; }
+      #chart svg { display: block; width: 100%; height: auto; }
+      #chart img { display: block; width: 100%; height: auto; }
+      .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+      .note { padding: 0 24px 22px; max-width: 2862px; margin: 0 auto; color: #6a7078; font-size: 12.5px; }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar">
+      <h1>Income-Statement Sankey</h1>
+      <label>Mode</label>
+      <div class="seg" id="libSeg">
+        <button data-lib="reference" class="active">Reference</button>
+        <button data-lib="d3">d3-sankey</button>
+      </div>
+      <label for="ds">Dataset</label>
+      <select id="ds"></select>
+      <div class="spacer"></div>
+      <button class="btn" id="svgBtn">Download SVG</button>
+      <button class="btn primary" id="pngBtn">Download PNG</button>
+    </div>
+
+    <div class="stage"><div class="card"><div id="chart"></div></div></div>
+    <div class="note" id="libNote"></div>
+
+    <!-- libraries (vendored, offline) -->
+    <script src="vendor/d3.min.js"></script>
+    <script src="vendor/d3-sankey.min.js"></script>
+    <!-- shared icons + renderers -->
+    <script src="src/icons.js"></script>
+    <script src="src/sankey-engine.js"></script>
+    <script src="src/income-statement.js"></script>
+    <!-- datasets -->
+    <script src="data/salesforce-q1-fy27.js"></script>
+    <script src="data/nvidia-q1-fy27.js"></script>
+    <script src="data/nvidia-q2-fy26.js"></script>
+    <script src="data/nvidia-q3-fy26.js"></script>
+    <script src="data/nvidia-q4-fy26.js"></script>
+
+    <script>
+      function renderReference(selector, data) {
+        const el = typeof selector === 'string' ? document.querySelector(selector) : selector;
+        el.innerHTML = '';
+        const ref = data.meta?.referenceImage;
+        if (!ref) {
+          window.SankeyEngine.render(el, data);
+          return;
+        }
+        const src = typeof ref === 'string' ? ref : ref.src;
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = data.meta?.title || 'Income statement Sankey';
+        if (typeof ref === 'object' && ref.width) img.width = ref.width;
+        if (typeof ref === 'object' && ref.height) img.height = ref.height;
+        el.appendChild(img);
+      }
+
+      const RENDERERS = {
+        reference: { fn: (d) => renderReference('#chart', d), note: 'Reference raster output when the selected dataset provides a source PNG. Other datasets fall back to d3-sankey.' },
+        d3: { fn: (d) => window.SankeyEngine.render('#chart', d), note: 'd3-sankey + a custom renderer — full control over the bespoke infographic look (icons above nodes, logo, multi-line margin/Y/Y sublabels, label de-collision). The reference build.' },
+      };
+
+      const sets = window.DATASETS || [];
+      const sel = document.getElementById('ds');
+      sets.forEach((d, i) => {
+        const o = document.createElement('option');
+        o.value = i; o.textContent = d.name || d.meta?.title || 'Dataset ' + (i + 1);
+        sel.appendChild(o);
+      });
+
+      let lib = 'reference';
+      const defaultIndex = sets.findIndex((d) => d.key === 'salesforce-q1-fy27');
+      if (defaultIndex >= 0) sel.value = defaultIndex;
+      function chartWidth(d) {
+        const ref = d.meta?.referenceImage;
+        if (lib === 'reference' && ref && typeof ref === 'object' && ref.width) return ref.width;
+        return d.render?.width || window.SankeyEngine.DEFAULTS?.width || 2862;
+      }
+      function draw() {
+        const d = sets[+sel.value] || sets[0];
+        const maxWidth = chartWidth(d);
+        document.querySelector('.card').style.maxWidth = maxWidth + 'px';
+        document.getElementById('libNote').style.maxWidth = maxWidth + 'px';
+        if (d) RENDERERS[lib].fn(d);
+        document.getElementById('libNote').textContent = RENDERERS[lib].note;
+        document.getElementById('svgBtn').disabled = !document.querySelector('#chart svg');
+      }
+
+      document.getElementById('libSeg').addEventListener('click', (e) => {
+        const b = e.target.closest('button'); if (!b) return;
+        lib = b.dataset.lib;
+        [...e.currentTarget.children].forEach((c) => c.classList.toggle('active', c === b));
+        draw();
+      });
+      sel.addEventListener('change', draw);
+
+      let rt;
+      window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(draw, 200); });
+
+      draw();
+
+      /* ---- export (works for whichever library is active) ---- */
+      const currentSvg = () => document.querySelector('#chart svg');
+      const currentImg = () => document.querySelector('#chart img');
+      function svgString() {
+        const svg = currentSvg().cloneNode(true);
+        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(svg);
+      }
+      function dims() {
+        const img = currentImg();
+        if (img) return [img.naturalWidth || img.width, img.naturalHeight || img.height];
+        const svg = currentSvg();
+        if (svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.width)
+          return [svg.viewBox.baseVal.width, svg.viewBox.baseVal.height];
+        const r = svg.getBoundingClientRect();
+        return [r.width, r.height];
+      }
+      const fname = () => (sets[+sel.value].key || 'sankey') + '-' + lib;
+      document.getElementById('svgBtn').onclick = () => {
+        if (!currentSvg()) return;
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([svgString()], { type: 'image/svg+xml' }));
+        a.download = fname() + '.svg'; a.click();
+      };
+      document.getElementById('pngBtn').onclick = () => {
+        const chartImg = currentImg();
+        if (chartImg) {
+          const a = document.createElement('a');
+          a.href = chartImg.src;
+          a.download = fname() + '.png';
+          a.click();
+          return;
+        }
+        const [w, h] = dims(); const scale = 2;
+        const img = new Image();
+        img.onload = () => {
+          const c = document.createElement('canvas');
+          c.width = w * scale; c.height = h * scale;
+          c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+          c.toBlob((b) => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = fname() + '.png'; a.click(); });
+        };
+        img.src = URL.createObjectURL(new Blob([svgString()], { type: 'image/svg+xml' }));
+      };
+    </script>
+  </body>
+</html>

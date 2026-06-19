@@ -1,0 +1,14 @@
+{
+  "name": "sankey-visual",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.5.2",
+  "scripts": {
+    "verify:d3": "node scripts/verify-d3.mjs"
+  },
+  "devDependencies": {
+    "@fontsource/montserrat": "5.2.8",
+    "playwright": "1.61.0",
+    "pngjs": "7.0.0"
+  }
+}

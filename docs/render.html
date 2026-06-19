@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html, body { margin: 0; }
+      #chart { width: 2862px; }
+    </style>
+  </head>
+  <body>
+    <div id="chart"></div>
+    <script src="../vendor/d3.min.js"></script>
+    <script src="../vendor/d3-sankey.min.js"></script>
+    <script src="../src/icons.js"></script>
+    <script src="../src/sankey-engine.js"></script>
+    <script src="../src/income-statement.js"></script>
+    <script src="../data/nvidia-q1-fy27.js"></script>
+    <script>
+      window.SankeyEngine.render('#chart', window.DATASETS[0]);
+    </script>
+  </body>
+</html>

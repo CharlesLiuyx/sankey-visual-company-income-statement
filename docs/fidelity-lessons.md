@@ -212,3 +212,11 @@ valid d3-sankey fidelity-loop outputs**:
   source images, and raster overlays can trivially reduce pixel error, but they
   do not measure d3-sankey fidelity. The valid candidate image is the d3-sankey
   SVG screenshot only; the source PNG is only the target standard.
+
+### Lesson from Q1 FY26 logo correction
+
+- **L10 — Never duplicate a brand logo to improve pixel matching.** The logo
+  should remain one semantic vector logo. If the NVIDIA mark is off, tune the
+  existing SVG `viewBox`, `transform`, size, or placement; do not add a second
+  eye glyph or overlapping logo as a visual patch. Duplicate marks may lower
+  local pixel error during tuning, but they are a visible fidelity regression.

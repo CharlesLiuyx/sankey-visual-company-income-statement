@@ -37,6 +37,9 @@ Prefer the existing project patterns:
 For NVIDIA-like charts:
 
 - Reuse SVG/vector brand/logo definitions where possible.
+- Keep each brand logo semantically single. When tuning logo fidelity, adjust
+  the existing SVG viewBox, transform, size, or placement; do not duplicate a
+  second eye glyph/logo to patch a shape mismatch.
 - Use Lucide/vector icons from `src/icons.js`.
 - Do not crop logo, icons, text, or foreground pixels from the reference image
   into d3 mode.

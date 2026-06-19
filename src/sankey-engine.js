@@ -622,7 +622,7 @@
     if (meta.title) {
       const title = svg
         .append('text')
-        .attr('x', W / 2)
+        .attr('x', meta.titleX != null ? meta.titleX : W / 2)
         .attr('y', meta.titleY || 120)
         .attr('text-anchor', 'middle')
         .attr('font-size', meta.titleSize || 142)

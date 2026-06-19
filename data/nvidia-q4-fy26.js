@@ -158,7 +158,7 @@
             ],
           },
         ],
-        icons: { names: ['server'], x: 53, y: 525, size: 96, color: '#000000', strokeWidth: 2.15 },
+        icons: { names: ['server'], x: 53, y: 556, size: 96, color: '#000000', strokeWidth: 2.15 },
       },
       gaming: {
         blocks: [
@@ -179,7 +179,7 @@
       professional_visualization: {
         blocks: [
           {
-            x: 355, top: 1015, anchor: 'middle', lineGap: 10,
+            x: 355, top: 1055, anchor: 'middle', lineGap: 10,
             lines: [
               { text: 'Professional', size: 40, weight: 700, color: '#49006f' },
               { text: 'Visualization', size: 40, weight: 700, color: '#49006f' },
@@ -198,7 +198,7 @@
       automotive: {
         blocks: [
           {
-            x: 355, top: 1227, anchor: 'middle', lineGap: 10,
+            x: 355, top: 1243, anchor: 'middle', lineGap: 10,
             lines: [{ text: 'Automotive', size: 40, weight: 700, color: '#095ab8' }],
           },
           {
@@ -214,7 +214,7 @@
       oem_other: {
         blocks: [
           {
-            x: 352, top: 1361, anchor: 'middle', lineGap: 10,
+            x: 352, top: 1379, anchor: 'middle', lineGap: 10,
             lines: [{ text: 'OEM & Other', size: 40, weight: 700, color: '#740046' }],
           },
           {
@@ -341,7 +341,7 @@
       sga: {
         blocks: [
           {
-            x: 2872, top: 1290, anchor: 'middle', lineGap: 10,
+            x: 2872, top: 1258, anchor: 'middle', lineGap: 10,
             lines: [
               { text: 'Sales, General', size: 34, weight: 700, color: '#800003' },
               { text: '& Admin', size: 34, weight: 700, color: '#800003' },

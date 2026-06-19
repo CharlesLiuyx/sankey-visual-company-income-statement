@@ -155,3 +155,5 @@ Design choices that keep every chart **aligned and consistent**:
   trademark of NVIDIA Corporation, used here only to reproduce the reference;
   swap `meta.logoSvg` for your own asset.
 - d3-sankey is ISC licensed and is the only charting renderer vendored here.
+- Commit messages follow the project convention in
+  [`docs/commit-messages.md`](docs/commit-messages.md).

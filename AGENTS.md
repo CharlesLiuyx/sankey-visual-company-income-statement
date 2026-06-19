@@ -112,6 +112,34 @@ finishing.
   finishing.
 - Do not rename processed images after assigning a stable dataset key.
 
+## Commit Message Convention
+
+Follow the project convention in `docs/commit-messages.md`. Use the lightweight
+Conventional Commits shape:
+
+```text
+<type>(<scope>): <summary>
+```
+
+Use an English, lowercase summary with no trailing period. Keep the first line
+focused on one purpose, and put verification details in the body when useful.
+
+Preferred project types:
+
+- `data` for dataset files, processed input images, and `index.html` dataset
+  registration.
+- `render` for `src/sankey-engine.js` and visible SVG/rendering behavior.
+- `verify` for `scripts/verify-d3.mjs` and d3 fidelity checks.
+- `schema` for dataset format conventions.
+- `docs`, `feat`, `fix`, `refactor`, `test`, or `chore` for ordinary changes.
+
+Prefer scopes such as a dataset key (`nvidia-q1-fy27`), module (`engine`,
+`icons`, `verify-d3`), or workflow area (`input`, `export`, `d3-mode`). For
+new dataset work, keep the processed PNG, `data/<dataset-key>.js`, and
+`index.html` registration in the same `data(<dataset-key>)` commit. If a
+dataset requires reusable renderer support, split that into a separate
+`render(engine)` commit before the dataset tuning commit.
+
 ## Verification Checklist
 
 Before final response, verify:

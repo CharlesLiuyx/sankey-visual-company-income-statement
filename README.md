@@ -1,4 +1,4 @@
-# Income-Statement Sankey
+# sankey-visual-company-income-statement
 
 A small, reusable engine that renders a company's income statement as a polished
 Sankey flow diagram — in the style of the NVIDIA "Q1 FY27 Income Statement"

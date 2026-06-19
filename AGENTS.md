@@ -19,9 +19,13 @@ stable datasets and run a d3-sankey fidelity loop automatically.
 4. Create or update:
    - `data/<dataset-key>.js`
    - `data/income-statements.js`
+   - `data/company-metadata.js` when the company is new
    - `index.html` dataset script registration
-5. Set `meta.referenceImage` to the processed PNG with exact source dimensions.
-6. Keep `input/pending/` empty except `.gitkeep` after processing.
+5. Before authoring a new company's first dataset, gather company metadata
+   (description, sector, industry, headquarters, website, ticker/exchange when
+   available, and source URLs) and add it to `data/company-metadata.js`.
+6. Set `meta.referenceImage` to the processed PNG with exact source dimensions.
+7. Keep `input/pending/` empty except `.gitkeep` after processing.
 
 ## Dataset Authoring
 
@@ -39,6 +43,9 @@ Prefer the existing project patterns:
   line items, notes, currency, unit, period, and source image only. Do not put
   Sankey `nodes`, `links`, `layout`, `render`, SVG, colors, or pixel geometry
   in the SSOT.
+- Keep `data/company-metadata.js` as the company-profile SSOT. It powers the
+  Table view's company list and should be updated before the first dataset for
+  a new company is registered.
 
 For NVIDIA-like charts:
 
@@ -166,6 +173,7 @@ Before final response, verify:
 - Dataset script is registered in `index.html`.
 - `node --check data/<dataset-key>.js` passes.
 - `node --check data/income-statements.js` passes.
+- `node --check data/company-metadata.js` passes.
 - `pnpm verify:ssot` passes.
 - If a standalone HTML artifact is required, `pnpm build:standalone` and
   `pnpm verify:standalone` pass.

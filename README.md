@@ -36,7 +36,10 @@ inline or request processed reference PNGs; those remain verification inputs
 only.
 
 Pick datasets from the left Company / Data point time navigator, and
-**Download SVG/PNG** to export the current d3-sankey chart at 2× resolution.
+use the top **Sankey / Table** switch to choose the view. Sankey mode exports
+the current d3-sankey chart as SVG/PNG at 2× resolution. Table mode shows the
+company metadata table and the period-level income statement table, with CSV
+exports for both.
 
 ## Visual loop workflow
 
@@ -47,18 +50,21 @@ another fidelity loop:
 2. After processing, move the durable reference image to `input/processed/` and
    name it with the dataset key, for example `salesforce-q1-fy27.png`.
 3. Set `meta.referenceImage` on the matching dataset to that processed path.
-4. Add or update the matching pure-data record in
+4. If this is a new company, add the company profile to
+   `data/company-metadata.js` first: description, sector, industry, headquarters,
+   website, ticker/exchange when available, and source URLs.
+5. Add or update the matching pure-data record in
    `data/income-statements.js`. This file is the comparable financial
    statement SSOT: reported totals, line items, notes, currency and units only,
    with no Sankey layout or render settings.
-5. Install the pinned local tooling once:
+6. Install the pinned local tooling once:
 
    ```bash
    pnpm install --frozen-lockfile
    pnpm exec playwright install chromium
    ```
 
-6. Run the deterministic data and d3 checks:
+7. Run the deterministic data and d3 checks:
 
    ```bash
    pnpm verify:ssot
@@ -91,10 +97,11 @@ verifier, but they are not part of the app runtime or standalone HTML artifact.
 ## Add your company
 
 Create a file in `data/`, register it on the global `DATASETS` array, add one
-`<script>` line in `index.html`, and add the comparable financial statement
-record to `data/income-statements.js`. The fastest Sankey path is the
-high-level helper — you supply the line items and it derives every subtotal and
-flow:
+`<script>` line in `index.html`, add the comparable financial statement record
+to `data/income-statements.js`, and add company-level context to
+`data/company-metadata.js` before registering the first dataset for that
+company. The fastest Sankey path is the high-level helper — you supply the line
+items and it derives every subtotal and flow:
 
 ```js
 // data/my-company-fy25.js
@@ -154,6 +161,7 @@ raw figures via the helper.
 | `scripts/verify-standalone.mjs` | opens the artifact via `file://` and checks d3 rendering |
 | `scripts/script-sources.mjs`| shared script classification for page and verifier harnesses  |
 | `data/income-statements.js` | pure financial-statement SSOT for totals and line items       |
+| `data/company-metadata.js`  | company-profile SSOT for Table mode and onboarding checks     |
 | `data/*.js`                 | datasets (one per company/period)                             |
 | `vendor/`                   | d3 v7 and d3-sankey — vendored for offline use                |
 

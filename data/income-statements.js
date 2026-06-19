@@ -153,6 +153,48 @@
         },
       },
       {
+        key: 'nvidia-q3-fy25',
+        company: 'NVIDIA',
+        period: 'Q3 FY25',
+        periodNote: 'Ending Oct. 2024',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/nvidia-q3-fy25.png',
+        roundingTolerance: 0.15,
+        revenue: {
+          total: 35.1,
+          notes: ['+17% Q/Q'],
+          items: [
+            { id: 'data_center', label: 'Data Center', value: 30.8, notes: ['+17% Q/Q'] },
+            { id: 'gaming', label: 'Gaming', value: 3.3, notes: ['+14% Q/Q'] },
+            { id: 'professional_visualization', label: 'Professional Visualization', value: 0.5, notes: ['+7% Q/Q'] },
+            { id: 'automotive', label: 'Automotive', value: 0.4, notes: ['+30% Q/Q'] },
+            { id: 'oem_other', label: 'OEM & Other', value: 0.1, notes: ['+10% Q/Q'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 8.9 },
+          operatingExpenses: {
+            total: 4.3,
+            items: [
+              { id: 'rnd', label: 'Research & Development', value: 3.4, notes: ['10% of revenue', '(1pp) Q/Q'] },
+              { id: 'sga', label: 'Sales, General & Admin', value: 0.9, notes: ['3% of revenue', '(0pp) Q/Q'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 3.0 },
+        },
+        otherIncome: {
+          total: 0.4,
+          items: [{ id: 'other', label: 'Other', value: 0.4 }],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 26.2, notes: ['75% margin', '(1pp) Q/Q'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 21.9, notes: ['62% margin', '+0pp Q/Q'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 19.3, notes: ['55% margin', '(0pp) Q/Q'] },
+        },
+      },
+      {
         key: 'nvidia-q4-fy25',
         company: 'NVIDIA',
         period: 'Q4 FY25',

@@ -25,12 +25,14 @@ function loadBrowserData(scripts) {
 
   vm.runInContext(readProjectFile('src/income-statement.js'), context, { filename: 'src/income-statement.js' });
   vm.runInContext(readProjectFile('data/income-statements.js'), context, { filename: 'data/income-statements.js' });
+  vm.runInContext(readProjectFile('data/company-metadata.js'), context, { filename: 'data/company-metadata.js' });
   for (const script of scripts) {
     vm.runInContext(readProjectFile(script), context, { filename: script });
   }
 
   return {
     records: context.INCOME_STATEMENT_SSOT?.records || [],
+    companies: context.COMPANY_METADATA?.companies || [],
     datasets: context.DATASETS || [],
   };
 }
@@ -62,6 +64,10 @@ function flattenItems(items) {
   return (items || []).flatMap((item) => [item, ...flattenItems(item.children)]);
 }
 
+function normalize(value) {
+  return String(value || '').toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
 function validateRecordShape(record, errors) {
   const forbidden = ['nodes', 'links', 'layout', 'render'];
   for (const field of forbidden) {
@@ -69,6 +75,29 @@ function validateRecordShape(record, errors) {
   }
   for (const field of ['key', 'company', 'period', 'currency', 'unit', 'revenue', 'costs', 'profit']) {
     assert(record[field] !== undefined, `${record.key || '<missing key>'}: missing required field "${field}"`, errors);
+  }
+}
+
+function validateCompanyMetadata(records, companies, errors) {
+  const required = ['key', 'name', 'sector', 'industry', 'description', 'sourceUrls'];
+  const byName = new Map();
+
+  for (const company of companies) {
+    const label = company.name || company.key || '<missing company>';
+    for (const field of required) {
+      assert(company[field] !== undefined && company[field] !== '', `${label}: company metadata missing "${field}"`, errors);
+    }
+    assert(Array.isArray(company.sourceUrls) && company.sourceUrls.length > 0, `${label}: company metadata sourceUrls must be a non-empty array`, errors);
+    const identityNames = Array.from(new Set([company.name, company.legalName, ...(company.aliases || [])].filter(Boolean).map(normalize)));
+    for (const name of identityNames) {
+      const existing = byName.get(name);
+      assert(!existing || existing === company, `${label}: duplicate company metadata name or alias "${name}"`, errors);
+      byName.set(name, company);
+    }
+  }
+
+  for (const company of new Set(records.map((record) => record.company))) {
+    assert(byName.has(normalize(company)), `${company}: missing company metadata record`, errors);
   }
 }
 
@@ -150,7 +179,7 @@ function main() {
     throw new Error(`Missing registered data script(s): ${missing.join(', ')}`);
   }
 
-  const { records, datasets } = loadBrowserData(scripts);
+  const { records, companies, datasets } = loadBrowserData(scripts);
   const errors = [];
   const datasetKeys = scripts.map((script) => path.basename(script, '.js'));
   const recordKeys = records.map((record) => record.key);
@@ -172,6 +201,7 @@ function main() {
     if (dataset) validateDatasetParity(record, dataset, errors);
     validateArithmetic(record, errors);
   }
+  validateCompanyMetadata(records, companies, errors);
 
   if (errors.length) {
     console.error(`SSOT verification failed with ${errors.length} error(s):`);

@@ -8,10 +8,17 @@ export function scriptSources(indexHtml) {
   return sources;
 }
 
+const SUPPORT_DATA_SCRIPTS = new Set([
+  'data/income-statements.js',
+  'data/company-metadata.js',
+]);
+
+function isDatasetScript(src) {
+  return /^data\/.+\.js$/.test(src) && !SUPPORT_DATA_SCRIPTS.has(src);
+}
+
 export function dataScriptsFromIndex(indexHtml) {
-  return scriptSources(indexHtml)
-    .filter((src) => /^data\/.+\.js$/.test(src))
-    .filter((src) => src !== 'data/income-statements.js');
+  return scriptSources(indexHtml).filter(isDatasetScript);
 }
 
 export function renderHarnessScripts(indexHtml) {
@@ -24,5 +31,5 @@ export function renderHarnessScripts(indexHtml) {
     'data/income-statements.js',
   ]);
 
-  return scriptSources(indexHtml).filter((src) => renderRuntime.has(src) || /^data\/.+\.js$/.test(src));
+  return scriptSources(indexHtml).filter((src) => renderRuntime.has(src) || isDatasetScript(src));
 }

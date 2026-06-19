@@ -14,30 +14,51 @@
     <link rel="stylesheet" href="src/app.css" />
   </head>
   <body class="boot-no-motion">
-    <div class="toolbar">
-      <button class="btn icon-btn" id="sidebarToggle" aria-label="Collapse dataset panel" aria-expanded="true" aria-controls="datasetPanel" title="Collapse dataset panel">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="m16 9-3 3 3 3"/></svg>
-      </button>
-      <h1>sankey-visual-company-income-statement</h1>
-      <div class="spacer"></div>
-      <button class="btn" id="svgBtn" title="Download SVG">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
-        <span>SVG</span>
-      </button>
-      <button class="btn primary" id="pngBtn" title="Download PNG">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
-        <span>PNG</span>
-      </button>
-    </div>
+    <header class="top-shell">
+      <div class="toolbar">
+        <h1>sankey-visual-company-income-statement</h1>
+        <span class="byline">by <a href="https://github.com/CharlesLiuyx/" target="_blank" rel="noopener">Charles Liu</a></span>
+        <a class="repo-link" href="https://github.com/CharlesLiuyx/sankey-visual-company-income-statement" target="_blank" rel="noopener" title="CharlesLiuyx/sankey-visual-company-income-statement" aria-label="GitHub repository CharlesLiuyx/sankey-visual-company-income-statement">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 8.4 22.9c.58.1.8-.25.8-.56v-2.1c-3.26.7-3.95-1.38-3.95-1.38-.53-1.36-1.3-1.72-1.3-1.72-1.06-.72.08-.7.08-.7 1.18.08 1.8 1.22 1.8 1.22 1.04 1.78 2.74 1.26 3.4.96.1-.76.4-1.26.74-1.55-2.6-.3-5.34-1.3-5.34-5.78 0-1.28.46-2.33 1.2-3.15-.12-.3-.52-1.5.12-3.1 0 0 .98-.32 3.18 1.2A11 11 0 0 1 12 5.35c.98 0 1.96.13 2.88.39 2.2-1.52 3.17-1.2 3.17-1.2.64 1.6.24 2.8.12 3.1.75.82 1.2 1.87 1.2 3.15 0 4.5-2.74 5.48-5.35 5.77.42.36.8 1.08.8 2.18v3.22c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <div class="seg view-seg" id="viewMode" aria-label="Data view">
+          <button data-view="sankey" class="active" title="Sankey view">Sankey</button>
+          <button data-view="table" title="Table view">Table</button>
+        </div>
+      </div>
+      <div class="actionbar">
+        <button class="btn icon-btn" id="sidebarToggle" aria-label="Collapse dataset panel" aria-expanded="true" aria-controls="datasetPanel" title="Collapse dataset panel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="m16 9-3 3 3 3"/></svg>
+        </button>
+        <div class="action-title" id="actionTitle"></div>
+        <div class="spacer"></div>
+        <div class="toolbar-actions" aria-label="View actions">
+          <div class="action-group" id="sankeyActions">
+            <button class="btn" id="svgBtn" title="Download SVG">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+              <span>SVG</span>
+            </button>
+            <button class="btn primary" id="pngBtn" title="Download PNG">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+              <span>PNG</span>
+            </button>
+          </div>
+          <div class="action-group" id="tableActions" hidden>
+            <button class="btn" id="companiesCsvBtn" title="Download companies CSV">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+              <span>Companies CSV</span>
+            </button>
+            <button class="btn primary" id="statementsCsvBtn" title="Download income statements CSV">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+              <span>Statements CSV</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
 
     <div class="app">
       <aside class="dataset-panel" id="datasetPanel" aria-label="Dataset navigation">
-        <div class="panel-head">
-          <span class="eyebrow">Dataset</span>
-          <div class="active-dataset" id="activeDatasetName"></div>
-          <div class="active-period" id="activeDatasetPeriod"></div>
-        </div>
-
         <section class="panel-section company-section">
           <label for="companySearch">Company</label>
           <div class="search-box">
@@ -65,7 +86,27 @@
       </aside>
 
       <main class="content">
-        <div class="stage"><div class="card"><div id="chart"></div></div></div>
+        <div class="stage view-pane" id="sankeyView"><div class="card"><div id="chart"></div></div></div>
+        <div class="table-view view-pane" id="tableView" hidden>
+          <section class="table-section" aria-labelledby="companiesTableTitle">
+            <div class="table-heading">
+              <h2 id="companiesTableTitle">Companies</h2>
+              <span id="companiesTableCount"></span>
+            </div>
+            <div class="table-wrap">
+              <table id="companiesTable"></table>
+            </div>
+          </section>
+          <section class="table-section" aria-labelledby="statementsTableTitle">
+            <div class="table-heading">
+              <h2 id="statementsTableTitle">Income Statements</h2>
+              <span id="statementsTableCount"></span>
+            </div>
+            <div class="table-wrap">
+              <table id="statementsTable"></table>
+            </div>
+          </section>
+        </div>
       </main>
     </div>
 
@@ -78,10 +119,12 @@
     <script src="src/income-statement.js"></script>
     <!-- pure financial-statement SSOT -->
     <script src="data/income-statements.js"></script>
+    <script src="data/company-metadata.js"></script>
     <!-- datasets -->
     <script src="data/salesforce-q1-fy27.js"></script>
     <script src="data/nvidia-q1-fy27.js"></script>
     <script src="data/nvidia-q1-fy26.js"></script>
+    <script src="data/nvidia-q3-fy25.js"></script>
     <script src="data/nvidia-q4-fy25.js"></script>
     <script src="data/nvidia-q2-fy26.js"></script>
     <script src="data/nvidia-q3-fy26.js"></script>

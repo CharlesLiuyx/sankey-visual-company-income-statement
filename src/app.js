@@ -3,14 +3,28 @@ const companySearch = document.getElementById('companySearch');
 const periodSearch = document.getElementById('periodSearch');
 const companyList = document.getElementById('companyList');
 const periodList = document.getElementById('periodList');
-const activeDatasetName = document.getElementById('activeDatasetName');
-const activeDatasetPeriod = document.getElementById('activeDatasetPeriod');
 const app = document.querySelector('.app');
-const toolbar = document.querySelector('.toolbar');
+const topShell = document.querySelector('.top-shell');
+const actionTitle = document.getElementById('actionTitle');
 const sidebarToggle = document.getElementById('sidebarToggle');
 const sidebarResizer = document.getElementById('sidebarResizer');
+const content = document.querySelector('.content');
+const viewMode = document.getElementById('viewMode');
+const sankeyView = document.getElementById('sankeyView');
+const tableView = document.getElementById('tableView');
+const sankeyActions = document.getElementById('sankeyActions');
+const tableActions = document.getElementById('tableActions');
+const companiesTable = document.getElementById('companiesTable');
+const statementsTable = document.getElementById('statementsTable');
+const companiesTableCount = document.getElementById('companiesTableCount');
+const statementsTableCount = document.getElementById('statementsTableCount');
+const svgBtn = document.getElementById('svgBtn');
+const pngBtn = document.getElementById('pngBtn');
+const companiesCsvBtn = document.getElementById('companiesCsvBtn');
+const statementsCsvBtn = document.getElementById('statementsCsvBtn');
 const SIDEBAR_WIDTH_KEY = 'sankey.sidebar.width';
 const SIDEBAR_COLLAPSED_KEY = 'sankey.sidebar.collapsed';
+const VIEW_MODE_KEY = 'sankey.view.mode';
 const SIDEBAR_MIN = 220;
 const SIDEBAR_MAX = 560;
 const SIDEBAR_DEFAULT = 282;
@@ -37,6 +51,13 @@ function writeStoredValue(key, value) {
     window.localStorage.setItem(key, String(value));
   } catch (error) {
     /* Ignore storage failures in private browsing or file previews. */
+  }
+}
+function readStoredViewMode() {
+  try {
+    return window.localStorage.getItem(VIEW_MODE_KEY) === 'table' ? 'table' : 'sankey';
+  } catch (error) {
+    return 'sankey';
   }
 }
 function clamp(value, min, max) {
@@ -132,6 +153,15 @@ const groups = Array.from(records.reduce((map, record) => {
   group.searchText = [group.company, ...group.records.map((record) => record.searchText)].join(' ');
   return group;
 }).sort((a, b) => a.company.localeCompare(b.company));
+const financialRecords = window.INCOME_STATEMENT_SSOT?.records || [];
+const financialRecordByKey = new Map(financialRecords.map((record) => [record.key, record]));
+const companyMetadata = window.COMPANY_METADATA?.companies || [];
+const companyMetadataByName = new Map();
+companyMetadata.forEach((company) => {
+  [company.name, company.legalName, ...(company.aliases || [])].filter(Boolean).forEach((name) => {
+    companyMetadataByName.set(normalize(name), company);
+  });
+});
 
 const defaultIndex = sets.findIndex((d) => d.key === 'salesforce-q1-fy27');
 function datasetKeyFromHash() {
@@ -160,6 +190,7 @@ const state = {
   sort: 'desc',
   activeIndex: activeStart?.index || 0,
   company: activeStart?.company || groups[0]?.company || '',
+  viewMode: readStoredViewMode(),
   sidebarWidth: readStoredNumber(SIDEBAR_WIDTH_KEY, SIDEBAR_DEFAULT),
   sidebarCollapsed: readStoredBoolean(SIDEBAR_COLLAPSED_KEY, false),
 };
@@ -179,7 +210,7 @@ function applySidebarWidth(width, persist = false) {
   if (persist) writeStoredValue(SIDEBAR_WIDTH_KEY, nextWidth);
 }
 function syncToolbarHeight() {
-  const height = Math.ceil(toolbar.getBoundingClientRect().height || 46);
+  const height = Math.ceil(topShell.getBoundingClientRect().height || 52);
   document.documentElement.style.setProperty('--toolbar-height', `${height}px`);
 }
 function syncSidebarControls() {
@@ -217,6 +248,187 @@ function sortedRecords(group) {
   const direction = state.sort === 'asc' ? 1 : -1;
   return [...(group?.records || [])].sort((a, b) => direction * (a.sortValue - b.sortValue) || a.period.localeCompare(b.period));
 }
+function companyKey(company) {
+  return normalize(company).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'company';
+}
+function metadataFor(company) {
+  return companyMetadataByName.get(normalize(company)) || {
+    key: companyKey(company),
+    name: company,
+    legalName: '',
+    ticker: '',
+    exchange: '',
+    sector: '',
+    industry: '',
+    founded: '',
+    headquarters: '',
+    fiscalYearEnd: '',
+    website: '',
+    description: '',
+    sourceUrls: [],
+  };
+}
+function labelText(label) {
+  return Array.isArray(label) ? label.map(clean).filter(Boolean).join(' ') : clean(label);
+}
+function notesText(notes) {
+  return (notes || []).map(clean).filter(Boolean).join(' ');
+}
+function formatAmount(record, value, cost = false) {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return '';
+  const decimals = typeof record?.decimals === 'number' ? record.decimals : 1;
+  const amount = `${record?.currency || '$'}${Math.abs(value).toFixed(decimals)}${record?.unit || ''}`;
+  return cost || value < 0 ? `(${amount})` : amount;
+}
+function describeItemList(items, record, prefix = '') {
+  return (items || []).flatMap((item) => {
+    const label = [prefix, labelText(item.label)].filter(Boolean).join(' / ');
+    const notes = notesText(item.notes);
+    const itemText = `${label}: ${formatAmount(record, item.value)}${notes ? ` (${notes})` : ''}`;
+    return [itemText, ...describeItemList(item.children, record, label)];
+  });
+}
+function describeItems(items, record, prefix = '') {
+  return describeItemList(items, record, prefix).join('; ');
+}
+function safeUrl(url) {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:' || parsed.protocol === 'http:' ? parsed.href : '';
+  } catch (error) {
+    return '';
+  }
+}
+function linksHtml(urls) {
+  const links = (urls || []).map(safeUrl).filter(Boolean);
+  if (!links.length) return '<span class="cell-muted">Missing</span>';
+  return links.map((url, index) => `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">Source ${index + 1}</a>`).join(' ');
+}
+function websiteHtml(url) {
+  const safe = safeUrl(url);
+  return safe ? `<a href="${escapeHtml(safe)}" target="_blank" rel="noopener">${escapeHtml(safe.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</a>` : '';
+}
+function financialFor(record) {
+  return financialRecordByKey.get(record.dataset.key);
+}
+function companyRows() {
+  return groups.map((group) => {
+    const meta = metadataFor(group.company);
+    return {
+      ...meta,
+      company: group.company,
+      latestPeriod: group.latest?.period || '',
+      datasetCount: group.records.length,
+      active: group.company === state.company,
+      tableAttrs: `data-company-key="${escapeHtml(companyKey(group.company))}"`,
+    };
+  });
+}
+function statementRows() {
+  return [...records]
+    .sort((a, b) => a.company.localeCompare(b.company) || b.sortValue - a.sortValue || a.period.localeCompare(b.period))
+    .map((record) => ({
+      record,
+      financial: financialFor(record),
+      active: record.index === state.activeIndex,
+      tableAttrs: `data-dataset-key="${escapeHtml(record.dataset.key)}"`,
+    }));
+}
+function renderDataTable(table, columns, rows, emptyText) {
+  table.className = 'data-table';
+  const head = columns.map((column) => `<th class="${column.className || ''}">${escapeHtml(column.label)}</th>`).join('');
+  if (!rows.length) {
+    table.innerHTML = `<thead><tr>${head}</tr></thead><tbody><tr><td colspan="${columns.length}"><div class="table-empty">${escapeHtml(emptyText)}</div></td></tr></tbody>`;
+    return;
+  }
+  const body = rows.map((row) => {
+    const cells = columns.map((column) => {
+      const value = column.html ? column.html(row) : escapeHtml(column.value(row));
+      return `<td class="${column.className || ''}">${value}</td>`;
+    }).join('');
+    const attrs = row.tableAttrs || '';
+    return `<tr class="${row.active ? 'active-row' : ''}"${attrs ? ` ${attrs}` : ''}>${cells}</tr>`;
+  }).join('');
+  table.innerHTML = `<thead><tr>${head}</tr></thead><tbody>${body}</tbody>`;
+}
+function renderTables() {
+  const companies = companyRows();
+  const statements = statementRows();
+  companiesTableCount.textContent = `${companies.length} compan${companies.length === 1 ? 'y' : 'ies'}`;
+  statementsTableCount.textContent = `${statements.length} statement${statements.length === 1 ? '' : 's'}`;
+  renderDataTable(companiesTable, [
+    { label: 'Company', className: 'nowrap', value: (row) => row.company },
+    { label: 'Legal name', className: 'nowrap', value: (row) => row.legalName },
+    { label: 'Ticker', className: 'nowrap', value: (row) => [row.exchange, row.ticker].filter(Boolean).join(': ') },
+    { label: 'Sector', className: 'nowrap', value: (row) => row.sector },
+    { label: 'Industry', className: 'nowrap', value: (row) => row.industry },
+    { label: 'Founded', className: 'nowrap', value: (row) => row.founded },
+    { label: 'Headquarters', className: 'nowrap', value: (row) => row.headquarters },
+    { label: 'Fiscal year end', className: 'nowrap', value: (row) => row.fiscalYearEnd },
+    { label: 'Datasets', className: 'num', value: (row) => row.datasetCount },
+    { label: 'Latest', className: 'nowrap', value: (row) => row.latestPeriod },
+    { label: 'Website', className: 'nowrap', html: (row) => websiteHtml(row.website) },
+    { label: 'Description', className: 'wide', value: (row) => row.description },
+    { label: 'Sources', className: 'nowrap', html: (row) => linksHtml(row.sourceUrls) },
+  ], companies, 'No companies registered.');
+
+  renderDataTable(statementsTable, [
+    { label: 'Dataset', className: 'nowrap', value: (row) => row.record.dataset.key },
+    { label: 'Company', className: 'nowrap', value: (row) => row.record.company },
+    { label: 'Period', className: 'nowrap', value: (row) => row.record.period },
+    { label: 'Period end', className: 'nowrap', value: (row) => row.record.periodNote },
+    { label: 'Revenue', className: 'num', value: (row) => formatAmount(row.financial, row.financial?.revenue?.total) },
+    { label: 'Revenue items', className: 'wide', value: (row) => describeItems(row.financial?.revenue?.items, row.financial) },
+    { label: 'Cost of revenue', className: 'num', value: (row) => formatAmount(row.financial, row.financial?.costs?.costOfRevenue?.value, true) },
+    { label: 'Gross profit', className: 'num', value: (row) => formatAmount(row.financial, row.financial?.profit?.gross?.value) },
+    { label: 'Operating expenses', className: 'num', value: (row) => formatAmount(row.financial, row.financial?.costs?.operatingExpenses?.total, true) },
+    { label: 'Opex items', className: 'wide', value: (row) => describeItems(row.financial?.costs?.operatingExpenses?.items, row.financial) },
+    { label: 'Operating profit', className: 'num', value: (row) => formatAmount(row.financial, row.financial?.profit?.operating?.value) },
+    { label: 'Other income', className: 'num', value: (row) => formatAmount(row.financial, row.financial?.otherIncome?.total || 0) },
+    { label: 'Tax', className: 'num', value: (row) => formatAmount(row.financial, row.financial?.costs?.tax?.value, true) },
+    { label: 'Net profit', className: 'num', value: (row) => formatAmount(row.financial, row.financial?.profit?.net?.value) },
+    { label: 'Source image', className: 'nowrap', value: (row) => row.financial?.sourceImage || '' },
+  ], statements, 'No income statements registered.');
+}
+function escapeSelector(value) {
+  if (window.CSS?.escape) return window.CSS.escape(value);
+  return String(value).replace(/["\\]/g, '\\$&');
+}
+function tableRowFor(kind) {
+  if (kind === 'company') {
+    return companiesTable.querySelector(`[data-company-key="${escapeSelector(companyKey(state.company))}"]`);
+  }
+  const key = currentRecord()?.dataset?.key;
+  return key ? statementsTable.querySelector(`[data-dataset-key="${escapeSelector(key)}"]`) : null;
+}
+function fastScrollTo(top, duration = 90, scrollRoot = content) {
+  if (!scrollRoot) return;
+  const start = scrollRoot.scrollTop || 0;
+  const max = Math.max(0, scrollRoot.scrollHeight - scrollRoot.clientHeight);
+  const target = clamp(top, 0, max);
+  const distance = target - start;
+  if (Math.abs(distance) < 2) return;
+  const startedAt = performance.now();
+  function tick(now) {
+    const progress = clamp((now - startedAt) / duration, 0, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    scrollRoot.scrollTop = start + distance * eased;
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+function scrollActiveTableRow(kind = 'statement') {
+  if (state.viewMode !== 'table') return;
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const row = tableRowFor(kind);
+      if (!row) return;
+      const contentTop = content.getBoundingClientRect().top;
+      const target = content.scrollTop + row.getBoundingClientRect().top - contentTop - 8;
+      fastScrollTo(target);
+    });
+  });
+}
 function timelineColors(record, group) {
   const values = (group?.records || []).map((item) => item.sortValue);
   const min = Math.min(...values);
@@ -234,10 +446,9 @@ function timelineColors(record, group) {
 }
 function renderActiveSummary() {
   const record = currentRecord();
-  activeDatasetName.textContent = record ? record.company : 'No datasets';
-  activeDatasetPeriod.textContent = record
-    ? [record.period, record.periodNote].filter(Boolean).join(' - ')
-    : '';
+  actionTitle.textContent = record
+    ? [record.company, [record.period, record.periodNote].filter(Boolean).join(' - ')].filter(Boolean).join(' · ')
+    : 'No data point selected';
 }
 function renderCompanies() {
   const visibleGroups = groups.filter((group) => matches(group.searchText, companySearch.value));
@@ -269,6 +480,7 @@ function renderCompanies() {
       }
       renderAll();
       draw();
+      scrollActiveTableRow('company');
     });
     companyList.appendChild(button);
   });
@@ -309,6 +521,7 @@ function renderPeriods() {
       syncDatasetHash(record);
       renderAll();
       draw();
+      scrollActiveTableRow('statement');
     });
     periodList.appendChild(button);
   });
@@ -317,10 +530,41 @@ function renderAll() {
   renderActiveSummary();
   renderCompanies();
   renderPeriods();
+  if (state.viewMode === 'table') renderTables();
+}
+function syncViewModeControls() {
+  const isTable = state.viewMode === 'table';
+  sankeyView.hidden = isTable;
+  tableView.hidden = !isTable;
+  sankeyActions.hidden = isTable;
+  tableActions.hidden = !isTable;
+  [...viewMode.querySelectorAll('button')].forEach((button) => {
+    const active = button.dataset.view === state.viewMode;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
+  syncToolbarHeight();
+}
+function setViewMode(mode, persist = true) {
+  if (mode !== 'sankey' && mode !== 'table') return;
+  if (state.viewMode === mode) {
+    if (mode === 'table') scrollActiveTableRow('statement');
+    return;
+  }
+  state.viewMode = mode;
+  if (persist) writeStoredValue(VIEW_MODE_KEY, mode);
+  renderAll();
+  draw();
+  if (mode === 'table') scrollActiveTableRow('statement');
 }
 
 companySearch.addEventListener('input', renderCompanies);
 periodSearch.addEventListener('input', renderPeriods);
+viewMode.addEventListener('click', (e) => {
+  const button = e.target.closest('button');
+  if (!button) return;
+  setViewMode(button.dataset.view);
+});
 document.getElementById('periodSort').addEventListener('click', (e) => {
   const button = e.target.closest('button');
   if (!button) return;
@@ -371,11 +615,17 @@ function chartWidth(d) {
   return d.render?.width || window.SankeyEngine.DEFAULTS?.width || 2862;
 }
 function draw() {
+  syncViewModeControls();
+  if (state.viewMode === 'table') {
+    renderTables();
+    svgBtn.disabled = true;
+    return;
+  }
   const d = currentDataset();
   const maxWidth = chartWidth(d);
   document.querySelector('.card').style.maxWidth = maxWidth + 'px';
   if (d) window.SankeyEngine.render('#chart', d);
-  document.getElementById('svgBtn').disabled = !document.querySelector('#chart svg');
+  svgBtn.disabled = !document.querySelector('#chart svg');
 }
 
 window.addEventListener('hashchange', () => {
@@ -386,6 +636,7 @@ window.addEventListener('hashchange', () => {
   state.company = record.company;
   renderAll();
   draw();
+  scrollActiveTableRow('statement');
 });
 
 let rt;
@@ -408,6 +659,22 @@ requestAnimationFrame(() => {
 
 /* ---- export ---- */
 const currentSvg = () => document.querySelector('#chart svg');
+function downloadText(filename, text, type = 'text/csv;charset=utf-8') {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text], { type }));
+  a.download = filename;
+  a.click();
+}
+function csvCell(value) {
+  const text = String(value ?? '').replace(/\r?\n/g, ' ');
+  return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+}
+function csvFromRows(columns, rows) {
+  return [
+    columns.map((column) => csvCell(column.label)).join(','),
+    ...rows.map((row) => columns.map((column) => csvCell(column.value(row))).join(',')),
+  ].join('\n') + '\n';
+}
 function svgString() {
   const svg = currentSvg().cloneNode(true);
   svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
@@ -421,13 +688,12 @@ function dims() {
   return [r.width, r.height];
 }
 const fname = () => (currentDataset()?.key || 'sankey') + '-d3';
-document.getElementById('svgBtn').onclick = () => {
-  if (!currentSvg()) return;
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([svgString()], { type: 'image/svg+xml' }));
-  a.download = fname() + '.svg'; a.click();
+svgBtn.onclick = () => {
+  if (state.viewMode !== 'sankey' || !currentSvg()) return;
+  downloadText(fname() + '.svg', svgString(), 'image/svg+xml');
 };
-document.getElementById('pngBtn').onclick = () => {
+pngBtn.onclick = () => {
+  if (state.viewMode !== 'sankey' || !currentSvg()) return;
   const [w, h] = dims(); const scale = 2;
   const img = new Image();
   img.onload = () => {
@@ -437,4 +703,46 @@ document.getElementById('pngBtn').onclick = () => {
     c.toBlob((b) => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = fname() + '.png'; a.click(); });
   };
   img.src = URL.createObjectURL(new Blob([svgString()], { type: 'image/svg+xml' }));
+};
+companiesCsvBtn.onclick = () => {
+  const columns = [
+    { label: 'company', value: (row) => row.company },
+    { label: 'legal_name', value: (row) => row.legalName },
+    { label: 'ticker', value: (row) => row.ticker },
+    { label: 'exchange', value: (row) => row.exchange },
+    { label: 'sector', value: (row) => row.sector },
+    { label: 'industry', value: (row) => row.industry },
+    { label: 'founded', value: (row) => row.founded },
+    { label: 'headquarters', value: (row) => row.headquarters },
+    { label: 'fiscal_year_end', value: (row) => row.fiscalYearEnd },
+    { label: 'website', value: (row) => row.website },
+    { label: 'description', value: (row) => row.description },
+    { label: 'dataset_count', value: (row) => row.datasetCount },
+    { label: 'latest_period', value: (row) => row.latestPeriod },
+    { label: 'source_urls', value: (row) => (row.sourceUrls || []).join(' ') },
+  ];
+  downloadText('companies.csv', csvFromRows(columns, companyRows()));
+};
+statementsCsvBtn.onclick = () => {
+  const columns = [
+    { label: 'dataset_key', value: (row) => row.record.dataset.key },
+    { label: 'company', value: (row) => row.record.company },
+    { label: 'period', value: (row) => row.record.period },
+    { label: 'period_note', value: (row) => row.record.periodNote },
+    { label: 'currency', value: (row) => row.financial?.currency || '' },
+    { label: 'unit', value: (row) => row.financial?.unit || '' },
+    { label: 'revenue_total', value: (row) => row.financial?.revenue?.total ?? '' },
+    { label: 'revenue_notes', value: (row) => notesText(row.financial?.revenue?.notes) },
+    { label: 'revenue_items', value: (row) => describeItems(row.financial?.revenue?.items, row.financial) },
+    { label: 'cost_of_revenue', value: (row) => row.financial?.costs?.costOfRevenue?.value ?? '' },
+    { label: 'gross_profit', value: (row) => row.financial?.profit?.gross?.value ?? '' },
+    { label: 'operating_expenses', value: (row) => row.financial?.costs?.operatingExpenses?.total ?? '' },
+    { label: 'operating_expense_items', value: (row) => describeItems(row.financial?.costs?.operatingExpenses?.items, row.financial) },
+    { label: 'operating_profit', value: (row) => row.financial?.profit?.operating?.value ?? '' },
+    { label: 'other_income', value: (row) => row.financial?.otherIncome?.total ?? 0 },
+    { label: 'tax', value: (row) => row.financial?.costs?.tax?.value ?? '' },
+    { label: 'net_profit', value: (row) => row.financial?.profit?.net?.value ?? '' },
+    { label: 'source_image', value: (row) => row.financial?.sourceImage || '' },
+  ];
+  downloadText('income-statements.csv', csvFromRows(columns, statementRows()));
 };

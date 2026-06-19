@@ -16,6 +16,10 @@ do not put `nodes`, `links`, `layout`, `render`, SVG, colors, or pixel geometry
 in that file. Run `pnpm verify:ssot` after adding or materially changing a
 dataset.
 
+`data/company-metadata.js` is the company-profile SSOT. Add or update it before
+registering a new company's first dataset so Table mode can show company-level
+context separately from period-specific financial statements.
+
 ---
 
 ## Pure data SSOT
@@ -71,6 +75,36 @@ The `id` fields should match the relevant Sankey node ids when a corresponding
 node exists. The verifier checks every `index.html` dataset script has a
 matching SSOT record, compares key totals and line items against Sankey node
 values, and allows small published-rounding differences via `roundingTolerance`.
+It also checks every company in the financial SSOT has a matching
+`data/company-metadata.js` entry.
+
+---
+
+## Company metadata SSOT
+
+```js
+{
+  key: 'nvidia',
+  name: 'NVIDIA',
+  legalName: 'NVIDIA Corporation',
+  ticker: 'NVDA',
+  exchange: 'NASDAQ',
+  sector: 'Information Technology',
+  industry: 'Semiconductors',
+  founded: '1993',
+  headquarters: 'Santa Clara, California, United States',
+  fiscalYearEnd: 'Last Sunday in January',
+  website: 'https://www.nvidia.com/',
+  description: 'Short company profile used by Table mode.',
+  sourceUrls: [
+    'https://www.nvidia.com/en-us/about-nvidia/',
+  ],
+}
+```
+
+Required fields for verification are `key`, `name`, `sector`, `industry`,
+`description`, and a non-empty `sourceUrls` array. Other fields should be filled
+when they can be found from reliable public sources.
 
 ---
 

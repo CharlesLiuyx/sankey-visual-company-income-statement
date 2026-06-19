@@ -648,7 +648,7 @@
         .attr('y', meta.titleY || 120)
         .attr('text-anchor', 'middle')
         .attr('font-size', meta.titleSize || 142)
-        .attr('font-weight', 800)
+        .attr('font-weight', meta.titleWeight || 800)
         .attr('letter-spacing', '0')
         .attr('fill', cfg.titleColor)
         .text(meta.title);

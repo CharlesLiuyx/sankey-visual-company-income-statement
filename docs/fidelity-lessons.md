@@ -229,3 +229,54 @@ valid d3-sankey fidelity-loop outputs**:
   `listen EPERM: operation not permitted 127.0.0.1`. Treat that as an
   environment permission issue, not a d3/render regression, and rerun with
   escalated shell permissions instead of first spending a failed sandbox pass.
+
+### Lessons from NVIDIA Q3/Q4 FY23 alignment loops
+
+These loops used user-annotated red boxes plus direct pixel comparison to tune
+`nvidia-q3-fy23` and `nvidia-q4-fy23`. The biggest errors were not financial
+data errors; they were positional mismatches between node rectangles, Sankey
+bands, labels, and chart bounds.
+
+- **L12 — Keep the loop artifacts together while inspecting.** During an active
+  loop, run `pnpm verify:d3 -- <dataset-key> --keep` so `compare/` contains the
+  reference PNG, the d3 candidate PNG, and a boosted pixel-diff PNG. Inspect the
+  three files as one set: reference for the target, candidate for actual
+  readability, and diff for where position or size drift is accumulating. Clean
+  `compare/` again when the loop is complete unless the user explicitly needs
+  the artifacts for review.
+- **L13 — Treat red boxes as positional bug reports, not visual-style requests.**
+  Icon glyph shape, logo detail, antialiasing, and hand-drawn curve texture can
+  differ without blocking convergence. Red-box fixes should first answer:
+  "Is this node/socket/label in the same place as the reference?" Do not spend a
+  loop chasing harmless shape differences while a label is overlapping a band or
+  a node is visibly detached from its flow.
+- **L14 — Classify every marked error before editing.** The recurring useful
+  buckets are: source node rectangle drift, hub/intermediate node socket drift,
+  link width mismatch, link endpoint not flush with its node, label block
+  offset, label/band overlap, icon/label collision, and terminal label outside
+  the canvas. Each bucket maps to a different control (`layout.nodes`,
+  per-link width/order, `layout.labels`, icon placement, or render bounds), so
+  classification prevents random nudging.
+- **L15 — Align structure before text.** For NVIDIA-style charts, tune the
+  durable geometry in this order: source nodes, central revenue node, gross
+  profit / cost nodes, operating profit / operating expense nodes, terminal
+  nodes, then labels and icons. Labels may look wrong while the flow geometry is
+  wrong; fixing text first often hides the true endpoint mismatch and creates a
+  second correction pass.
+- **L16 — Use explicit link widths when the reference has hand-tuned sockets.**
+  Value-derived widths can be numerically correct but still miss the reference
+  by several pixels because the source graphic was manually adjusted. Once node
+  rectangles are fixed, assign per-link widths for the high-impact bands so
+  incoming and outgoing sockets meet the rectangles cleanly. This is especially
+  important for small Q/Q tails such as `Other` and `Tax benefit`, where a few
+  pixels decide whether the connector appears aligned.
+- **L17 — Pixel diff points to regions, not automatically to fixes.** A boosted
+  diff image is excellent for finding where the candidate diverges, but it mixes
+  meaningful layout errors with font rasterization and icon shape noise. Use the
+  diff to choose inspection crops, then decide from the candidate/reference pair
+  whether to adjust geometry, labels, or accept a residual.
+- **L18 — Check the right edge and lower labels for bounds regressions.** Long
+  labels such as `Research & Development` and `Sales, General & Admin` can
+  drift outside the canvas after terminal nodes are moved. Before ending a loop,
+  inspect the full candidate, not only the annotated red boxes, and make sure no
+  terminal text is clipped or pushed past the reference composition.

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { createServer } from 'node:http';
-import { readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
+import { copyFile, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -147,7 +147,7 @@ function readPng(filePath) {
   return PNG.sync.read(readFileSync(filePath));
 }
 
-async function pngMetrics(referencePath, candidatePath) {
+async function pngMetrics(referencePath, candidatePath, diffPath = null) {
   const reference = readPng(referencePath);
   const candidate = readPng(candidatePath);
 
@@ -161,6 +161,7 @@ async function pngMetrics(referencePath, candidatePath) {
   let same = 0;
   let max = 0;
   const pixels = reference.width * reference.height;
+  const diff = diffPath ? new PNG({ width: reference.width, height: reference.height }) : null;
   for (let i = 0; i < reference.data.length; i += 4) {
     const dr = Math.abs(reference.data[i] - candidate.data[i]);
     const dg = Math.abs(reference.data[i + 1] - candidate.data[i + 1]);
@@ -168,6 +169,15 @@ async function pngMetrics(referencePath, candidatePath) {
     total += dr + dg + db;
     if (dr === 0 && dg === 0 && db === 0) same += 1;
     max = Math.max(max, dr, dg, db);
+    if (diff) {
+      diff.data[i] = Math.min(255, dr * 4);
+      diff.data[i + 1] = Math.min(255, dg * 4);
+      diff.data[i + 2] = Math.min(255, db * 4);
+      diff.data[i + 3] = 255;
+    }
+  }
+  if (diff) {
+    await writeFile(diffPath, PNG.sync.write(diff));
   }
   const mae = total / (pixels * 3);
   return {
@@ -198,7 +208,9 @@ async function main() {
 
   const server = await startStaticServer();
   let browser;
+  const referenceComparePath = path.join(compareDir, `${datasetKey}-reference.png`);
   const candidatePath = path.join(compareDir, `${datasetKey}-d3.png`);
+  const diffPath = path.join(compareDir, `${datasetKey}-pixel-diff-x4.png`);
 
   try {
     browser = await chromium.launch({ headless: true });
@@ -267,14 +279,18 @@ async function main() {
     await page.locator('#chart > svg').screenshot({ path: candidatePath });
 
     const referencePath = path.join(rootDir, meta.referenceSrc);
-    const metrics = await pngMetrics(referencePath, candidatePath);
+    if (keep) {
+      await copyFile(referencePath, referenceComparePath);
+    }
+    const metrics = await pngMetrics(referencePath, candidatePath, keep ? diffPath : null);
     if (pageErrors.length) {
       throw new Error(`Page errors during render:\n${pageErrors.join('\n')}`);
     }
 
     console.log(`dataset: ${datasetKey}`);
-    console.log(`reference: ${path.relative(rootDir, referencePath)}`);
+    console.log(`reference: ${keep ? path.relative(rootDir, referenceComparePath) : path.relative(rootDir, referencePath)}`);
     console.log(`candidate: ${keep ? path.relative(rootDir, candidatePath) : '(scratch cleaned)'}`);
+    console.log(`diff: ${keep ? path.relative(rootDir, diffPath) : '(scratch cleaned)'}`);
     console.log(`font: Montserrat loaded=${fontStatus.montserratLoaded}`);
     console.log(`purity: imageCount=${purity.imageCount} chartImgCount=${purity.chartImgCount}`);
     console.log(`viewport: ${metrics.width}x${metrics.height}`);

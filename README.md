@@ -21,7 +21,7 @@ python3 -m http.server 8000
 …or just **double-click `index.html`** — d3 and d3-sankey are vendored locally
 in `vendor/`, so it works fully offline.
 
-Use the **Mode** switcher (Reference / d3-sankey), pick datasets from the left
+Use the **Mode** switcher (d3-sankey / Reference), pick datasets from the left
 Company / Data point time navigator, and **Download SVG/PNG** to export the
 current chart at 2× resolution.
 
@@ -69,8 +69,8 @@ The app keeps two modes:
 
 | Mode | File | Strengths | Trade-offs |
 |---|---|---|---|
-| **Reference** (default) | `meta.referenceImage` | Pixel-exact reference output for datasets with a processed PNG. | Raster-only. Datasets without `meta.referenceImage` fall back to d3-sankey. |
-| **d3-sankey** | `src/sankey-engine.js` | Editable data-driven SVG with custom nodes, links, labels, hover highlighting, explicit column + vertical order, fixed-layout overrides, and export. | Not pixel-identical to the hand-made reference PNG. |
+| **d3-sankey** (default) | `src/sankey-engine.js` | Editable data-driven SVG with custom nodes, links, labels, hover highlighting, explicit column + vertical order, fixed-layout overrides, and export. | Not pixel-identical to the hand-made reference PNG. |
+| **Reference** | `meta.referenceImage` | Pixel-exact reference output for datasets with a processed PNG. | Raster-only. Datasets without `meta.referenceImage` fall back to d3-sankey. |
 
 **Recommendation:** use Reference when a chart must match a supplied PNG
 exactly; use d3-sankey for editable or new-company charts.

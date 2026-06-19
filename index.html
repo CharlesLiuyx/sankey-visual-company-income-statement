@@ -157,8 +157,8 @@
       <h1>sankey-visual-company-income-statement</h1>
       <label>Mode</label>
       <div class="seg" id="libSeg">
-        <button data-lib="reference" class="active">Reference</button>
-        <button data-lib="d3">d3-sankey</button>
+        <button data-lib="d3" class="active">d3-sankey</button>
+        <button data-lib="reference">Reference</button>
       </div>
       <div class="spacer"></div>
       <button class="btn" id="svgBtn" title="Download SVG">
@@ -341,7 +341,7 @@
       const defaultIndex = sets.findIndex((d) => d.key === 'salesforce-q1-fy27');
       const activeStart = records[defaultIndex >= 0 ? defaultIndex : 0];
       const state = {
-        lib: 'reference',
+        lib: 'd3',
         sort: 'desc',
         activeIndex: activeStart?.index || 0,
         company: activeStart?.company || groups[0]?.company || '',

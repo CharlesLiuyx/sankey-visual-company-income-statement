@@ -49,6 +49,25 @@
           'https://investor.salesforce.com/financials/annual-reports/default.aspx',
         ],
       },
+      {
+        key: 'uber',
+        name: 'Uber',
+        legalName: 'Uber Technologies, Inc.',
+        ticker: 'UBER',
+        exchange: 'NYSE',
+        sector: 'Industrials',
+        industry: 'Mobility, delivery, and freight platform',
+        founded: '2009',
+        headquarters: 'San Francisco, California, United States',
+        fiscalYearEnd: 'December 31',
+        website: 'https://www.uber.com/',
+        description:
+          'Uber is a global technology platform for mobility, delivery, freight, business travel, and related services that connects riders, eaters, drivers, couriers, merchants, carriers, and companies.',
+        sourceUrls: [
+          'https://www.uber.com/us/en/about/',
+          'https://investor.uber.com/home/default.aspx',
+        ],
+      },
     ],
   };
 })(window);

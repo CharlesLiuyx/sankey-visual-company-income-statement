@@ -129,6 +129,7 @@ function harnessHtml(baseUrl, scripts) {
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <base href="${baseUrl}/" />
   <style>
     ${localFontFaces()}
     html, body { margin: 0; padding: 0; background: #efefef; }
@@ -232,7 +233,7 @@ async function main() {
     }, datasetKey);
 
     await page.setViewportSize({ width: meta.width, height: meta.height });
-    const purity = await page.evaluate((key) => {
+    const purity = await page.evaluate(async (key) => {
       const dataset = window.DATASETS.find((item) => item.key === key);
       const chart = document.querySelector('#chart');
       chart.style.width = `${dataset.meta.referenceImage.width}px`;
@@ -244,8 +245,32 @@ async function main() {
       svg.setAttribute('height', String(dataset.meta.referenceImage.height));
       svg.style.width = `${dataset.meta.referenceImage.width}px`;
       svg.style.height = `${dataset.meta.referenceImage.height}px`;
+      const images = Array.from(svg.querySelectorAll('image'));
+      const imageHrefs = images.map(
+        (image) =>
+          image.href?.baseVal ||
+          image.getAttribute('href') ||
+          image.getAttributeNS('http://www.w3.org/1999/xlink', 'href') ||
+          ''
+      );
+      await Promise.all(
+        imageHrefs
+          .filter(Boolean)
+          .map(
+            (href) =>
+              new Promise((resolve, reject) => {
+                const probe = new Image();
+                probe.onload = resolve;
+                probe.onerror = () => reject(new Error(`Failed to load SVG image: ${href}`));
+                probe.src = href;
+              })
+          )
+      );
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
       return {
-        imageCount: svg.querySelectorAll('image').length,
+        imageCount: images.length,
+        imageHrefs,
+        rasterAllowed: dataset.render?.allowRasterAnnotations === true,
         chartImgCount: document.querySelectorAll('#chart img').length,
         viewBox: svg.getAttribute('viewBox'),
         width: Math.round(svg.getBoundingClientRect().width),
@@ -269,8 +294,10 @@ async function main() {
       );
     }
 
-    if (purity.imageCount !== 0 || purity.chartImgCount !== 0) {
-      throw new Error(`Purity failed: imageCount=${purity.imageCount}, chartImgCount=${purity.chartImgCount}`);
+    if ((purity.imageCount !== 0 && !purity.rasterAllowed) || purity.chartImgCount !== 0) {
+      throw new Error(
+        `Purity failed: imageCount=${purity.imageCount}, chartImgCount=${purity.chartImgCount}, rasterAllowed=${purity.rasterAllowed}`
+      );
     }
     if (purity.width !== meta.width || purity.height !== meta.height) {
       throw new Error(`SVG size mismatch: expected ${meta.width}x${meta.height}, got ${purity.width}x${purity.height}`);
@@ -292,7 +319,9 @@ async function main() {
     console.log(`candidate: ${keep ? path.relative(rootDir, candidatePath) : '(scratch cleaned)'}`);
     console.log(`diff: ${keep ? path.relative(rootDir, diffPath) : '(scratch cleaned)'}`);
     console.log(`font: Montserrat loaded=${fontStatus.montserratLoaded}`);
-    console.log(`purity: imageCount=${purity.imageCount} chartImgCount=${purity.chartImgCount}`);
+    console.log(
+      `purity: imageCount=${purity.imageCount} chartImgCount=${purity.chartImgCount} rasterAllowed=${purity.rasterAllowed}`
+    );
     console.log(`viewport: ${metrics.width}x${metrics.height}`);
     console.log(`RGB MAE: ${metrics.rgbMae.toFixed(4)}`);
     console.log(`MAE similarity: ${metrics.maeSimilarity.toFixed(6)}`);

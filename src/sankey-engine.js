@@ -200,6 +200,38 @@
     parent.append('g').attr('class', className).html(html);
   }
 
+  function appendRasterAnnotations(parent, annotations) {
+    const list = Array.isArray(annotations) ? annotations : [annotations];
+    const valid = list.filter(Boolean);
+    if (!valid.length) return;
+
+    const layer = parent.append('g').attr('class', 'sankey-raster-annotations');
+    valid.forEach((item) => {
+      const href = item.href || item.src;
+      const x = Number(item.x);
+      const y = Number(item.y);
+      const width = Number(item.width);
+      const height = Number(item.height);
+      if (!href || !Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(width) || !Number.isFinite(height)) {
+        throw new Error('Raster annotations require href/src, x, y, width, and height');
+      }
+
+      const image = layer
+        .append('image')
+        .attr('href', href)
+        .attr('xlink:href', href)
+        .attr('x', x)
+        .attr('y', y)
+        .attr('width', width)
+        .attr('height', height)
+        .attr('preserveAspectRatio', item.preserveAspectRatio || 'none')
+        .style('pointer-events', item.pointerEvents || 'none');
+
+      if (item.key || item.id) image.attr('data-key', item.key || item.id);
+      if (item.opacity != null) image.attr('opacity', item.opacity);
+    });
+  }
+
   /* ------------------------------ render --------------------------- */
   function render(selector, data, overrides) {
     if (!global.d3 || !global.d3.sankey) {
@@ -642,6 +674,13 @@
 
     if (data.annotationsSvg) {
       appendSvgFragments(svg, data.annotationsSvg, 'sankey-annotations');
+    }
+
+    if (data.rasterAnnotations) {
+      if (!cfg.allowRasterAnnotations) {
+        throw new Error('Raster annotations require render.allowRasterAnnotations = true');
+      }
+      appendRasterAnnotations(svg, data.rasterAnnotations);
     }
 
     /* ---------- hub logo (optional) ---------- *

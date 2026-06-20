@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
@@ -28,11 +28,56 @@ function inspectMarkup(filePath) {
     { label: 'preconnect link tags', re: /<link\b[^>]*\brel=["']preconnect["']/i },
     { label: 'Google font URLs', re: /https:\/\/fonts\.(?:googleapis|gstatic)\.com/i },
     { label: 'raw processed image requests', re: /<(?:img|image)\b[^>]*\bsrc=["']input\/processed\//i },
-    { label: 'inlined processed PNG data URIs', re: /data:image\/png;base64,/i },
+    { label: 'raw runtime raster asset requests', re: /data\/assets\/raster-annotations\/[^"']+\.(?:png|jpe?g|webp|svg)/i },
   ];
   for (const { label, re } of forbidden) {
     assert(!re.test(html), `Standalone HTML still contains ${label}`);
   }
+  assertProcessedImagesNotInlined(html);
+}
+
+function assertProcessedImagesNotInlined(html) {
+  const processedDir = path.join(rootDir, 'input/processed');
+  if (!existsSync(processedDir)) return;
+  for (const fileName of readdirSync(processedDir)) {
+    if (!/\.(?:png|jpe?g|webp)$/i.test(fileName)) continue;
+    const filePath = path.join(processedDir, fileName);
+    const ext = path.extname(fileName).toLowerCase();
+    const mimeType = ext === '.webp' ? 'image/webp' : ext === '.png' ? 'image/png' : 'image/jpeg';
+    const dataUri = `data:${mimeType};base64,${readFileSync(filePath).toString('base64')}`;
+    assert(!html.includes(dataUri), `Standalone HTML inlined processed reference image: ${fileName}`);
+  }
+}
+
+async function waitForSvgImages(page) {
+  return page.evaluate(async () => {
+    const images = Array.from(document.querySelectorAll('#chart svg image'));
+    const hrefs = images.map(
+      (image) =>
+        image.href?.baseVal ||
+        image.getAttribute('href') ||
+        image.getAttributeNS('http://www.w3.org/1999/xlink', 'href') ||
+        ''
+    );
+    await Promise.all(
+      images.map(
+        (image) =>
+          new Promise((resolve, reject) => {
+            const href =
+              image.href?.baseVal ||
+              image.getAttribute('href') ||
+              image.getAttributeNS('http://www.w3.org/1999/xlink', 'href') ||
+              '';
+            const probe = new Image();
+            probe.onload = resolve;
+            probe.onerror = () => reject(new Error(`Failed to load SVG image: ${href.slice(0, 120)}`));
+            probe.src = href;
+          })
+      )
+    );
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    return { count: images.length, hrefs };
+  });
 }
 
 async function verifyInBrowser(filePath) {
@@ -72,7 +117,17 @@ async function verifyInBrowser(filePath) {
     assert(d3State.svgButtonDisabled === false, 'SVG export button should be enabled in d3 mode');
     assert(d3State.montserratLoaded, 'Inline Montserrat font did not load');
 
-    console.log(JSON.stringify({ d3State }, null, 2));
+    const tencentUrl = `${documentUrl}#tencent-q1-fy26`;
+    await page.goto(tencentUrl, { waitUntil: 'load' });
+    await page.waitForSelector('#chart svg', { timeout: 10000 });
+    const tencentImages = await waitForSvgImages(page);
+    assert(tencentImages.count === 5, `Tencent should render 5 raster annotation image(s), got ${tencentImages.count}`);
+    assert(
+      tencentImages.hrefs.every((href) => /^data:image\/(?:png|jpeg|webp|svg\+xml);base64,/.test(href)),
+      `Tencent raster annotation(s) were not inlined:\n${tencentImages.hrefs.join('\n')}`
+    );
+
+    console.log(JSON.stringify({ d3State, tencentImages: { count: tencentImages.count } }, null, 2));
   } finally {
     await browser.close();
   }

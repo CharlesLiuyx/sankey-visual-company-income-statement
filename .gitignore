@@ -5,3 +5,9 @@ compare/*
 !compare/.gitkeep
 output/*
 !output/sankey-visual-company-income-statement.html
+
+input/**
+!input/**/
+!input/**/.gitkeep
+!input/README.md
+!input/**/README.md

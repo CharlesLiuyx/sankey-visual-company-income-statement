@@ -45,15 +45,39 @@ function archiveTimestamp() {
   return new Date().toISOString().replace(/[:.]/g, '-');
 }
 
+async function filesEqual(leftPath, rightPath) {
+  if (!existsSync(rightPath)) return false;
+  const [left, right] = await Promise.all([readFile(leftPath), readFile(rightPath)]);
+  return left.equals(right);
+}
+
+async function copyFileIfDifferent(sourcePath, outputPath) {
+  if (await filesEqual(sourcePath, outputPath)) return false;
+  await copyFile(sourcePath, outputPath);
+  return true;
+}
+
 async function archiveCompare(datasetKey) {
-  const archiveDir = path.join(outputCompareDir, datasetKey, archiveTimestamp());
+  const datasetCompareDir = path.join(outputCompareDir, datasetKey);
+  const archiveDir = path.join(datasetCompareDir, archiveTimestamp());
+  const referenceName = `${datasetKey}-reference.png`;
   await mkdir(archiveDir, { recursive: true });
   const entries = await readdir(compareDir, { withFileTypes: true });
   const archived = [];
+  let reference = null;
+  let referenceChanged = false;
 
   for (const entry of entries) {
     if (entry.name === '.gitkeep') continue;
     const sourcePath = path.join(compareDir, entry.name);
+
+    if (!entry.isDirectory() && entry.name === referenceName) {
+      const outputPath = path.join(datasetCompareDir, entry.name);
+      referenceChanged = await copyFileIfDifferent(sourcePath, outputPath);
+      reference = path.relative(rootDir, outputPath);
+      continue;
+    }
+
     const outputPath = path.join(archiveDir, entry.name);
 
     if (entry.isDirectory()) {
@@ -68,6 +92,8 @@ async function archiveCompare(datasetKey) {
   return {
     dir: path.relative(rootDir, archiveDir),
     files: archived,
+    reference,
+    referenceChanged,
   };
 }
 
@@ -349,6 +375,9 @@ async function main() {
     console.log(`candidate: ${keep ? path.relative(rootDir, candidatePath) : '(scratch cleaned)'}`);
     console.log(`diff: ${keep ? path.relative(rootDir, diffPath) : '(scratch cleaned)'}`);
     console.log(`archive: ${archive.dir}`);
+    if (archive.reference) {
+      console.log(`shared reference: ${archive.reference}${archive.referenceChanged ? '' : ' (unchanged)'}`);
+    }
     console.log(`font: Montserrat loaded=${fontStatus.montserratLoaded}`);
     console.log(
       `purity: imageCount=${purity.imageCount} chartImgCount=${purity.chartImgCount} rasterAllowed=${purity.rasterAllowed}`

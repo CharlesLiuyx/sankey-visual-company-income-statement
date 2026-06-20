@@ -1,7 +1,7 @@
 /* ====================================================================
  *  Tencent - Q1 FY26 income statement (RMB B)
  *  Reconstructed from input/processed/tencent-q1-fy26.png as a fixed
- *  d3-sankey layout with pure SVG/text annotations.
+ *  d3-sankey layout with crop-backed business annotations.
  * ==================================================================== */
 (function () {
   const YELLOW = '#f5a923';
@@ -22,20 +22,6 @@
   const GRAY = '#535353';
   const GRAY_LINK = '#b9b9b9';
   const TITLE = '#124f78';
-  const BUSINESS_ICONS = window.SANKEY_BUSINESS_ICONS || {};
-
-  const tencentWordmark =
-    BUSINESS_ICONS.tencentWordmark ||
-    '<text x="0" y="132" font-family="Arial,sans-serif" font-style="italic" font-size="170" font-weight="800" fill="#064ee4">Tencent</text>';
-
-  const annotations = `
-    <g font-family="Montserrat,Arial,sans-serif">
-      <text x="146" y="496" text-anchor="middle" font-size="70" font-weight="800" fill="${TITLE}">in RMB</text>
-      <g transform="translate(70 640) scale(0.72)">${BUSINESS_ICONS.tencentGamingCluster || ''}</g>
-      <g transform="translate(116 1015) scale(0.54)">${BUSINESS_ICONS.tencentSocialCluster || ''}</g>
-      <g transform="translate(116 1395) scale(0.49)">${BUSINESS_ICONS.tencentMarketingCluster || ''}</g>
-      <g transform="translate(130 1778) scale(0.46)">${BUSINESS_ICONS.tencentFintechCluster || ''}</g>
-    </g>`;
 
   window.DATASETS = window.DATASETS || [];
   window.DATASETS.push({
@@ -59,16 +45,12 @@
       periodX: -1000,
       periodY: -1000,
       periodNoteY: -950,
-      logoWidth: 1000,
-      logoHeight: 230,
-      logoY: 470,
-      logoViewBox: '0 0 860 170',
-      logoSvg: tencentWordmark,
     },
     render: {
       width: 4686,
       height: 2634,
       background: '#efefef',
+      allowRasterAnnotations: true,
       titleColor: TITLE,
       subtitleColor: GRAY,
       noteColor: GRAY,
@@ -87,7 +69,52 @@
       linkOpacity: 1,
       type: { name: 70, value: 56, note: 37, lineGap: 10 },
     },
-    annotationsSvg: annotations,
+    annotationsSvg: `
+      <g font-family="Montserrat,Arial,sans-serif">
+        <text x="146" y="496" text-anchor="middle" font-size="70" font-weight="800" fill="${TITLE}">in RMB</text>
+      </g>`,
+    rasterAnnotations: [
+      {
+        key: 'company-wordmark',
+        href: 'data/assets/raster-annotations/tencent/company-wordmark.png',
+        x: 1237,
+        y: 481,
+        width: 963,
+        height: 217,
+      },
+      {
+        key: 'business-gaming-cluster',
+        href: 'data/assets/raster-annotations/tencent/business-gaming-cluster.png',
+        x: 60,
+        y: 633,
+        width: 406,
+        height: 238,
+      },
+      {
+        key: 'business-social-networks-cluster',
+        href: 'data/assets/raster-annotations/tencent/business-social-networks-cluster.png',
+        x: 115,
+        y: 1012,
+        width: 260,
+        height: 258,
+      },
+      {
+        key: 'business-marketing-services-cluster',
+        href: 'data/assets/raster-annotations/tencent/business-marketing-services-cluster.png',
+        x: 130,
+        y: 1382,
+        width: 246,
+        height: 235,
+      },
+      {
+        key: 'business-fintech-business-services-cluster',
+        href: 'data/assets/raster-annotations/tencent/business-fintech-business-services-cluster.png',
+        x: 142,
+        y: 1779,
+        width: 239,
+        height: 235,
+      },
+    ],
 
     layout: {
       scale: 2.895,

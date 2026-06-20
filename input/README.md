@@ -15,7 +15,8 @@ python3 scripts/extract_icon_crops.py --spec input/icon-crop-specs/<dataset-key>
 
 The script outputs:
 
-- crops in `data/assets/icon-references/<company>/crops/`;
+- crops in `data/assets/icon-references/<company>/crops/`, with solid
+  crop-background pixels made transparent by default;
 - validation sheets in
   `data/assets/icon-references/<company>/validation-sheets/`;
 - a `crop-report.json` with geometry and validation metrics.

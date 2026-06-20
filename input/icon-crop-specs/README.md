@@ -43,6 +43,11 @@ Spec conventions:
   Override this per spec with a top-level `compression` object when a source
   image needs stricter or looser limits, or run with `--no-compress` for a
   lossless debugging pass.
+- After each crop is cut, the extractor removes the solid background color and
+  writes a transparent PNG by default. It samples the crop corners, finds pixels
+  within the configured tolerance, and only removes matching pixels connected to
+  the crop edge. Override this per spec or per crop with `backgroundRemoval`, or
+  run with `--keep-background` for an opaque debugging pass.
 - Keep crops as reference/conversion assets only; convert accepted icons to
   SVG/vector assets before using them in d3 output.
 
@@ -63,6 +68,22 @@ Compression options:
 
 The generated `crop-report.json` records the chosen compression mode and visual
 error metrics for each crop image and validation sheet.
+
+Background removal options:
+
+```json
+{
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  }
+}
+```
+
+Use `"backgroundRemoval": false` when a crop must remain opaque. Use
+`"mode": "all-matching"` only when all pixels matching the sampled background
+color should become transparent, including enclosed holes.
 
 After script validation passes, do a visual/model validation with the generated
 validation sheet for each crop. The sheet contains the original reference image,

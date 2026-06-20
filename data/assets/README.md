@@ -19,7 +19,9 @@ data/assets/
 ```
 
 `icon-references/` contains validated icon reference crops used before vector
-conversion. These files are reusable source references, not runtime d3 assets.
+conversion. The crop extractor removes solid crop backgrounds and writes
+transparent PNGs by default. These files are reusable source references, not
+runtime d3 assets.
 
 `raster-annotations/` contains final runtime image assets for datasets that
 explicitly opt in to `render.allowRasterAnnotations`. These files must be
@@ -47,6 +49,11 @@ When `validationSheetDir` is set, the script also writes per-crop validation
 sheets with the original reference, highlighted crop box, and extracted crop.
 Use those sheets for visual/model validation before accepting an asset.
 Record the result in the company folder's `model-validation.md`.
+
+Each `crop-report.json` records the sampled crop background color and
+transparent pixel ratio for every crop. Disable or tune this with
+`backgroundRemoval` in the crop spec only when the sampled solid background is
+also meaningful foreground.
 
 When `runtimeOutputDir` is set, the same accepted crops are written as
 compressed runtime raster annotations under `raster-annotations/<company>/`.

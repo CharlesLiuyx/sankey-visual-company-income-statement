@@ -28,6 +28,10 @@ reference assets when needed, and run a d3-sankey fidelity loop automatically.
    - Create or update `input/icon-crop-specs/<dataset-key>.json`.
    - Use `scripts/extract_icon_crops.py` to write validated reference crops to
      `data/assets/icon-references/<company>/crops/`.
+   - The crop script removes solid crop-background pixels and writes
+     transparent PNGs by default. Tune `backgroundRemoval` in the spec only
+     when a crop needs a different tolerance, all-matching removal, or an
+     opaque output.
    - Write validation sheets to
      `data/assets/icon-references/<company>/validation-sheets/`.
    - Keep `crop-report.json` and `model-validation.md` in the company asset
@@ -83,10 +87,11 @@ For company and business icons:
 - When adding icons for the first time, first crop every relevant source region
   as original-icon reference assets through `scripts/extract_icon_crops.py`.
   The script must be driven by a dataset-specific JSON spec so the workflow
-  stays reusable across companies. Use each crop only after checking that the
-  icon subject is complete, centered, and free of unrelated surrounding
-  content. Then align it to the chart, convert it to SVG/vector geometry, and
-  save the resulting vector asset for future reuse.
+  stays reusable across companies. The script should remove the solid crop
+  background and emit a transparent PNG after cropping. Use each crop only after
+  checking that the icon subject is complete, centered, and free of unrelated
+  surrounding content. Then align it to the chart, convert it to SVG/vector
+  geometry, and save the resulting vector asset for future reuse.
 - For visual/model crop validation, use the generated validation sheet for each
   crop. It contains the original source image, the highlighted crop box, and
   the extracted crop. Record acceptance in

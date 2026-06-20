@@ -6,7 +6,7 @@
     239,
     239
   ],
-  "generatedAt": "2026-06-20T07:42:44.687098+00:00",
+  "generatedAt": "2026-06-20T08:03:12.047446+00:00",
   "compression": {
     "enabled": true,
     "paletteColors": [
@@ -27,6 +27,11 @@
       "maxMaxChannelDiff": 72
     }
   },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  },
   "runtimeOutputDir": "data/assets/raster-annotations/tencent",
   "crops": [
     {
@@ -35,17 +40,29 @@
       "compression": {
         "enabled": true,
         "mode": "palette",
-        "colors": 24,
-        "bytes": 12747,
-        "losslessBytes": 45287,
-        "savingsVsLossless": 0.7185,
+        "colors": 16,
+        "bytes": 8226,
+        "losslessBytes": 50290,
+        "savingsVsLossless": 0.8364,
         "metrics": {
-          "meanAbsoluteError": 0.2993,
-          "rootMeanSquareError": 1.8603,
-          "p99AbsoluteError": 10.0,
-          "maxChannelDiff": 32,
-          "changedPixelRatio": 0.085
+          "meanAbsoluteError": 0.3151,
+          "rootMeanSquareError": 1.3102,
+          "p99AbsoluteError": 6.0,
+          "maxChannelDiff": 26,
+          "changedPixelRatio": 0.3394
         }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          239,
+          239,
+          239
+        ],
+        "transparentPixels": 143207,
+        "transparentPixelRatio": 0.6853
       },
       "searchBox": {
         "x": 1220,
@@ -89,16 +106,16 @@
       "runtimeCompression": {
         "enabled": true,
         "mode": "palette",
-        "colors": 24,
-        "bytes": 12747,
-        "losslessBytes": 45287,
-        "savingsVsLossless": 0.7185,
+        "colors": 16,
+        "bytes": 8226,
+        "losslessBytes": 50290,
+        "savingsVsLossless": 0.8364,
         "metrics": {
-          "meanAbsoluteError": 0.2993,
-          "rootMeanSquareError": 1.8603,
-          "p99AbsoluteError": 10.0,
-          "maxChannelDiff": 32,
-          "changedPixelRatio": 0.085
+          "meanAbsoluteError": 0.3151,
+          "rootMeanSquareError": 1.3102,
+          "p99AbsoluteError": 6.0,
+          "maxChannelDiff": 26,
+          "changedPixelRatio": 0.3394
         }
       },
       "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-company-wordmark.png",
@@ -106,8 +123,8 @@
         "enabled": true,
         "mode": "rgb-lossless",
         "colors": null,
-        "bytes": 271142,
-        "losslessBytes": 271142,
+        "bytes": 271409,
+        "losslessBytes": 271409,
         "savingsVsLossless": 0.0
       }
     },
@@ -116,11 +133,30 @@
       "output": "data/assets/icon-references/tencent/crops/business-gaming-cluster.png",
       "compression": {
         "enabled": true,
-        "mode": "rgb-lossless",
-        "colors": null,
-        "bytes": 48852,
-        "losslessBytes": 48852,
-        "savingsVsLossless": 0.0
+        "mode": "palette",
+        "colors": 128,
+        "bytes": 12216,
+        "losslessBytes": 54471,
+        "savingsVsLossless": 0.7757,
+        "metrics": {
+          "meanAbsoluteError": 0.9096,
+          "rootMeanSquareError": 2.6729,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 47,
+          "changedPixelRatio": 0.2999
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          239,
+          239,
+          239
+        ],
+        "transparentPixels": 66439,
+        "transparentPixelRatio": 0.6876
       },
       "searchBox": {
         "x": 50,
@@ -163,19 +199,26 @@
       "runtimeOutput": "data/assets/raster-annotations/tencent/business-gaming-cluster.png",
       "runtimeCompression": {
         "enabled": true,
-        "mode": "rgb-lossless",
-        "colors": null,
-        "bytes": 48852,
-        "losslessBytes": 48852,
-        "savingsVsLossless": 0.0
+        "mode": "palette",
+        "colors": 128,
+        "bytes": 12216,
+        "losslessBytes": 54471,
+        "savingsVsLossless": 0.7757,
+        "metrics": {
+          "meanAbsoluteError": 0.9096,
+          "rootMeanSquareError": 2.6729,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 47,
+          "changedPixelRatio": 0.2999
+        }
       },
       "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-gaming-cluster.png",
       "validationSheetCompression": {
         "enabled": true,
         "mode": "rgb-lossless",
         "colors": null,
-        "bytes": 319983,
-        "losslessBytes": 319983,
+        "bytes": 319486,
+        "losslessBytes": 319486,
         "savingsVsLossless": 0.0
       }
     },
@@ -184,11 +227,30 @@
       "output": "data/assets/icon-references/tencent/crops/business-social-networks-cluster.png",
       "compression": {
         "enabled": true,
-        "mode": "rgb-lossless",
-        "colors": null,
-        "bytes": 30158,
-        "losslessBytes": 30158,
-        "savingsVsLossless": 0.0
+        "mode": "palette",
+        "colors": 96,
+        "bytes": 7500,
+        "losslessBytes": 33647,
+        "savingsVsLossless": 0.7771,
+        "metrics": {
+          "meanAbsoluteError": 0.711,
+          "rootMeanSquareError": 2.1904,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 49,
+          "changedPixelRatio": 0.3213
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          239,
+          239,
+          239
+        ],
+        "transparentPixels": 44698,
+        "transparentPixelRatio": 0.6663
       },
       "searchBox": {
         "x": 108,
@@ -231,19 +293,26 @@
       "runtimeOutput": "data/assets/raster-annotations/tencent/business-social-networks-cluster.png",
       "runtimeCompression": {
         "enabled": true,
-        "mode": "rgb-lossless",
-        "colors": null,
-        "bytes": 30158,
-        "losslessBytes": 30158,
-        "savingsVsLossless": 0.0
+        "mode": "palette",
+        "colors": 96,
+        "bytes": 7500,
+        "losslessBytes": 33647,
+        "savingsVsLossless": 0.7771,
+        "metrics": {
+          "meanAbsoluteError": 0.711,
+          "rootMeanSquareError": 2.1904,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 49,
+          "changedPixelRatio": 0.3213
+        }
       },
       "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-social-networks-cluster.png",
       "validationSheetCompression": {
         "enabled": true,
         "mode": "rgb-lossless",
         "colors": null,
-        "bytes": 322451,
-        "losslessBytes": 322451,
+        "bytes": 324317,
+        "losslessBytes": 324317,
         "savingsVsLossless": 0.0
       }
     },
@@ -252,11 +321,23 @@
       "output": "data/assets/icon-references/tencent/crops/business-marketing-services-cluster.png",
       "compression": {
         "enabled": true,
-        "mode": "rgb-lossless",
+        "mode": "rgba-lossless",
         "colors": null,
-        "bytes": 31117,
-        "losslessBytes": 31117,
+        "bytes": 34907,
+        "losslessBytes": 34907,
         "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          239,
+          239,
+          239
+        ],
+        "transparentPixels": 34848,
+        "transparentPixelRatio": 0.6028
       },
       "searchBox": {
         "x": 125,
@@ -299,10 +380,10 @@
       "runtimeOutput": "data/assets/raster-annotations/tencent/business-marketing-services-cluster.png",
       "runtimeCompression": {
         "enabled": true,
-        "mode": "rgb-lossless",
+        "mode": "rgba-lossless",
         "colors": null,
-        "bytes": 31117,
-        "losslessBytes": 31117,
+        "bytes": 34907,
+        "losslessBytes": 34907,
         "savingsVsLossless": 0.0
       },
       "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-marketing-services-cluster.png",
@@ -310,8 +391,8 @@
         "enabled": true,
         "mode": "rgb-lossless",
         "colors": null,
-        "bytes": 331896,
-        "losslessBytes": 331896,
+        "bytes": 333115,
+        "losslessBytes": 333115,
         "savingsVsLossless": 0.0
       }
     },
@@ -321,17 +402,29 @@
       "compression": {
         "enabled": true,
         "mode": "palette",
-        "colors": 96,
-        "bytes": 6392,
-        "losslessBytes": 18578,
-        "savingsVsLossless": 0.6559,
+        "colors": 48,
+        "bytes": 5163,
+        "losslessBytes": 20648,
+        "savingsVsLossless": 0.75,
         "metrics": {
-          "meanAbsoluteError": 0.3484,
-          "rootMeanSquareError": 1.8142,
-          "p99AbsoluteError": 10.0,
-          "maxChannelDiff": 34,
-          "changedPixelRatio": 0.0912
+          "meanAbsoluteError": 0.4009,
+          "rootMeanSquareError": 1.757,
+          "p99AbsoluteError": 8.0,
+          "maxChannelDiff": 50,
+          "changedPixelRatio": 0.2438
         }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          239,
+          239,
+          239
+        ],
+        "transparentPixels": 36326,
+        "transparentPixelRatio": 0.6468
       },
       "searchBox": {
         "x": 120,
@@ -375,16 +468,16 @@
       "runtimeCompression": {
         "enabled": true,
         "mode": "palette",
-        "colors": 96,
-        "bytes": 6392,
-        "losslessBytes": 18578,
-        "savingsVsLossless": 0.6559,
+        "colors": 48,
+        "bytes": 5163,
+        "losslessBytes": 20648,
+        "savingsVsLossless": 0.75,
         "metrics": {
-          "meanAbsoluteError": 0.3484,
-          "rootMeanSquareError": 1.8142,
-          "p99AbsoluteError": 10.0,
-          "maxChannelDiff": 34,
-          "changedPixelRatio": 0.0912
+          "meanAbsoluteError": 0.4009,
+          "rootMeanSquareError": 1.757,
+          "p99AbsoluteError": 8.0,
+          "maxChannelDiff": 50,
+          "changedPixelRatio": 0.2438
         }
       },
       "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-fintech-business-services-cluster.png",
@@ -392,8 +485,8 @@
         "enabled": true,
         "mode": "rgb-lossless",
         "colors": null,
-        "bytes": 306894,
-        "losslessBytes": 306894,
+        "bytes": 308788,
+        "losslessBytes": 308788,
         "savingsVsLossless": 0.0
       }
     }

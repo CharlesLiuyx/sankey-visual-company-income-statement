@@ -37,6 +37,12 @@ DEFAULT_PNG_COMPRESSION: dict[str, Any] = {
     "maxMaxChannelDiff": 72,
 }
 
+DEFAULT_BACKGROUND_REMOVAL: dict[str, Any] = {
+    "enabled": True,
+    "mode": "edge-connected",
+    "tolerance": 6,
+}
+
 
 @dataclass(frozen=True)
 class Box:
@@ -64,7 +70,12 @@ class Box:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Extract validated icon crops from a reference image.")
     parser.add_argument("--spec", required=True, help="Path to an icon crop spec JSON file.")
-    parser.add_argument("--no-compress", action="store_true", help="Write RGB PNGs without visually-lossless compression.")
+    parser.add_argument("--no-compress", action="store_true", help="Write lossless PNGs without palette compression.")
+    parser.add_argument(
+        "--keep-background",
+        action="store_true",
+        help="Disable post-crop solid background removal and write opaque crops.",
+    )
     return parser.parse_args()
 
 
@@ -88,6 +99,10 @@ def normalize_png_compression(raw: dict[str, Any] | None, no_compress: bool = Fa
     return config
 
 
+def image_has_alpha(image: Image.Image) -> bool:
+    return image.mode in ("LA", "RGBA") or (image.mode == "P" and "transparency" in image.info)
+
+
 def png_bytes(image: Image.Image) -> bytes:
     buffer = BytesIO()
     image.save(buffer, format="PNG", optimize=True, compress_level=9)
@@ -95,6 +110,15 @@ def png_bytes(image: Image.Image) -> bytes:
 
 
 def quantized_png_candidate(image: Image.Image, color_count: int) -> tuple[bytes, Image.Image]:
+    if image_has_alpha(image):
+        base = image.convert("RGBA")
+        quantized = base.quantize(
+            colors=color_count,
+            method=Image.Quantize.FASTOCTREE,
+            dither=Image.Dither.NONE,
+        )
+        return png_bytes(quantized), quantized.convert("RGBA")
+
     base = image.convert("RGB")
     quantized = base.quantize(
         colors=color_count,
@@ -105,12 +129,13 @@ def quantized_png_candidate(image: Image.Image, color_count: int) -> tuple[bytes
 
 
 def image_error_metrics(original: Image.Image, candidate: Image.Image) -> dict[str, Any]:
-    original_rgb = original.convert("RGB")
-    candidate_rgb = candidate.convert("RGB")
+    mode = "RGBA" if image_has_alpha(original) or image_has_alpha(candidate) else "RGB"
+    original_normalized = original.convert(mode)
+    candidate_normalized = candidate.convert(mode)
 
     if np is not None:
-        original_arr = np.asarray(original_rgb, dtype=np.int16)
-        candidate_arr = np.asarray(candidate_rgb, dtype=np.int16)
+        original_arr = np.asarray(original_normalized, dtype=np.int16)
+        candidate_arr = np.asarray(candidate_normalized, dtype=np.int16)
         diff = np.abs(original_arr - candidate_arr)
         channel_diff = diff.reshape(-1)
         channel_diff_float = channel_diff.astype(np.float32)
@@ -128,13 +153,13 @@ def image_error_metrics(original: Image.Image, candidate: Image.Image) -> dict[s
     max_diff = 0
     changed_pixels = 0
     diffs: list[int] = []
-    width, height = original_rgb.size
+    width, height = original_normalized.size
     for y in range(height):
         for x in range(width):
-            original_pixel = original_rgb.getpixel((x, y))
-            candidate_pixel = candidate_rgb.getpixel((x, y))
+            original_pixel = original_normalized.getpixel((x, y))
+            candidate_pixel = candidate_normalized.getpixel((x, y))
             pixel_changed = False
-            for channel in range(3):
+            for channel in range(len(original_pixel)):
                 value = abs(original_pixel[channel] - candidate_pixel[channel])
                 total_abs += value
                 total_square += value * value
@@ -144,7 +169,7 @@ def image_error_metrics(original: Image.Image, candidate: Image.Image) -> dict[s
                     pixel_changed = True
             if pixel_changed:
                 changed_pixels += 1
-    channel_count = width * height * 3
+    channel_count = width * height * len(original_normalized.getbands())
     diffs.sort()
     p99_index = min(len(diffs) - 1, round(len(diffs) * 0.99))
     return {
@@ -167,12 +192,12 @@ def compression_passes(metrics: dict[str, Any], config: dict[str, Any]) -> bool:
 
 def save_compressed_png(image: Image.Image, output_path: Path, config: dict[str, Any]) -> dict[str, Any]:
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    rgb = image.convert("RGB")
-    lossless_bytes = png_bytes(rgb)
+    normalized = image.convert("RGBA") if image_has_alpha(image) else image.convert("RGB")
+    lossless_bytes = png_bytes(normalized)
     chosen_bytes = lossless_bytes
     chosen: dict[str, Any] = {
         "enabled": bool(config.get("enabled")),
-        "mode": "rgb-lossless",
+        "mode": "rgba-lossless" if image_has_alpha(normalized) else "rgb-lossless",
         "colors": None,
         "bytes": len(lossless_bytes),
         "losslessBytes": len(lossless_bytes),
@@ -181,8 +206,8 @@ def save_compressed_png(image: Image.Image, output_path: Path, config: dict[str,
 
     if config.get("enabled"):
         for color_count in config.get("paletteColors", []):
-            candidate_bytes, candidate_image = quantized_png_candidate(rgb, color_count)
-            metrics = image_error_metrics(rgb, candidate_image)
+            candidate_bytes, candidate_image = quantized_png_candidate(normalized, color_count)
+            metrics = image_error_metrics(normalized, candidate_image)
             if len(candidate_bytes) < len(chosen_bytes) and compression_passes(metrics, config):
                 chosen_bytes = candidate_bytes
                 chosen = {
@@ -220,6 +245,120 @@ def sample_background(image: Image.Image, blocks: list[list[int]] | None = None)
         int(median([pixel[1] for pixel in pixels])),
         int(median([pixel[2] for pixel in pixels])),
     )
+
+
+def normalize_background_removal(
+    raw: dict[str, Any] | bool | None,
+    keep_background: bool = False,
+    base: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    config = dict(base or DEFAULT_BACKGROUND_REMOVAL)
+    if isinstance(raw, bool):
+        config["enabled"] = raw
+    elif raw:
+        config.update(raw)
+    if keep_background:
+        config["enabled"] = False
+
+    config["enabled"] = bool(config.get("enabled"))
+    config["tolerance"] = max(0, min(255, int(config.get("tolerance", 0))))
+    mode = config.get("mode", "edge-connected")
+    if mode not in ("edge-connected", "all-matching"):
+        raise ValueError(f"backgroundRemoval.mode must be 'edge-connected' or 'all-matching', got {mode!r}")
+    config["mode"] = mode
+    color = config.get("color")
+    if color is not None:
+        if not isinstance(color, list) or len(color) != 3:
+            raise ValueError("backgroundRemoval.color must be an [r, g, b] array")
+        config["color"] = [max(0, min(255, int(value))) for value in color]
+    return config
+
+
+def matching_background_mask(
+    image: Image.Image,
+    background: tuple[int, int, int],
+    tolerance: int,
+) -> list[bytearray]:
+    rgb = image.convert("RGB")
+    rows: list[bytearray] = []
+    for y in range(rgb.height):
+        row = bytearray(rgb.width)
+        for x in range(rgb.width):
+            color = rgb.getpixel((x, y))
+            if max(abs(color[index] - background[index]) for index in range(3)) <= tolerance:
+                row[x] = 1
+        rows.append(row)
+    return rows
+
+
+def edge_connected_mask(mask: list[bytearray]) -> list[bytearray]:
+    height = len(mask)
+    width = len(mask[0]) if height else 0
+    connected = [bytearray(width) for _ in range(height)]
+    queue: deque[tuple[int, int]] = deque()
+
+    def enqueue(x: int, y: int) -> None:
+        if x < 0 or y < 0 or x >= width or y >= height:
+            return
+        if not mask[y][x] or connected[y][x]:
+            return
+        connected[y][x] = 1
+        queue.append((x, y))
+
+    for x in range(width):
+        enqueue(x, 0)
+        enqueue(x, height - 1)
+    for y in range(height):
+        enqueue(0, y)
+        enqueue(width - 1, y)
+
+    while queue:
+        cx, cy = queue.pop()
+        enqueue(cx - 1, cy)
+        enqueue(cx + 1, cy)
+        enqueue(cx, cy - 1)
+        enqueue(cx, cy + 1)
+    return connected
+
+
+def apply_transparency_mask(image: Image.Image, mask: list[bytearray]) -> Image.Image:
+    rgba = image.convert("RGBA")
+    width, height = rgba.size
+    alpha = bytearray(rgba.getchannel("A").tobytes())
+    for y, row in enumerate(mask):
+        offset = y * width
+        for x, value in enumerate(row):
+            if value:
+                alpha[offset + x] = 0
+    rgba.putalpha(Image.frombytes("L", (width, height), bytes(alpha)))
+    return rgba
+
+
+def remove_solid_background(
+    crop: Image.Image,
+    config: dict[str, Any],
+) -> tuple[Image.Image, dict[str, Any]]:
+    if not config.get("enabled"):
+        return crop, {"enabled": False}
+
+    background = (
+        tuple(config["color"])
+        if config.get("color") is not None
+        else sample_background(crop, config.get("sampleBlocks"))
+    )
+    matched_mask = matching_background_mask(crop, background, config["tolerance"])
+    transparent_mask = edge_connected_mask(matched_mask) if config["mode"] == "edge-connected" else matched_mask
+    transparent_pixels = sum(sum(row) for row in transparent_mask)
+    processed = apply_transparency_mask(crop, transparent_mask)
+    pixel_count = crop.width * crop.height
+    return processed, {
+        "enabled": True,
+        "mode": config["mode"],
+        "tolerance": config["tolerance"],
+        "background": list(background),
+        "transparentPixels": int(transparent_pixels),
+        "transparentPixelRatio": round(transparent_pixels / pixel_count, 4) if pixel_count else 0,
+    }
 
 
 def in_range(values: Any, range_spec: Any) -> Any:
@@ -507,7 +646,11 @@ def draw_validation_sheet(
         )
 
     crop_y = source_y + max(0, (source_size[1] - crop_size[1]) // 2)
-    sheet.paste(crop_preview, (crop_x, crop_y))
+    if image_has_alpha(crop_preview):
+        crop_preview_rgba = crop_preview.convert("RGBA")
+        sheet.paste(crop_preview_rgba, (crop_x, crop_y), crop_preview_rgba.getchannel("A"))
+    else:
+        sheet.paste(crop_preview, (crop_x, crop_y))
     draw.rectangle(
         [crop_x - 1, crop_y - 1, crop_x + crop_size[0] + 1, crop_y + crop_size[1] + 1],
         outline=(180, 186, 192),
@@ -545,6 +688,7 @@ def main() -> None:
     validation_sheet_dir = project_path(config["validationSheetDir"]) if config.get("validationSheetDir") else None
     runtime_output_dir = project_path(config["runtimeOutputDir"]) if config.get("runtimeOutputDir") else None
     compression = normalize_png_compression(config.get("compression"), args.no_compress)
+    background_removal = normalize_background_removal(config.get("backgroundRemoval"), args.keep_background)
 
     image = Image.open(source_path).convert("RGB")
     background = tuple(config.get("background") or sample_background(image, config.get("backgroundSampleBlocks")))
@@ -563,6 +707,11 @@ def main() -> None:
                 "maxMaxChannelDiff": compression["maxMaxChannelDiff"],
             },
         },
+        "backgroundRemoval": {
+            "enabled": background_removal["enabled"],
+            "mode": background_removal["mode"],
+            "tolerance": background_removal["tolerance"],
+        },
         "runtimeOutputDir": str(runtime_output_dir.relative_to(ROOT)) if runtime_output_dir else None,
         "crops": [],
     }
@@ -577,6 +726,12 @@ def main() -> None:
         subject = union_box(components)
         crop_box = Box.from_search(spec["cropBox"]) if spec.get("cropBox") else centered_crop_box(subject, spec, image.size)
         crop = image.crop((crop_box.x0, crop_box.y0, crop_box.x1, crop_box.y1))
+        crop_background_removal = normalize_background_removal(
+            spec.get("backgroundRemoval"),
+            args.keep_background,
+            background_removal,
+        )
+        crop, background_removal_result = remove_solid_background(crop, crop_background_removal)
         output_path = output_dir / spec["output"]
         crop_compression = save_compressed_png(crop, output_path, compression)
         runtime_output_path = None
@@ -602,6 +757,7 @@ def main() -> None:
             "key": spec["key"],
             "output": str(output_path.relative_to(ROOT)),
             "compression": crop_compression,
+            "backgroundRemoval": background_removal_result,
             "searchBox": spec["searchBox"],
             "componentCount": len(components),
             "subjectBox": subject.to_json(),

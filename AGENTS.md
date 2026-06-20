@@ -35,6 +35,10 @@ Prefer the existing project patterns:
 - Use explicit low-level `nodes`, `links`, `layout.nodes`, and `layout.labels`
   when pixel/layout fidelity matters.
 - Preserve values and notes from the source image.
+- Do not reproduce source publisher watermarks, creator/account branding,
+  website URLs, social badges, "how they make money" marks, or other attribution
+  blocks that are unrelated to the company income-statement semantics. Treat
+  them as intentional skipped residuals in the fidelity loop, not render targets.
 - Keep costs as positive numbers; the renderer formats `type: 'cost'` as
   parenthesized values.
 - Register new datasets after dependencies and after any dataset they reuse.
@@ -123,6 +127,9 @@ Run this loop automatically after creating or materially changing a dataset:
 6. Iterate until improvements plateau or the output is visually close enough.
    Do not claim a 99%+ d3 result by switching to a reference raster or source
    overlays.
+   Source publisher watermarks, creator marks, website URLs, social badges, and
+   unrelated attribution blocks should be skipped even if they appear in the
+   reference PNG; do not add them to improve pixel metrics.
 
 Use `pnpm verify:d3 -- <dataset-key> --keep` only when you need to inspect the
 candidate PNG in `compare/`; clean it with `sh scripts/clean-compare.sh` before
@@ -140,6 +147,8 @@ finishing.
 - A direct `<img>` of the source PNG is not a render.
 - Raster overlays extracted from the source image are not allowed in d3-sankey
   mode.
+- Source publisher watermarks, creator/account branding, website URLs, social
+  badges, and unrelated attribution blocks are not part of d3-sankey output.
 - If the candidate includes source pixels, the d3 loop result is invalid.
 - `compare/` is scratch only. Do not keep loop screenshots or diffs there after
   finishing.

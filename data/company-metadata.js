@@ -12,6 +12,26 @@
     schemaVersion: 1,
     companies: [
       {
+        key: 'alibaba',
+        name: 'Alibaba',
+        legalName: 'Alibaba Group Holding Limited',
+        ticker: 'BABA / 9988',
+        exchange: 'NYSE / HKEX',
+        sector: 'Consumer Discretionary',
+        industry: 'E-commerce, cloud computing, and digital services',
+        founded: '1999',
+        headquarters: 'Hangzhou, Zhejiang, China',
+        fiscalYearEnd: 'March 31',
+        website: 'https://www.alibabagroup.com/',
+        description:
+          'Alibaba Group is a global technology company focused on AI, cloud, and consumption, providing technology infrastructure and marketing reach for merchants, brands, retailers, consumers, and enterprises.',
+        sourceUrls: [
+          'https://www.alibabagroup.com/en-US/about-alibaba',
+          'https://www.alibabagroup.com/en-US/investor-relations',
+          'https://www.alibabagroup.com/en-US/document-2003564382071554048',
+        ],
+      },
+      {
         key: 'nvidia',
         name: 'NVIDIA',
         legalName: 'NVIDIA Corporation',

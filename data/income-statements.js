@@ -13,6 +13,59 @@
     schemaVersion: 1,
     records: [
       {
+        key: 'alibaba-q4-fy26',
+        company: 'Alibaba',
+        period: 'Q4 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/alibaba-q4-fy26.png',
+        roundingTolerance: 0.15,
+        revenue: {
+          total: 35.3,
+          notes: ['+3% Y/Y'],
+          items: [
+            { id: 'china_ecommerce', label: 'China E-commerce', value: 17.7, notes: ['+6% Y/Y', '20% adjusted margin'] },
+            {
+              id: 'international_digital_commerce',
+              label: 'International Digital Commerce',
+              value: 5.1,
+              notes: ['+6% Y/Y', '(0%) adjusted margin'],
+            },
+            { id: 'cloud', label: 'Cloud', value: 6.0, notes: ['+38% Y/Y', '9% adjusted margin'] },
+            { id: 'all_others', label: 'All others', value: 9.6, notes: ['(21%) Y/Y', '(33%) adjusted margin'] },
+            { id: 'intersegment_eliminations', label: 'Inter-segment Eliminations', value: -3.2 },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 23.1 },
+          operatingExpenses: {
+            total: 12.3,
+            items: [
+              { id: 'sm', label: 'Sales & marketing', value: 7.7, notes: ['22% of revenue', '+7pp Y/Y'] },
+              { id: 'product_development', label: 'Product development', value: 2.7, notes: ['8% of revenue'] },
+              { id: 'ga', label: 'General & Administrative', value: 1.4, notes: ['4% of revenue'] },
+              { id: 'amortization_impairment', label: 'Amortization & impairment', value: 0.4, notes: ['1% of revenue'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 0 },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 12.2, notes: ['35% margin', '(7pp) Y/Y'] },
+          operating: { id: 'operating_loss', label: 'Operating loss', value: -0.1, notes: ['(0%) margin', '+12pp Y/Y'] },
+          net: { id: 'operating_loss', label: 'Operating loss', value: -0.1 },
+        },
+      },
+      {
         key: 'uber-q1-fy26',
         company: 'Uber',
         period: 'Q1 FY26',

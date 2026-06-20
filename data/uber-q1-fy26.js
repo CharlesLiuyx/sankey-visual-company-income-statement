@@ -48,8 +48,6 @@
         `
       )}
       <text x="69" y="1403" font-size="33" font-weight="500" fill="${NOTE}">MAPC = Monthly active users completing ride or delivery</text>
-      <rect x="329" y="1432" width="82" height="30" rx="15" fill="#5bc4ee"/>
-      <rect x="451" y="1432" width="82" height="30" rx="15" fill="#94d48d"/>
     </g>`;
 
   window.DATASETS = window.DATASETS || [];

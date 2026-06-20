@@ -1,0 +1,350 @@
+{
+  "source": "input/processed/spacex-fy25.png",
+  "spec": "input/icon-crop-specs/spacex-fy25.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T18:04:42.762937+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 9
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "spacex-company-wordmark",
+      "output": "data/assets/icon-references/spacex/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 4176,
+        "losslessBytes": 20401,
+        "savingsVsLossless": 0.7953,
+        "metrics": {
+          "meanAbsoluteError": 0.5966,
+          "rootMeanSquareError": 0.9962,
+          "p99AbsoluteError": 4.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.7671
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 9,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 186577,
+        "transparentPixelRatio": 0.7249
+      },
+      "searchBox": {
+        "x": 795,
+        "y": 105,
+        "width": 1410,
+        "height": 140
+      },
+      "componentCount": 9,
+      "subjectBox": {
+        "x0": 807,
+        "y0": 158,
+        "x1": 2205,
+        "y1": 245
+      },
+      "cropBox": {
+        "x0": 790,
+        "y0": 100,
+        "x1": 2220,
+        "y1": 280
+      },
+      "validation": {
+        "width": 1430,
+        "height": 180,
+        "foregroundPixels": 62608,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 17,
+          "right": 15,
+          "top": 58,
+          "bottom": 35
+        },
+        "centerOffset": {
+          "x": 0.0007,
+          "y": 0.0639
+        },
+        "passes": true
+      },
+      "note": "SpaceX company wordmark letterform from the source title; excludes the blue title text, the overlapping trailing arc, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/spacex/validation-sheets/spacex-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 206956,
+        "losslessBytes": 206956,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "spacex-business-space-rocket",
+      "output": "data/assets/icon-references/spacex/crops/business-space-rocket.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 6366,
+        "losslessBytes": 40079,
+        "savingsVsLossless": 0.8412,
+        "metrics": {
+          "meanAbsoluteError": 0.5689,
+          "rootMeanSquareError": 2.2338,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 50,
+          "changedPixelRatio": 0.1639
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 9,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 106148,
+        "transparentPixelRatio": 0.8424
+      },
+      "searchBox": {
+        "x": 140,
+        "y": 380,
+        "width": 330,
+        "height": 330
+      },
+      "componentCount": 4,
+      "subjectBox": {
+        "x0": 168,
+        "y0": 421,
+        "x1": 437,
+        "y1": 710
+      },
+      "cropBox": {
+        "x0": 130,
+        "y0": 355,
+        "x1": 480,
+        "y1": 715
+      },
+      "validation": {
+        "width": 350,
+        "height": 360,
+        "foregroundPixels": 18131,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 38,
+          "right": 43,
+          "top": 66,
+          "bottom": 5
+        },
+        "centerOffset": {
+          "x": -0.0071,
+          "y": 0.0847
+        },
+        "passes": true
+      },
+      "note": "Space segment rocket illustration; excludes the Space label, segment values, connectors, and publisher branding.",
+      "validationSheet": "data/assets/icon-references/spacex/validation-sheets/spacex-business-space-rocket.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 248313,
+        "losslessBytes": 248313,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "spacex-business-connectivity-starlink",
+      "output": "data/assets/icon-references/spacex/crops/business-connectivity-starlink.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 2741,
+        "losslessBytes": 13786,
+        "savingsVsLossless": 0.8012,
+        "metrics": {
+          "meanAbsoluteError": 0.0994,
+          "rootMeanSquareError": 0.7804,
+          "p99AbsoluteError": 4.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.0301
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 9,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 98506,
+        "transparentPixelRatio": 0.9035
+      },
+      "searchBox": {
+        "x": 175,
+        "y": 1030,
+        "width": 380,
+        "height": 230
+      },
+      "componentCount": 11,
+      "subjectBox": {
+        "x0": 228,
+        "y0": 1049,
+        "x1": 555,
+        "y1": 1226
+      },
+      "cropBox": {
+        "x0": 165,
+        "y0": 1010,
+        "x1": 610,
+        "y1": 1255
+      },
+      "validation": {
+        "width": 445,
+        "height": 245,
+        "foregroundPixels": 8725,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 63,
+          "right": 55,
+          "top": 39,
+          "bottom": 29
+        },
+        "centerOffset": {
+          "x": 0.009,
+          "y": 0.0204
+        },
+        "passes": true
+      },
+      "note": "Starlink connectivity business wordmark/icon cluster; excludes the Connectivity label and revenue values.",
+      "validationSheet": "data/assets/icon-references/spacex/validation-sheets/spacex-business-connectivity-starlink.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 215959,
+        "losslessBytes": 215959,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "spacex-business-ai-cluster",
+      "output": "data/assets/icon-references/spacex/crops/business-ai-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 3910,
+        "losslessBytes": 19402,
+        "savingsVsLossless": 0.7985,
+        "metrics": {
+          "meanAbsoluteError": 0.1675,
+          "rootMeanSquareError": 0.9998,
+          "p99AbsoluteError": 6.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.0548
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 9,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 76526,
+        "transparentPixelRatio": 0.7653
+      },
+      "searchBox": {
+        "x": 95,
+        "y": 1570,
+        "width": 475,
+        "height": 190
+      },
+      "componentCount": 8,
+      "subjectBox": {
+        "x0": 130,
+        "y0": 1583,
+        "x1": 534,
+        "y1": 1711
+      },
+      "cropBox": {
+        "x0": 85,
+        "y0": 1560,
+        "x1": 585,
+        "y1": 1760
+      },
+      "validation": {
+        "width": 500,
+        "height": 200,
+        "foregroundPixels": 20675,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 45,
+          "right": 51,
+          "top": 23,
+          "bottom": 49
+        },
+        "centerOffset": {
+          "x": -0.006,
+          "y": -0.065
+        },
+        "passes": true
+      },
+      "note": "AI business cluster containing xAI/Grok/X marks; excludes the AI label, segment values, connectors, and publisher branding.",
+      "validationSheet": "data/assets/icon-references/spacex/validation-sheets/spacex-business-ai-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 218879,
+        "losslessBytes": 218879,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

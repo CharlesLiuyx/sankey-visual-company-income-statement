@@ -13,6 +13,63 @@
     schemaVersion: 1,
     records: [
       {
+        key: 'spacex-fy25',
+        company: 'SpaceX',
+        period: 'FY25',
+        periodNote: 'Ending Dec. 2025',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/spacex-fy25.png',
+        roundingTolerance: 0.15,
+        revenue: {
+          total: 18.7,
+          notes: ['+33% Y/Y'],
+          items: [
+            { id: 'space', label: 'Space', value: 4.1, notes: ['+8% Y/Y', '67% gross margin', '(16%) operating margin'] },
+            {
+              id: 'connectivity',
+              label: 'Connectivity',
+              value: 11.4,
+              notes: ['+50% Y/Y', '48% gross margin', '39% operating margin'],
+            },
+            { id: 'ai', label: 'AI', value: 3.2, notes: ['+22% Y/Y', '32% gross margin', '(198%) operating margin'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 9.5 },
+          operatingExpenses: {
+            total: 11.8,
+            notes: ['Source chart reports operating expense breakdown rounded to $11.8B total.'],
+            items: [
+              { id: 'rnd', label: 'R&D', value: 8.6, notes: ['46% of revenue', '+22pp Y/Y'] },
+              { id: 'sga', label: 'SG&A', value: 2.6, notes: ['14% of revenue', '+1pp Y/Y'] },
+              { id: 'restructuring', label: 'Restructuring', value: 0.5, notes: ['3% of revenue', '+1pp Y/Y'] },
+              { id: 'impairment', label: 'Impairment', value: 0.038, notes: ['0% of revenue', '(1pp) Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 0 },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 9.2, notes: ['49% margin', '+6pp Y/Y'] },
+          operating: { id: 'operating_loss', label: 'Operating loss', value: -2.6, notes: ['(14%) margin', '(17pp) Y/Y'] },
+          net: {
+            id: 'operating_loss',
+            label: 'Operating loss',
+            value: -2.6,
+            notes: ['No separate net income line is shown in the source chart.'],
+          },
+        },
+      },
+      {
         key: 'tencent-q1-fy26',
         company: 'Tencent',
         period: 'Q1 FY26',

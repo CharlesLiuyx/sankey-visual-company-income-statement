@@ -110,6 +110,27 @@
         ],
       },
       {
+        key: 'spacex',
+        name: 'SpaceX',
+        legalName: 'Space Exploration Technologies Corp.',
+        ticker: 'SPCX',
+        exchange: 'NASDAQ',
+        sector: 'Industrials',
+        industry: 'Aerospace, satellite internet, launch services, and AI infrastructure',
+        founded: '2002',
+        headquarters: 'Starbase, Texas, United States',
+        fiscalYearEnd: 'December 31',
+        website: 'https://www.spacex.com/',
+        description:
+          'SpaceX develops and operates reusable launch vehicles, spacecraft, Starlink satellite internet services, and AI-related products reflected in the FY25 source chart.',
+        sourceUrls: [
+          'https://www.spacex.com/',
+          'https://www.starlink.com/',
+          'https://x.ai/',
+          'https://www.space.com/space-exploration/launches-spacecraft/spacex-starlink-17-54-b1093-vsfb-ocisly',
+        ],
+      },
+      {
         key: 'tencent',
         name: 'Tencent',
         legalName: 'Tencent Holdings Limited',

@@ -1,0 +1,151 @@
+{
+  "source": "input/processed/spacex-fy25.png",
+  "outputDir": "data/assets/icon-references/spacex",
+  "validationSheetDir": "data/assets/icon-references/spacex/validation-sheets",
+  "report": "crop-report.json",
+  "backgroundSampleBlocks": [
+    [0, 0, 80, 80],
+    [3920, 0, 80, 80],
+    [0, 2170, 80, 80],
+    [3920, 2170, 80, 80]
+  ],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 9,
+    "color": [242, 242, 242]
+  },
+  "crops": [
+    {
+      "key": "spacex-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": {
+        "x": 795,
+        "y": 105,
+        "width": 1410,
+        "height": 140
+      },
+      "cropBox": {
+        "x": 790,
+        "y": 100,
+        "width": 1430,
+        "height": 180
+      },
+      "threshold": 18,
+      "foreground": {
+        "channels": {
+          "r": [0, 70],
+          "g": [0, 70],
+          "b": [0, 70]
+        }
+      },
+      "minComponentArea": 80,
+      "padding": 20,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.12,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "SpaceX company wordmark letterform from the source title; excludes the blue title text, the overlapping trailing arc, and publisher marks."
+    },
+    {
+      "key": "spacex-business-space-rocket",
+      "output": "crops/business-space-rocket.png",
+      "searchBox": {
+        "x": 140,
+        "y": 380,
+        "width": 330,
+        "height": 330
+      },
+      "cropBox": {
+        "x": 130,
+        "y": 355,
+        "width": 350,
+        "height": 360
+      },
+      "threshold": 12,
+      "minComponentArea": 20,
+      "padding": 18,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.12,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Space segment rocket illustration; excludes the Space label, segment values, connectors, and publisher branding."
+    },
+    {
+      "key": "spacex-business-connectivity-starlink",
+      "output": "crops/business-connectivity-starlink.png",
+      "searchBox": {
+        "x": 175,
+        "y": 1030,
+        "width": 380,
+        "height": 230
+      },
+      "cropBox": {
+        "x": 165,
+        "y": 1010,
+        "width": 445,
+        "height": 245
+      },
+      "threshold": 18,
+      "foreground": {
+        "channels": {
+          "r": [0, 70],
+          "g": [0, 70],
+          "b": [0, 70]
+        }
+      },
+      "minComponentArea": 24,
+      "padding": 18,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.12,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Starlink connectivity business wordmark/icon cluster; excludes the Connectivity label and revenue values."
+    },
+    {
+      "key": "spacex-business-ai-cluster",
+      "output": "crops/business-ai-cluster.png",
+      "searchBox": {
+        "x": 95,
+        "y": 1570,
+        "width": 475,
+        "height": 190
+      },
+      "cropBox": {
+        "x": 85,
+        "y": 1560,
+        "width": 500,
+        "height": 200
+      },
+      "threshold": 18,
+      "foreground": {
+        "channels": {
+          "r": [0, 75],
+          "g": [0, 75],
+          "b": [0, 75]
+        }
+      },
+      "minComponentArea": 24,
+      "padding": 18,
+      "validation": {
+        "borderBand": 4,
+        "maxCenterOffset": 0.12,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "AI business cluster containing xAI/Grok/X marks; excludes the AI label, segment values, connectors, and publisher branding."
+    }
+  ],
+  "skipped": [
+    {
+      "key": "publisher-how-they-make-money",
+      "reason": "Source publisher branding and not part of SpaceX's income-statement semantics."
+    },
+    {
+      "key": "publisher-app-economy-insights",
+      "reason": "Source publisher branding, website URL, social badge, and footer logo are intentionally excluded."
+    }
+  ]
+}

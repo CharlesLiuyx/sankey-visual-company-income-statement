@@ -47,15 +47,24 @@ Prefer the existing project patterns:
   Table view's company list and should be updated before the first dataset for
   a new company is registered.
 
-For NVIDIA-like charts:
+For company and business icons:
 
-- Reuse SVG/vector brand/logo definitions where possible.
-- Keep each brand logo semantically single. When tuning logo fidelity, adjust
-  the existing SVG viewBox, transform, size, or placement; do not duplicate a
-  second eye glyph/logo to patch a shape mismatch.
-- Use Lucide/vector icons from `src/icons.js`.
-- Do not crop logo, icons, text, or foreground pixels from the reference image
-  into d3 mode.
+- Treat company icons and company-internal business/segment illustrative icons
+  as reusable vector assets.
+- When adding an icon for the first time, crop the source region only as a
+  temporary reference, align it to the chart, convert it to SVG/vector geometry,
+  and save the resulting asset for future reuse.
+- Run a fidelity loop for the SVG conversion itself, comparing the converted
+  SVG render against the cropped/aligned reference until the match is stable
+  enough.
+- For later datasets, reuse existing SVG/vector icons whenever the source icon
+  is materially similar. Adjust the existing SVG viewBox, transform, size,
+  placement, or styling instead of creating near-duplicate assets.
+- Use Lucide/vector icons from `src/icons.js` for generic semantic icons when
+  they match the source intent.
+- Do not put source-image crops, raster icon assets, text crops, foreground
+  pixels, or overlays into d3 mode. Crops are conversion references only, never
+  runtime render assets.
 
 ## d3-Sankey Fidelity Loop
 

@@ -5,6 +5,7 @@ compare/*
 !compare/.gitkeep
 output/*
 !output/sankey-visual-company-income-statement.html
+output/compare/
 
 input/**
 !input/**/

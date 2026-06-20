@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { createServer } from 'node:http';
-import { copyFile, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
+import { copyFile, cp, mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -12,6 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const compareDir = path.join(rootDir, 'compare');
+const outputCompareDir = path.join(rootDir, 'output', 'compare');
 
 function usage() {
   console.error('Usage: pnpm verify:d3 -- <dataset-key> [--keep]');
@@ -38,6 +39,36 @@ async function cleanCompare() {
       .map((entry) => rm(path.join(compareDir, entry.name), { recursive: true, force: true }))
   );
   await writeFile(path.join(compareDir, '.gitkeep'), '');
+}
+
+function archiveTimestamp() {
+  return new Date().toISOString().replace(/[:.]/g, '-');
+}
+
+async function archiveCompare(datasetKey) {
+  const archiveDir = path.join(outputCompareDir, datasetKey, archiveTimestamp());
+  await mkdir(archiveDir, { recursive: true });
+  const entries = await readdir(compareDir, { withFileTypes: true });
+  const archived = [];
+
+  for (const entry of entries) {
+    if (entry.name === '.gitkeep') continue;
+    const sourcePath = path.join(compareDir, entry.name);
+    const outputPath = path.join(archiveDir, entry.name);
+
+    if (entry.isDirectory()) {
+      await cp(sourcePath, outputPath, { recursive: true });
+    } else {
+      await copyFile(sourcePath, outputPath);
+    }
+
+    archived.push(path.relative(rootDir, outputPath));
+  }
+
+  return {
+    dir: path.relative(rootDir, archiveDir),
+    files: archived,
+  };
 }
 
 function contentType(filePath) {
@@ -306,18 +337,18 @@ async function main() {
     await page.locator('#chart > svg').screenshot({ path: candidatePath });
 
     const referencePath = path.join(rootDir, meta.referenceSrc);
-    if (keep) {
-      await copyFile(referencePath, referenceComparePath);
-    }
-    const metrics = await pngMetrics(referencePath, candidatePath, keep ? diffPath : null);
+    await copyFile(referencePath, referenceComparePath);
+    const metrics = await pngMetrics(referencePath, candidatePath, diffPath);
+    const archive = await archiveCompare(datasetKey);
     if (pageErrors.length) {
-      throw new Error(`Page errors during render:\n${pageErrors.join('\n')}`);
+      throw new Error(`Page errors during render; comparison artifacts archived at ${archive.dir}:\n${pageErrors.join('\n')}`);
     }
 
     console.log(`dataset: ${datasetKey}`);
     console.log(`reference: ${keep ? path.relative(rootDir, referenceComparePath) : path.relative(rootDir, referencePath)}`);
     console.log(`candidate: ${keep ? path.relative(rootDir, candidatePath) : '(scratch cleaned)'}`);
     console.log(`diff: ${keep ? path.relative(rootDir, diffPath) : '(scratch cleaned)'}`);
+    console.log(`archive: ${archive.dir}`);
     console.log(`font: Montserrat loaded=${fontStatus.montserratLoaded}`);
     console.log(
       `purity: imageCount=${purity.imageCount} chartImgCount=${purity.chartImgCount} rasterAllowed=${purity.rasterAllowed}`

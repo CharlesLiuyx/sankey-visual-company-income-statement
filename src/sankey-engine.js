@@ -59,6 +59,8 @@
       transitionMs: 120,
       tooltip: {
         enabled: true,
+        referenceWidth: 4686,
+        scaleWithViewBox: true,
         percentDecimals: 1,
         fontSize: 40,
         fontWeight: 700,
@@ -67,8 +69,11 @@
         backgroundOpacity: 0.88,
         stroke: '#d9e3e8',
         strokeOpacity: 0.65,
+        strokeWidth: 1,
         paddingX: 24,
         paddingY: 13,
+        width: 170,
+        height: 74,
         minWidth: 150,
         minHeight: 70,
         radius: 7,
@@ -761,6 +766,14 @@
           .style('pointer-events', 'none')
           .style('filter', 'drop-shadow(0 2px 6px rgba(0,0,0,0.10))')
       : null;
+    const tooltipScale =
+      tooltipCfg && tooltipCfg.scaleWithViewBox !== false
+        ? W / (tooltipCfg.referenceWidth || W || 1)
+        : 1;
+    const tooltipDim = (key, fallback = 0) => {
+      const value = tooltipCfg && tooltipCfg[key] != null ? Number(tooltipCfg[key]) : fallback;
+      return (Number.isFinite(value) ? value : fallback) * tooltipScale;
+    };
 
     function numericLinkValue(lk) {
       const raw = lk.raw || {};
@@ -833,10 +846,11 @@
         .attr('fill-opacity', tooltipCfg.backgroundOpacity)
         .attr('stroke', tooltipCfg.stroke)
         .attr('stroke-opacity', tooltipCfg.strokeOpacity)
-        .attr('rx', tooltipCfg.radius);
+        .attr('stroke-width', tooltipDim('strokeWidth', 1))
+        .attr('rx', tooltipDim('radius', 7));
       entered
         .append('text')
-        .attr('font-size', tooltipCfg.fontSize)
+        .attr('font-size', tooltipDim('fontSize', 40))
         .attr('font-weight', tooltipCfg.fontWeight)
         .attr('fill', tooltipCfg.textColor)
         .attr('text-anchor', 'middle')
@@ -851,8 +865,18 @@
           .attr('x', 0)
           .attr('y', 0);
         const textBox = text.node().getBBox();
-        const width = Math.max(tooltipCfg.minWidth || 0, textBox.width + tooltipCfg.paddingX * 2);
-        const height = Math.max(tooltipCfg.minHeight || 0, textBox.height + tooltipCfg.paddingY * 2);
+        const paddingX = tooltipDim('paddingX', 24);
+        const paddingY = tooltipDim('paddingY', 13);
+        const width = Math.max(
+          tooltipDim('width', 0),
+          tooltipDim('minWidth', 150),
+          textBox.width + paddingX * 2
+        );
+        const height = Math.max(
+          tooltipDim('height', 0),
+          tooltipDim('minHeight', 70),
+          textBox.height + paddingY * 2
+        );
         const textY = (height - textBox.height) / 2 - textBox.y;
         const [ax, ay] = linkTooltipAnchor(item.path, item.lk);
         let x = ax - width / 2;

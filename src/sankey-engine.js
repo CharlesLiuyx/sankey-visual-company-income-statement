@@ -60,16 +60,18 @@
       tooltip: {
         enabled: true,
         percentDecimals: 1,
-        fontSize: 28,
-        fontWeight: 600,
+        fontSize: 40,
+        fontWeight: 700,
         textColor: '#35566f',
         background: '#f8fbfc',
         backgroundOpacity: 0.88,
         stroke: '#d9e3e8',
         strokeOpacity: 0.65,
-        paddingX: 14,
-        paddingY: 8,
-        radius: 4,
+        paddingX: 24,
+        paddingY: 13,
+        minWidth: 150,
+        minHeight: 70,
+        radius: 7,
       },
     },
   };
@@ -798,6 +800,7 @@
         .attr('font-size', tooltipCfg.fontSize)
         .attr('font-weight', tooltipCfg.fontWeight)
         .attr('fill', tooltipCfg.textColor)
+        .attr('text-anchor', 'middle')
         .attr('letter-spacing', '0');
 
       const merged = entered.merge(tips);
@@ -806,12 +809,12 @@
         const text = tip
           .select('text')
           .text(item.text)
-          .attr('x', tooltipCfg.paddingX)
+          .attr('x', 0)
           .attr('y', 0);
         const textBox = text.node().getBBox();
-        const width = textBox.width + tooltipCfg.paddingX * 2;
-        const height = textBox.height + tooltipCfg.paddingY * 2;
-        const textY = tooltipCfg.paddingY - textBox.y;
+        const width = Math.max(tooltipCfg.minWidth || 0, textBox.width + tooltipCfg.paddingX * 2);
+        const height = Math.max(tooltipCfg.minHeight || 0, textBox.height + tooltipCfg.paddingY * 2);
+        const textY = (height - textBox.height) / 2 - textBox.y;
         const [ax, ay] = linkTooltipAnchor(item.path, item.lk);
         let x = ax - width / 2;
         let y = ay - height / 2;
@@ -820,7 +823,7 @@
         y = Math.max(8, Math.min(H - height - 8, y));
 
         tip.select('rect').attr('width', width).attr('height', height);
-        text.attr('y', textY);
+        text.attr('x', width / 2).attr('y', textY);
         tip.attr('transform', `translate(${x},${y})`);
       });
     }

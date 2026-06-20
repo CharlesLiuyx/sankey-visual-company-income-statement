@@ -53,18 +53,32 @@ another fidelity loop:
 4. If this is a new company, add the company profile to
    `data/company-metadata.js` first: description, sector, industry, headquarters,
    website, ticker/exchange when available, and source URLs.
-5. Add or update the matching pure-data record in
+5. If the source contains company or business/segment icons that need to be
+   reproduced, create `input/icon-crop-specs/<dataset-key>.json` and run:
+
+   ```bash
+   python3 scripts/extract_icon_crops.py --spec input/icon-crop-specs/<dataset-key>.json
+   ```
+
+   The spec-driven script writes reusable reference crops to
+   `data/assets/icon-references/<company>/crops/`, validation sheets to
+   `data/assets/icon-references/<company>/validation-sheets/`, and metrics to
+   `crop-report.json`. Review every validation sheet with the original image,
+   crop box, and extracted crop visible together, then record the pass/fail
+   decision in `model-validation.md`. Extract every semantically relevant
+   business cluster unless the task explicitly narrows the scope.
+6. Add or update the matching pure-data record in
    `data/income-statements.js`. This file is the comparable financial
    statement SSOT: reported totals, line items, notes, currency and units only,
    with no Sankey layout or render settings.
-6. Install the pinned local tooling once:
+7. Install the pinned local tooling once:
 
    ```bash
    pnpm install --frozen-lockfile
    pnpm exec playwright install chromium
    ```
 
-7. Run the deterministic data and d3 checks:
+8. Run the deterministic data and d3 checks:
 
    ```bash
    pnpm verify:ssot
@@ -86,6 +100,27 @@ the SVG produced by `SankeyEngine.render()` / d3-sankey. Do not compare against
 Reference mode, a direct `<img>` of the source PNG, or any source-image crop /
 raster overlay placed into the d3 output. The source PNG is only the standard to
 measure against, never part of the d3-sankey render being scored.
+
+## Icon asset workflow
+
+Icon extraction is intentionally generalized across companies. The reusable
+logic lives in `scripts/extract_icon_crops.py`; each source image gets a small
+JSON spec in `input/icon-crop-specs/` with only coordinates, filters, output
+names, and notes.
+
+Accepted reference assets live under:
+
+```text
+data/assets/icon-references/<company>/
+  crops/
+  validation-sheets/
+  crop-report.json
+  model-validation.md
+```
+
+Use these PNG crops only as references for SVG/vector conversion and reuse
+decisions. They must not be embedded in d3 output, standalone artifacts, or
+foreground overlays.
 
 ## Rendering
 
@@ -160,9 +195,11 @@ raw figures via the helper.
 | `scripts/build-standalone.mjs` | builds the self-contained HTML artifact                    |
 | `scripts/verify-standalone.mjs` | opens the artifact via `file://` and checks d3 rendering |
 | `scripts/script-sources.mjs`| shared script classification for page and verifier harnesses  |
+| `scripts/extract_icon_crops.py` | spec-driven icon crop extraction and validation           |
 | `data/income-statements.js` | pure financial-statement SSOT for totals and line items       |
 | `data/company-metadata.js`  | company-profile SSOT for Table mode and onboarding checks     |
 | `data/*.js`                 | datasets (one per company/period)                             |
+| `data/assets/`              | reusable icon references and validation records               |
 | `vendor/`                   | d3 v7 and d3-sankey — vendored for offline use                |
 
 Design choices that keep every chart **aligned and consistent**:

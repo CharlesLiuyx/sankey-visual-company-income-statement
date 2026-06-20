@@ -5,8 +5,9 @@ Guidance for agents working in this repository.
 ## Goal
 
 This project turns income-statement reference images into reusable Sankey
-datasets. When `input/pending/` contains new source PNGs, process them into
-stable datasets and run a d3-sankey fidelity loop automatically.
+datasets and reusable icon/vector assets. When `input/pending/` contains new
+source PNGs, process them into stable datasets, extract validated icon
+reference assets when needed, and run a d3-sankey fidelity loop automatically.
 
 ## Input Workflow
 
@@ -21,10 +22,24 @@ stable datasets and run a d3-sankey fidelity loop automatically.
    - `data/income-statements.js`
    - `data/company-metadata.js` when the company is new
    - `index.html` dataset script registration
-5. If company icons or company-internal business/segment icons need to be
-   reproduced, crop each source icon region from the original reference image
-   as the original-icon reference asset for vector conversion. Validate each
-   crop before vectorizing it:
+5. If company icons or company-internal business/segment icons appear in the
+   source image, run the spec-driven icon extraction workflow before
+   vectorizing or rendering them:
+   - Create or update `input/icon-crop-specs/<dataset-key>.json`.
+   - Use `scripts/extract_icon_crops.py` to write validated reference crops to
+     `data/assets/icon-references/<company>/crops/`.
+   - Write validation sheets to
+     `data/assets/icon-references/<company>/validation-sheets/`.
+   - Keep `crop-report.json` and `model-validation.md` in the company asset
+     folder.
+   - Extract every semantically relevant company and business/segment icon
+     cluster in the source image unless the user explicitly limits the scope.
+     Do not stop after one sample cluster when the image contains multiple
+     business clusters.
+   - Exclude source publisher watermarks, creator/account branding, website
+     URLs, social badges, "how they make money" marks, attribution blocks, and
+     any segment such as "Others" that has no independent business icon.
+   Validate each crop before vectorizing it:
    - The icon's main structure is fully included.
    - The main structure is visually centered in the crop.
    - No unrelated text, chart marks, connector fragments, watermarks, or
@@ -65,11 +80,17 @@ For company and business icons:
 
 - Treat company icons and company-internal business/segment illustrative icons
   as reusable vector assets.
-- When adding an icon for the first time, first crop the source region as the
-  original-icon reference asset. Use the crop only after checking that the icon
-  subject is complete, centered, and free of unrelated surrounding content.
-  Then align it to the chart, convert it to SVG/vector geometry, and save the
-  resulting vector asset for future reuse.
+- When adding icons for the first time, first crop every relevant source region
+  as original-icon reference assets through `scripts/extract_icon_crops.py`.
+  The script must be driven by a dataset-specific JSON spec so the workflow
+  stays reusable across companies. Use each crop only after checking that the
+  icon subject is complete, centered, and free of unrelated surrounding
+  content. Then align it to the chart, convert it to SVG/vector geometry, and
+  save the resulting vector asset for future reuse.
+- For visual/model crop validation, use the generated validation sheet for each
+  crop. It contains the original source image, the highlighted crop box, and
+  the extracted crop. Record acceptance in
+  `data/assets/icon-references/<company>/model-validation.md`.
 - Run a fidelity loop for the SVG conversion itself, comparing the converted
   SVG render against the cropped/aligned reference until the match is stable
   enough.
@@ -81,6 +102,26 @@ For company and business icons:
 - Do not put source-image crops, raster icon assets, text crops, foreground
   pixels, or overlays into d3 mode. Crops are conversion references only, never
   runtime render assets.
+
+## Data and Asset Layout
+
+Keep registered dataset adapters at `data/<dataset-key>.js`. The viewer,
+standalone builder, SSOT verifier, and project docs rely on this stable path.
+
+Use `data/assets/` for reusable data-adjacent assets:
+
+```text
+data/assets/
+  icon-references/
+    <company>/
+      crops/              # validated icon reference crops
+      validation-sheets/  # original image + crop-box review sheets
+      crop-report.json    # script output and validation metrics
+      model-validation.md # model/visual acceptance record
+```
+
+Reference crops in `data/assets/icon-references/` are not runtime assets. They
+exist to support SVG/vector conversion and future reuse decisions only.
 
 ## d3-Sankey Fidelity Loop
 
@@ -205,6 +246,16 @@ Before final response, verify:
 - `node --check data/income-statements.js` passes.
 - `node --check data/company-metadata.js` passes.
 - `pnpm verify:ssot` passes.
+- If icon assets were extracted:
+  - `python3 scripts/extract_icon_crops.py --spec input/icon-crop-specs/<dataset-key>.json` passes.
+  - `data/assets/icon-references/<company>/crop-report.json` shows every crop
+    with `passes: true`.
+  - Validation sheets were reviewed with the original image and extracted crop
+    visible together.
+  - `data/assets/icon-references/<company>/model-validation.md` records the
+    model/visual pass result.
+  - Every semantically relevant company and business/segment icon cluster in
+    the source image is either extracted or explicitly documented as skipped.
 - If a standalone HTML artifact is required, `pnpm build:standalone` and
   `pnpm verify:standalone` pass.
 - If renderer code changed, `node --check src/sankey-engine.js` passes.
@@ -220,6 +271,8 @@ In the final response, include:
 - Files changed.
 - Whether pending input was cleared.
 - Whether the pure data SSOT was updated.
+- Which icon assets were extracted, and whether all relevant business clusters
+  were accounted for.
 - The final d3 loop metrics.
 - Any known residual fidelity limits.
 - Any commands that could not be run.

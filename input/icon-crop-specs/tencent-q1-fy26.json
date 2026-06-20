@@ -1,0 +1,125 @@
+{
+  "source": "input/pending/tencent-q1-fy26.png",
+  "outputDir": "data/assets/icon-references/tencent",
+  "validationSheetDir": "data/assets/icon-references/tencent/validation-sheets",
+  "report": "crop-report.json",
+  "backgroundSampleBlocks": [
+    [0, 0, 80, 80],
+    [4606, 0, 80, 80],
+    [0, 2554, 80, 80],
+    [4606, 2554, 80, 80]
+  ],
+  "crops": [
+    {
+      "key": "tencent-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": {
+        "x": 1220,
+        "y": 460,
+        "width": 1000,
+        "height": 290
+      },
+      "threshold": 20,
+      "foreground": {
+        "channels": {
+          "r": [0, 90],
+          "g": [55, 165],
+          "b": [150, 255]
+        }
+      },
+      "minComponentArea": 80,
+      "padding": 22,
+      "validation": {
+        "borderBand": 5,
+        "maxCenterOffset": 0.015,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Large Tencent company wordmark near the center of the source image; excludes revenue label, title text, and publisher marks."
+    },
+    {
+      "key": "tencent-business-gaming-cluster",
+      "output": "crops/business-gaming-cluster.png",
+      "searchBox": {
+        "x": 50,
+        "y": 615,
+        "width": 445,
+        "height": 270
+      },
+      "threshold": 18,
+      "minComponentArea": 35,
+      "padding": 18,
+      "validation": {
+        "borderBand": 5,
+        "maxCenterOffset": 0.015,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Tencent Gaming business icon cluster: Tencent Games, Riot Games, Epic Games, and Supercell marks only; excludes the Gaming label, values, connectors, and adjacent clusters."
+    },
+    {
+      "key": "tencent-business-social-networks-cluster",
+      "output": "crops/business-social-networks-cluster.png",
+      "searchBox": {
+        "x": 108,
+        "y": 1018,
+        "width": 286,
+        "height": 278
+      },
+      "threshold": 18,
+      "minComponentArea": 35,
+      "padding": 18,
+      "validation": {
+        "borderBand": 5,
+        "maxCenterOffset": 0.015,
+        "maxForbiddenForegroundPixels": 0,
+        "forbiddenForeground": [
+          {
+            "channels": {
+              "r": [0, 80],
+              "g": [55, 150],
+              "b": [130, 255]
+            }
+          }
+        ]
+      },
+      "note": "Tencent Social Networks business icon cluster: WeChat, QQ, and Qzone marks only; excludes the Social Networks label, values, connectors, and adjacent clusters."
+    },
+    {
+      "key": "tencent-business-marketing-services-cluster",
+      "output": "crops/business-marketing-services-cluster.png",
+      "searchBox": {
+        "x": 125,
+        "y": 1365,
+        "width": 255,
+        "height": 280
+      },
+      "threshold": 18,
+      "minComponentArea": 35,
+      "padding": 16,
+      "validation": {
+        "borderBand": 5,
+        "maxCenterOffset": 0.015,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Tencent Marketing Services business icon cluster only; excludes the Marketing Services label, values, connectors, and adjacent clusters."
+    },
+    {
+      "key": "tencent-business-fintech-business-services-cluster",
+      "output": "crops/business-fintech-business-services-cluster.png",
+      "searchBox": {
+        "x": 120,
+        "y": 1745,
+        "width": 275,
+        "height": 305
+      },
+      "threshold": 18,
+      "minComponentArea": 35,
+      "padding": 16,
+      "validation": {
+        "borderBand": 5,
+        "maxCenterOffset": 0.015,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Tencent FinTech and Business Services business icon cluster only; excludes the FinTech & Business Services label, values, connectors, and adjacent clusters."
+    }
+  ]
+}

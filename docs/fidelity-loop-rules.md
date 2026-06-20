@@ -44,24 +44,39 @@ Company icon 和 business/segment illustrative icon 可以在整图 d3 循环之
 
 子循环步骤：
 
-1. 从原始参考图中截取对应 icon 区域，作为 original-icon reference asset。
-2. 先验证 crop 是否准确：
+1. 为当前数据集创建或更新 `input/icon-crop-specs/<dataset-key>.json`。
+   图标提取必须由 spec 驱动，通用逻辑放在
+   `scripts/extract_icon_crops.py`，不要把某家公司坐标写死在脚本里。
+2. 从原始参考图中截取所有有语义的 company icon 和
+   business/segment icon cluster，作为 original-icon reference asset。除非任务
+   明确缩小范围，不要只截取一个示例业务簇。没有独立业务图标的 `Others`
+   类 segment 可以记录为跳过。
+3. 将 crop 输出到
+   `data/assets/icon-references/<company>/crops/`，将 validation sheet 输出到
+   `data/assets/icon-references/<company>/validation-sheets/`，并保留
+   `crop-report.json`。
+4. 先验证 crop 是否准确：
    - 图标主体结构完整，没有被裁掉。
    - 图标主体在 crop 中视觉居中。
    - crop 中没有无关文本、图表线条、连接器残片、水印、相邻图标或背景装饰。
-3. 如果 crop 不满足要求，先重新 crop；不要基于错误 crop 继续矢量化。
-4. 将通过验证的 crop 按目标 chart 尺寸或 icon viewport 对齐，作为 SVG/vector 转换的对比标准。
-5. 渲染候选 SVG/vector icon，候选必须是纯矢量输出，不得包含 `<image>`、位图、源图裁剪、文本截图或前景覆盖层。
-6. 将候选 SVG/vector render 与 crop/aligned reference 按同一尺寸计算 Diff。
-7. 按图标语义区域拆解误差，例如主体轮廓、内部负形、关键笔画、填充色、边界留白。
-8. 调整 SVG geometry、viewBox、path、stroke、fill、transform、尺寸或对齐。
-9. 重复直到图标主体结构稳定、中心和边界留白合理，且继续调参只能带来细微风格差异。
-10. 将通过子循环的 SVG/vector 保存为可复用资产；后续整图 d3 循环只能引用该 vector 资产，不得引用 crop。
+5. 使用 validation sheet 做视觉/模型验收。每张 sheet 应同时包含原图、
+   crop 框和裁切结果。验收结果记录在
+   `data/assets/icon-references/<company>/model-validation.md`。
+6. 如果 crop 不满足要求，先重新 crop；不要基于错误 crop 继续矢量化。
+7. 将通过验证的 crop 按目标 chart 尺寸或 icon viewport 对齐，作为 SVG/vector 转换的对比标准。
+8. 渲染候选 SVG/vector icon，候选必须是纯矢量输出，不得包含 `<image>`、位图、源图裁剪、文本截图或前景覆盖层。
+9. 将候选 SVG/vector render 与 crop/aligned reference 按同一尺寸计算 Diff。
+10. 按图标语义区域拆解误差，例如主体轮廓、内部负形、关键笔画、填充色、边界留白。
+11. 调整 SVG geometry、viewBox、path、stroke、fill、transform、尺寸或对齐。
+12. 重复直到图标主体结构稳定、中心和边界留白合理，且继续调参只能带来细微风格差异。
+13. 将通过子循环的 SVG/vector 保存为可复用资产；后续整图 d3 循环只能引用该 vector 资产，不得引用 crop。
 
 图标子循环的输出记录至少包括：
 
 - 原始 crop 路径或临时产物位置。
+- validation sheet 路径。
 - crop 验证结论：主体完整、主体居中、无无关内容。
+- 全部相关业务簇已提取，或跳过原因已记录。
 - 候选 SVG/vector 路径或资产名称。
 - SVG/vector render 与 crop/aligned reference 的 Diff 指标。
 - 已接受的残留差异及原因。

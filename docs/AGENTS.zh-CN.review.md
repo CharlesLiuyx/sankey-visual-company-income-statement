@@ -4,7 +4,7 @@
 
 ## 目标
 
-本项目将损益表参考图片转换为可复用的 Sankey 数据集。当 `input/pending/` 中出现新的源 PNG 时，需要将它们处理成稳定的数据集，并自动运行 d3-sankey 保真度循环。
+本项目将损益表参考图片转换为可复用的 Sankey 数据集和可复用的 icon/vector 资产。当 `input/pending/` 中出现新的源 PNG 时，需要将它们处理成稳定的数据集，在需要时提取并验证 icon reference 资产，并自动运行 d3-sankey 保真度循环。
 
 ## 输入工作流
 
@@ -19,9 +19,16 @@
    - `data/income-statements.js`
    - 如果是新公司，更新 `data/company-metadata.js`
    - 在 `index.html` 中注册数据集脚本
-5. 在为新公司编写第一个数据集之前，先收集公司元数据（描述、板块、行业、总部、网站、股票代码/交易所，如有，以及来源 URL），并添加到 `data/company-metadata.js`。
-6. 将 `meta.referenceImage` 设置为已处理 PNG，并记录准确的源图片尺寸。
-7. 处理完成后，保持 `input/pending/` 为空，只保留 `.gitkeep`。
+5. 如果源图中有公司 icon 或公司内部 business/segment icon，需要先运行 spec-driven icon 提取流程：
+   - 创建或更新 `input/icon-crop-specs/<dataset-key>.json`。
+   - 使用 `scripts/extract_icon_crops.py` 将通过验证的 reference crop 写入 `data/assets/icon-references/<company>/crops/`。
+   - 将 validation sheet 写入 `data/assets/icon-references/<company>/validation-sheets/`。
+   - 在公司资产目录中保留 `crop-report.json` 和 `model-validation.md`。
+   - 除非用户明确缩小范围，否则要提取源图中所有有语义的 company 和 business/segment icon cluster，不要只提取一个示例业务簇。
+   - 排除发布方水印、创作者/账号品牌、网站 URL、社交徽标、"how they make money" 标识、署名块，以及没有独立业务 icon 的 `Others` 等 segment。
+6. 在为新公司编写第一个数据集之前，先收集公司元数据（描述、板块、行业、总部、网站、股票代码/交易所，如有，以及来源 URL），并添加到 `data/company-metadata.js`。
+7. 将 `meta.referenceImage` 设置为已处理 PNG，并记录准确的源图片尺寸。
+8. 处理完成后，保持 `input/pending/` 为空，只保留 `.gitkeep`。
 
 ## 数据集编写
 
@@ -38,11 +45,30 @@
 对于公司和业务图标：
 
 - 将公司图标以及公司内部业务/segment 示意图标视为可复用的 vector 资产。
-- 第一次添加某个图标时，只把源图区域裁切作为临时参考；将它对齐到图表，转换为 SVG/vector 几何，并保存转换后的资产以便后续复用。
+- 第一次添加图标时，先通过 `scripts/extract_icon_crops.py` 和数据集专用 JSON spec 裁切所有相关源图区域，作为 original-icon reference asset。只有在确认主体完整、居中、没有无关内容之后，才能将它对齐到图表，转换为 SVG/vector 几何，并保存转换后的资产以便后续复用。
+- 视觉/模型 crop 校验使用每张自动生成的 validation sheet。sheet 同时包含原始源图、crop 框和裁切结果。验收结论记录在 `data/assets/icon-references/<company>/model-validation.md`。
 - SVG 转换本身也要跑保真度循环，将转换后的 SVG 渲染与裁切/对齐后的参考进行比较，直到匹配稳定到足够可接受。
 - 后续数据集中，只要源图标在实质上相似，就复用已有 SVG/vector 图标。优先调整现有 SVG 的 viewBox、transform、尺寸、位置或样式，而不是创建近似重复资产。
 - 当通用语义图标能匹配源图意图时，使用 `src/icons.js` 中的 Lucide/vector 图标。
 - 不要把源图片裁切、raster 图标资产、文本裁切、前景像素或覆盖层放进 d3 模式。裁切只允许作为转换参考，绝不是 runtime 渲染资产。
+
+## Data 与资产布局
+
+保持注册数据集 adapter 位于 `data/<dataset-key>.js`。viewer、standalone builder、SSOT verifier 和项目文档都依赖这个稳定路径。
+
+可复用 data-adjacent 资产放在 `data/assets/`：
+
+```text
+data/assets/
+  icon-references/
+    <company>/
+      crops/              # 已验证 icon reference crop
+      validation-sheets/  # 原图 + crop 框审阅 sheet
+      crop-report.json    # 脚本输出和验证指标
+      model-validation.md # 模型/视觉验收记录
+```
+
+`data/assets/icon-references/` 中的 crop 不是 runtime 资产，只用于 SVG/vector 转换和未来复用判断。
 
 ## d3-Sankey 保真度循环
 
@@ -132,6 +158,12 @@
 - `node --check data/income-statements.js` 通过。
 - `node --check data/company-metadata.js` 通过。
 - `pnpm verify:ssot` 通过。
+- 如果提取了 icon 资产：
+  - `python3 scripts/extract_icon_crops.py --spec input/icon-crop-specs/<dataset-key>.json` 通过。
+  - `data/assets/icon-references/<company>/crop-report.json` 中每个 crop 都是 `passes: true`。
+  - 已使用同时包含原图和裁切结果的 validation sheet 做视觉/模型检查。
+  - `data/assets/icon-references/<company>/model-validation.md` 记录了模型/视觉验收结果。
+  - 源图中所有有语义的 company 和 business/segment icon cluster 都已提取，或明确记录了跳过原因。
 - 如果需要 standalone HTML artifact，`pnpm build:standalone` 和 `pnpm verify:standalone` 通过。
 - 如果改动了渲染器代码，`node --check src/sankey-engine.js` 通过。
 - `pnpm verify:d3 -- <dataset-key>` 通过。
@@ -146,6 +178,7 @@
 - 修改过的文件。
 - pending input 是否已清空。
 - 纯数据 SSOT 是否已更新。
+- 提取了哪些 icon 资产，以及是否覆盖了全部相关业务簇。
 - 最终 d3 循环指标。
 - 任何已知的剩余保真度限制。
 - 任何无法运行的命令。

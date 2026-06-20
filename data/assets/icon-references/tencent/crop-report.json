@@ -1,0 +1,227 @@
+{
+  "source": "input/pending/tencent-q1-fy26.png",
+  "spec": "input/icon-crop-specs/tencent-q1-fy26.json",
+  "background": [
+    239,
+    239,
+    239
+  ],
+  "generatedAt": "2026-06-20T06:00:38.073192+00:00",
+  "crops": [
+    {
+      "key": "tencent-company-wordmark",
+      "output": "data/assets/icon-references/tencent/crops/company-wordmark.png",
+      "searchBox": {
+        "x": 1220,
+        "y": 460,
+        "width": 1000,
+        "height": 290
+      },
+      "componentCount": 7,
+      "subjectBox": {
+        "x0": 1259,
+        "y0": 503,
+        "x1": 2178,
+        "y1": 676
+      },
+      "cropBox": {
+        "x0": 1237,
+        "y0": 481,
+        "x1": 2200,
+        "y1": 698
+      },
+      "validation": {
+        "width": 963,
+        "height": 217,
+        "foregroundPixels": 58657,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 22,
+          "right": 22,
+          "top": 22,
+          "bottom": 22
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Large Tencent company wordmark near the center of the source image; excludes revenue label, title text, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-company-wordmark.png"
+    },
+    {
+      "key": "tencent-business-gaming-cluster",
+      "output": "data/assets/icon-references/tencent/crops/business-gaming-cluster.png",
+      "searchBox": {
+        "x": 50,
+        "y": 615,
+        "width": 445,
+        "height": 270
+      },
+      "componentCount": 24,
+      "subjectBox": {
+        "x0": 78,
+        "y0": 651,
+        "x1": 448,
+        "y1": 853
+      },
+      "cropBox": {
+        "x0": 60,
+        "y0": 633,
+        "x1": 466,
+        "y1": 871
+      },
+      "validation": {
+        "width": 406,
+        "height": 238,
+        "foregroundPixels": 28105,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 18,
+          "right": 18,
+          "top": 18,
+          "bottom": 18
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Tencent Gaming business icon cluster: Tencent Games, Riot Games, Epic Games, and Supercell marks only; excludes the Gaming label, values, connectors, and adjacent clusters.",
+      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-gaming-cluster.png"
+    },
+    {
+      "key": "tencent-business-social-networks-cluster",
+      "output": "data/assets/icon-references/tencent/crops/business-social-networks-cluster.png",
+      "searchBox": {
+        "x": 108,
+        "y": 1018,
+        "width": 286,
+        "height": 278
+      },
+      "componentCount": 6,
+      "subjectBox": {
+        "x0": 133,
+        "y0": 1030,
+        "x1": 357,
+        "y1": 1252
+      },
+      "cropBox": {
+        "x0": 115,
+        "y0": 1012,
+        "x1": 375,
+        "y1": 1270
+      },
+      "validation": {
+        "width": 260,
+        "height": 258,
+        "foregroundPixels": 17654,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 18,
+          "right": 18,
+          "top": 18,
+          "bottom": 18
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Tencent Social Networks business icon cluster: WeChat, QQ, and Qzone marks only; excludes the Social Networks label, values, connectors, and adjacent clusters.",
+      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-social-networks-cluster.png"
+    },
+    {
+      "key": "tencent-business-marketing-services-cluster",
+      "output": "data/assets/icon-references/tencent/crops/business-marketing-services-cluster.png",
+      "searchBox": {
+        "x": 125,
+        "y": 1365,
+        "width": 255,
+        "height": 280
+      },
+      "componentCount": 13,
+      "subjectBox": {
+        "x0": 146,
+        "y0": 1398,
+        "x1": 360,
+        "y1": 1601
+      },
+      "cropBox": {
+        "x0": 130,
+        "y0": 1382,
+        "x1": 376,
+        "y1": 1617
+      },
+      "validation": {
+        "width": 246,
+        "height": 235,
+        "foregroundPixels": 18399,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 16,
+          "right": 16,
+          "top": 16,
+          "bottom": 16
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Tencent Marketing Services business icon cluster only; excludes the Marketing Services label, values, connectors, and adjacent clusters.",
+      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-marketing-services-cluster.png"
+    },
+    {
+      "key": "tencent-business-fintech-business-services-cluster",
+      "output": "data/assets/icon-references/tencent/crops/business-fintech-business-services-cluster.png",
+      "searchBox": {
+        "x": 120,
+        "y": 1745,
+        "width": 275,
+        "height": 305
+      },
+      "componentCount": 3,
+      "subjectBox": {
+        "x0": 158,
+        "y0": 1795,
+        "x1": 365,
+        "y1": 1998
+      },
+      "cropBox": {
+        "x0": 142,
+        "y0": 1779,
+        "x1": 381,
+        "y1": 2014
+      },
+      "validation": {
+        "width": 239,
+        "height": 235,
+        "foregroundPixels": 18400,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 16,
+          "right": 16,
+          "top": 16,
+          "bottom": 16
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Tencent FinTech and Business Services business icon cluster only; excludes the FinTech & Business Services label, values, connectors, and adjacent clusters.",
+      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-fintech-business-services-cluster.png"
+    }
+  ]
+}

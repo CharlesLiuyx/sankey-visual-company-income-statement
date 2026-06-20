@@ -185,6 +185,19 @@
     return { nodes: graphNodes, links: graphLinks };
   }
 
+  function appendSvgFragments(parent, fragments, className) {
+    const list = Array.isArray(fragments) ? fragments : [fragments];
+    const html = list
+      .filter((fragment) => fragment != null && String(fragment).trim())
+      .map(String)
+      .join('\n');
+    if (!html) return;
+    if (/<image(?:\s|>)/i.test(html)) {
+      throw new Error('Sankey SVG annotations cannot contain <image> elements');
+    }
+    parent.append('g').attr('class', className).html(html);
+  }
+
   /* ------------------------------ render --------------------------- */
   function render(selector, data, overrides) {
     if (!global.d3 || !global.d3.sankey) {
@@ -423,6 +436,8 @@
           const lines = customLines(n, block);
           if (!lines.length) return;
           const localGap = block.lineGap != null ? block.lineGap : gap;
+          const blockTop =
+            block.top != null ? block.top + (cfg.labelYOffset || 0) : block.top;
           const blockH =
             lines.reduce((a, l) => a + l.size, 0) + localGap * (lines.length - 1);
           specs.push({
@@ -433,7 +448,7 @@
             x: block.x,
             lines,
             blockH,
-            top: block.top,
+            top: blockTop,
             lineGap: localGap,
             drawIcons: false,
           });
@@ -619,6 +634,10 @@
         x += sz + (ic.gap || 10);
       });
     });
+
+    if (data.annotationsSvg) {
+      appendSvgFragments(svg, data.annotationsSvg, 'sankey-annotations');
+    }
 
     /* ---------- hub logo (optional) ---------- *
      * sits in the top headroom, centred over the hub column, above the

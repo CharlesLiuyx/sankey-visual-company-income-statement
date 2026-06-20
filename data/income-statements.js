@@ -113,6 +113,62 @@
         },
       },
       {
+        key: 'nyt-q1-fy26',
+        company: 'The New York Times Company',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/nyt-q1-fy26.png',
+        roundingTolerance: 1.1,
+        revenue: {
+          total: 712,
+          notes: ['+12% Y/Y'],
+          items: [
+            {
+              id: 'subscription',
+              label: 'Subscription',
+              value: 517,
+              notes: ['+11% Y/Y'],
+              children: [
+                { id: 'digital', label: 'Digital', value: 389, notes: ['+16% Y/Y'] },
+                { id: 'print', label: 'Print', value: 128, notes: ['(1%) Y/Y'] },
+              ],
+            },
+            { id: 'advertising', label: 'Advertising', value: 127, notes: ['(1%) Y/Y'] },
+            { id: 'other_revenue', label: 'Other', value: 69, notes: ['+8% Y/Y', 'Wirecutter'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 363 },
+          operatingExpenses: {
+            total: 259,
+            items: [
+              { id: 'ga', label: 'G&A', value: 86, notes: ['12% of revenue', '(0pp) Y/Y'] },
+              { id: 'sm', label: 'S&M', value: 77, notes: ['11% of revenue', '+0pp Y/Y'] },
+              { id: 'product', label: 'Product', value: 70, notes: ['10% of revenue', '(1pp) Y/Y'] },
+              { id: 'da', label: 'D&A', value: 21, notes: ['3% of revenue', '(0pp) Y/Y'] },
+              { id: 'other_expense', label: 'Other', value: 4, notes: ['1% of revenue', '(1pp) Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax_other', label: 'Tax & other', value: 14 },
+        },
+        otherIncome: {
+          total: 11,
+          items: [{ id: 'interest', label: 'Interest', value: 11 }],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 349, notes: ['49% margin', '+2pp Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 91, notes: ['13% margin', '+4pp Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 88, notes: ['12% margin', '+5pp Y/Y'] },
+        },
+      },
+      {
         key: 'alibaba-q4-fy26',
         company: 'Alibaba',
         period: 'Q4 FY26',

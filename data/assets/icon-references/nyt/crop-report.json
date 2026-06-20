@@ -1,0 +1,336 @@
+{
+  "source": "input/processed/nyt-q1-fy26.png",
+  "spec": "input/icon-crop-specs/nyt-q1-fy26.json",
+  "background": [
+    239,
+    239,
+    239
+  ],
+  "generatedAt": "2026-06-20T15:05:12.971002+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 10
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "nyt-company-wordmark",
+      "output": "data/assets/icon-references/nyt/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 17373,
+        "losslessBytes": 88824,
+        "savingsVsLossless": 0.8044,
+        "metrics": {
+          "meanAbsoluteError": 0.9176,
+          "rootMeanSquareError": 1.6541,
+          "p99AbsoluteError": 8.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.8807
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 10,
+        "background": [
+          239,
+          239,
+          239
+        ],
+        "transparentPixels": 305045,
+        "transparentPixelRatio": 0.8027
+      },
+      "searchBox": {
+        "x": 1660,
+        "y": 410,
+        "width": 720,
+        "height": 470
+      },
+      "componentCount": 17,
+      "subjectBox": {
+        "x0": 1707,
+        "y0": 431,
+        "x1": 2309,
+        "y1": 862
+      },
+      "cropBox": {
+        "x0": 1640,
+        "y0": 400,
+        "x1": 2400,
+        "y1": 900
+      },
+      "validation": {
+        "width": 760,
+        "height": 500,
+        "foregroundPixels": 57929,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 67,
+          "right": 91,
+          "top": 31,
+          "bottom": 38
+        },
+        "centerOffset": {
+          "x": -0.0158,
+          "y": -0.007
+        },
+        "passes": true
+      },
+      "note": "The New York Times company wordmark near the center of the source chart; excludes chart title, revenue labels, connectors, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/nyt/validation-sheets/nyt-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 296548,
+        "losslessBytes": 296548,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "nyt-business-digital-device",
+      "output": "data/assets/icon-references/nyt/crops/business-digital-device.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 41952,
+        "losslessBytes": 41952,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 10,
+        "background": [
+          239,
+          239,
+          239
+        ],
+        "transparentPixels": 36398,
+        "transparentPixelRatio": 0.4978
+      },
+      "searchBox": {
+        "x": 25,
+        "y": 780,
+        "width": 310,
+        "height": 205
+      },
+      "componentCount": 39,
+      "subjectBox": {
+        "x0": 39,
+        "y0": 780,
+        "x1": 317,
+        "y1": 940
+      },
+      "cropBox": {
+        "x0": 18,
+        "y0": 748,
+        "x1": 343,
+        "y1": 973
+      },
+      "validation": {
+        "width": 325,
+        "height": 225,
+        "foregroundPixels": 27422,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 21,
+          "right": 26,
+          "top": 32,
+          "bottom": 33
+        },
+        "centerOffset": {
+          "x": -0.0077,
+          "y": -0.0022
+        },
+        "passes": true
+      },
+      "note": "Digital subscription device icon only; excludes the Digital label, revenue value, connectors, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/nyt/validation-sheets/nyt-business-digital-device.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 317956,
+        "losslessBytes": 317956,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "nyt-business-print-newspapers",
+      "output": "data/assets/icon-references/nyt/crops/business-print-newspapers.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 109355,
+        "losslessBytes": 109355,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 10,
+        "background": [
+          239,
+          239,
+          239
+        ],
+        "transparentPixels": 46267,
+        "transparentPixelRatio": 0.5184
+      },
+      "searchBox": {
+        "x": 35,
+        "y": 1430,
+        "width": 290,
+        "height": 220
+      },
+      "componentCount": 4,
+      "subjectBox": {
+        "x0": 35,
+        "y0": 1430,
+        "x1": 310,
+        "y1": 1623
+      },
+      "cropBox": {
+        "x0": 15,
+        "y0": 1400,
+        "x1": 365,
+        "y1": 1655
+      },
+      "validation": {
+        "width": 350,
+        "height": 255,
+        "foregroundPixels": 37167,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 20,
+          "right": 55,
+          "top": 30,
+          "bottom": 32
+        },
+        "centerOffset": {
+          "x": -0.05,
+          "y": -0.0039
+        },
+        "passes": true
+      },
+      "note": "Print newspaper stack icon only; excludes the Print label, revenue value, connectors, and adjacent chart marks.",
+      "validationSheet": "data/assets/icon-references/nyt/validation-sheets/nyt-business-print-newspapers.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 404702,
+        "losslessBytes": 404702,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "nyt-business-wirecutter-wordmark",
+      "output": "data/assets/icon-references/nyt/crops/business-wirecutter-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 4538,
+        "losslessBytes": 19474,
+        "savingsVsLossless": 0.767,
+        "metrics": {
+          "meanAbsoluteError": 0.3084,
+          "rootMeanSquareError": 1.3292,
+          "p99AbsoluteError": 7.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.1107
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 10,
+        "background": [
+          239,
+          239,
+          239
+        ],
+        "transparentPixels": 60434,
+        "transparentPixelRatio": 0.7748
+      },
+      "searchBox": {
+        "x": 350,
+        "y": 1910,
+        "width": 560,
+        "height": 105
+      },
+      "componentCount": 16,
+      "subjectBox": {
+        "x0": 375,
+        "y0": 1923,
+        "x1": 887,
+        "y1": 1985
+      },
+      "cropBox": {
+        "x0": 340,
+        "y0": 1895,
+        "x1": 940,
+        "y1": 2025
+      },
+      "validation": {
+        "width": 600,
+        "height": 130,
+        "foregroundPixels": 15128,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 35,
+          "right": 53,
+          "top": 28,
+          "bottom": 40
+        },
+        "centerOffset": {
+          "x": -0.015,
+          "y": -0.0462
+        },
+        "passes": true
+      },
+      "note": "Wirecutter business wordmark used by the source as the Other revenue semantic cue; excludes the Other label, values, and publisher branding.",
+      "validationSheet": "data/assets/icon-references/nyt/validation-sheets/nyt-business-wirecutter-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 271945,
+        "losslessBytes": 271945,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

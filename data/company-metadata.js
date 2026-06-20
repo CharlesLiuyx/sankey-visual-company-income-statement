@@ -51,6 +51,26 @@
         ],
       },
       {
+        key: 'nyt',
+        name: 'The New York Times Company',
+        legalName: 'The New York Times Company',
+        ticker: 'NYT',
+        exchange: 'NYSE',
+        sector: 'Communication Services',
+        industry: 'News media, digital subscriptions, advertising, and product review services',
+        founded: '1851',
+        headquarters: 'New York, New York, United States',
+        fiscalYearEnd: 'December 31',
+        website: 'https://www.nytco.com/',
+        description:
+          'The New York Times Company is a global media organization centered on independent journalism, digital and print subscriptions, advertising, and adjacent products including Wirecutter, Games, Cooking, Audio, and The Athletic.',
+        sourceUrls: [
+          'https://www.nytco.com/about-us/',
+          'https://www.nytco.com/investors/',
+          'https://www.nytco.com/investors/financials/',
+        ],
+      },
+      {
         key: 'reddit',
         name: 'Reddit',
         legalName: 'Reddit, Inc.',

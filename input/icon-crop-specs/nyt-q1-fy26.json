@@ -1,0 +1,149 @@
+{
+  "source": "input/processed/nyt-q1-fy26.png",
+  "outputDir": "data/assets/icon-references/nyt",
+  "validationSheetDir": "data/assets/icon-references/nyt/validation-sheets",
+  "report": "crop-report.json",
+  "backgroundSampleBlocks": [
+    [0, 0, 80, 80],
+    [4606, 0, 80, 80],
+    [0, 2556, 80, 80],
+    [4606, 2556, 80, 80]
+  ],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 10
+  },
+  "crops": [
+    {
+      "key": "nyt-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": {
+        "x": 1660,
+        "y": 410,
+        "width": 720,
+        "height": 470
+      },
+      "cropBox": {
+        "x": 1640,
+        "y": 400,
+        "width": 760,
+        "height": 500
+      },
+      "threshold": 18,
+      "foreground": {
+        "channels": {
+          "r": [0, 90],
+          "g": [0, 90],
+          "b": [0, 90]
+        }
+      },
+      "minComponentArea": 60,
+      "padding": 20,
+      "validation": {
+        "borderBand": 5,
+        "maxCenterOffset": 0.08,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "The New York Times company wordmark near the center of the source chart; excludes chart title, revenue labels, connectors, and publisher marks."
+    },
+    {
+      "key": "nyt-business-digital-device",
+      "output": "crops/business-digital-device.png",
+      "searchBox": {
+        "x": 25,
+        "y": 780,
+        "width": 310,
+        "height": 205
+      },
+      "cropBox": {
+        "x": 18,
+        "y": 748,
+        "width": 325,
+        "height": 225
+      },
+      "threshold": 16,
+      "minComponentArea": 20,
+      "padding": 16,
+      "validation": {
+        "borderBand": 4,
+        "maxCenterOffset": 0.08,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Digital subscription device icon only; excludes the Digital label, revenue value, connectors, and publisher marks."
+    },
+    {
+      "key": "nyt-business-print-newspapers",
+      "output": "crops/business-print-newspapers.png",
+      "searchBox": {
+        "x": 35,
+        "y": 1430,
+        "width": 290,
+        "height": 220
+      },
+      "cropBox": {
+        "x": 15,
+        "y": 1400,
+        "width": 350,
+        "height": 255
+      },
+      "threshold": 16,
+      "minComponentArea": 20,
+      "padding": 16,
+      "validation": {
+        "borderBand": 4,
+        "maxCenterOffset": 0.08,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Print newspaper stack icon only; excludes the Print label, revenue value, connectors, and adjacent chart marks."
+    },
+    {
+      "key": "nyt-business-wirecutter-wordmark",
+      "output": "crops/business-wirecutter-wordmark.png",
+      "searchBox": {
+        "x": 350,
+        "y": 1910,
+        "width": 560,
+        "height": 105
+      },
+      "cropBox": {
+        "x": 340,
+        "y": 1895,
+        "width": 600,
+        "height": 130
+      },
+      "threshold": 18,
+      "foreground": {
+        "channels": {
+          "r": [0, 90],
+          "g": [0, 90],
+          "b": [0, 90]
+        }
+      },
+      "minComponentArea": 45,
+      "padding": 18,
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 10,
+        "color": [239, 239, 239]
+      },
+      "validation": {
+        "borderBand": 5,
+        "maxCenterOffset": 0.08,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Wirecutter business wordmark used by the source as the Other revenue semantic cue; excludes the Other label, values, and publisher branding."
+    }
+  ],
+  "skipped": [
+    {
+      "key": "publisher-how-they-make-money",
+      "reason": "Source publisher branding and not part of The New York Times Company's income-statement semantics."
+    },
+    {
+      "key": "publisher-app-economy-insights",
+      "reason": "Source publisher branding, website URL, social badge, and footer logo are intentionally excluded."
+    }
+  ]
+}

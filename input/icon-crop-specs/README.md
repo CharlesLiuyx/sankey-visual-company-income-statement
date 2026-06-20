@@ -15,6 +15,10 @@ Spec conventions:
 
 - `source` points to the full reference PNG used as the visual standard.
 - `outputDir` should be `data/assets/icon-references/<company>/`.
+- `runtimeOutputDir` may be set to `data/assets/raster-annotations/<company>/`
+  when accepted crops are intentionally used as runtime raster annotations. The
+  extractor writes compressed runtime copies using each crop's file name, unless
+  a crop overrides it with `runtimeOutput`.
 - `validationSheetDir` should be
   `data/assets/icon-references/<company>/validation-sheets/` when visual/model
   validation artifacts should be retained.
@@ -32,8 +36,33 @@ Spec conventions:
   non-target foreground pixels.
 - Use `forbiddenForeground` validation filters for colors that should never
   appear in the final crop, such as nearby label text.
+- Crop PNGs and validation sheets are compressed by default. The extractor
+  writes optimized PNGs, tries palette PNG candidates, and keeps only candidates
+  that pass conservative visual-difference limits against the uncompressed crop.
+  Runtime raster annotation copies are compressed with the same settings.
+  Override this per spec with a top-level `compression` object when a source
+  image needs stricter or looser limits, or run with `--no-compress` for a
+  lossless debugging pass.
 - Keep crops as reference/conversion assets only; convert accepted icons to
   SVG/vector assets before using them in d3 output.
+
+Compression options:
+
+```json
+{
+  "compression": {
+    "enabled": true,
+    "paletteColors": [256, 192, 128, 96, 64, 48, 32, 24, 16],
+    "maxMeanAbsoluteError": 1.2,
+    "maxRootMeanSquareError": 3.0,
+    "maxP99AbsoluteError": 12.0,
+    "maxMaxChannelDiff": 72
+  }
+}
+```
+
+The generated `crop-report.json` records the chosen compression mode and visual
+error metrics for each crop image and validation sheet.
 
 After script validation passes, do a visual/model validation with the generated
 validation sheet for each crop. The sheet contains the original reference image,

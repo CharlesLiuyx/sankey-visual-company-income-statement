@@ -6,11 +6,47 @@
     239,
     239
   ],
-  "generatedAt": "2026-06-20T06:13:24.917115+00:00",
+  "generatedAt": "2026-06-20T07:42:44.687098+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "runtimeOutputDir": "data/assets/raster-annotations/tencent",
   "crops": [
     {
       "key": "tencent-company-wordmark",
       "output": "data/assets/icon-references/tencent/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 12747,
+        "losslessBytes": 45287,
+        "savingsVsLossless": 0.7185,
+        "metrics": {
+          "meanAbsoluteError": 0.2993,
+          "rootMeanSquareError": 1.8603,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 32,
+          "changedPixelRatio": 0.085
+        }
+      },
       "searchBox": {
         "x": 1220,
         "y": 460,
@@ -49,11 +85,43 @@
         "passes": true
       },
       "note": "Large Tencent company wordmark near the center of the source image; excludes revenue label, title text, and publisher marks.",
-      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-company-wordmark.png"
+      "runtimeOutput": "data/assets/raster-annotations/tencent/company-wordmark.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 12747,
+        "losslessBytes": 45287,
+        "savingsVsLossless": 0.7185,
+        "metrics": {
+          "meanAbsoluteError": 0.2993,
+          "rootMeanSquareError": 1.8603,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 32,
+          "changedPixelRatio": 0.085
+        }
+      },
+      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 271142,
+        "losslessBytes": 271142,
+        "savingsVsLossless": 0.0
+      }
     },
     {
       "key": "tencent-business-gaming-cluster",
       "output": "data/assets/icon-references/tencent/crops/business-gaming-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 48852,
+        "losslessBytes": 48852,
+        "savingsVsLossless": 0.0
+      },
       "searchBox": {
         "x": 50,
         "y": 615,
@@ -92,11 +160,36 @@
         "passes": true
       },
       "note": "Tencent Gaming business icon cluster: Tencent Games, Riot Games, Epic Games, and Supercell marks only; excludes the Gaming label, values, connectors, and adjacent clusters.",
-      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-gaming-cluster.png"
+      "runtimeOutput": "data/assets/raster-annotations/tencent/business-gaming-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 48852,
+        "losslessBytes": 48852,
+        "savingsVsLossless": 0.0
+      },
+      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-gaming-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 319983,
+        "losslessBytes": 319983,
+        "savingsVsLossless": 0.0
+      }
     },
     {
       "key": "tencent-business-social-networks-cluster",
       "output": "data/assets/icon-references/tencent/crops/business-social-networks-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 30158,
+        "losslessBytes": 30158,
+        "savingsVsLossless": 0.0
+      },
       "searchBox": {
         "x": 108,
         "y": 1018,
@@ -135,11 +228,36 @@
         "passes": true
       },
       "note": "Tencent Social Networks business icon cluster: WeChat, QQ, and Qzone marks only; excludes the Social Networks label, values, connectors, and adjacent clusters.",
-      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-social-networks-cluster.png"
+      "runtimeOutput": "data/assets/raster-annotations/tencent/business-social-networks-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 30158,
+        "losslessBytes": 30158,
+        "savingsVsLossless": 0.0
+      },
+      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-social-networks-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 322451,
+        "losslessBytes": 322451,
+        "savingsVsLossless": 0.0
+      }
     },
     {
       "key": "tencent-business-marketing-services-cluster",
       "output": "data/assets/icon-references/tencent/crops/business-marketing-services-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 31117,
+        "losslessBytes": 31117,
+        "savingsVsLossless": 0.0
+      },
       "searchBox": {
         "x": 125,
         "y": 1365,
@@ -178,11 +296,43 @@
         "passes": true
       },
       "note": "Tencent Marketing Services business icon cluster only; excludes the Marketing Services label, values, connectors, and adjacent clusters.",
-      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-marketing-services-cluster.png"
+      "runtimeOutput": "data/assets/raster-annotations/tencent/business-marketing-services-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 31117,
+        "losslessBytes": 31117,
+        "savingsVsLossless": 0.0
+      },
+      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-marketing-services-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 331896,
+        "losslessBytes": 331896,
+        "savingsVsLossless": 0.0
+      }
     },
     {
       "key": "tencent-business-fintech-business-services-cluster",
       "output": "data/assets/icon-references/tencent/crops/business-fintech-business-services-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 96,
+        "bytes": 6392,
+        "losslessBytes": 18578,
+        "savingsVsLossless": 0.6559,
+        "metrics": {
+          "meanAbsoluteError": 0.3484,
+          "rootMeanSquareError": 1.8142,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 34,
+          "changedPixelRatio": 0.0912
+        }
+      },
       "searchBox": {
         "x": 120,
         "y": 1745,
@@ -221,7 +371,31 @@
         "passes": true
       },
       "note": "Tencent FinTech and Business Services business icon cluster only; excludes the FinTech & Business Services label, values, connectors, and adjacent clusters.",
-      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-fintech-business-services-cluster.png"
+      "runtimeOutput": "data/assets/raster-annotations/tencent/business-fintech-business-services-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 96,
+        "bytes": 6392,
+        "losslessBytes": 18578,
+        "savingsVsLossless": 0.6559,
+        "metrics": {
+          "meanAbsoluteError": 0.3484,
+          "rootMeanSquareError": 1.8142,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 34,
+          "changedPixelRatio": 0.0912
+        }
+      },
+      "validationSheet": "data/assets/icon-references/tencent/validation-sheets/tencent-business-fintech-business-services-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 306894,
+        "losslessBytes": 306894,
+        "savingsVsLossless": 0.0
+      }
     }
   ]
 }

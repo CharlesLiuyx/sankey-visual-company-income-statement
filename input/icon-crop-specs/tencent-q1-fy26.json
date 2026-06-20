@@ -1,6 +1,7 @@
 {
   "source": "input/processed/tencent-q1-fy26.png",
   "outputDir": "data/assets/icon-references/tencent",
+  "runtimeOutputDir": "data/assets/raster-annotations/tencent",
   "validationSheetDir": "data/assets/icon-references/tencent/validation-sheets",
   "report": "crop-report.json",
   "backgroundSampleBlocks": [

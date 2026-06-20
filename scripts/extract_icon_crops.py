@@ -9,6 +9,7 @@ crop algorithm and validation.
 from __future__ import annotations
 
 import argparse
+from io import BytesIO
 import json
 from collections import deque
 from dataclasses import dataclass
@@ -26,6 +27,15 @@ except Exception:  # pragma: no cover - fallback for hosts without numpy
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+DEFAULT_PNG_COMPRESSION: dict[str, Any] = {
+    "enabled": True,
+    "paletteColors": [256, 192, 128, 96, 64, 48, 32, 24, 16],
+    "maxMeanAbsoluteError": 1.2,
+    "maxRootMeanSquareError": 3.0,
+    "maxP99AbsoluteError": 12.0,
+    "maxMaxChannelDiff": 72,
+}
 
 
 @dataclass(frozen=True)
@@ -54,12 +64,139 @@ class Box:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Extract validated icon crops from a reference image.")
     parser.add_argument("--spec", required=True, help="Path to an icon crop spec JSON file.")
+    parser.add_argument("--no-compress", action="store_true", help="Write RGB PNGs without visually-lossless compression.")
     return parser.parse_args()
 
 
 def project_path(value: str) -> Path:
     path = Path(value)
     return path if path.is_absolute() else ROOT / path
+
+
+def normalize_png_compression(raw: dict[str, Any] | None, no_compress: bool = False) -> dict[str, Any]:
+    config = dict(DEFAULT_PNG_COMPRESSION)
+    if raw:
+        config.update(raw)
+    if no_compress:
+        config["enabled"] = False
+    colors = config.get("paletteColors", [])
+    if isinstance(colors, int):
+        colors = [colors]
+    config["paletteColors"] = [
+        color_count for color_count in colors if isinstance(color_count, int) and 2 <= color_count <= 256
+    ]
+    return config
+
+
+def png_bytes(image: Image.Image) -> bytes:
+    buffer = BytesIO()
+    image.save(buffer, format="PNG", optimize=True, compress_level=9)
+    return buffer.getvalue()
+
+
+def quantized_png_candidate(image: Image.Image, color_count: int) -> tuple[bytes, Image.Image]:
+    base = image.convert("RGB")
+    quantized = base.quantize(
+        colors=color_count,
+        method=Image.Quantize.MEDIANCUT,
+        dither=Image.Dither.NONE,
+    )
+    return png_bytes(quantized), quantized.convert("RGB")
+
+
+def image_error_metrics(original: Image.Image, candidate: Image.Image) -> dict[str, Any]:
+    original_rgb = original.convert("RGB")
+    candidate_rgb = candidate.convert("RGB")
+
+    if np is not None:
+        original_arr = np.asarray(original_rgb, dtype=np.int16)
+        candidate_arr = np.asarray(candidate_rgb, dtype=np.int16)
+        diff = np.abs(original_arr - candidate_arr)
+        channel_diff = diff.reshape(-1)
+        channel_diff_float = channel_diff.astype(np.float32)
+        pixel_diff = np.max(diff, axis=2)
+        return {
+            "meanAbsoluteError": round(float(channel_diff_float.mean()), 4),
+            "rootMeanSquareError": round(float(np.sqrt(np.mean(np.square(channel_diff_float)))), 4),
+            "p99AbsoluteError": round(float(np.percentile(channel_diff, 99)), 4),
+            "maxChannelDiff": int(channel_diff.max()),
+            "changedPixelRatio": round(float(np.count_nonzero(pixel_diff) / pixel_diff.size), 4),
+        }
+
+    total_abs = 0
+    total_square = 0
+    max_diff = 0
+    changed_pixels = 0
+    diffs: list[int] = []
+    width, height = original_rgb.size
+    for y in range(height):
+        for x in range(width):
+            original_pixel = original_rgb.getpixel((x, y))
+            candidate_pixel = candidate_rgb.getpixel((x, y))
+            pixel_changed = False
+            for channel in range(3):
+                value = abs(original_pixel[channel] - candidate_pixel[channel])
+                total_abs += value
+                total_square += value * value
+                max_diff = max(max_diff, value)
+                diffs.append(value)
+                if value:
+                    pixel_changed = True
+            if pixel_changed:
+                changed_pixels += 1
+    channel_count = width * height * 3
+    diffs.sort()
+    p99_index = min(len(diffs) - 1, round(len(diffs) * 0.99))
+    return {
+        "meanAbsoluteError": round(total_abs / channel_count, 4),
+        "rootMeanSquareError": round((total_square / channel_count) ** 0.5, 4),
+        "p99AbsoluteError": diffs[p99_index],
+        "maxChannelDiff": max_diff,
+        "changedPixelRatio": round(changed_pixels / (width * height), 4),
+    }
+
+
+def compression_passes(metrics: dict[str, Any], config: dict[str, Any]) -> bool:
+    return (
+        metrics["meanAbsoluteError"] <= config["maxMeanAbsoluteError"]
+        and metrics["rootMeanSquareError"] <= config["maxRootMeanSquareError"]
+        and metrics["p99AbsoluteError"] <= config["maxP99AbsoluteError"]
+        and metrics["maxChannelDiff"] <= config["maxMaxChannelDiff"]
+    )
+
+
+def save_compressed_png(image: Image.Image, output_path: Path, config: dict[str, Any]) -> dict[str, Any]:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    rgb = image.convert("RGB")
+    lossless_bytes = png_bytes(rgb)
+    chosen_bytes = lossless_bytes
+    chosen: dict[str, Any] = {
+        "enabled": bool(config.get("enabled")),
+        "mode": "rgb-lossless",
+        "colors": None,
+        "bytes": len(lossless_bytes),
+        "losslessBytes": len(lossless_bytes),
+        "savingsVsLossless": 0.0,
+    }
+
+    if config.get("enabled"):
+        for color_count in config.get("paletteColors", []):
+            candidate_bytes, candidate_image = quantized_png_candidate(rgb, color_count)
+            metrics = image_error_metrics(rgb, candidate_image)
+            if len(candidate_bytes) < len(chosen_bytes) and compression_passes(metrics, config):
+                chosen_bytes = candidate_bytes
+                chosen = {
+                    "enabled": True,
+                    "mode": "palette",
+                    "colors": color_count,
+                    "bytes": len(candidate_bytes),
+                    "losslessBytes": len(lossless_bytes),
+                    "savingsVsLossless": round(1 - len(candidate_bytes) / len(lossless_bytes), 4),
+                    "metrics": metrics,
+                }
+
+    output_path.write_bytes(chosen_bytes)
+    return chosen
 
 
 def sample_background(image: Image.Image, blocks: list[list[int]] | None = None) -> tuple[int, int, int]:
@@ -328,7 +465,8 @@ def draw_validation_sheet(
     crop_box: Box,
     output_path: Path,
     title: str,
-) -> None:
+    compression: dict[str, Any],
+) -> dict[str, Any]:
     source_max = (1040, 640)
     crop_max = (430, 430)
     margin = 36
@@ -375,8 +513,7 @@ def draw_validation_sheet(
         outline=(180, 186, 192),
     )
 
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    sheet.save(output_path)
+    return save_compressed_png(sheet, output_path, compression)
 
 
 def normalize_spec(raw: dict[str, Any], index: int) -> dict[str, Any]:
@@ -406,6 +543,8 @@ def main() -> None:
     output_dir = project_path(config["outputDir"])
     output_dir.mkdir(parents=True, exist_ok=True)
     validation_sheet_dir = project_path(config["validationSheetDir"]) if config.get("validationSheetDir") else None
+    runtime_output_dir = project_path(config["runtimeOutputDir"]) if config.get("runtimeOutputDir") else None
+    compression = normalize_png_compression(config.get("compression"), args.no_compress)
 
     image = Image.open(source_path).convert("RGB")
     background = tuple(config.get("background") or sample_background(image, config.get("backgroundSampleBlocks")))
@@ -414,6 +553,17 @@ def main() -> None:
         "spec": str(spec_path.relative_to(ROOT)),
         "background": list(background),
         "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "compression": {
+            "enabled": compression["enabled"],
+            "paletteColors": compression["paletteColors"],
+            "limits": {
+                "maxMeanAbsoluteError": compression["maxMeanAbsoluteError"],
+                "maxRootMeanSquareError": compression["maxRootMeanSquareError"],
+                "maxP99AbsoluteError": compression["maxP99AbsoluteError"],
+                "maxMaxChannelDiff": compression["maxMaxChannelDiff"],
+            },
+        },
+        "runtimeOutputDir": str(runtime_output_dir.relative_to(ROOT)) if runtime_output_dir else None,
         "crops": [],
     }
 
@@ -428,15 +578,30 @@ def main() -> None:
         crop_box = Box.from_search(spec["cropBox"]) if spec.get("cropBox") else centered_crop_box(subject, spec, image.size)
         crop = image.crop((crop_box.x0, crop_box.y0, crop_box.x1, crop_box.y1))
         output_path = output_dir / spec["output"]
-        crop.save(output_path)
+        crop_compression = save_compressed_png(crop, output_path, compression)
+        runtime_output_path = None
+        runtime_compression = None
+        if runtime_output_dir:
+            runtime_output = spec.get("runtimeOutput") or Path(spec["output"]).name
+            runtime_output_path = runtime_output_dir / runtime_output
+            runtime_compression = save_compressed_png(crop, runtime_output_path, compression)
         validation_sheet_path = None
+        validation_sheet_compression = None
         if validation_sheet_dir:
             validation_sheet_path = validation_sheet_dir / f"{spec['key']}.png"
-            draw_validation_sheet(image, crop, crop_box, validation_sheet_path, spec["key"])
+            validation_sheet_compression = draw_validation_sheet(
+                image,
+                crop,
+                crop_box,
+                validation_sheet_path,
+                spec["key"],
+                compression,
+            )
         validation = validate_crop(image, spec, crop_box, subject, background)
         item = {
             "key": spec["key"],
             "output": str(output_path.relative_to(ROOT)),
+            "compression": crop_compression,
             "searchBox": spec["searchBox"],
             "componentCount": len(components),
             "subjectBox": subject.to_json(),
@@ -444,8 +609,14 @@ def main() -> None:
             "validation": validation,
             "note": spec.get("note", ""),
         }
+        if runtime_output_path:
+            item["runtimeOutput"] = str(runtime_output_path.relative_to(ROOT))
+        if runtime_compression:
+            item["runtimeCompression"] = runtime_compression
         if validation_sheet_path:
             item["validationSheet"] = str(validation_sheet_path.relative_to(ROOT))
+        if validation_sheet_compression:
+            item["validationSheetCompression"] = validation_sheet_compression
         report["crops"].append(item)
         status = "ok" if validation["passes"] else "failed"
         print(f"{status} {spec['key']}: {spec['output']} {validation['width']}x{validation['height']}")

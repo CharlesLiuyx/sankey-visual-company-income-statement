@@ -1,7 +1,6 @@
-# Reusable Icon Reference Assets
+# Data Asset Folders
 
-This directory stores validated icon reference crops used before vector
-conversion. These files are reusable source references, not runtime d3 assets.
+This directory stores reusable visual assets that sit next to dataset adapters.
 Assets are grouped by company so future datasets can reuse prior references
 when the icon is materially similar.
 
@@ -15,7 +14,16 @@ data/assets/
       validation-sheets/  # original image + crop-box review sheets
       crop-report.json    # script output and validation metrics
       model-validation.md # model/visual acceptance record
+  raster-annotations/
+    <company>/            # compressed runtime raster annotations
 ```
+
+`icon-references/` contains validated icon reference crops used before vector
+conversion. These files are reusable source references, not runtime d3 assets.
+
+`raster-annotations/` contains final runtime image assets for datasets that
+explicitly opt in to `render.allowRasterAnnotations`. These files must be
+compressed, and they are inlined into standalone builds.
 
 Use `scripts/extract_icon_crops.py` with a dataset-specific JSON spec:
 
@@ -39,6 +47,9 @@ When `validationSheetDir` is set, the script also writes per-crop validation
 sheets with the original reference, highlighted crop box, and extracted crop.
 Use those sheets for visual/model validation before accepting an asset.
 Record the result in the company folder's `model-validation.md`.
+
+When `runtimeOutputDir` is set, the same accepted crops are written as
+compressed runtime raster annotations under `raster-annotations/<company>/`.
 
 After visual/model validation passes, future datasets with materially similar
 icons should reuse the existing reference and the derived vector asset instead

@@ -1,0 +1,152 @@
+{
+  "source": "input/processed/reddit-q1-fy26.png",
+  "outputDir": "data/assets/icon-references/reddit",
+  "validationSheetDir": "data/assets/icon-references/reddit/validation-sheets",
+  "report": "crop-report.json",
+  "backgroundSampleBlocks": [
+    [0, 0, 80, 80],
+    [4606, 0, 80, 80],
+    [0, 2556, 80, 80],
+    [4606, 2556, 80, 80]
+  ],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 9
+  },
+  "crops": [
+    {
+      "key": "reddit-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": {
+        "x": 450,
+        "y": 388,
+        "width": 920,
+        "height": 260
+      },
+      "cropBox": {
+        "x": 450,
+        "y": 388,
+        "width": 920,
+        "height": 260
+      },
+      "threshold": 18,
+      "foreground": {
+        "any": [
+          {
+            "channels": {
+              "r": [150, 255],
+              "g": [0, 110],
+              "b": [0, 100]
+            }
+          },
+          {
+            "channels": {
+              "r": [0, 80],
+              "g": [0, 80],
+              "b": [0, 80]
+            }
+          }
+        ]
+      },
+      "minComponentArea": 60,
+      "padding": 20,
+      "validation": {
+        "borderBand": 4,
+        "maxCenterOffset": 0.09,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Reddit company wordmark and mascot-head logo; excludes the source chart title, revenue labels, and publisher marks."
+    },
+    {
+      "key": "reddit-region-united-states-flag",
+      "output": "crops/region-united-states-flag.png",
+      "searchBox": {
+        "x": 1740,
+        "y": 485,
+        "width": 120,
+        "height": 90
+      },
+      "cropBox": {
+        "x": 1740,
+        "y": 485,
+        "width": 120,
+        "height": 90
+      },
+      "threshold": 16,
+      "minComponentArea": 12,
+      "padding": 12,
+      "validation": {
+        "borderBand": 3,
+        "maxCenterOffset": 0.08,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "United States regional icon only; excludes the United States label and revenue values."
+    },
+    {
+      "key": "reddit-region-rest-of-world-globe",
+      "output": "crops/region-rest-of-world-globe.png",
+      "searchBox": {
+        "x": 1732,
+        "y": 1710,
+        "width": 150,
+        "height": 128
+      },
+      "cropBox": {
+        "x": 1732,
+        "y": 1710,
+        "width": 150,
+        "height": 128
+      },
+      "threshold": 16,
+      "minComponentArea": 12,
+      "padding": 12,
+      "validation": {
+        "borderBand": 3,
+        "maxCenterOffset": 0.09,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Rest of World regional globe icon only; excludes the segment label and revenue values."
+    },
+    {
+      "key": "reddit-company-snoo-mascot",
+      "output": "crops/company-snoo-mascot.png",
+      "searchBox": {
+        "x": 2070,
+        "y": 1780,
+        "width": 575,
+        "height": 670
+      },
+      "cropBox": {
+        "x": 2070,
+        "y": 1780,
+        "width": 575,
+        "height": 670
+      },
+      "threshold": 12,
+      "minComponentArea": 45,
+      "padding": 18,
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 14
+      },
+      "validation": {
+        "borderBand": 4,
+        "maxCenterOffset": 0.1,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Reddit Snoo mascot illustration; excludes App Economy Insights website text and attribution marks."
+    }
+  ],
+  "skipped": [
+    {
+      "key": "publisher-how-they-make-money",
+      "reason": "Source publisher branding and not part of Reddit's income-statement semantics."
+    },
+    {
+      "key": "publisher-app-economy-insights",
+      "reason": "Source publisher branding, website URL, and social badge are intentionally excluded."
+    }
+  ]
+}

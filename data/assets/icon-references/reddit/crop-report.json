@@ -1,0 +1,343 @@
+{
+  "source": "input/processed/reddit-q1-fy26.png",
+  "spec": "input/icon-crop-specs/reddit-q1-fy26.json",
+  "background": [
+    239,
+    239,
+    239
+  ],
+  "generatedAt": "2026-06-20T13:52:12.999083+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 9
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "reddit-company-wordmark",
+      "output": "data/assets/icon-references/reddit/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 12698,
+        "losslessBytes": 58973,
+        "savingsVsLossless": 0.7847,
+        "metrics": {
+          "meanAbsoluteError": 0.5606,
+          "rootMeanSquareError": 2.1608,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 51,
+          "changedPixelRatio": 0.4465
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 9,
+        "background": [
+          239,
+          239,
+          239
+        ],
+        "transparentPixels": 132746,
+        "transparentPixelRatio": 0.555
+      },
+      "searchBox": {
+        "x": 450,
+        "y": 388,
+        "width": 920,
+        "height": 260
+      },
+      "componentCount": 11,
+      "subjectBox": {
+        "x0": 482,
+        "y0": 392,
+        "x1": 1359,
+        "y1": 637
+      },
+      "cropBox": {
+        "x0": 450,
+        "y0": 388,
+        "x1": 1370,
+        "y1": 648
+      },
+      "validation": {
+        "width": 920,
+        "height": 260,
+        "foregroundPixels": 78801,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 32,
+          "right": 11,
+          "top": 4,
+          "bottom": 11
+        },
+        "centerOffset": {
+          "x": 0.0114,
+          "y": -0.0135
+        },
+        "passes": true
+      },
+      "note": "Reddit company wordmark and mascot-head logo; excludes the source chart title, revenue labels, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/reddit/validation-sheets/reddit-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 288936,
+        "losslessBytes": 288936,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "reddit-region-united-states-flag",
+      "output": "data/assets/icon-references/reddit/crops/region-united-states-flag.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 128,
+        "bytes": 3908,
+        "losslessBytes": 11336,
+        "savingsVsLossless": 0.6553,
+        "metrics": {
+          "meanAbsoluteError": 1.1889,
+          "rootMeanSquareError": 2.8921,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 24,
+          "changedPixelRatio": 0.3758
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 9,
+        "background": [
+          239,
+          239,
+          239
+        ],
+        "transparentPixels": 6759,
+        "transparentPixelRatio": 0.6258
+      },
+      "searchBox": {
+        "x": 1740,
+        "y": 485,
+        "width": 120,
+        "height": 90
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 1761,
+        "y0": 500,
+        "x1": 1840,
+        "y1": 557
+      },
+      "cropBox": {
+        "x0": 1740,
+        "y0": 485,
+        "x1": 1860,
+        "y1": 575
+      },
+      "validation": {
+        "width": 120,
+        "height": 90,
+        "foregroundPixels": 3694,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 21,
+          "right": 20,
+          "top": 15,
+          "bottom": 18
+        },
+        "centerOffset": {
+          "x": 0.0042,
+          "y": -0.0167
+        },
+        "passes": true
+      },
+      "note": "United States regional icon only; excludes the United States label and revenue values.",
+      "validationSheet": "data/assets/icon-references/reddit/validation-sheets/reddit-region-united-states-flag.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 340661,
+        "losslessBytes": 340661,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "reddit-region-rest-of-world-globe",
+      "output": "data/assets/icon-references/reddit/crops/region-rest-of-world-globe.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 256,
+        "bytes": 5304,
+        "losslessBytes": 15040,
+        "savingsVsLossless": 0.6473,
+        "metrics": {
+          "meanAbsoluteError": 0.916,
+          "rootMeanSquareError": 2.585,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 24,
+          "changedPixelRatio": 0.3159
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 9,
+        "background": [
+          239,
+          239,
+          239
+        ],
+        "transparentPixels": 13232,
+        "transparentPixelRatio": 0.6892
+      },
+      "searchBox": {
+        "x": 1732,
+        "y": 1710,
+        "width": 150,
+        "height": 128
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 1757,
+        "y0": 1735,
+        "x1": 1844,
+        "y1": 1822
+      },
+      "cropBox": {
+        "x0": 1732,
+        "y0": 1710,
+        "x1": 1882,
+        "y1": 1838
+      },
+      "validation": {
+        "width": 150,
+        "height": 128,
+        "foregroundPixels": 5933,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 25,
+          "right": 38,
+          "top": 25,
+          "bottom": 16
+        },
+        "centerOffset": {
+          "x": -0.0433,
+          "y": 0.0352
+        },
+        "passes": true
+      },
+      "note": "Rest of World regional globe icon only; excludes the segment label and revenue values.",
+      "validationSheet": "data/assets/icon-references/reddit/validation-sheets/reddit-region-rest-of-world-globe.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 334042,
+        "losslessBytes": 334042,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "reddit-company-snoo-mascot",
+      "output": "data/assets/icon-references/reddit/crops/company-snoo-mascot.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 151476,
+        "losslessBytes": 151476,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 14,
+        "background": [
+          239,
+          239,
+          239
+        ],
+        "transparentPixels": 255415,
+        "transparentPixelRatio": 0.663
+      },
+      "searchBox": {
+        "x": 2070,
+        "y": 1780,
+        "width": 575,
+        "height": 670
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 2134,
+        "y0": 1822,
+        "x1": 2589,
+        "y1": 2432
+      },
+      "cropBox": {
+        "x0": 2070,
+        "y0": 1780,
+        "x1": 2645,
+        "y1": 2450
+      },
+      "validation": {
+        "width": 575,
+        "height": 670,
+        "foregroundPixels": 130304,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 64,
+          "right": 56,
+          "top": 42,
+          "bottom": 18
+        },
+        "centerOffset": {
+          "x": 0.007,
+          "y": 0.0179
+        },
+        "passes": true
+      },
+      "note": "Reddit Snoo mascot illustration; excludes App Economy Insights website text and attribution marks.",
+      "validationSheet": "data/assets/icon-references/reddit/validation-sheets/reddit-company-snoo-mascot.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 336952,
+        "losslessBytes": 336952,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

@@ -69,6 +69,50 @@
         },
       },
       {
+        key: 'reddit-q1-fy26',
+        company: 'Reddit',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/reddit-q1-fy26.png',
+        roundingTolerance: 1.1,
+        revenue: {
+          total: 663,
+          notes: ['+69% Y/Y'],
+          items: [
+            { id: 'advertising', label: 'Advertising', value: 625, notes: ['+74% Y/Y'] },
+            { id: 'other_revenue', label: 'Other', value: 39, notes: ['+15% Y/Y', 'Data API Access', 'Model Training'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 56 },
+          operatingExpenses: {
+            total: 424,
+            items: [
+              { id: 'rnd', label: 'Research & development', value: 207, notes: ['31% of revenue', '(18pp) Y/Y'] },
+              { id: 'sm', label: 'Sales & marketing', value: 152, notes: ['23% of revenue', '(0pp) Y/Y'] },
+              { id: 'ga', label: 'General & admin', value: 66, notes: ['10% of revenue', '(8pp) Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 2 },
+        },
+        otherIncome: {
+          total: 23,
+          items: [{ id: 'other_income', label: 'Other', value: 23 }],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 607, notes: ['92% margin', '+1pp Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 183, notes: ['28% margin', '+27pp Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 204, notes: ['31% margin', '+24pp Y/Y'] },
+        },
+      },
+      {
         key: 'alibaba-q4-fy26',
         company: 'Alibaba',
         period: 'Q4 FY26',

@@ -51,6 +51,26 @@
         ],
       },
       {
+        key: 'reddit',
+        name: 'Reddit',
+        legalName: 'Reddit, Inc.',
+        ticker: 'RDDT',
+        exchange: 'NYSE',
+        sector: 'Communication Services',
+        industry: 'Social media, online communities, and digital advertising',
+        founded: '2005',
+        headquarters: 'San Francisco, California, United States',
+        fiscalYearEnd: 'December 31',
+        website: 'https://www.reddit.com/',
+        description:
+          'Reddit is a community platform organized around user-created communities where people post, vote, comment, and discover discussions around their interests; the company monetizes primarily through advertising and other products such as data licensing.',
+        sourceUrls: [
+          'https://redditinc.com/',
+          'https://investor.redditinc.com/overview/default.aspx',
+          'https://investor.redditinc.com/financials/sec-filings/default.aspx',
+        ],
+      },
+      {
         key: 'salesforce',
         name: 'Salesforce',
         legalName: 'Salesforce, Inc.',

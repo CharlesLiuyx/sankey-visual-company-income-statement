@@ -26,6 +26,12 @@ standalone builder, and verification scripts load these files directly from
 `index.html`, and the project workflow documents this path as the stable
 dataset convention.
 
+`company-metadata.js` powers both the Table company profile and the Company
+navigator sort modes. In addition to the verifier-required profile fields, keep
+`founded` and public-company `marketCap.valueUsd/asOf/sourceUrl` populated when
+reliable sources are available. Latest net profit for sorting stays in
+`income-statements.js`, not company metadata.
+
 Use `data/assets/icon-references/<company>/` for reusable company and business
 icon reference crops. These crops are conversion references only; d3 output must
 use SVG/vector assets and must not embed these PNG crops.

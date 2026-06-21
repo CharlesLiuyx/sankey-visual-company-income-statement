@@ -35,7 +35,7 @@
    - 在公司资产目录中保留 `crop-report.json` 和 `model-validation.md`。
    - 除非用户明确缩小范围，否则要提取源图中所有有语义的 company 和 business/segment icon cluster，不要只提取一个示例业务簇。
    - 排除发布方水印、创作者/账号品牌、网站 URL、社交徽标、"how they make money" 标识、署名块，以及没有独立业务 icon 的 `Others` 等 segment。
-7. 在为新公司编写第一个数据集之前，先收集公司元数据（描述、板块、行业、总部、网站、股票代码/交易所，如有，以及来源 URL），并添加到 `data/company-metadata.js`。
+7. 在为新公司编写第一个数据集之前，先收集公司元数据（描述、板块、行业、成立日期、总部、财年截止日、网站、股票代码/交易所、可公开核验时的市值及其日期/来源，以及来源 URL），并添加到 `data/company-metadata.js`。
 8. 将 `meta.referenceImage` 设置为已处理 PNG，并记录准确的源图片尺寸。
 9. 处理完成后，保持 `input/pending/` 为空，只保留 `.gitkeep`。
 
@@ -57,10 +57,10 @@
 - 将公司图标以及公司内部业务/segment 示意图标视为可复用资产。图标可以干净矢量化时优先使用 vector；当源图包含品牌专属 bitmap 细节，或用户要求图片嵌入模式时，允许对已验证的公司/业务 icon cluster 使用图片嵌入模式。
 - 第一次添加图标时，先通过 `scripts/extract_icon_crops.py` 和数据集专用 JSON spec 裁切所有相关源图区域，作为 original-icon reference asset。只有在确认主体完整、居中、没有无关内容之后，才能将它对齐到图表，并转换为 SVG/vector 几何，或在图片嵌入模式下通过 `runtimeOutputDir` 写出独立 runtime 副本。
 - 视觉/模型 crop 校验使用每张自动生成的 validation sheet。sheet 同时包含原始源图、crop 框和裁切结果。验收结论记录在 `data/assets/icon-references/<company>/model-validation.md`。
-- 矢量化时，SVG 转换本身也要跑保真度循环，将转换后的 SVG 渲染与裁切/对齐后的参考进行比较，直到匹配稳定到足够可接受。
+- 矢量化 icon 时，加载 `docs/fidelity-loop-rules.md` 并遵循其中的 SVG/vector icon 子循环。
 - 后续数据集中，只要源图标在实质上相似，就复用已有 SVG/vector 图标。优先调整现有 SVG 的 viewBox、transform、尺寸、位置或样式，而不是创建近似重复资产。
 - 当通用语义图标能匹配源图意图时，使用 `src/icons.js` 中的 Lucide/vector 图标。
-- 图片嵌入模式下，runtime raster 资产只有同时满足以下条件才允许：源区域是有语义的公司或业务/segment icon cluster；不是数值 label、纯文本裁切、水印、网站、创作者/账号标记、归因块、整张源图或遮盖差异的补丁；crop 已通过验证并记录在 `data/assets/icon-references/<company>/crop-report.json` 和 `model-validation.md`；runtime 文件位于 `data/assets/raster-annotations/<company>/` 且由 spec 的 `runtimeOutputDir` 生成；数据集通过 `data.rasterAnnotations` 引用，并显式设置 `render.allowRasterAnnotations = true`。
+- 图片嵌入模式下，加载 `docs/fidelity-loop-rules.md` 获取 runtime raster 例外规则，并加载 `data/assets/README.md` 获取资产布局说明。
 
 ## Data 与资产布局
 
@@ -81,65 +81,22 @@ data/assets/
 ```
 
 `data/assets/icon-references/` 中的 crop 不是 runtime 资产，只用于 SVG/vector 转换和未来复用判断。
-`data/assets/raster-annotations/` 中的 runtime raster annotations 只允许给显式设置 `render.allowRasterAnnotations` 并通过 `data.rasterAnnotations` 引用的 dataset 使用。
+Runtime raster annotation 规则由 `docs/fidelity-loop-rules.md` 定义。
 
 ## d3-Sankey 保真度循环
 
-保真度循环会将参考 PNG 与 **d3-sankey SVG 输出** 进行比较。源 PNG 只是标准答案，绝不能成为候选渲染的一部分。
+运行或汇报任何 d3-Sankey 保真度循环之前，先加载并遵循
+`docs/fidelity-loop-rules.md`。该文件是 d3 输出纯净性、允许改动范围、
+图片/raster 例外、指标、迭代、本地化布局检查、`compare/` 临时产物处理，
+以及 icon SVG/vector 子循环的 SSOT。
 
-创建数据集或对数据集做实质性修改后，自动运行此循环：
-
-1. 如果缺少 `node_modules/`，安装固定版本的本地工具：
-
-   ```sh
-   pnpm install --frozen-lockfile
-   pnpm exec playwright install chromium
-   ```
-
-2. 运行确定性的 d3 验证脚本：
-
-   ```sh
-   pnpm verify:d3 -- <dataset-key>
-   ```
-
-   该脚本会在临时端口启动自己的本地静态服务器，在最小 d3 harness 中通过 `SankeyEngine.render('#chart', data)` 渲染数据集，截取 `#chart > svg`，检查纯净性，计算指标，关闭浏览器和服务器，并清理 `compare/`。
-
-   在 Codex desktop 或受限 sandbox 环境中，一开始就使用提权 shell 权限运行 `pnpm verify:d3`。脚本必须绑定本地 `127.0.0.1` 服务器；先在 sandbox 内尝试可能因 `listen EPERM: operation not permitted 127.0.0.1` 失败，浪费一次验证循环。
-
-3. 评分前先确认输出纯净：
-   - 候选结果必须是 d3/SVG 渲染。
-   - `#chart > svg image` 数量必须为 `0`，除非 dataset 通过 `render.allowRasterAnnotations = true` 显式启用图片嵌入模式。
-   - 启用图片嵌入模式时，每个 SVG `<image>` 都必须对应 `data/assets/raster-annotations/<company>/` 下的已批准 runtime raster annotation；验证输出应报告 `rasterAllowed: true` 和预期的 image 数量。
-   - 候选结果中不能出现源图片 `<img>`。
-   - 不能使用临时 raster 裁剪、前景覆盖层、锁定背景，或从源图片提取的资产来遮盖差异。
-
-4. 将候选截图与 `input/processed/<dataset-key>.png` 比较。脚本会报告：
-   - RGB MAE
-   - MAE similarity：`1 - mae / 255`
-   - 最大通道差异
-   - 相同像素比例
-
-5. 只能通过 d3 兼容的改动来改进：
-   - `data.layout.nodes`
-   - `data.layout.labels`
-   - `data.render` 的尺寸、颜色、透明度和排版
-   - link 顺序或 target 顺序
-   - vector logo 或 vector 图标
-   - 图片嵌入模式下已批准的 runtime raster annotations
-   - 渲染器对 SVG 几何或文本控制的支持
-
-6. 迭代到改进进入平台期，或输出在视觉上足够接近。不要通过切换成参考 raster 或源图片覆盖层来宣称达到 99%+ 的 d3 结果。
-
-只有在需要检查 `compare/` 中候选 PNG 时，才使用 `pnpm verify:d3 -- <dataset-key> --keep`；结束前用 `sh scripts/clean-compare.sh` 清理。
+如果 `AGENTS.md`、`README.md` 或其他项目说明与
+`docs/fidelity-loop-rules.md` 在保真度循环行为上不一致，以
+`docs/fidelity-loop-rules.md` 为准。
 
 ## 硬性规则
 
-- viewer 只发布 d3-sankey 模式。参考 PNG 只作为验证标准；不要在 app runtime 或 standalone HTML artifact 中重新引入 Reference mode。
 - 当请求可分享的最终 HTML artifact 时，使用 `pnpm build:standalone` 生成 standalone 文件。该 artifact 必须自包含：运行时不应需要同级 CSS、JS、字体、vendor、data 或参考 PNG 文件。
-- 直接使用源 PNG 的 `<img>` 不是渲染。
-- d3-sankey 模式中不允许使用从源图片提取的 raster 覆盖层，除非它们是 `data/assets/raster-annotations/<company>/` 下已批准的 runtime raster annotations，通过 `data.rasterAnnotations` 引用，并由 `render.allowRasterAnnotations = true` 保护。
-- 如果候选结果包含整张参考图、未批准 crop、前景覆盖层、锁定背景或归因标记中的源像素，则 d3 循环结果无效。有语义的公司/业务图标 runtime raster annotation 是唯一例外。
-- `compare/` 只是 scratch 目录。结束前不要在那里保留循环截图或 diff。
 - 分配稳定数据集 key 后，不要重命名已处理图片。
 
 ## Commit Message 约定
@@ -179,13 +136,10 @@ data/assets/
   - 已使用同时包含原图和裁切结果的 validation sheet 做视觉/模型检查。
   - `data/assets/icon-references/<company>/model-validation.md` 记录了模型/视觉验收结果。
   - 源图中所有有语义的 company 和 business/segment icon cluster 都已提取，或明确记录了跳过原因。
-  - 如果使用图片嵌入模式，crop spec 设置了 `runtimeOutputDir`，已接受的 runtime 副本存在于 `data/assets/raster-annotations/<company>/`，且数据集使用 `data.rasterAnnotations` 并设置 `render.allowRasterAnnotations = true`。
+  - 如果使用图片嵌入模式，通过 `docs/fidelity-loop-rules.md` 要求的 runtime raster 检查。
 - 如果需要 standalone HTML artifact，`pnpm build:standalone` 和 `pnpm verify:standalone` 通过。
 - 如果改动了渲染器代码，`node --check src/sankey-engine.js` 通过。
-- `pnpm verify:d3 -- <dataset-key>` 通过。
-- 已检查 d3 输出纯净性（`#chart > svg` 内 `imageCount: 0`，或在 `rasterAllowed: true` 时为预期 runtime raster annotation 数量）。
-- 循环指标是用 d3 截图与源 PNG 计算得出。
-- `compare/` 已清理。
+- 如果需要 d3 保真度循环，已加载 `docs/fidelity-loop-rules.md`，并完成其中要求的验证、纯净性、指标、本地化布局和 `compare/` 清理检查。
 
 ## 汇报
 
@@ -195,6 +149,5 @@ data/assets/
 - pending input 是否已清空。
 - 纯数据 SSOT 是否已更新。
 - 提取了哪些 icon 资产，以及是否覆盖了全部相关业务簇。
-- 最终 d3 循环指标。
-- 任何已知的剩余保真度限制。
+- 对数据集或渲染器改动，汇报 `docs/fidelity-loop-rules.md` 要求的最终 d3 循环结果。
 - 任何无法运行的命令。

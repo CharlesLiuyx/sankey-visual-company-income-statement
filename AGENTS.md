@@ -68,8 +68,9 @@ reference assets when needed, and run a d3-sankey fidelity loop automatically.
    crop spec so the accepted crops are written as compressed runtime copies
    under `data/assets/raster-annotations/<company>/`.
 7. Before authoring a new company's first dataset, gather company metadata
-   (description, sector, industry, headquarters, website, ticker/exchange when
-   available, and source URLs) and add it to `data/company-metadata.js`.
+   (description, sector, industry, founded date, headquarters, fiscal year end,
+   website, ticker/exchange, market cap with as-of/source when available, and
+   source URLs) and add it to `data/company-metadata.js`.
    Also add localized company profile fields for every non-default supported
    language, including at least display name when it differs, sector, industry,
    headquarters, fiscal year end, and description.
@@ -154,27 +155,15 @@ For company and business icons:
   crop. It contains the original source image, the highlighted crop box, and
   the extracted crop. Record acceptance in
   `data/assets/icon-references/<company>/model-validation.md`.
-- Run a fidelity loop for the SVG conversion itself when vectorizing,
-  comparing the converted SVG render against the cropped/aligned reference
-  until the match is stable enough.
+- When vectorizing icons, load `docs/fidelity-loop-rules.md` and follow its
+  SVG/vector icon subloop.
 - For later datasets, reuse existing SVG/vector icons whenever the source icon
   is materially similar. Adjust the existing SVG viewBox, transform, size,
   placement, or styling instead of creating near-duplicate assets.
 - Use Lucide/vector icons from `src/icons.js` for generic semantic icons when
   they match the source intent.
-- In image embedding mode, runtime raster assets are allowed only when all of
-  the following are true:
-  - The source region is a semantically relevant company or business/segment
-    icon cluster, not a value label, text-only crop, watermark, website,
-    creator/account mark, attribution block, whole source image, or mismatch
-    cover-up.
-  - The crop passed validation and is recorded in
-    `data/assets/icon-references/<company>/crop-report.json` and
-    `model-validation.md`.
-  - The runtime file lives under `data/assets/raster-annotations/<company>/`
-    and was produced through the spec's `runtimeOutputDir`.
-  - The dataset references it through `data.rasterAnnotations` and explicitly
-    sets `render.allowRasterAnnotations = true`.
+- In image embedding mode, load `docs/fidelity-loop-rules.md` for the runtime
+  raster exception rules and `data/assets/README.md` for asset layout.
 
 ## Data and Asset Layout
 
@@ -197,103 +186,25 @@ data/assets/
 
 Reference crops in `data/assets/icon-references/` are not runtime assets. They
 exist to support SVG/vector conversion and future reuse decisions only.
-Runtime raster annotations in `data/assets/raster-annotations/` are allowed
-only for datasets that explicitly opt in with `render.allowRasterAnnotations`
-and reference the files through `data.rasterAnnotations`.
+Runtime raster annotation rules are defined in `docs/fidelity-loop-rules.md`.
 
 ## d3-Sankey Fidelity Loop
 
-The fidelity loop compares the reference PNG against the **d3-sankey SVG
-output**. The source PNG is only the standard; it must never be part of the
-candidate render.
+Before running or reporting any d3-Sankey fidelity loop, load and follow
+`docs/fidelity-loop-rules.md`. That file is the SSOT for d3 output purity,
+allowed changes, image/raster exceptions, metrics, iteration, localization
+layout checks, temporary `compare/` handling, and icon SVG/vector subloops.
 
-Run this loop automatically after creating or materially changing a dataset:
-
-1. Install pinned local tooling if `node_modules/` is missing:
-
-   ```sh
-   pnpm install --frozen-lockfile
-   pnpm exec playwright install chromium
-   ```
-
-2. Run the deterministic d3 verification script:
-
-   ```sh
-   pnpm verify:d3 -- <dataset-key>
-   ```
-
-   The script starts its own local static server on an ephemeral port, renders
-   the dataset in a bare d3 harness with `SankeyEngine.render('#chart', data)`,
-   screenshots `#chart > svg`, checks purity, computes metrics, closes the
-   browser/server, and cleans `compare/`.
-
-   In Codex desktop / restricted-sandbox environments, run `pnpm verify:d3`
-   with escalated shell permissions from the start. The script must bind a
-   local `127.0.0.1` server; trying it inside the sandbox first can fail with
-   `listen EPERM: operation not permitted 127.0.0.1` and wastes a verification
-   cycle.
-
-3. Assert output purity before scoring:
-   - The candidate must be a d3/SVG render.
-   - `#chart > svg image` count must be `0` unless the dataset explicitly opts
-     in to image embedding with `render.allowRasterAnnotations = true`.
-   - When image embedding mode is enabled, every SVG `<image>` must correspond
-     to an approved runtime raster annotation under
-     `data/assets/raster-annotations/<company>/`; the verifier should report
-     `rasterAllowed: true` and the expected image count.
-   - No source-image `<img>` may be present in the candidate.
-   - No ad hoc raster crops, foreground overlays, locked backgrounds, or
-     extracted source-image assets may be used to cover mismatches.
-
-4. Compare candidate screenshot against `input/processed/<dataset-key>.png`.
-   The script reports:
-   - RGB MAE
-   - MAE similarity: `1 - mae / 255`
-   - max channel difference
-   - same-pixel ratio
-
-5. Improve with d3-compatible changes only:
-   - `data.layout.nodes`
-   - `data.layout.labels`
-   - `data.render` sizing, colors, opacity, and typography
-   - link order / target order
-   - vector logo / vector icons
-   - approved runtime raster annotations in image embedding mode
-   - renderer support for SVG geometry or text controls
-
-6. Iterate until improvements plateau or the output is visually close enough.
-   Do not claim a 99%+ d3 result by switching to a reference raster or source
-   overlays.
-   Source publisher watermarks, creator marks, website URLs, social badges, and
-   unrelated attribution blocks should be skipped even if they appear in the
-   reference PNG; do not add them to improve pixel metrics.
-
-Use `pnpm verify:d3 -- <dataset-key> --keep` only when you need to inspect the
-candidate PNG in `compare/`; clean it with `sh scripts/clean-compare.sh` before
-finishing.
+If `AGENTS.md`, `README.md`, or another project note differs from
+`docs/fidelity-loop-rules.md` on fidelity-loop behavior, follow
+`docs/fidelity-loop-rules.md`.
 
 ## Hard Rules
 
-- The viewer ships only d3-sankey mode. Reference PNGs remain verification
-  standards only; do not reintroduce a Reference mode into the app runtime or
-  standalone HTML artifact.
 - When a shareable final HTML artifact is requested, produce the standalone
   file with `pnpm build:standalone`. The artifact must be self-contained: no
   sibling CSS, JS, font, vendor, data, or reference PNG files should be needed
   at runtime.
-- A direct `<img>` of the source PNG is not a render.
-- Raster overlays extracted from the source image are not allowed in d3-sankey
-  mode unless they are approved runtime raster annotations under
-  `data/assets/raster-annotations/<company>/`, referenced through
-  `data.rasterAnnotations`, and gated by `render.allowRasterAnnotations = true`.
-- Source publisher watermarks, creator/account branding, website URLs, social
-  badges, and unrelated attribution blocks are not part of d3-sankey output.
-- If the candidate includes source pixels from the whole reference image,
-  unapproved crops, foreground overlays, locked backgrounds, or attribution
-  marks, the d3 loop result is invalid. Approved runtime raster annotations for
-  semantic company/business icons are the only exception.
-- `compare/` is scratch only. Do not keep loop screenshots or diffs there after
-  finishing.
 - Do not rename processed images after assigning a stable dataset key.
 
 ## Commit Message Convention
@@ -353,18 +264,14 @@ Before final response, verify:
     model/visual pass result.
   - Every semantically relevant company and business/segment icon cluster in
     the source image is either extracted or explicitly documented as skipped.
-  - If image embedding mode is used, the crop spec sets `runtimeOutputDir`,
-    the accepted runtime copies exist under
-    `data/assets/raster-annotations/<company>/`, and the dataset uses
-    `data.rasterAnnotations` with `render.allowRasterAnnotations = true`.
+  - If image embedding mode is used, the runtime raster checks required by
+    `docs/fidelity-loop-rules.md` pass.
 - If a standalone HTML artifact is required, `pnpm build:standalone` and
   `pnpm verify:standalone` pass.
 - If renderer code changed, `node --check src/sankey-engine.js` passes.
-- `pnpm verify:d3 -- <dataset-key>` passes.
-- d3 output purity was checked (`imageCount: 0` inside `#chart > svg`, or the
-  expected runtime raster annotation count with `rasterAllowed: true`).
-- Loop metrics were computed from d3 screenshot vs source PNG.
-- `compare/` was cleaned.
+- If a d3 fidelity loop is required, `docs/fidelity-loop-rules.md` was loaded
+  and its required verification, purity, metric, localization-layout, and
+  `compare/` cleanup checks were completed.
 
 ## Reporting
 
@@ -375,6 +282,6 @@ In the final response, include:
 - Whether the pure data SSOT was updated.
 - Which icon assets were extracted, and whether all relevant business clusters
   were accounted for.
-- The final d3 loop metrics.
-- Any known residual fidelity limits.
+- For dataset or renderer changes, the final d3 loop result required by
+  `docs/fidelity-loop-rules.md`.
 - Any commands that could not be run.

@@ -4,6 +4,39 @@
 
 最终质量由输出图与原图的像素 Diff 决定。人工目视检查只用于解释 Diff 来源、判断是否继续优化，以及确认某些差异是否可接受。
 
+## 项目执行入口
+
+本文档是 d3-Sankey 保真循环和图标 SVG/vector 化子循环的 SSOT。其他文档只应指向本文档；如果其他说明与本文档冲突，以本文档为准。
+
+创建或实质修改数据集后，运行确定性的 d3 验证脚本：
+
+```sh
+pnpm verify:d3 -- <dataset-key>
+```
+
+如果缺少本地依赖，先安装固定版本工具：
+
+```sh
+pnpm install --frozen-lockfile
+pnpm exec playwright install chromium
+```
+
+在 Codex desktop 或受限 sandbox 环境中，`pnpm verify:d3` 需要一开始就使用提权 shell 权限运行。脚本会绑定本地 `127.0.0.1` 临时服务器；在 sandbox 内先试可能因 `listen EPERM: operation not permitted 127.0.0.1` 失败。
+
+`pnpm verify:d3 -- <dataset-key>` 会启动本地静态服务器，在最小 d3 harness 中通过 `SankeyEngine.render('#chart', data)` 渲染数据集，截取 `#chart > svg`，校验输出纯净性，计算 Diff 指标，关闭浏览器和服务器，并清理 `compare/`。
+
+只有需要检查 `compare/` 中候选 PNG、参考 PNG 或 Diff PNG 时，才使用：
+
+```sh
+pnpm verify:d3 -- <dataset-key> --keep
+```
+
+保留临时产物后，结束前必须运行：
+
+```sh
+sh scripts/clean-compare.sh
+```
+
 ## 基本原则
 
 1. 原图只作为对比标准，不得作为候选渲染结果的一部分。
@@ -33,6 +66,35 @@
 11. 进入细微调参阶段时，并行尝试多个候选值或小范围参数组合，统一计分后只保留整体效果最好的结果。
 12. 重复以上步骤，直到必须死磕的问题全部消除，且整体 Diff 改善进入平台期。
 13. 清理临时产物。
+
+## 输出纯净性与 runtime raster 例外
+
+默认情况下，`#chart > svg image` 数量必须为 `0`。候选图不得包含整张源图、源图裁剪、未批准 crop、前景覆盖层、锁定背景、CSS background、canvas bitmap 或其他源像素补丁。
+
+唯一例外是显式图片嵌入模式。只有同时满足以下条件时，d3 输出中才允许出现 SVG `<image>`：
+
+- 源区域是有语义的公司或业务/segment icon cluster。
+- crop 已通过 spec-driven 提取和验证，并记录在 `data/assets/icon-references/<company>/crop-report.json` 与 `model-validation.md`。
+- runtime 文件由 crop spec 的 `runtimeOutputDir` 生成，并位于 `data/assets/raster-annotations/<company>/`。
+- dataset 通过 `data.rasterAnnotations` 引用该 runtime 文件。
+- dataset 显式设置 `render.allowRasterAnnotations = true`。
+- 验证输出报告 `rasterAllowed: true`，且 image count 与预期 runtime raster annotation 数量一致。
+
+来源发布方水印、创作者/账号品牌、网站 URL、社交徽标、"how they make money" 标识、署名条和其他 attribution 内容不属于允许例外。
+
+## 允许的改动范围
+
+整图 d3 循环只能通过 d3-compatible 改动改善输出：
+
+- `data.layout.nodes`
+- `data.layout.labels`
+- `data.render` 尺寸、颜色、透明度和排版
+- link 顺序、target 顺序或固定 socket/接口配置
+- vector logo 或 vector icon
+- 显式图片嵌入模式下已批准的 runtime raster annotations
+- 渲染器对 SVG 几何或文本控制的通用支持
+
+不能通过 Reference mode、直接 `<img>`、整张源图、未批准 crop、临时 overlay 或锁定背景降低 Diff。
 
 ## 图标矢量化子循环
 

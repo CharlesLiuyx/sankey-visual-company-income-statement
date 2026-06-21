@@ -116,6 +116,12 @@ checks every company in the financial SSOT has a matching
   legalName: 'NVIDIA Corporation',
   ticker: 'NVDA',
   exchange: 'NASDAQ',
+  marketCap: {
+    valueUsd: 3000000000000,
+    asOf: '2026-06-18',
+    source: 'StockAnalysis',
+    sourceUrl: 'https://stockanalysis.com/stocks/nvda/market-cap/',
+  },
   sector: 'Information Technology',
   industry: 'Semiconductors',
   founded: '1993',
@@ -140,7 +146,30 @@ checks every company in the financial SSOT has a matching
 
 Required fields for verification are `key`, `name`, `sector`, `industry`,
 `description`, and a non-empty `sourceUrls` array. Other fields should be filled
-when they can be found from reliable public sources.
+when they can be found from reliable public sources. For the Company list and
+Table view, also keep `founded`, `headquarters`, `fiscalYearEnd`, `website`,
+`ticker`, `exchange`, and public-company `marketCap` data current enough for
+sorting and display. Do not duplicate period-specific financials in company
+metadata; latest-period revenue, currency, unit, and net profit belong in
+`data/income-statements.js`.
+
+### Company list sorting fields
+
+The Company navigator currently supports these sort modes. Keep the data source
+for each mode stable so the sidebar list, Table view, CSV export, and
+localization overlays describe the same company.
+
+| sort mode | source fields | notes |
+|---|---|---|
+| Alphabetical | `name`; optional `i18n.<language>.displayName` | Uses the localized display company name. Use `aliases` only for matching financial records to metadata, not for display ordering. |
+| Recently updated | Dataset `meta.period`, dataset key, and `meta.periodNote` | Prefer parseable `Qn FYyy` / `Qn FYyyyy` period text or dataset keys. If no fiscal period is found, the UI falls back to month/year text in `periodNote`, then registration order. |
+| Market cap | `marketCap.valueUsd`, `marketCap.asOf`, `marketCap.source`, `marketCap.sourceUrl` | Store the full market capitalization as a USD number, descending in the UI. Missing values sort after companies with values and display as missing metadata. |
+| Net profit | Latest matching `data/income-statements.js` record: `profit.net.value`, `currency`, `unit`, and parseable period fields | The UI selects the latest dataset for the company, converts the reported net profit to USD using `src/app.js` currency constants, and sorts descending. Do not add latest net profit to company metadata. |
+| Founded date | `founded` | The first four-digit year in the string is used for ascending sort. Keep the human-readable string precise enough for Table display. |
+
+When a sort value is missing, the company sorts after companies with a numeric
+value for that mode. Ties fall back to localized company name, then the
+canonical company name, then latest-period recency.
 
 ---
 

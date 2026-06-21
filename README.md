@@ -78,8 +78,9 @@ another fidelity loop:
    name it with the dataset key, for example `salesforce-q1-fy27.png`.
 4. Set `meta.referenceImage` on the matching dataset to that processed path.
 5. If this is a new company, add the company profile to
-   `data/company-metadata.js` first: description, sector, industry, headquarters,
-   website, ticker/exchange when available, and source URLs.
+   `data/company-metadata.js` first: description, sector, industry, founded
+   date, headquarters, fiscal year end, website, ticker/exchange, market cap
+   with as-of/source when available, and source URLs.
 6. If the source contains company or business/segment icons that need to be
    reproduced, create `input/icon-crop-specs/<dataset-key>.json` and run:
 

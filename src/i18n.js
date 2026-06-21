@@ -229,7 +229,7 @@
     'Cost of revenue': '收入成本',
     'Cost of revenues': '收入成本',
     'Cost of sales': '销售成本',
-    'Cost of': '收入',
+    'revenues': '收入',
     'Gross profit': '毛利润',
     'Gross': '毛',
     'profit': '利润',
@@ -274,6 +274,7 @@
     'Communication, Technology': '通信与技术',
     'Technology': '技术',
     'Technology services': '技术服务',
+    'Technology & development': '技术与开发',
     'D&A': '折旧与摊销',
     'Occupancy': '场地占用',
     'Professional fees': '专业费用',
@@ -312,6 +313,7 @@
     'S&M': '销售与市场',
     'Sales & marketing': '销售与市场',
     'G&A': '管理费用',
+    'General & Admin': '管理费用',
     'General & admin': '管理费用',
     'SG&A': '销售、一般及行政',
     'Sales, general & admin': '销售、一般及行政',
@@ -323,6 +325,7 @@
     'Brokerage &': '经纪与',
     'transaction': '交易',
     'Technology &': '技术与',
+    'Marketing & business dev.': '市场与业务开发',
     'Transaction-based': '交易收入',
     'Net interest': '净利息',
     'Options': '期权',
@@ -583,8 +586,61 @@
     'distribution': '分销',
     'amortization': '摊销',
     'Memory, Foundry,': '存储器、晶圆代工、',
+    '& System LSI': '系统 LSI',
+    'System LSI': '系统 LSI',
+    'Digital TVs': '数字电视',
     'Refrigerators': '冰箱',
     'Mobile phones': '手机',
+    'Communication systems': '通信系统',
+    'By Business Segment': '按业务分部',
+    'In KRW trillion': '单位：万亿韩元',
+    'in RMB': '单位：人民币',
+    'CET1 ratio': 'CET1 比率',
+    'Annualized ROE': '年化 ROE',
+    'CET1 = Common Equity Tier 1': 'CET1 = 普通股一级资本',
+    'ROE = Return on average common equity': 'ROE = 平均普通股权益回报率',
+    'ROTCE = Return on average tangible common equity': 'ROTCE = 平均有形普通股权益回报率',
+    'Customers > $10K Cloud ARR': '云 ARR 超 $10K 客户',
+    'Digital ARPU': '数字 ARPU',
+    'Systemwide RevPAR': '全系统 RevPAR',
+    'Trips': '行程',
+    'Gross Bookings': '总预订额',
+    'Take rate': '抽成率',
+    'Same Store Sale +6% Y/Y': '同店销售额 同比 +6%',
+    'Ticket +2% Y/Y': '客单价 同比 +2%',
+    'Transactions +4% Y/Y': '交易量 同比 +4%',
+    'Mobility 25.8% (-4.9pp Y/Y)': '出行业务 25.8%（同比 -4.9 个百分点）',
+    'Delivery 19.5% (+1.0pp Y/Y)': '配送业务 19.5%（同比 +1.0 个百分点）',
+    'DAU = Daily Active Users': 'DAU = 日活跃用户',
+    'DAUq = Daily Active Uniques': 'DAUq = 日活跃独立用户',
+    'WAUq = Weekly Active Uniques': 'WAUq = 周活跃独立用户',
+    'ARPU = Average Revenue Per User': 'ARPU = 单用户平均收入',
+    'ARPU = Average Revenue Per Unique': 'ARPU = 单独立用户平均收入',
+    'Average DAUq': '平均 DAUq',
+    'Average WAUq': '平均 WAUq',
+    'Quarterly ARPU': '季度 ARPU',
+    'MAU = Monthly Active Users': 'MAU = 月活跃用户',
+    'MAPC = Monthly active users completing ride or delivery': 'MAPC = 完成出行或配送的月活跃用户',
+    'RevPAR = Revenue Per Available Room': 'RevPAR = 每间可售客房收入',
+    'cRPO': 'cRPO',
+    'cRPO = Current Remaining Performance Obligation': 'cRPO = 当前剩余履约义务',
+    'SaaS = Software as a Service': 'SaaS = 软件即服务',
+    'PaaS = Platform as a Service': 'PaaS = 平台即服务',
+    'IaaS = Infrastructure as a Service': 'IaaS = 基础设施即服务',
+    'QCT: CDMA Technologies': 'QCT：CDMA 技术',
+    'QTL: Technology Licensing': 'QTL：技术授权',
+    '* Including restructuring charges': '* 包括重组费用',
+    '* Including $2.8B Warner break-up fee': '* 包括 $2.8B Warner 解约费',
+    'How': '如何',
+    'Makes Money': '赚钱',
+    'Production': '产量',
+    'Deliveries': '交付量',
+    'Net deposits': '净存款',
+    'Hours Engaged': '参与时长',
+    'Bookings': '预订额',
+    'Renewal rate': '续约率',
+    'Customers > $5M': '超 $5M 客户',
+    'Store count': '门店数',
     'Reported by CoreWeave as technology and infrastructure.': 'CoreWeave 将其列报为技术和基础设施。',
     'Source chart displays this rounded value as ($0.2M).': '来源图将该四舍五入值显示为 ($0.2M)。',
     'Reported by Hilton as cost reimbursement revenues.': 'Hilton 将其列报为成本报销收入。',
@@ -797,6 +853,31 @@
       value: EXACT_ZH[key],
       pattern: new RegExp(`(^|[^A-Za-z0-9])(${escapeRegExp(key)})(?=$|[^A-Za-z0-9])`, 'g'),
     }));
+
+  const LAYOUT_LINE_SPLITS_ZH = {
+    'Cost of revenue': ['收入', '成本'],
+    'Cost of revenues': ['收入', '成本'],
+    'Cost of sales': ['销售', '成本'],
+    'Operating expenses': ['运营', '费用'],
+    'Operating Expenses': ['运营', '费用'],
+    'Sales, General & Admin': ['销售、一般', '及行政'],
+    'Sales, general & admin': ['销售、一般', '及行政'],
+    'General & Admin': ['一般及', '行政'],
+    'General & Administrative': ['一般及', '行政'],
+    'General & administrative': ['一般及', '行政'],
+    'General & admin': ['一般及', '行政'],
+    'Sales & Marketing': ['销售与', '市场'],
+    'Sales & marketing': ['销售与', '市场'],
+    'Research & Development': ['研究与', '开发'],
+    'Research & development': ['研究与', '开发'],
+    'Technology & content': ['技术与', '内容'],
+    'Technology & development': ['技术与', '开发'],
+    'Marketing & business dev.': ['市场与', '业务开发'],
+    'Product development': ['产品', '开发'],
+    'Amortization & other': ['摊销及', '其他'],
+    'Amortization & impairment': ['摊销与', '减值'],
+    'Amortization of intangibles': ['无形资产', '摊销'],
+  };
 
   const SECTOR_ZH = {
     'Communication Services': '通信服务',
@@ -1034,6 +1115,21 @@
     return text;
   }
 
+  function translateTrailingChange(text, language) {
+    if (normalizeLanguage(language) !== 'zh') return text;
+    const value = clean(text);
+    const suffix = value.match(/^(.+?)\s+((?:[+−-]?\d+(?:\.\d+)?%|\(\d+(?:\.\d+)?%\)|[+−-]?\d+(?:\.\d+)?pp|\(\d+(?:\.\d+)?pp\))\s+[YQ]\/[YQ])$/i);
+    if (suffix) {
+      const translated = translateChange(suffix[2], language);
+      if (translated !== suffix[2]) return `${suffix[1]} ${translated}`;
+    }
+    let out = value
+      .replace(/([+−-]?\d+(?:\.\d+)?[BMK])\s+Y\/Y/gi, (_match, amount) => `同比 ${amount.replace('−', '-')}`)
+      .replace(/([+−-]?\d+(?:\.\d+)?[BMK])\s+Q\/Q/gi, (_match, amount) => `环比 ${amount.replace('−', '-')}`)
+      .replace(/\s*&\s*/g, '，');
+    return out !== value ? out : text;
+  }
+
   function translateMargin(text, language) {
     if (normalizeLanguage(language) !== 'zh') return text;
     const value = clean(text);
@@ -1115,6 +1211,7 @@
       translateEnding,
       translateMonthDate,
       translateChange,
+      translateTrailingChange,
       translateMargin,
       translateOfRevenue,
       translateKnownPhraseText,
@@ -1174,13 +1271,114 @@
     return notes.map((note) => translateText(note, language));
   }
 
+  function lineText(line) {
+    if (typeof line === 'string') return line;
+    return line && typeof line === 'object' ? line.text : null;
+  }
+
+  function withLineText(line, text) {
+    if (typeof line === 'string') return text;
+    return Object.assign({}, line, { text });
+  }
+
+  function isLocalizableLayoutLine(line) {
+    const text = lineText(line);
+    if (text == null || text === '$value') return false;
+    return hasLatinText(clean(text));
+  }
+
+  function splitCompactChineseLabel(text, lineCount) {
+    if (lineCount !== 2) return null;
+    const compact = clean(text).replace(/\s+/g, '');
+    if (!compact || hasLatinText(compact) || !/^[\u3400-\u9fff、及与]+$/.test(compact)) return null;
+    if (/^[\u3400-\u9fff]{4}$/.test(compact)) {
+      return [compact.slice(0, 2), compact.slice(2)];
+    }
+    const suffixes = ['成本', '费用', '利润', '亏损', '摊销', '开发', '行政', '市场', '收入', '收益'];
+    const suffix = suffixes.find((item) => compact.endsWith(item) && compact.length > item.length + 1);
+    return suffix ? [compact.slice(0, -suffix.length), suffix] : null;
+  }
+
+  function splitLocalizedLayoutPhrase(sourceText, localizedText, lineCount) {
+    const explicit = LAYOUT_LINE_SPLITS_ZH[clean(sourceText)];
+    if (explicit && explicit.length === lineCount) return explicit;
+    return splitCompactChineseLabel(localizedText, lineCount);
+  }
+
+  function splitTrailingMoneySuffix(text) {
+    const value = clean(text);
+    const match = value.match(/^(.+?)\s+(\([^)]*[$€¥￥]\s*\d[^)]*\))$/);
+    return match ? { text: clean(match[1]), suffix: match[2] } : { text: value, suffix: '' };
+  }
+
+  function layoutPhraseText(segment) {
+    const parts = segment.map(lineText).map(clean);
+    const suffixes = parts.map(() => '');
+    const phraseParts = parts.map((part, index) => {
+      const split = splitTrailingMoneySuffix(part);
+      suffixes[index] = split.suffix;
+      return split.text;
+    });
+    return {
+      sourceText: phraseParts.filter(Boolean).join(' '),
+      suffixes,
+    };
+  }
+
+  function applyLineSuffixes(lines, suffixes) {
+    return lines.map((line, index) => (suffixes[index] ? `${line} ${suffixes[index]}` : line));
+  }
+
+  function splitLocalizedRevenueShareChange(sourceText, lineCount, language) {
+    if (normalizeLanguage(language) !== 'zh' || lineCount !== 2) return null;
+    const value = clean(sourceText);
+    const match = value.match(/^(\(?\d+(?:\.\d+)?%\)?)\s+of revenue\s+\(([^)]+)\)$/i);
+    if (!match) return null;
+    const change = translateChange(match[2], language);
+    if (change === match[2]) return null;
+    return [`占收入 ${match[1]}`, change];
+  }
+
+  function localizeLayoutLineAt(lines, index, language) {
+    const maxLines = Math.min(4, lines.length - index);
+    for (let count = maxLines; count > 1; count -= 1) {
+      const segment = lines.slice(index, index + count);
+      if (!segment.every(isLocalizableLayoutLine)) continue;
+      const rawSourceText = segment.map(lineText).map(clean).filter(Boolean).join(' ');
+      const revenueShareChange = splitLocalizedRevenueShareChange(rawSourceText, count, language);
+      if (revenueShareChange) {
+        return {
+          count,
+          lines: segment.map((line, offset) => withLineText(line, revenueShareChange[offset])),
+        };
+      }
+      const { sourceText, suffixes } = layoutPhraseText(segment);
+      const exact = exactZh(sourceText);
+      if (exact == null) continue;
+      const localized = splitLocalizedLayoutPhrase(sourceText, exact, count);
+      if (!localized) continue;
+      const withSuffixes = applyLineSuffixes(localized, suffixes);
+      return {
+        count,
+        lines: segment.map((line, offset) => withLineText(line, withSuffixes[offset])),
+      };
+    }
+
+    const line = lines[index];
+    const text = lineText(line);
+    if (text == null || text === '$value') return { count: 1, lines: [line] };
+    return { count: 1, lines: [withLineText(line, translateText(text, language))] };
+  }
+
   function localizeLines(lines, language) {
     if (!Array.isArray(lines)) return lines;
-    return lines.map((line) => {
-      if (typeof line === 'string') return translateText(line, language);
-      if (!line || typeof line !== 'object' || line.text == null || line.text === '$value') return line;
-      return Object.assign({}, line, { text: translateText(line.text, language) });
-    });
+    const out = [];
+    for (let index = 0; index < lines.length;) {
+      const localized = localizeLayoutLineAt(lines, index, language);
+      out.push(...localized.lines);
+      index += localized.count;
+    }
+    return out;
   }
 
   function localizeLayoutLabels(labels, language) {
@@ -1191,6 +1389,52 @@
         block.lines = localizeLines(block.lines, language);
       });
     });
+  }
+
+  function decodeSvgText(text) {
+    return String(text || '').replace(/&(#x?[0-9a-f]+|amp|lt|gt|quot|apos);/gi, (entity, body) => {
+      const key = body.toLowerCase();
+      if (key === 'amp') return '&';
+      if (key === 'lt') return '<';
+      if (key === 'gt') return '>';
+      if (key === 'quot') return '"';
+      if (key === 'apos') return "'";
+      const codePoint = key.startsWith('#x') ? parseInt(key.slice(2), 16) : parseInt(key.slice(1), 10);
+      return Number.isFinite(codePoint) ? String.fromCodePoint(codePoint) : entity;
+    });
+  }
+
+  function encodeSvgText(text) {
+    return String(text || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  function localizeSvgTextRun(text, language) {
+    const raw = String(text || '');
+    const parts = raw.match(/^(\s*)([\s\S]*?)(\s*)$/);
+    const leading = parts?.[1] || '';
+    const body = parts?.[2] || '';
+    const trailing = parts?.[3] || '';
+    const decoded = decodeSvgText(body);
+    if (!clean(decoded) || !hasLatinText(decoded)) return raw;
+    const localized = translateText(decoded, language);
+    return `${leading}${encodeSvgText(localized)}${trailing}`;
+  }
+
+  function localizeSvgTextContent(content, language) {
+    return String(content || '')
+      .split(/(<[^>]+>)/g)
+      .map((part) => (part.startsWith('<') && part.endsWith('>') ? part : localizeSvgTextRun(part, language)))
+      .join('');
+  }
+
+  function localizeAnnotationsSvg(svgText, language) {
+    if (typeof svgText !== 'string' || !svgText || normalizeLanguage(language) === DEFAULT_LANGUAGE) return svgText;
+    return svgText.replace(/(<text\b[^>]*>)([\s\S]*?)(<\/text>)/gi, (_match, open, body, close) => (
+      `${open}${localizeSvgTextContent(body, language)}${close}`
+    ));
   }
 
   function localizeDataset(dataset, language) {
@@ -1209,6 +1453,7 @@
       node.notes = localizeNotes(node.notes, code);
     });
     localizeLayoutLabels(out.layout?.labels, code);
+    out.annotationsSvg = localizeAnnotationsSvg(out.annotationsSvg, code);
     mergeOverlay(out, dataset.i18n?.[code]);
     return out;
   }

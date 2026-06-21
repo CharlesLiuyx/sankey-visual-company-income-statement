@@ -15,7 +15,7 @@ function readProjectFile(relativePath) {
 
 function parseArgs(argv) {
   const strict = argv.includes('--strict');
-  const keys = argv.filter((arg) => arg !== '--strict');
+  const keys = argv.filter((arg) => arg !== '--strict' && arg !== '--');
   return { strict, keys: new Set(keys) };
 }
 
@@ -80,6 +80,93 @@ function collectItemTexts(list, owner, item, localizedItem, basePath) {
   });
 }
 
+function layoutLineText(line) {
+  return typeof line === 'string' ? line : line?.text;
+}
+
+function stripTrailingMoney(text) {
+  return clean(text).replace(/\s+\([^)]*[$€¥￥]\s*\d[^)]*\)$/u, '');
+}
+
+function isTrackedCompositeLayoutPhrase(text) {
+  const value = clean(text);
+  const phrase = stripTrailingMoney(value);
+  if (/^(Cost of revenues?|Cost of sales|Sales & marketing|Product development|General & Administrative|General & admin|Research & development|Technology & content|Technology & development|Marketing & business dev\.|Amortization & other|Amortization & impairment)$/i.test(phrase)) {
+    return true;
+  }
+  return /^\(?\d+(?:\.\d+)?%\)?\s+of revenue\s+\([^)]+\)$/i.test(value);
+}
+
+function collectCompositeLayoutPhrases(dataset, localized) {
+  const list = [];
+  Object.entries(dataset.layout?.labels || {}).forEach(([nodeId, labelSpec]) => {
+    const localizedSpec = localized.layout?.labels?.[nodeId];
+    (labelSpec.blocks || []).forEach((block, blockIndex) => {
+      const lines = block.lines || [];
+      for (let lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
+        const maxLines = Math.min(4, lines.length - lineIndex);
+        for (let count = maxLines; count > 1; count -= 1) {
+          const sourceText = lines
+            .slice(lineIndex, lineIndex + count)
+            .map(layoutLineText)
+            .map(clean)
+            .filter(Boolean)
+            .join(' ');
+          if (!isTrackedCompositeLayoutPhrase(sourceText)) continue;
+          const localizedText = Array.from({ length: count }, (_item, offset) => {
+            const localizedLine = localizedSpec?.blocks?.[blockIndex]?.lines?.[lineIndex + offset];
+            return clean(layoutLineText(localizedLine));
+          }).filter(Boolean).join(' ');
+          list.push({
+            owner: dataset.key,
+            path: `layout.labels.${nodeId}.blocks[${blockIndex}].lines[${lineIndex}-${lineIndex + count - 1}]`,
+            source: sourceText,
+            localized: localizedText,
+          });
+          lineIndex += count - 1;
+          break;
+        }
+      }
+    });
+  });
+  return list;
+}
+
+function decodeSvgText(text) {
+  return String(text || '').replace(/&(#x?[0-9a-f]+|amp|lt|gt|quot|apos);/gi, (entity, body) => {
+    const key = body.toLowerCase();
+    if (key === 'amp') return '&';
+    if (key === 'lt') return '<';
+    if (key === 'gt') return '>';
+    if (key === 'quot') return '"';
+    if (key === 'apos') return "'";
+    const codePoint = key.startsWith('#x') ? parseInt(key.slice(2), 16) : parseInt(key.slice(1), 10);
+    return Number.isFinite(codePoint) ? String.fromCodePoint(codePoint) : entity;
+  });
+}
+
+function collectSvgTextSegments(svgText, basePath) {
+  const list = [];
+  if (typeof svgText !== 'string' || !svgText) return list;
+  let textIndex = 0;
+  svgText.replace(/<text\b[^>]*>([\s\S]*?)<\/text>/gi, (_match, body) => {
+    let segmentIndex = 0;
+    body.split(/<[^>]+>/g).forEach((part) => {
+      const text = clean(decodeSvgText(part));
+      if (text) {
+        list.push({
+          path: `${basePath}.text[${textIndex}].segment[${segmentIndex}]`,
+          text,
+        });
+      }
+      segmentIndex += 1;
+    });
+    textIndex += 1;
+    return _match;
+  });
+  return list;
+}
+
 function collectDatasetTexts(dataset, localized) {
   const list = [];
   addText(list, dataset.key, 'name', dataset.name, localized.name);
@@ -101,6 +188,11 @@ function collectDatasetTexts(dataset, localized) {
         addText(list, dataset.key, `layout.labels.${nodeId}.blocks[${blockIndex}].lines[${lineIndex}]`, sourceText, localizedText);
       });
     });
+  });
+  const sourceAnnotations = collectSvgTextSegments(dataset.annotationsSvg, 'annotationsSvg');
+  const localizedAnnotations = collectSvgTextSegments(localized.annotationsSvg, 'annotationsSvg');
+  sourceAnnotations.forEach((item, index) => {
+    addText(list, dataset.key, item.path, item.text, localizedAnnotations[index]?.text);
   });
   return list;
 }
@@ -159,6 +251,19 @@ function fallbackItems(items) {
   ));
 }
 
+function hasDuplicatedLocalizedTerms(text) {
+  const parts = clean(text).split(/\s+/).filter(Boolean);
+  return parts.length > 1 && parts.every((part) => part === parts[0]);
+}
+
+function compositeLayoutPhraseIssues(items) {
+  return items.filter((item) => {
+    const localized = clean(item.localized);
+    const textOnly = localized.replace(/\([^)]*[$€¥￥][^)]*\)/gu, '');
+    return !localized || /[A-Za-z]/.test(textOnly) || hasDuplicatedLocalizedTerms(textOnly);
+  });
+}
+
 function main() {
   const { strict, keys } = parseArgs(process.argv.slice(2));
   const { i18n, datasets, records, companies } = loadBrowserData();
@@ -205,6 +310,13 @@ function main() {
       if (fallbacks.length) {
         const sample = fallbacks.slice(0, 5).map((item) => `${item.path}="${item.source}"`).join('; ');
         const message = `${dataset.key}: ${fallbacks.length} dataset text fallback(s) for ${language}; ${sample}`;
+        if (strict) errors.push(message);
+        else warnings.push(message);
+      }
+      const compositeIssues = compositeLayoutPhraseIssues(collectCompositeLayoutPhrases(dataset, localized));
+      if (compositeIssues.length) {
+        const sample = compositeIssues.slice(0, 5).map((item) => `${item.path} "${item.source}" -> "${item.localized}"`).join('; ');
+        const message = `${dataset.key}: ${compositeIssues.length} composite layout phrase issue(s) for ${language}; ${sample}`;
         if (strict) errors.push(message);
         else warnings.push(message);
       }

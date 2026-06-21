@@ -1,0 +1,421 @@
+{
+  "source": "input/processed/netease-q1-fy26.png",
+  "spec": "input/icon-crop-specs/netease-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-21T16:35:27.690282+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "netease-company-wordmark",
+      "output": "data/assets/icon-references/netease/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 5069,
+        "losslessBytes": 21903,
+        "savingsVsLossless": 0.7686,
+        "metrics": {
+          "meanAbsoluteError": 0.3227,
+          "rootMeanSquareError": 1.7783,
+          "p99AbsoluteError": 7.0,
+          "maxChannelDiff": 41,
+          "changedPixelRatio": 0.105
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 52460,
+        "transparentPixelRatio": 0.7501
+      },
+      "searchBox": {
+        "x": 685,
+        "y": 260,
+        "width": 555,
+        "height": 125
+      },
+      "componentCount": 15,
+      "subjectBox": {
+        "x0": 702,
+        "y0": 266,
+        "x1": 1204,
+        "y1": 360
+      },
+      "cropBox": {
+        "x0": 684,
+        "y0": 248,
+        "x1": 1222,
+        "y1": 378
+      },
+      "validation": {
+        "width": 538,
+        "height": 130,
+        "foregroundPixels": 15590,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 18,
+          "right": 18,
+          "top": 18,
+          "bottom": 18
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "NetEase company wordmark near the top center; excludes title text, revenue labels, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/netease/validation-sheets/netease-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 271117,
+        "losslessBytes": 271117,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "netease-business-games-cluster",
+      "output": "data/assets/icon-references/netease/crops/business-games-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 139131,
+        "losslessBytes": 139131,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 103482,
+        "transparentPixelRatio": 0.6561
+      },
+      "searchBox": {
+        "x": 18,
+        "y": 398,
+        "width": 440,
+        "height": 300
+      },
+      "componentCount": 34,
+      "subjectBox": {
+        "x0": 25,
+        "y0": 398,
+        "x1": 445,
+        "y1": 687
+      },
+      "cropBox": {
+        "x0": 1,
+        "y0": 374,
+        "x1": 469,
+        "y1": 711
+      },
+      "validation": {
+        "width": 468,
+        "height": 337,
+        "foregroundPixels": 50547,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 24,
+          "right": 24,
+          "top": 24,
+          "bottom": 24
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "NetEase Games business cluster with the games wordmark and app icons; excludes values, gross-margin text, chart links, and attribution marks.",
+      "validationSheet": "data/assets/icon-references/netease/validation-sheets/netease-business-games-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 362424,
+        "losslessBytes": 362424,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "netease-business-cloud-music",
+      "output": "data/assets/icon-references/netease/crops/business-cloud-music.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 2500,
+        "losslessBytes": 10327,
+        "savingsVsLossless": 0.7579,
+        "metrics": {
+          "meanAbsoluteError": 0.4197,
+          "rootMeanSquareError": 1.9818,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 48,
+          "changedPixelRatio": 0.1502
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 18192,
+        "transparentPixelRatio": 0.5848
+      },
+      "searchBox": {
+        "x": 150,
+        "y": 790,
+        "width": 255,
+        "height": 125
+      },
+      "componentCount": 13,
+      "subjectBox": {
+        "x0": 158,
+        "y0": 805,
+        "x1": 389,
+        "y1": 903
+      },
+      "cropBox": {
+        "x0": 146,
+        "y0": 793,
+        "x1": 401,
+        "y1": 915
+      },
+      "validation": {
+        "width": 255,
+        "height": 122,
+        "foregroundPixels": 10550,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 12,
+          "right": 12,
+          "top": 12,
+          "bottom": 12
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "NetEase Cloud Music logo and text only; excludes the Cloud Music financial value, gross-margin text, and chart links.",
+      "validationSheet": "data/assets/icon-references/netease/validation-sheets/netease-business-cloud-music.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 280747,
+        "losslessBytes": 280747,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "netease-business-youdao-wordmark",
+      "output": "data/assets/icon-references/netease/crops/business-youdao-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 3101,
+        "losslessBytes": 15656,
+        "savingsVsLossless": 0.8019,
+        "metrics": {
+          "meanAbsoluteError": 0.5245,
+          "rootMeanSquareError": 2.346,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 34,
+          "changedPixelRatio": 0.2125
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 23550,
+        "transparentPixelRatio": 0.75
+      },
+      "searchBox": {
+        "x": 135,
+        "y": 970,
+        "width": 295,
+        "height": 108
+      },
+      "componentCount": 9,
+      "subjectBox": {
+        "x0": 142,
+        "y0": 986,
+        "x1": 420,
+        "y1": 1050
+      },
+      "cropBox": {
+        "x0": 124,
+        "y0": 968,
+        "x1": 438,
+        "y1": 1068
+      },
+      "validation": {
+        "width": 314,
+        "height": 100,
+        "foregroundPixels": 7009,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 18,
+          "right": 18,
+          "top": 18,
+          "bottom": 18
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Youdao business wordmark only; excludes values, gross-margin text, chart links, and attribution marks.",
+      "validationSheet": "data/assets/icon-references/netease/validation-sheets/netease-business-youdao-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 280604,
+        "losslessBytes": 280604,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "netease-business-innovative-cluster",
+      "output": "data/assets/icon-references/netease/crops/business-innovative-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 2482,
+        "losslessBytes": 12320,
+        "savingsVsLossless": 0.7985,
+        "metrics": {
+          "meanAbsoluteError": 0.7741,
+          "rootMeanSquareError": 2.4288,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 40,
+          "changedPixelRatio": 0.4884
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 11111,
+        "transparentPixelRatio": 0.5114
+      },
+      "searchBox": {
+        "x": 58,
+        "y": 1160,
+        "width": 145,
+        "height": 145
+      },
+      "componentCount": 8,
+      "subjectBox": {
+        "x0": 67,
+        "y0": 1169,
+        "x1": 192,
+        "y1": 1283
+      },
+      "cropBox": {
+        "x0": 53,
+        "y0": 1155,
+        "x1": 206,
+        "y1": 1297
+      },
+      "validation": {
+        "width": 153,
+        "height": 142,
+        "foregroundPixels": 4893,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 14,
+          "right": 14,
+          "top": 14,
+          "bottom": 14
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Innovative Businesses and Others product/logo cluster; excludes the segment label, values, gross-margin text, chart links, and bottom publisher marks.",
+      "validationSheet": "data/assets/icon-references/netease/validation-sheets/netease-business-innovative-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 315794,
+        "losslessBytes": 315794,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

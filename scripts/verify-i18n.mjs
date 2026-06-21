@@ -9,6 +9,29 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const TRACKED_TRANSLATABLE_ACRONYMS = new Set(['D&A', 'G&A', 'R&D', 'S&M', 'SG&A', 'TAC']);
+const PRESERVED_ANNOTATION_TEXT = new Set([
+  '.com',
+  'amazon',
+  'amazonads',
+  'audible',
+  'aws',
+  'ads',
+  'FOODS',
+  'fresh',
+  'Habit',
+  'Hut',
+  'MARKET',
+  'Pizza',
+  'prime',
+  'the',
+  'twitch',
+  'uber',
+  'Uber',
+  'Eats',
+  'Uber Freight',
+  'WHOLE',
+  'Yum!',
+]);
 
 function readProjectFile(relativePath) {
   return readFileSync(path.join(rootDir, relativePath), 'utf8');
@@ -249,6 +272,7 @@ function looksTranslatable(text) {
 function fallbackItems(items) {
   return items.filter((item) => (
     looksTranslatable(item.source) &&
+    !(item.path.startsWith('annotationsSvg.') && PRESERVED_ANNOTATION_TEXT.has(item.source)) &&
     item.source === item.localized
   ));
 }

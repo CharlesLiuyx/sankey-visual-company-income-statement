@@ -1,0 +1,109 @@
+{
+  "source": "input/processed/netease-q1-fy26.png",
+  "outputDir": "data/assets/icon-references/netease",
+  "validationSheetDir": "data/assets/icon-references/netease/validation-sheets",
+  "report": "crop-report.json",
+  "backgroundSampleBlocks": [
+    [0, 0, 80, 80],
+    [2587, 0, 80, 80],
+    [0, 1420, 80, 80],
+    [1180, 1360, 80, 80]
+  ],
+  "crops": [
+    {
+      "key": "netease-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": {
+        "x": 685,
+        "y": 260,
+        "width": 555,
+        "height": 125
+      },
+      "threshold": 18,
+      "minComponentArea": 35,
+      "padding": 18,
+      "validation": {
+        "borderBand": 5,
+        "maxCenterOffset": 0.015,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "NetEase company wordmark near the top center; excludes title text, revenue labels, and publisher marks."
+    },
+    {
+      "key": "netease-business-games-cluster",
+      "output": "crops/business-games-cluster.png",
+      "searchBox": {
+        "x": 18,
+        "y": 398,
+        "width": 440,
+        "height": 300
+      },
+      "threshold": 18,
+      "minComponentArea": 30,
+      "padding": 24,
+      "validation": {
+        "borderBand": 1,
+        "maxCenterOffset": 0.015,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "NetEase Games business cluster with the games wordmark and app icons; excludes values, gross-margin text, chart links, and attribution marks."
+    },
+    {
+      "key": "netease-business-cloud-music",
+      "output": "crops/business-cloud-music.png",
+      "searchBox": {
+        "x": 150,
+        "y": 790,
+        "width": 255,
+        "height": 125
+      },
+      "threshold": 18,
+      "minComponentArea": 35,
+      "padding": 12,
+      "validation": {
+        "borderBand": 5,
+        "maxCenterOffset": 0.015,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "NetEase Cloud Music logo and text only; excludes the Cloud Music financial value, gross-margin text, and chart links."
+    },
+    {
+      "key": "netease-business-youdao-wordmark",
+      "output": "crops/business-youdao-wordmark.png",
+      "searchBox": {
+        "x": 135,
+        "y": 970,
+        "width": 295,
+        "height": 108
+      },
+      "threshold": 18,
+      "minComponentArea": 35,
+      "padding": 18,
+      "validation": {
+        "borderBand": 5,
+        "maxCenterOffset": 0.015,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Youdao business wordmark only; excludes values, gross-margin text, chart links, and attribution marks."
+    },
+    {
+      "key": "netease-business-innovative-cluster",
+      "output": "crops/business-innovative-cluster.png",
+      "searchBox": {
+        "x": 58,
+        "y": 1160,
+        "width": 145,
+        "height": 145
+      },
+      "threshold": 18,
+      "minComponentArea": 20,
+      "padding": 14,
+      "validation": {
+        "borderBand": 5,
+        "maxCenterOffset": 0.015,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Innovative Businesses and Others product/logo cluster; excludes the segment label, values, gross-margin text, chart links, and bottom publisher marks."
+    }
+  ]
+}

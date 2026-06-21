@@ -86,9 +86,21 @@
             <div class="search-box header-search-box" id="companySearchBox">
               <input id="companySearch" type="search" placeholder="Search companies" autocomplete="off" data-i18n-placeholder="companySearchPlaceholder" />
             </div>
-            <button class="btn icon-btn search-toggle" id="companySearchToggle" type="button" aria-label="Search companies" aria-expanded="false" aria-controls="companySearchBox" title="Search companies" data-i18n-aria-label="companySearchPlaceholder" data-i18n-title="companySearchPlaceholder">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-            </button>
+            <div class="panel-icon-actions">
+              <button class="btn icon-btn search-toggle" id="companySearchToggle" type="button" aria-label="Search companies" aria-expanded="false" aria-controls="companySearchBox" title="Search companies" data-i18n-aria-label="companySearchPlaceholder" data-i18n-title="companySearchPlaceholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+              </button>
+              <div class="sort-menu company-sort-menu" id="companySortMenu">
+                <button class="btn icon-btn sort-toggle" id="companySortToggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="companySortOptions" aria-label="Sort companies" title="Sort companies" data-i18n-aria-label="companySortButton" data-i18n-title="companySortButton"></button>
+                <div class="sort-options" id="companySortOptions" role="menu" hidden>
+                  <button type="button" role="menuitemradio" data-company-sort="name" aria-checked="true" data-i18n="companySortName">Alphabetical</button>
+                  <button type="button" role="menuitemradio" data-company-sort="recent" aria-checked="false" data-i18n="companySortRecent">Recently updated</button>
+                  <button type="button" role="menuitemradio" data-company-sort="marketCap" aria-checked="false" data-i18n="companySortMarketCap">Market cap</button>
+                  <button type="button" role="menuitemradio" data-company-sort="netProfit" aria-checked="false" data-i18n="companySortNetProfit">Net profit</button>
+                  <button type="button" role="menuitemradio" data-company-sort="founded" aria-checked="false" data-i18n="companySortFounded">Founded date</button>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="nav-list" id="companyList" role="listbox" aria-label="Companies" data-i18n-aria-label="companiesLabel"></div>
         </section>
@@ -174,6 +186,7 @@
     <script src="data/datasets/reddit-q1-fy26.js"></script>
     <script src="data/datasets/robinhood-q1-fy26.js"></script>
     <script src="data/datasets/netflix-q1-fy26.js"></script>
+    <script src="data/datasets/netease-q1-fy26.js"></script>
     <script src="data/datasets/roblox-q1-fy26.js"></script>
     <script src="data/datasets/nyt-q1-fy26.js"></script>
     <script src="data/datasets/uber-q1-fy26.js"></script>

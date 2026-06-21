@@ -415,5 +415,82 @@
       { source: 'operating_expenses', target: 'ga', value: 2.6, targetOrder: 3 },
       { source: 'operating_expenses', target: 'other_opex', value: 0.5, targetOrder: 4 },
     ],
+
+    i18n: {
+      zh: {
+        name: 'Amazon · 2026 财年第一季度',
+        meta: {
+          title: 'Amazon 2026 财年第一季度利润表',
+        },
+        nodes: {
+          online_stores: { label: '线上商店', notes: ['同比 +12%'] },
+          physical_store: { label: '实体商店', notes: ['同比 +5%'] },
+          third_party_seller_services: { label: '第三方卖家服务', notes: ['同比 +14%'] },
+          advertising: { label: '广告', notes: ['同比 +24%'] },
+          subscription: { label: '订阅', notes: ['同比 +15%'] },
+          aws: { label: 'AWS', notes: ['同比 +28%'] },
+          other_revenue: { label: '其他', notes: ['同比 +25%'] },
+          revenue: { label: '收入', notes: ['同比 +17%'] },
+          gross_profit: { label: '毛利润', notes: ['利润率 52%', '同比 +1 个百分点'] },
+          cost_of_sales: { label: '销售成本' },
+          operating_profit: { label: '营业利润', notes: ['利润率 13%', '同比 +1 个百分点'] },
+          operating_expenses: { label: '运营费用' },
+          other_income: { label: '其他' },
+          net_profit: { label: '净利润', notes: ['利润率 17%', '同比 +6 个百分点'] },
+          tax: { label: '税费' },
+          technology_content: { label: '技术与内容', notes: ['占收入 16%', '同比 +2 个百分点'] },
+          fulfillment: { label: '履约', notes: ['占收入 15%', '同比 (1 个百分点)'] },
+          sm: { label: '销售与市场', notes: ['占收入 6%', '同比 (1 个百分点)'] },
+          ga: { label: '管理费用', notes: ['占收入 1%', '同比 (0 个百分点)'] },
+          other_opex: { label: '其他运营费用' },
+        },
+        layout: {
+          labels: {
+            third_party_seller_services: {
+              blocks: [
+                {
+                  x: 340, top: 707, anchor: 'end', lineGap: 10,
+                  lines: [
+                    { text: '第三方卖家', size: 38, weight: 800, color: '#111111' },
+                    { text: '服务', size: 38, weight: 800, color: '#111111' },
+                  ],
+                },
+                {
+                  x: 428, top: 643, anchor: 'middle', lineGap: 8,
+                  lines: [
+                    { text: '$value', size: 34, weight: 400, color: '#111111' },
+                    { text: '同比 +14%', size: 23, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            sm: {
+              blocks: [
+                {
+                  x: RIGHT_LABEL_X, top: 1060, anchor: 'start', lineGap: 8,
+                  lines: [
+                    { text: '销售与市场 ($10.3B)', size: 29, weight: 800, color: RED_LABEL },
+                    { text: '占收入 6%', size: 28, weight: 400, color: NOTE },
+                    { text: '同比 (1 个百分点)', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            ga: {
+              blocks: [
+                {
+                  x: RIGHT_LABEL_X, top: 1203, anchor: 'start', lineGap: 8,
+                  lines: [
+                    { text: '管理费用 ($2.6B)', size: 29, weight: 800, color: RED_LABEL },
+                    { text: '占收入 1%', size: 28, weight: 400, color: NOTE },
+                    { text: '同比 (0 个百分点)', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
   });
 })();

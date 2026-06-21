@@ -248,6 +248,35 @@ async function pngMetrics(referencePath, candidatePath, diffPath = null) {
   };
 }
 
+function formatPx(value) {
+  return Number.isFinite(value) ? `${value.toFixed(1)}px` : 'n/a';
+}
+
+function logLabelLayoutAudit(audit) {
+  console.log(
+    `label-node layout audit: verticalStacks=${audit.verticalStacks.length} adjacentLabelGaps=${audit.adjacentLabelGaps.length} rule=centerDelta=0px gap=5px (docs/fidelity-loop-rules.md)`
+  );
+
+  const maxRows = 12;
+  audit.verticalStacks.slice(0, maxRows).forEach((item) => {
+    console.log(
+      `  vertical ${item.node}#${item.labelIndex} ${item.direction}: centerDelta=${formatPx(item.centerDelta)} edgeGap=${formatPx(item.gap)}`
+    );
+  });
+  if (audit.verticalStacks.length > maxRows) {
+    console.log(`  vertical ... ${audit.verticalStacks.length - maxRows} more`);
+  }
+
+  audit.adjacentLabelGaps.slice(0, maxRows).forEach((item) => {
+    console.log(
+      `  label-gap ${item.node}#${item.upperLabelIndex}->#${item.lowerLabelIndex}: gap=${formatPx(item.gap)}`
+    );
+  });
+  if (audit.adjacentLabelGaps.length > maxRows) {
+    console.log(`  label-gap ... ${audit.adjacentLabelGaps.length - maxRows} more`);
+  }
+}
+
 async function main() {
   const { datasetKey, keep } = parseArgs(process.argv);
   const datasetScript = datasetScriptForKey(datasetKey);
@@ -352,6 +381,87 @@ async function main() {
       );
     }
 
+    const labelLayoutAudit = await page.evaluate(() => {
+      const svg = document.querySelector('#chart > svg');
+      if (!svg) throw new Error('SankeyEngine.render did not create #chart > svg');
+
+      const round = (value) => Math.round(value * 10) / 10;
+      const boxFor = (element) => {
+        const box = element.getBBox();
+        return {
+          x: round(box.x),
+          y: round(box.y),
+          width: round(box.width),
+          height: round(box.height),
+          left: round(box.x),
+          top: round(box.y),
+          right: round(box.x + box.width),
+          bottom: round(box.y + box.height),
+          centerX: round(box.x + box.width / 2),
+          centerY: round(box.y + box.height / 2),
+        };
+      };
+
+      const nodeBoxes = new Map(
+        Array.from(svg.querySelectorAll('.sankey-node[data-node]')).map((element) => {
+          const id = element.getAttribute('data-node');
+          return [id, boxFor(element)];
+        })
+      );
+
+      const labelBoxes = Array.from(svg.querySelectorAll('.sankey-label[data-node]:not(.sankey-icon)'))
+        .map((element, index) => ({
+          node: element.getAttribute('data-node'),
+          labelIndex: index,
+          box: boxFor(element),
+        }))
+        .filter((item) => item.node && item.box.width > 0 && item.box.height > 0);
+
+      const horizontalOverlap = (a, b) => Math.min(a.right, b.right) - Math.max(a.left, b.left);
+      const verticalStacks = [];
+      const byNode = new Map();
+
+      labelBoxes.forEach((label) => {
+        const node = nodeBoxes.get(label.node);
+        if (!node) return;
+
+        if (!byNode.has(label.node)) byNode.set(label.node, []);
+        byNode.get(label.node).push(label);
+
+        const above = label.box.bottom <= node.top;
+        const below = label.box.top >= node.bottom;
+        const stacked = (above || below) && horizontalOverlap(label.box, node) > 0;
+        if (!stacked) return;
+
+        verticalStacks.push({
+          node: label.node,
+          labelIndex: label.labelIndex,
+          direction: above ? 'above-node' : 'below-node',
+          centerDelta: round(Math.abs(label.box.centerX - node.centerX)),
+          gap: round(above ? node.top - label.box.bottom : label.box.top - node.bottom),
+        });
+      });
+
+      const adjacentLabelGaps = [];
+      byNode.forEach((labels, node) => {
+        const sorted = labels.slice().sort((a, b) => a.box.top - b.box.top);
+        for (let i = 1; i < sorted.length; i += 1) {
+          const upper = sorted[i - 1];
+          const lower = sorted[i];
+          const gap = round(lower.box.top - upper.box.bottom);
+          if (gap < 0 || horizontalOverlap(upper.box, lower.box) <= 0) continue;
+          adjacentLabelGaps.push({
+            node,
+            upperLabelIndex: upper.labelIndex,
+            lowerLabelIndex: lower.labelIndex,
+            gap,
+          });
+        }
+      });
+
+      return { verticalStacks, adjacentLabelGaps };
+    });
+
     if ((purity.imageCount !== 0 && !purity.rasterAllowed) || purity.chartImgCount !== 0) {
       throw new Error(
         `Purity failed: imageCount=${purity.imageCount}, chartImgCount=${purity.chartImgCount}, rasterAllowed=${purity.rasterAllowed}`
@@ -383,6 +493,7 @@ async function main() {
     console.log(
       `purity: imageCount=${purity.imageCount} chartImgCount=${purity.chartImgCount} rasterAllowed=${purity.rasterAllowed}`
     );
+    logLabelLayoutAudit(labelLayoutAudit);
     console.log(`viewport: ${metrics.width}x${metrics.height}`);
     console.log(`RGB MAE: ${metrics.rgbMae.toFixed(4)}`);
     console.log(`MAE similarity: ${metrics.maeSimilarity.toFixed(6)}`);

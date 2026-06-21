@@ -341,5 +341,75 @@
       { source: 'operating_expenses', target: 'other_opex', value: 0.271169, width: 43, sourceOrder: 2, targetOrder: 0 },
       { source: 'operating_expenses', target: 'ga', value: 0.172418, width: 27, sourceOrder: 3, targetOrder: 0 },
     ],
+
+    i18n: {
+      zh: {
+        name: 'Synopsys · 2026 财年第二季度',
+        meta: {
+          title: 'Synopsys 2026 财年第二季度利润表',
+          period: '2026 财年第二季度',
+          periodNote: '截至 2026 年 4 月',
+        },
+        annotationsSvg: `
+          <g font-family="Montserrat,Arial,sans-serif">
+            <text x="1816" y="1376" font-size="30" font-weight="400" fill="${NOTE}">* 包括重组费用</text>
+          </g>`,
+        nodes: {
+          design_automation: { label: ['设计', '自动化'], notes: ['同比 +62%', '调整后利润率 41%', '同比 +5 个百分点'] },
+          design_ip: { label: '设计 IP', notes: ['同比 (6%)', '调整后利润率 14%', '同比 (23 个百分点)'] },
+          revenue: { label: '收入', notes: ['同比 +42%'] },
+          gross_profit: { label: '毛利润', notes: ['利润率 72%', '同比 (8 个百分点)'] },
+          cost_of_revenue: { label: '收入成本' },
+          operating_profit: { label: '营业利润', notes: ['利润率 5%', '同比 (18 个百分点)'] },
+          operating_expenses: { label: '运营费用' },
+          net_profit: { label: '净利润', notes: ['利润率 1%', '同比 (21 个百分点)'] },
+          tax: { label: '税费' },
+          rnd: { label: '研发', notes: ['占收入 31%', '同比 (4 个百分点)'] },
+          sm: { label: '销售与市场', notes: ['占收入 17%', '同比 +3 个百分点'] },
+          other_opex: { label: '其他 *', notes: ['占收入 12%', '同比 +12 个百分点'] },
+          ga: { label: '管理费用', notes: ['占收入 8%', '同比 (1 个百分点)'] },
+        },
+        layout: {
+          labels: {
+            rnd: {
+              blocks: [
+                {
+                  x: 2355, top: 750, anchor: 'start', lineGap: 8,
+                  lines: [
+                    { text: '研发 ($0.7B)', size: 31, weight: 800 },
+                    { text: '占收入 31%', size: 29, weight: 400, color: NOTE },
+                    { text: '同比 (4 个百分点)', size: 29, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            sm: {
+              blocks: [
+                {
+                  x: 2355, top: 930, anchor: 'start', lineGap: 8,
+                  lines: [
+                    { text: '销售与市场 ($0.4B)', size: 31, weight: 800 },
+                    { text: '占收入 17%', size: 29, weight: 400, color: NOTE },
+                    { text: '同比 +3 个百分点', size: 29, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            ga: {
+              blocks: [
+                {
+                  x: 2355, top: 1212, anchor: 'start', lineGap: 8,
+                  lines: [
+                    { text: '管理费用 ($0.2B)', size: 31, weight: 800 },
+                    { text: '占收入 8%', size: 29, weight: 400, color: NOTE },
+                    { text: '同比 (1 个百分点)', size: 29, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
   });
 })();

@@ -332,5 +332,53 @@
       { source: 'operating_expenses', target: 'sm', value: 439, width: 75.5, sourceOrder: 1, targetOrder: 0 },
       { source: 'operating_expenses', target: 'ga', value: 215, width: 37, sourceOrder: 2, targetOrder: 0 },
     ],
+
+    i18n: {
+      zh: {
+        name: 'Atlassian · 2026 财年第三季度',
+        meta: {
+          title: 'Atlassian 2026 财年第三季度利润表',
+          period: '2026 财年第三季度',
+          periodNote: '截至 2026 年 3 月',
+          titleTextLength: 2070,
+        },
+        nodes: {
+          cloud: { label: '云', notes: ['同比 +29%'] },
+          data_center: { label: '数据中心', notes: ['同比 +44%'] },
+          marketplace_services: { label: '市场与服务', notes: ['同比 +7%'] },
+          revenue: { label: '收入', notes: ['同比 +32%'] },
+          gross_profit: { label: '毛利润', notes: ['利润率 85%', '同比 +1 个百分点'] },
+          cost_of_revenue: { label: '收入成本' },
+          operating_loss: { label: '运营亏损', notes: ['利润率 (3%)', '同比 (2 个百分点)'] },
+          operating_expenses: { label: '运营费用' },
+          rnd: { label: '研发', notes: ['占收入 52%', '同比 +1 个百分点'] },
+          sm: { label: '销售与市场', notes: ['占收入 25%', '同比 +3 个百分点'] },
+          ga: { label: '管理费用', notes: ['占收入 12%', '同比 (0 个百分点)'] },
+          tax: { label: '税费' },
+        },
+        layout: {
+          labels: {
+            marketplace_services: {
+              blocks: [
+                {
+                  x: 419, top: 1006, anchor: 'middle', lineGap: 9,
+                  lines: [
+                    { text: '$value', size: 39, weight: 400 },
+                    { text: '同比 +7%', size: 29, weight: 400, color: NOTE },
+                  ],
+                },
+                {
+                  x: 224, top: 1043, anchor: 'middle', lineGap: 9,
+                  lines: [
+                    { text: '市场与', size: 40, weight: 800 },
+                    { text: '服务', size: 40, weight: 800 },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
   });
 })();

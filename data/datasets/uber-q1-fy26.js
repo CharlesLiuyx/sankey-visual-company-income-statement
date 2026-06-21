@@ -419,5 +419,109 @@
       { source: 'operating_expenses', target: 'ga', value: 0.8, width: 26, sourceOrder: 3 },
       { source: 'operating_expenses', target: 'da', value: 0.2, width: 5, sourceOrder: 4 },
     ],
+
+    i18n: {
+      zh: {
+        name: 'Uber · 2026 财年第一季度',
+        meta: {
+          title: 'Uber 2026 财年第一季度利润表',
+        },
+        annotationsSvg: `
+          <g font-family="Montserrat,Arial,sans-serif">
+            <rect x="151" y="294" width="124" height="124" rx="18" fill="#000000"/>
+            <text x="213" y="373" text-anchor="middle" font-family="Arial,sans-serif" font-size="42" font-weight="500" fill="#ffffff">uber</text>
+
+            <text x="69" y="795" font-family="Arial,sans-serif" font-size="58" font-weight="500" fill="#001f28">Uber</text>
+            <text x="216" y="795" font-family="Arial,sans-serif" font-size="58" font-weight="800" fill="#09c64f">Eats</text>
+            <text x="68" y="1090" font-family="Arial,sans-serif" font-size="50" font-weight="500" fill="#000000">Uber Freight</text>
+
+            ${card(9, 176, '行程', '3.6B', '同比 +20%')}
+            ${card(191, 191, '月活用户', '199M', '同比 +17%')}
+            ${card(389, 369, '总预订额', '$53.7B', '同比 +25%')}
+            ${card(
+              767,
+              423,
+              '抽成率',
+              '',
+              '',
+              `
+                <text x="785" y="1292" font-size="30" font-weight="500" fill="#ffffff">出行 25.8%（-4.9 个百分点）</text>
+                <text x="785" y="1335" font-size="30" font-weight="500" fill="#ffffff">配送 19.5%（+1.0 个百分点）</text>
+              `
+            )}
+            <text x="69" y="1403" font-size="33" font-weight="500" fill="${NOTE}">MAPC = 完成出行或配送的月活跃用户</text>
+          </g>`,
+        nodes: {
+          mobility: { label: '出行', notes: ['同比 +5%'] },
+          delivery: { label: '配送', notes: ['同比 +34%'] },
+          freight: { label: 'Uber Freight 货运', notes: ['同比 +6%'] },
+          revenue: { label: '收入', notes: ['同比 +14%'] },
+          gross_profit: { label: '毛利润', notes: ['利润率 45%', '同比 +5 个百分点'] },
+          cost_of_revenue: { label: ['收入', '成本'] },
+          operating_profit: { label: '营业利润', notes: ['利润率 15%', '同比 +4 个百分点'] },
+          operating_expenses: { label: '运营费用' },
+          net_profit: { label: '净利润' },
+          other: { label: '其他' },
+          tax: { label: '税费' },
+          sm: { label: '销售与市场' },
+          rnd: { label: '研发' },
+          operations: { label: '运营' },
+          ga: { label: '管理费用' },
+          da: { label: '折旧与摊销' },
+        },
+        layout: {
+          labels: {
+            sm: {
+              blocks: [
+                {
+                  x: 2570, top: 731, anchor: 'start', lineGap: 10,
+                  lines: [
+                    { text: '销售与市场 ($1.3B)', size: 34, weight: 800 },
+                    { text: '占收入 10%', size: 31, weight: 400, color: NOTE },
+                    { text: '同比 +1 个百分点', size: 31, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            rnd: {
+              blocks: [
+                {
+                  x: 2570, top: 891, anchor: 'start', lineGap: 10,
+                  lines: [
+                    { text: '研发 ($1.0B)', size: 34, weight: 800 },
+                    { text: '占收入 7%', size: 31, weight: 400, color: NOTE },
+                    { text: '同比 +0 个百分点', size: 31, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            ga: {
+              blocks: [
+                {
+                  x: 2570, top: 1190, anchor: 'start', lineGap: 10,
+                  lines: [
+                    { text: '管理费用 ($0.8B)', size: 34, weight: 800 },
+                    { text: '占收入 6%', size: 31, weight: 400, color: NOTE },
+                    { text: '同比 +0 个百分点', size: 31, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            da: {
+              blocks: [
+                {
+                  x: 2570, top: 1335, anchor: 'start', lineGap: 10,
+                  lines: [
+                    { text: '折旧与摊销 ($0.2B)', size: 34, weight: 800 },
+                    { text: '占收入 1%', size: 31, weight: 400, color: NOTE },
+                    { text: '同比 (0 个百分点)', size: 31, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
   });
 })();

@@ -369,5 +369,92 @@
       { source: 'operating_expenses', target: 'franchise_expenses', value: 0.4, width: 72, sourceOrder: 1, targetOrder: 0, linkTint: { left: RED_LINK, right: RED_LINK } },
       { source: 'operating_expenses', target: 'ga', value: 0.3, width: 52, sourceOrder: 2, targetOrder: 0, linkTint: { left: RED_LINK, right: RED_LINK } },
     ],
+
+    i18n: {
+      zh: {
+        name: 'Yum! Brands · 2026 财年第一季度',
+        meta: {
+          title: 'Yum! Brands 2026 财年第一季度利润表',
+          period: '2026 财年第一季度',
+          periodNote: '截至 2026 年 3 月',
+        },
+        nodes: {
+          kfc: { label: 'KFC' },
+          taco_bell: { label: '塔可钟' },
+          pizza_hut: { label: '必胜客' },
+          habit: { label: 'Habit 汉堡烤吧' },
+          revenue: { label: '收入', notes: ['同比 +15%'] },
+          company_sales: { label: '公司销售额', notes: ['同比 +29%'] },
+          franchise_property: { label: '特许经营及物业', notes: ['同比 +9%'] },
+          franchise_contributions: { label: '特许经营贡献', notes: ['同比 +6%'] },
+          reported_revenue: { label: '收入', notes: ['同比 +15%'] },
+          other_income: { label: '其他' },
+          operating_profit: { label: '营业利润', notes: ['利润率 31%', '同比 +1 个百分点'] },
+          operating_expenses: { label: '运营费用' },
+          net_profit: { label: '净利润', notes: ['利润率 21%', '同比 +7 个百分点'] },
+          other: { label: '其他' },
+          tax: { label: '税费' },
+          company_restaurants: { label: '公司自营餐厅' },
+          franchise_expenses: { label: '特许经营费用' },
+          ga: { label: '管理费用' },
+          cost_of_revenue: { label: '收入成本' },
+          gross_profit: { label: '毛利润' },
+        },
+        layout: {
+          labels: {
+            company_sales: {
+              blocks: [
+                {
+                  x: 1184, top: 370, anchor: 'middle', lineGap: 9,
+                  lines: [
+                    { text: '公司销售额', size: 39, weight: 800 },
+                    { text: '$value', size: 38, weight: 400 },
+                    { text: '同比 +29%', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            franchise_property: {
+              blocks: [
+                {
+                  x: 1184, top: 697, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '特许经营及', size: 39, weight: 800 },
+                    { text: '物业', size: 39, weight: 800 },
+                    { text: '$value', size: 38, weight: 400 },
+                    { text: '同比 +9%', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            franchise_contributions: {
+              blocks: [
+                {
+                  x: 1184, top: 1054, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '特许经营', size: 39, weight: 800 },
+                    { text: '贡献', size: 39, weight: 800 },
+                    { text: '$value', size: 38, weight: 400 },
+                    { text: '同比 +6%', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            company_restaurants: {
+              blocks: [
+                {
+                  x: 2479, top: 965, anchor: 'middle', lineGap: 8,
+                  lines: [
+                    { text: '公司自营', size: 31, weight: 800, color: RED_LABEL },
+                    { text: '餐厅', size: 31, weight: 800, color: RED_LABEL },
+                    { text: '$value', size: 30, weight: 400, color: RED_LABEL },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
   });
 })();

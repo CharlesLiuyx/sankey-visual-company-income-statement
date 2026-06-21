@@ -1,6 +1,9 @@
 const sets = window.DATASETS || [];
 const companySearch = document.getElementById('companySearch');
 const companySearchToggle = document.getElementById('companySearchToggle');
+const companySortToggle = document.getElementById('companySortToggle');
+const companySortMenu = document.getElementById('companySortMenu');
+const companySortOptions = document.getElementById('companySortOptions');
 const companySection = document.querySelector('.company-section');
 const periodSearch = document.getElementById('periodSearch');
 const periodSearchToggle = document.getElementById('periodSearchToggle');
@@ -35,6 +38,28 @@ const SIDEBAR_COLLAPSED_KEY = 'sankey.sidebar.collapsed';
 const VIEW_MODE_KEY = 'sankey.view.mode';
 const LANGUAGE_KEY = 'sankey.language';
 const THEME_KEY = 'sankey.theme';
+const COMPANY_SORT_KEY = 'sankey.company.sort';
+const COMPANY_SORT_KEYS = ['name', 'recent', 'marketCap', 'netProfit', 'founded'];
+const COMPANY_SORT_CONFIG = {
+  name: { labelKey: 'companySortName', direction: 1 },
+  recent: { labelKey: 'companySortRecent', direction: -1 },
+  marketCap: { labelKey: 'companySortMarketCap', direction: -1 },
+  netProfit: { labelKey: 'companySortNetProfit', direction: -1 },
+  founded: { labelKey: 'companySortFounded', direction: 1 },
+};
+const MONEY_UNIT_MULTIPLIERS = { T: 1e12, B: 1e9, M: 1e6, K: 1e3 };
+// Frankfurter USD rates as of 2026-06-19; used only for cross-currency UI sorting.
+const CURRENCY_UNITS_PER_USD = {
+  '$': 1,
+  USD: 1,
+  'US$': 1,
+  '€': 0.87207,
+  EUR: 0.87207,
+  RMB: 6.7693,
+  CNY: 6.7693,
+  CNH: 6.7693,
+  KRW: 1532.31,
+};
 const SIDEBAR_MIN = 220;
 const SIDEBAR_MAX = 560;
 const SIDEBAR_DEFAULT = 282;
@@ -84,6 +109,16 @@ const I18N = I18N_API.ui || {
     companyLabel: 'Company',
     companiesLabel: 'Companies',
     companySearchPlaceholder: 'Search companies',
+    companySortButton: 'Sort companies',
+    companySortCurrent: 'Sort companies: {sort}',
+    companySortName: 'Alphabetical',
+    companySortRecent: 'Recently updated',
+    companySortMarketCap: 'Market cap',
+    companySortNetProfit: 'Net profit',
+    companySortFounded: 'Founded date',
+    companySortMetaMarketCap: 'Mkt cap {value}',
+    companySortMetaNetProfit: 'Net profit {value}',
+    companySortMetaFounded: 'Founded {value}',
     periodLabel: 'Data point time',
     periodSortLabel: 'Sort time points',
     sortDesc: 'Desc',
@@ -114,6 +149,7 @@ const I18N = I18N_API.ui || {
     tableCompany: 'Company',
     tableLegalName: 'Legal name',
     tableTicker: 'Ticker',
+    tableMarketCap: 'Market cap',
     tableSector: 'Sector',
     tableIndustry: 'Industry',
     tableFounded: 'Founded',
@@ -166,6 +202,16 @@ const I18N = I18N_API.ui || {
     companyLabel: '公司',
     companiesLabel: '公司',
     companySearchPlaceholder: '搜索公司',
+    companySortButton: '公司排序',
+    companySortCurrent: '公司排序：{sort}',
+    companySortName: '字母序',
+    companySortRecent: '最近更新',
+    companySortMarketCap: '市值',
+    companySortNetProfit: '净利润',
+    companySortFounded: '成立日期',
+    companySortMetaMarketCap: '市值 {value}',
+    companySortMetaNetProfit: '净利润 {value}',
+    companySortMetaFounded: '成立于 {value}',
     periodLabel: '数据期间',
     periodSortLabel: '排序数据期间',
     sortDesc: '降序',
@@ -196,6 +242,7 @@ const I18N = I18N_API.ui || {
     tableCompany: '公司',
     tableLegalName: '法定名称',
     tableTicker: '股票代码',
+    tableMarketCap: '市值',
     tableSector: '板块',
     tableIndustry: '行业',
     tableFounded: '成立年份',
@@ -276,6 +323,14 @@ function readStoredTheme() {
     return window.localStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light';
   } catch (error) {
     return 'light';
+  }
+}
+function readStoredCompanySort() {
+  try {
+    const value = window.localStorage.getItem(COMPANY_SORT_KEY);
+    return COMPANY_SORT_KEYS.includes(value) ? value : 'name';
+  } catch (error) {
+    return 'name';
   }
 }
 function t(key, values = {}, language = state?.language) {
@@ -494,6 +549,7 @@ function syncDatasetHash(record) {
 const activeStart = recordFromHash() || records[defaultIndex >= 0 ? defaultIndex : 0];
 const state = {
   sort: 'desc',
+  companySort: readStoredCompanySort(),
   activeIndex: activeStart?.index || 0,
   company: activeStart?.company || groups[0]?.company || '',
   viewMode: readStoredViewMode(),
@@ -512,6 +568,9 @@ function sunIcon() {
 function sortIcon(direction) {
   const arrow = direction === 'asc' ? '<path d="M7 17V7"/><path d="m4 10 3-3 3 3"/>' : '<path d="M7 7v10"/><path d="m4 14 3 3 3-3"/>';
   return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">${arrow}<path d="M13 8h7"/><path d="M13 12h5"/><path d="M13 16h3"/></svg>`;
+}
+function companySortIcon() {
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 7h12"/><path d="M4 12h9"/><path d="M4 17h6"/><path d="m17 14 3 3 3-3"/></svg>';
 }
 function syncThemeControls() {
   document.documentElement.dataset.theme = state.theme;
@@ -539,6 +598,7 @@ function applyStaticTranslations() {
   languageToggle.setAttribute('aria-label', t('languageToggleTitle'));
   languageToggle.title = t('languageToggleTitle');
   syncThemeControls();
+  syncCompanySortControls();
   syncPeriodSortToggle();
   syncSidebarControls();
   syncToolbarHeight();
@@ -786,6 +846,7 @@ function metadataFor(company) {
     website: '',
     description: '',
     sourceUrls: [],
+    marketCap: null,
   };
 }
 function searchTextForRecord(record) {
@@ -986,6 +1047,102 @@ function websiteHtml(url) {
 function financialFor(record) {
   return financialRecordByKey.get(record.dataset.key);
 }
+function finiteNumber(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+function marketCapValueUsd(company) {
+  const marketCap = metadataFor(company)?.marketCap;
+  if (!marketCap || typeof marketCap !== 'object') return null;
+  return finiteNumber(marketCap.valueUsd ?? marketCap.usd ?? marketCap.value);
+}
+function unitMultiplier(unit) {
+  const key = clean(unit).toUpperCase();
+  return MONEY_UNIT_MULTIPLIERS[key] || 1;
+}
+function currencyUnitsPerUsd(currency) {
+  const key = clean(currency).toUpperCase();
+  if (CURRENCY_UNITS_PER_USD[currency] != null) return CURRENCY_UNITS_PER_USD[currency];
+  if (CURRENCY_UNITS_PER_USD[key] != null) return CURRENCY_UNITS_PER_USD[key];
+  return 1;
+}
+function financialValueUsd(record, value) {
+  const number = finiteNumber(value);
+  if (number == null || !record) return null;
+  return (number * unitMultiplier(record.unit)) / currencyUnitsPerUsd(record.currency);
+}
+function latestFinancialForGroup(group) {
+  return group?.latest ? financialFor(group.latest) : null;
+}
+function latestNetProfitUsd(group) {
+  const financial = latestFinancialForGroup(group);
+  return financialValueUsd(financial, financial?.profit?.net?.value);
+}
+function foundedYear(company) {
+  const match = clean(metadataFor(company).founded).match(/\b(\d{4})\b/);
+  return match ? Number(match[1]) : null;
+}
+function displayCompanyForGroup(group, language = state.language) {
+  return displayCompany(group?.latest, language) || group?.company || '';
+}
+function compareNullableNumber(a, b, direction = -1) {
+  const left = finiteNumber(a);
+  const right = finiteNumber(b);
+  const leftMissing = left == null;
+  const rightMissing = right == null;
+  if (leftMissing && rightMissing) return 0;
+  if (leftMissing) return 1;
+  if (rightMissing) return -1;
+  return direction * (left - right);
+}
+function companySortValue(group, sortKey = state.companySort) {
+  if (sortKey === 'recent') return group?.latest?.sortValue;
+  if (sortKey === 'marketCap') return marketCapValueUsd(group?.company);
+  if (sortKey === 'netProfit') return latestNetProfitUsd(group);
+  if (sortKey === 'founded') return foundedYear(group?.company);
+  return displayCompanyForGroup(group);
+}
+function compareCompanyGroups(a, b, language = state.language) {
+  const sortKey = COMPANY_SORT_KEYS.includes(state.companySort) ? state.companySort : 'name';
+  const config = COMPANY_SORT_CONFIG[sortKey] || COMPANY_SORT_CONFIG.name;
+  if (sortKey !== 'name') {
+    const byMetric = compareNullableNumber(companySortValue(a, sortKey), companySortValue(b, sortKey), config.direction);
+    if (byMetric) return byMetric;
+  }
+  return displayCompanyForGroup(a, language).localeCompare(displayCompanyForGroup(b, language), languageCode(language)) ||
+    a.company.localeCompare(b.company) ||
+    (b.latest?.sortValue || 0) - (a.latest?.sortValue || 0);
+}
+function sortedCompanyGroups(groupList) {
+  return [...(groupList || [])].sort((a, b) => compareCompanyGroups(a, b));
+}
+function formatUsdShort(value, language = state.language) {
+  const number = finiteNumber(value);
+  if (number == null) return t('missing', {}, language);
+  const sign = number < 0 ? '-' : '';
+  const absolute = Math.abs(number);
+  const units = [
+    { suffix: 'T', value: 1e12 },
+    { suffix: 'B', value: 1e9 },
+    { suffix: 'M', value: 1e6 },
+  ];
+  const unit = units.find((item) => absolute >= item.value) || { suffix: '', value: 1 };
+  const scaled = absolute / unit.value;
+  const decimals = scaled >= 100 || unit.suffix === '' ? 0 : scaled >= 10 ? 1 : 2;
+  return `${sign}$${scaled.toFixed(decimals)}${unit.suffix}`;
+}
+function companySortMetaText(group) {
+  if (state.companySort === 'marketCap') {
+    return t('companySortMetaMarketCap', { value: formatUsdShort(marketCapValueUsd(group.company)) });
+  }
+  if (state.companySort === 'netProfit') {
+    return t('companySortMetaNetProfit', { value: formatUsdShort(latestNetProfitUsd(group)) });
+  }
+  if (state.companySort === 'founded') {
+    return t('companySortMetaFounded', { value: metadataFor(group.company).founded || t('missing') });
+  }
+  return `${t('latest')} ${displayPeriod(group.latest)}`;
+}
 function tableModelForLanguage(language = state.language) {
   const code = languageCode(language);
   if (tableModelCache.has(code)) return tableModelCache.get(code);
@@ -996,6 +1153,10 @@ function tableModelForLanguage(language = state.language) {
       ...meta,
       company: clean(meta.displayName || meta.name || group.company),
       companyCanonical: group.company,
+      marketCap: formatUsdShort(sourceMeta.marketCap?.valueUsd, code),
+      marketCapValueUsd: sourceMeta.marketCap?.valueUsd ?? '',
+      marketCapAsOf: sourceMeta.marketCap?.asOf || '',
+      marketCapSourceUrl: sourceMeta.marketCap?.sourceUrl || '',
       latestPeriod: group.latest ? displayPeriod(group.latest, code) : '',
       datasetCount: group.records.length,
       tableAttrs: `data-company-key="${escapeHtml(companyKey(group.company))}"`,
@@ -1030,10 +1191,14 @@ function tableModelForLanguage(language = state.language) {
   return model;
 }
 function companyRows() {
-  return tableModelForLanguage().companyRows.map((row) => ({
-    ...row,
-    active: row.companyCanonical === state.company,
-  }));
+  const rowByCompany = new Map(tableModelForLanguage().companyRows.map((row) => [row.companyCanonical, row]));
+  return sortedCompanyGroups(groups).map((group) => {
+    const row = rowByCompany.get(group.company) || { company: displayCompanyForGroup(group), companyCanonical: group.company };
+    return {
+      ...row,
+      active: row.companyCanonical === state.company,
+    };
+  });
 }
 function statementRows() {
   return tableModelForLanguage().statementRows.map((row) => ({
@@ -1091,6 +1256,7 @@ function renderTables() {
     { label: t('tableCompany'), className: 'nowrap', widthPreset: 'text', maxWidth: 118, grow: 0, value: (row) => row.company },
     { label: t('tableLegalName'), className: 'nowrap', widthPreset: 'text', minWidth: 116, maxWidth: 150, grow: 0, value: (row) => row.legalName },
     { label: t('tableTicker'), className: 'nowrap', widthPreset: 'compact', minWidth: 92, maxWidth: 108, grow: 0, value: (row) => [row.exchange, row.ticker].filter(Boolean).join(': ') },
+    { label: t('tableMarketCap'), className: 'num', widthPreset: 'money', minWidth: 86, maxWidth: 98, grow: 0, value: (row) => row.marketCap },
     { label: t('tableSector'), className: 'nowrap', widthPreset: 'text', minWidth: 108, maxWidth: 126, grow: 0, value: (row) => row.sector },
     { label: t('tableIndustry'), className: 'nowrap', widthPreset: 'text', minWidth: 132, maxWidth: 160, grow: 0, value: (row) => row.industry },
     { label: t('tableFounded'), className: 'nowrap', widthPreset: 'compact', minWidth: 76, maxWidth: 80, grow: 0, value: (row) => row.founded },
@@ -1220,7 +1386,7 @@ function renderActiveSummary() {
     : t('noDataPointSelected');
 }
 function visibleCompanyGroups() {
-  return groups.filter((group) => matches(searchTextForGroup(group), companySearch.value));
+  return sortedCompanyGroups(groups.filter((group) => matches(searchTextForGroup(group), companySearch.value)));
 }
 function activeCompanyButton() {
   const key = companyKey(state.company);
@@ -1247,7 +1413,7 @@ function selectCompanyGroup(group, { closeSearch = false, focusCompany = false, 
   if (focusCompany) requestAnimationFrame(focusActiveCompanyItem);
   scrollActiveTableRow(scrollKind);
 }
-function moveCompanySelection(offset) {
+function moveCompanySelection(offset, { returnBoundary = false } = {}) {
   const visibleGroups = visibleCompanyGroups();
   if (!visibleGroups.length) return false;
   const focusedKey = document.activeElement?.closest?.('.company-item')?.dataset.companyKey;
@@ -1255,7 +1421,9 @@ function moveCompanySelection(offset) {
     ? visibleGroups.findIndex((group) => companyKey(group.company) === focusedKey)
     : visibleGroups.findIndex((group) => group.company === state.company);
   if (index < 0) index = offset > 0 ? -1 : visibleGroups.length;
-  const nextIndex = clamp(index + offset, 0, visibleGroups.length - 1);
+  const rawNextIndex = index + offset;
+  if (returnBoundary && (rawNextIndex < 0 || rawNextIndex >= visibleGroups.length)) return 'boundary';
+  const nextIndex = clamp(rawNextIndex, 0, visibleGroups.length - 1);
   selectCompanyGroup(visibleGroups[nextIndex], { focusCompany: true });
   return true;
 }
@@ -1283,7 +1451,7 @@ function renderCompanies() {
     button.innerHTML = `
       <div class="item-top">
         <span class="item-name">${escapeHtml(displayCompany(group.latest))}</span>
-        <span class="item-meta">${escapeHtml(t('latest'))} ${escapeHtml(displayPeriod(group.latest))}</span>
+        <span class="item-meta">${escapeHtml(companySortMetaText(group))}</span>
         <span class="count-pill">${group.records.length}</span>
       </div>
     `;
@@ -1398,7 +1566,7 @@ function setViewMode(mode, persist = true) {
   if (mode === 'table') scrollActiveTableRow('statement');
 }
 
-function createHeaderSearchController({ section, input, toggle, render }) {
+function createHeaderSearchController({ section, input, toggle, render, navigate }) {
   const isOpen = () => section.classList.contains('search-open');
   const hasActiveFilter = () => Boolean(clean(input.value));
   const sync = () => {
@@ -1413,6 +1581,9 @@ function createHeaderSearchController({ section, input, toggle, render }) {
     sync();
     if (nextOpen) requestAnimationFrame(() => input.focus());
   };
+  const focusInput = () => {
+    setOpen(true);
+  };
   toggle.addEventListener('click', () => {
     setOpen(!isOpen());
   });
@@ -1421,6 +1592,10 @@ function createHeaderSearchController({ section, input, toggle, render }) {
     sync();
   });
   input.addEventListener('keydown', (e) => {
+    if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !e.isComposing && !e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+      if (navigate?.(e.key === 'ArrowDown' ? 1 : -1)) e.preventDefault();
+      return;
+    }
     if (e.key !== 'Escape') return;
     if (input.value) {
       input.value = '';
@@ -1436,7 +1611,7 @@ function createHeaderSearchController({ section, input, toggle, render }) {
     if (section.contains(e.target)) return;
     setOpen(false);
   });
-  return { sync, setOpen };
+  return { sync, setOpen, focusInput };
 }
 function syncPeriodSortToggle() {
   const isDesc = state.sort === 'desc';
@@ -1446,11 +1621,56 @@ function syncPeriodSortToggle() {
   periodSortToggle.setAttribute('aria-label', label);
   periodSortToggle.setAttribute('aria-pressed', isDesc ? 'true' : 'false');
 }
+function companySortLabel(sortKey = state.companySort) {
+  const key = COMPANY_SORT_CONFIG[sortKey]?.labelKey || COMPANY_SORT_CONFIG.name.labelKey;
+  return t(key);
+}
+function syncCompanySortControls() {
+  if (!companySortToggle || !companySortOptions) return;
+  const label = t('companySortCurrent', { sort: companySortLabel() });
+  companySortToggle.innerHTML = companySortIcon();
+  companySortToggle.title = label;
+  companySortToggle.setAttribute('aria-label', label);
+  [...companySortOptions.querySelectorAll('[data-company-sort]')].forEach((button) => {
+    const active = button.dataset.companySort === state.companySort;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-checked', active ? 'true' : 'false');
+  });
+}
+function setCompanySortMenuOpen(open) {
+  if (!companySortToggle || !companySortOptions) return;
+  companySortOptions.hidden = !open;
+  companySortToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  if (open) {
+    requestAnimationFrame(() => {
+      const active = companySortOptions.querySelector('[aria-checked="true"]') || companySortOptions.querySelector('[data-company-sort]');
+      active?.focus({ preventScroll: true });
+    });
+  }
+}
+function isCompanySortMenuOpen() {
+  return companySortToggle?.getAttribute('aria-expanded') === 'true';
+}
+function setCompanySort(sortKey) {
+  if (!COMPANY_SORT_KEYS.includes(sortKey)) return;
+  if (state.companySort === sortKey) {
+    setCompanySortMenuOpen(false);
+    return;
+  }
+  state.companySort = sortKey;
+  writeStoredValue(COMPANY_SORT_KEY, sortKey);
+  syncCompanySortControls();
+  renderCompanies();
+  if (state.viewMode === 'table') renderTables();
+  setCompanySortMenuOpen(false);
+  requestAnimationFrame(focusActiveCompanyItem);
+}
 const companySearchController = createHeaderSearchController({
   section: companySection,
   input: companySearch,
   toggle: companySearchToggle,
   render: renderCompanies,
+  navigate: moveCompanySelection,
 });
 const periodSearchController = createHeaderSearchController({
   section: periodSection,
@@ -1472,14 +1692,50 @@ document.addEventListener('keydown', (e) => {
 });
 companyList.addEventListener('keydown', (e) => {
   if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
-  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  if (e.isComposing || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
   e.preventDefault();
-  moveCompanySelection(e.key === 'ArrowDown' ? 1 : -1);
+  const result = moveCompanySelection(e.key === 'ArrowDown' ? 1 : -1, { returnBoundary: true });
+  if (result === 'boundary') companySearchController.focusInput();
 });
 periodSortToggle.addEventListener('click', () => {
   state.sort = state.sort === 'desc' ? 'asc' : 'desc';
   syncPeriodSortToggle();
   renderPeriods();
+});
+companySortToggle?.addEventListener('click', () => {
+  setCompanySortMenuOpen(!isCompanySortMenuOpen());
+});
+companySortOptions?.addEventListener('click', (e) => {
+  const button = e.target.closest('[data-company-sort]');
+  if (!button) return;
+  setCompanySort(button.dataset.companySort);
+  companySortToggle.focus();
+});
+companySortOptions?.addEventListener('keydown', (e) => {
+  const buttons = [...companySortOptions.querySelectorAll('[data-company-sort]')];
+  const current = document.activeElement?.closest?.('[data-company-sort]');
+  const index = current ? buttons.indexOf(current) : -1;
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    setCompanySortMenuOpen(false);
+    companySortToggle.focus();
+  } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    const next = e.key === 'ArrowDown' ? index + 1 : index - 1;
+    buttons[clamp(next, 0, buttons.length - 1)]?.focus();
+  } else if (e.key === 'Home' || e.key === 'End') {
+    e.preventDefault();
+    buttons[e.key === 'Home' ? 0 : buttons.length - 1]?.focus();
+  }
+});
+document.addEventListener('pointerdown', (e) => {
+  if (!isCompanySortMenuOpen()) return;
+  if (companySortMenu?.contains(e.target)) return;
+  setCompanySortMenuOpen(false);
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape' || !isCompanySortMenuOpen()) return;
+  setCompanySortMenuOpen(false);
 });
 viewMode.addEventListener('click', (e) => {
   const button = e.target.closest('button');
@@ -1635,6 +1891,10 @@ companiesCsvBtn.onclick = () => {
     { label: 'legal_name', value: (row) => row.legalName },
     { label: 'ticker', value: (row) => row.ticker },
     { label: 'exchange', value: (row) => row.exchange },
+    { label: 'market_cap', value: (row) => row.marketCap },
+    { label: 'market_cap_usd', value: (row) => row.marketCapValueUsd },
+    { label: 'market_cap_as_of', value: (row) => row.marketCapAsOf },
+    { label: 'market_cap_source_url', value: (row) => row.marketCapSourceUrl },
     { label: 'sector', value: (row) => row.sector },
     { label: 'industry', value: (row) => row.industry },
     { label: 'founded', value: (row) => row.founded },

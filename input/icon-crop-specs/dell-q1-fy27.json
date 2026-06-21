@@ -1,0 +1,21 @@
+{
+  "source": "input/processed/dell-q1-fy27.png",
+  "outputDir": "data/assets/icon-references/dell/",
+  "validationSheetDir": "data/assets/icon-references/dell/validation-sheets/",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  },
+  "crops": [
+    {
+      "key": "dell-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": { "x": 775, "y": 235, "width": 600, "height": 205 },
+      "cropBox": { "x": 775, "y": 235, "width": 600, "height": 205 },
+      "threshold": 24,
+      "minComponentArea": 40
+    }
+  ]
+}

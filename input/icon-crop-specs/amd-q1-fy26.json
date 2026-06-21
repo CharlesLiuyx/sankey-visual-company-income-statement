@@ -1,0 +1,89 @@
+{
+  "source": "input/processed/amd-q1-fy26.png",
+  "outputDir": "data/assets/icon-references/amd",
+  "validationSheetDir": "data/assets/icon-references/amd/validation-sheets",
+  "report": "crop-report.json",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "crops": [
+    {
+      "key": "amd-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": { "x": 834, "y": 315, "width": 430, "height": 106 },
+      "cropBox": { "x": 818, "y": 298, "width": 468, "height": 138 },
+      "threshold": 18,
+      "minComponentArea": 35,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.12,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "AMD company wordmark above the revenue hub; excludes title, values, flows, and publisher marks."
+    },
+    {
+      "key": "amd-business-data-center-cluster",
+      "output": "crops/business-data-center-cluster.png",
+      "searchBox": { "x": 56, "y": 355, "width": 180, "height": 310 },
+      "cropBox": { "x": 48, "y": 348, "width": 197, "height": 325 },
+      "threshold": 18,
+      "minComponentArea": 12,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.14,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 12
+      },
+      "note": "Data Center EPYC logo and AMD Instinct package icon cluster only; excludes the Data Center label, values, notes, and flow marks."
+    },
+    {
+      "key": "amd-business-client-ryzen",
+      "output": "crops/business-client-ryzen.png",
+      "searchBox": { "x": 36, "y": 786, "width": 214, "height": 120 },
+      "cropBox": { "x": 28, "y": 776, "width": 232, "height": 139 },
+      "threshold": 18,
+      "minComponentArea": 12,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.12,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Ryzen client segment logo only; excludes the Client label, values, notes, and flow marks."
+    },
+    {
+      "key": "amd-business-gaming-radeon",
+      "output": "crops/business-gaming-radeon.png",
+      "searchBox": { "x": 62, "y": 988, "width": 174, "height": 142 },
+      "cropBox": { "x": 52, "y": 979, "width": 195, "height": 160 },
+      "threshold": 18,
+      "minComponentArea": 12,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.12,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Radeon Graphics gaming segment badge only; excludes the Gaming label, values, notes, and flow marks."
+    },
+    {
+      "key": "amd-business-embedded-xilinx",
+      "output": "crops/business-embedded-xilinx.png",
+      "searchBox": { "x": 55, "y": 1190, "width": 203, "height": 62 },
+      "cropBox": { "x": 43, "y": 1178, "width": 226, "height": 76 },
+      "threshold": 18,
+      "minComponentArea": 12,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.12,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Xilinx embedded segment wordmark only; excludes the Embedded label, values, notes, and bottom publisher marks."
+    }
+  ]
+}

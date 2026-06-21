@@ -1,0 +1,21 @@
+{
+  "source": "input/processed/synopsys-q2-fy26.png",
+  "outputDir": "data/assets/icon-references/synopsys/",
+  "validationSheetDir": "data/assets/icon-references/synopsys/validation-sheets/",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  },
+  "crops": [
+    {
+      "key": "synopsys-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": { "x": 607, "y": 255, "width": 518, "height": 115 },
+      "cropBox": { "x": 594, "y": 244, "width": 548, "height": 139 },
+      "threshold": 24,
+      "minComponentArea": 35
+    }
+  ]
+}

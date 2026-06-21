@@ -1,0 +1,38 @@
+{
+  "source": "input/processed/lenovo-q4-fy26.png",
+  "outputDir": "data/assets/icon-references/lenovo/",
+  "validationSheetDir": "data/assets/icon-references/lenovo/validation-sheets/",
+  "report": "crop-report.json",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "crops": [
+    {
+      "key": "lenovo-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": { "x": 680, "y": 270, "width": 550, "height": 140 },
+      "cropBox": { "x": 670, "y": 260, "width": 570, "height": 155 },
+      "threshold": 18,
+      "minComponentArea": 45,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.08,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Central Lenovo company wordmark only; excludes title, Sankey flows, website mark, and publisher attribution."
+    }
+  ],
+  "skipped": [
+    {
+      "key": "publisher-how-they-make-money",
+      "reason": "Source publisher branding and not part of Lenovo's income-statement semantics."
+    },
+    {
+      "key": "publisher-app-economy-insights",
+      "reason": "Source publisher branding, website URL, social badge, and footer logo are intentionally excluded."
+    }
+  ]
+}

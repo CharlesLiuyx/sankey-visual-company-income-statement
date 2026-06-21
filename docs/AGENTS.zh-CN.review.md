@@ -9,26 +9,35 @@
 ## 输入工作流
 
 1. 检查 `input/pending/`，忽略 `.gitkeep`。
-2. 为每个待处理 PNG 选择稳定的数据集 key：
+2. 在移动图片或更新数据之前，先检查每个待处理 PNG 是否已经处理过：
+   - 运行 `pnpm check:pending`，或手动按内容和候选 dataset key 对比
+     `input/processed/`。
+   - 如果发现 `input/processed/` 中已有完全相同的图片，或候选 key 已经存在，
+     则把它视为停止条件。不要对这张待处理图片执行移动、覆盖、创建、更新、
+     裁切、矢量化或验证等后续步骤，只报告重复或冲突。
+   - 如果最终稳定 dataset key 和脚本候选 key 不同，继续前还要用最终 key
+     检查 `input/processed/`、`data/datasets/`、`data/income-statements.js`
+     和 `index.html`。
+3. 为每个新的待处理 PNG 选择稳定的数据集 key：
    - 使用小写 kebab-case。
    - 包含公司和期间，例如 `nvidia-q4-fy26`。
-3. 将持久源图片移动到：
+4. 将持久源图片移动到：
    - `input/processed/<dataset-key>.png`
-4. 创建或更新：
+5. 创建或更新：
    - `data/datasets/<dataset-key>.js`
    - `data/income-statements.js`
    - 如果是新公司，更新 `data/company-metadata.js`
    - 在 `index.html` 中注册数据集脚本
-5. 如果源图中有公司 icon 或公司内部 business/segment icon，需要先运行 spec-driven icon 提取流程：
+6. 如果源图中有公司 icon 或公司内部 business/segment icon，需要先运行 spec-driven icon 提取流程：
    - 创建或更新 `input/icon-crop-specs/<dataset-key>.json`。
    - 使用 `scripts/extract_icon_crops.py` 将通过验证的 reference crop 写入 `data/assets/icon-references/<company>/crops/`。
    - 将 validation sheet 写入 `data/assets/icon-references/<company>/validation-sheets/`。
    - 在公司资产目录中保留 `crop-report.json` 和 `model-validation.md`。
    - 除非用户明确缩小范围，否则要提取源图中所有有语义的 company 和 business/segment icon cluster，不要只提取一个示例业务簇。
    - 排除发布方水印、创作者/账号品牌、网站 URL、社交徽标、"how they make money" 标识、署名块，以及没有独立业务 icon 的 `Others` 等 segment。
-6. 在为新公司编写第一个数据集之前，先收集公司元数据（描述、板块、行业、总部、网站、股票代码/交易所，如有，以及来源 URL），并添加到 `data/company-metadata.js`。
-7. 将 `meta.referenceImage` 设置为已处理 PNG，并记录准确的源图片尺寸。
-8. 处理完成后，保持 `input/pending/` 为空，只保留 `.gitkeep`。
+7. 在为新公司编写第一个数据集之前，先收集公司元数据（描述、板块、行业、总部、网站、股票代码/交易所，如有，以及来源 URL），并添加到 `data/company-metadata.js`。
+8. 将 `meta.referenceImage` 设置为已处理 PNG，并记录准确的源图片尺寸。
+9. 处理完成后，保持 `input/pending/` 为空，只保留 `.gitkeep`。
 
 ## 数据集编写
 

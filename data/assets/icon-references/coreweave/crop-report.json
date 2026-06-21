@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/coreweave-q1-fy26.png",
+  "spec": "input/icon-crop-specs/coreweave-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-21T06:14:24.773043+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "coreweave-company-logo",
+      "output": "data/assets/icon-references/coreweave/crops/company-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 6283,
+        "losslessBytes": 33552,
+        "savingsVsLossless": 0.8127,
+        "metrics": {
+          "meanAbsoluteError": 0.3417,
+          "rootMeanSquareError": 2.2261,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 35,
+          "changedPixelRatio": 0.1312
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 129760,
+        "transparentPixelRatio": 0.7419
+      },
+      "searchBox": {
+        "x": 650,
+        "y": 230,
+        "width": 530,
+        "height": 330
+      },
+      "componentCount": 14,
+      "subjectBox": {
+        "x0": 685,
+        "y0": 255,
+        "x1": 1107,
+        "y1": 524
+      },
+      "cropBox": {
+        "x0": 650,
+        "y0": 230,
+        "x1": 1180,
+        "y1": 560
+      },
+      "validation": {
+        "width": 530,
+        "height": 330,
+        "foregroundPixels": 43158,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 35,
+          "right": 73,
+          "top": 25,
+          "bottom": 36
+        },
+        "centerOffset": {
+          "x": -0.0358,
+          "y": -0.0167
+        },
+        "passes": true
+      },
+      "note": "CoreWeave company logo and wordmark above the revenue hub; excludes chart labels, flows, publisher marks, website URL, and bottom attribution badges.",
+      "validationSheet": "data/assets/icon-references/coreweave/validation-sheets/coreweave-company-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 203536,
+        "losslessBytes": 203536,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

@@ -47,13 +47,25 @@ Use this workflow when a new reference image is added and the chart needs
 another fidelity loop:
 
 1. Put new, unprocessed source PNGs in `input/pending/`.
-2. After processing, move the durable reference image to `input/processed/` and
+2. Before processing anything, run the pending guard:
+
+   ```bash
+   pnpm check:pending
+   ```
+
+   If it reports an exact processed-image match or an existing-key collision,
+   stop before moving images, editing data, extracting icons, or running the d3
+   loop for that pending image. If you choose a different final dataset key than
+   the script's candidate, check that final key against `input/processed/`,
+   `data/datasets/`, `data/income-statements.js`, and `index.html` before
+   continuing.
+3. After processing, move the durable reference image to `input/processed/` and
    name it with the dataset key, for example `salesforce-q1-fy27.png`.
-3. Set `meta.referenceImage` on the matching dataset to that processed path.
-4. If this is a new company, add the company profile to
+4. Set `meta.referenceImage` on the matching dataset to that processed path.
+5. If this is a new company, add the company profile to
    `data/company-metadata.js` first: description, sector, industry, headquarters,
    website, ticker/exchange when available, and source URLs.
-5. If the source contains company or business/segment icons that need to be
+6. If the source contains company or business/segment icons that need to be
    reproduced, create `input/icon-crop-specs/<dataset-key>.json` and run:
 
    ```bash
@@ -67,18 +79,18 @@ another fidelity loop:
    crop box, and extracted crop visible together, then record the pass/fail
    decision in `model-validation.md`. Extract every semantically relevant
    business cluster unless the task explicitly narrows the scope.
-6. Add or update the matching pure-data record in
+7. Add or update the matching pure-data record in
    `data/income-statements.js`. This file is the comparable financial
    statement SSOT: reported totals, line items, notes, currency and units only,
    with no Sankey layout or render settings.
-7. Install the pinned local tooling once:
+8. Install the pinned local tooling once:
 
    ```bash
    pnpm install --frozen-lockfile
    pnpm exec playwright install chromium
    ```
 
-8. Run the deterministic data and d3 checks:
+9. Run the deterministic data and d3 checks:
 
    ```bash
    pnpm verify:ssot

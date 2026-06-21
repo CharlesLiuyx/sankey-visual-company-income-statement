@@ -151,6 +151,52 @@
         },
       },
       {
+        key: 'arm-holdings-q4-fy26',
+        company: 'Arm Holdings',
+        period: 'Q4 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/arm-holdings-q4-fy26.png',
+        roundingTolerance: 0.65,
+        revenue: {
+          total: 1490,
+          notes: [
+            '+20% Y/Y',
+            'Source chart also shows revenue by customer type: External Customers $1,079M and Related parties $411M.',
+          ],
+          items: [
+            { id: 'license_other', label: 'License & Other', value: 819, notes: ['+29% Y/Y', 'Support & Maintenance'] },
+            { id: 'royalty', label: 'Royalty', value: 671, notes: ['+11% Y/Y', 'Percentage or fixed'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_sales', label: 'Cost of sales', value: 32 },
+          operatingExpenses: {
+            total: 1020,
+            items: [
+              { id: 'rnd', label: 'R&D', value: 698, notes: ['47% of revenue', '+3pp Y/Y'] },
+              { id: 'sga', label: 'SG&A', value: 322, notes: ['21% of revenue', '+1pp Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 168 },
+        },
+        otherIncome: {
+          total: 43,
+          items: [{ id: 'other', label: 'Other', value: 43 }],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 1458, notes: ['98% margin', '+0pp Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 438, notes: ['29% margin', '(4pp) Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 313, notes: ['21% margin', '+4pp Y/Y'] },
+        },
+      },
+      {
         key: 'blackrock-q1-fy26',
         company: 'BlackRock',
         period: 'Q1 FY26',
@@ -211,6 +257,133 @@
           },
           operating: { id: 'operating_profit', label: 'Operating profit', value: 2.8, notes: ['42% margin', '+10pp Y/Y'] },
           net: { id: 'net_profit', label: 'Net income', value: 2.3, notes: ['35% margin', '+6pp Y/Y'] },
+        },
+      },
+      {
+        key: 'coreweave-q1-fy26',
+        company: 'CoreWeave',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/coreweave-q1-fy26.png',
+        roundingTolerance: 0.15,
+        revenue: {
+          total: 2.078,
+          notes: ['+112% Y/Y'],
+          items: [
+            { id: 'united_states', label: 'United States', value: 1.9, notes: ['+105% Y/Y'] },
+            { id: 'rest_of_world', label: 'Rest of World', value: 0.178, notes: ['+236% Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 0.716 },
+          operatingExpenses: {
+            total: 1.506,
+            items: [
+              {
+                id: 'rnd',
+                label: 'R&D',
+                value: 1.273,
+                notes: ['61% of revenue', '+4pp Y/Y', 'Reported by CoreWeave as technology and infrastructure.'],
+              },
+              {
+                id: 'ga',
+                label: 'G&A',
+                value: 0.164,
+                notes: ['8% of revenue', '(10pp) Y/Y', 'Source chart displays this rounded value as ($0.2M).'],
+              },
+              { id: 'sm', label: 'S&M', value: 0.069, notes: ['3% of revenue', '+2pp Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 0 },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 1.362, notes: ['66% margin', '(8pp) Y/Y'] },
+          operating: { id: 'operating_loss', label: 'Operating loss', value: -0.144, notes: ['(7%) margin', '(4pp) Y/Y'] },
+          net: {
+            id: 'operating_loss',
+            label: 'Operating loss',
+            value: -0.144,
+            notes: ['No separate net loss line is shown in the source chart.'],
+          },
+        },
+      },
+      {
+        key: 'dell-q1-fy27',
+        company: 'Dell',
+        period: 'Q1 FY27',
+        periodNote: 'Ending May 2026',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/dell-q1-fy27.png',
+        roundingTolerance: 0.15,
+        revenue: {
+          total: 43.842,
+          notes: ['+88% Y/Y'],
+          items: [
+            {
+              id: 'isg',
+              label: 'ISG (Infrastructure)',
+              value: 29.009,
+              notes: ['+181% Y/Y'],
+              children: [
+                { id: 'ai_optimized_servers', label: 'AI-optimized Servers', value: 16.132, notes: ['+757% Y/Y'] },
+                {
+                  id: 'traditional_servers_networking',
+                  label: 'Traditional Servers & Networking',
+                  value: 8.543,
+                  notes: ['+92% Y/Y'],
+                },
+                { id: 'storage', label: 'Storage', value: 4.334, notes: ['+8% Y/Y'] },
+              ],
+            },
+            {
+              id: 'csg',
+              label: 'CSG (Client)',
+              value: 14.609,
+              notes: ['+17% Y/Y'],
+              children: [
+                { id: 'commercial', label: 'Commercial', value: 13.02, notes: ['+18% Y/Y'] },
+                { id: 'consumer', label: 'Consumer', value: 1.589, notes: ['+9% Y/Y'] },
+              ],
+            },
+            { id: 'other_revenue', label: 'Other', value: 0.224, notes: ['(59%) Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 36.06 },
+          operatingExpenses: {
+            total: 4.126,
+            items: [
+              { id: 'sga', label: 'SG&A', value: 3.143, notes: ['7% of revenue', '(6pp) Y/Y'] },
+              { id: 'rnd', label: 'R&D', value: 0.983, notes: ['2% of revenue', '(1pp) Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 0.51 },
+        },
+        otherIncome: {
+          total: 0.292,
+          items: [{ id: 'other', label: 'Other', value: 0.292 }],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 7.782, notes: ['18% margin', '(3pp) Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 3.656, notes: ['8% margin', '+3pp Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 3.438, notes: ['8% margin', '+4pp Y/Y'] },
         },
       },
       {
@@ -874,6 +1047,64 @@
         },
       },
       {
+        key: 'amd-q1-fy26',
+        company: 'AMD',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/amd-q1-fy26.png',
+        roundingTolerance: 0.15,
+        revenue: {
+          total: 10.253,
+          notes: ['+38% Y/Y'],
+          items: [
+            { id: 'data_center', label: 'Data Center', value: 5.775, notes: ['+57% Y/Y', '28% operating margin', '+3pp Y/Y'] },
+            {
+              id: 'client',
+              label: 'Client',
+              value: 2.885,
+              notes: ['+26% Y/Y', 'Client and Gaming', '16% operating margin', '(1pp) Y/Y'],
+            },
+            { id: 'gaming', label: 'Gaming', value: 0.72, notes: ['+11% Y/Y'] },
+            { id: 'embedded', label: 'Embedded', value: 0.873, notes: ['+6% Y/Y', '39% operating margin', '(1pp) Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 4.837 },
+          operatingExpenses: {
+            total: 3.94,
+            items: [
+              { id: 'rnd', label: 'Research & development', value: 2.397, notes: ['23% of revenue', '+0pp Y/Y'] },
+              { id: 'sga', label: 'Sales, General & Admin', value: 1.253, notes: ['12% of revenue', '+0pp Y/Y'] },
+              { id: 'amortization', label: 'Amortization of intangibles', value: 0.29, notes: ['3% of revenue', '(1pp) Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 0.238 },
+        },
+        otherIncome: {
+          total: 0.145,
+          items: [
+            {
+              id: 'other',
+              label: 'Other',
+              value: 0.145,
+              notes: ['Net impact of interest expense, other income, equity income, and discontinued operations.'],
+            },
+          ],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 5.416, notes: ['53% margin', '+3pp Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 1.476, notes: ['14% margin', '+4pp Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 1.383, notes: ['13% margin', '+4pp Y/Y'] },
+        },
+      },
+      {
         key: 'amazon-q1-fy26',
         company: 'Amazon',
         period: 'Q1 FY26',
@@ -1434,6 +1665,125 @@
           },
           operating: { id: 'operating_profit', label: 'Operating profit', value: 0.678, notes: ['23% margin', '+3pp Y/Y'] },
           net: { id: 'net_profit', label: 'Net profit', value: 0.383, notes: ['13% margin', '+2pp Y/Y'] },
+        },
+      },
+      {
+        key: 'hp-q2-fy26',
+        company: 'HP',
+        period: 'Q2 FY26',
+        periodNote: 'Ending Apr. 2026',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/hp-q2-fy26.png',
+        roundingTolerance: 0.15,
+        revenue: {
+          total: 14.4,
+          notes: ['+9% Y/Y'],
+          items: [
+            {
+              id: 'personal_systems',
+              label: 'Personal Systems',
+              value: 10.2,
+              notes: ['+13% Y/Y'],
+              children: [
+                { id: 'ps_commercial', label: 'Personal Systems Commercial', value: 7.7, notes: ['+14% Y/Y'] },
+                { id: 'ps_consumer', label: 'Personal Systems Consumer', value: 2.5, notes: ['+10% Y/Y'] },
+              ],
+            },
+            {
+              id: 'printing',
+              label: 'Printing',
+              value: 4.2,
+              notes: ['(0%) Y/Y', 'Printing child lines sum to $4.3B because the source chart rounds each line.'],
+              children: [
+                { id: 'printing_supplies', label: 'Printing Supplies', value: 2.8, notes: ['+1% Y/Y'] },
+                { id: 'printing_commercial', label: 'Printing Commercial', value: 1.2, notes: ['+0% Y/Y'] },
+                { id: 'printing_consumer', label: 'Printing Consumer', value: 0.3, notes: ['(10%) Y/Y'] },
+              ],
+            },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 11.4 },
+          operatingExpenses: {
+            total: 2.4,
+            items: [
+              { id: 'sga', label: 'SG&A', value: 1.5, notes: ['11% of revenue', '(1pp) Y/Y'] },
+              { id: 'rnd', label: 'R&D', value: 0.4, notes: ['3% of revenue', '(0pp) Y/Y'] },
+              { id: 'restructuring', label: 'Restructuring', value: 0.4, notes: ['3% of revenue'] },
+              { id: 'other_opex', label: 'Other', value: 0.1, notes: ['1% of revenue'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 0.043, valueText: '$43M' },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0.1,
+          items: [{ id: 'other_nonoperating', label: 'Other', value: 0.1 }],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 3.0, notes: ['21% margin', '+0pp Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 0.6, notes: ['4% margin', '(1pp) Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 0.5, notes: ['3% margin', '+0pp Y/Y'] },
+        },
+      },
+      {
+        key: 'lenovo-q4-fy26',
+        company: 'Lenovo',
+        period: 'Q4 FY26',
+        periodNote: 'Ending Apr. 2026',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/lenovo-q4-fy26.png',
+        roundingTolerance: 0.15,
+        revenue: {
+          total: 21.6,
+          notes: ['+27% Y/Y'],
+          items: [
+            { id: 'idg', label: 'IDG Intelligent Devices Group', value: 14.6, notes: ['+24% Y/Y', '7% operating margin'] },
+            { id: 'isg', label: 'ISG Infrastructure Solutions Group', value: 5.6, notes: ['+37% Y/Y', '4% operating margin'] },
+            { id: 'ssg', label: 'SSG Solutions & Services Group', value: 2.6, notes: ['+19% Y/Y', '22% operating margin'] },
+            {
+              label: 'Eliminations',
+              value: -1.2,
+              notes: ['Shown as an eliminations outflow before consolidated revenue in the source chart.'],
+            },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 18.0 },
+          operatingExpenses: {
+            total: 2.7,
+            items: [
+              { id: 'selling_distribution', label: 'Selling & Distribution', value: 1.1, notes: ['5% of revenue', '(0pp) Y/Y'] },
+              { id: 'administrative', label: 'Administrative', value: 0.9, notes: ['4% of revenue', '(0pp) Y/Y'] },
+              { id: 'rnd', label: 'R&D', value: 0.7, notes: ['3% of revenue', '(0pp) Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 0.1 },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0.2,
+          items: [{ id: 'financial', label: 'Financial', value: 0.2 }],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 3.5, notes: ['16% margin', '+0pp Y/Y'] },
+          operating: {
+            id: 'operating_profit',
+            label: 'Operating profit',
+            value: 0.9,
+            notes: ['4% margin', '+2pp Y/Y', 'Source chart also shows a $0.1B Other rounding bridge.'],
+          },
+          net: { id: 'net_profit', label: 'Net profit', value: 0.6, notes: ['3% margin', '+2pp Y/Y'] },
         },
       },
       {
@@ -2522,6 +2872,79 @@
             notes: ['31% margin', '+1pp Y/Y', 'Source chart also shows $46M other operating income feeding operating profit.'],
           },
           net: { id: 'net_profit', label: 'Net profit', value: 0.4, notes: ['21% margin', '+7pp Y/Y'] },
+        },
+      },
+      {
+        key: 'synopsys-q2-fy26',
+        company: 'Synopsys',
+        period: 'Q2 FY26',
+        periodNote: 'Ending Apr. 2026',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/synopsys-q2-fy26.png',
+        roundingTolerance: 0.15,
+        revenue: {
+          total: 2.275985,
+          notes: ['+42% Y/Y'],
+          items: [
+            {
+              id: 'design_automation',
+              label: 'Design Automation',
+              value: 1.8218,
+              notes: ['+62% Y/Y', 'Adjusted margin 41%', '+5pp Y/Y'],
+            },
+            {
+              id: 'design_ip',
+              label: 'Design IP',
+              value: 0.4542,
+              notes: ['(6%) Y/Y', 'Adjusted margin 14%', '(23pp) Y/Y'],
+            },
+          ],
+        },
+        costs: {
+          costOfRevenue: {
+            id: 'cost_of_revenue',
+            label: 'Cost of revenue',
+            value: 0.62985,
+            notes: ['Official total cost of revenue was $629.9M; source chart displays ($0.6B).'],
+          },
+          operatingExpenses: {
+            total: 1.525709,
+            notes: ['Official total operating expenses were $1.526B; source chart displays ($1.5B).'],
+            items: [
+              { id: 'rnd', label: 'R&D', value: 0.700124, notes: ['31% of revenue', '(4pp) Y/Y'] },
+              { id: 'sm', label: 'S&M', value: 0.381998, notes: ['17% of revenue', '+3pp Y/Y'] },
+              {
+                id: 'other_opex',
+                label: 'Other',
+                value: 0.271169,
+                notes: ['12% of revenue', '+12pp Y/Y', 'Includes acquired-intangible amortization and restructuring charges.'],
+              },
+              { id: 'ga', label: 'G&A', value: 0.172418, notes: ['8% of revenue', '(1pp) Y/Y'] },
+            ],
+          },
+          tax: {
+            id: 'tax',
+            label: 'Tax',
+            value: 0.103321,
+            notes: [
+              'Modeled as the source chart tax outflow from operating profit to net profit; official provision for income taxes was $2.4M and net interest/other expense accounts for the remainder.',
+            ],
+          },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 1.646135, notes: ['72% margin', '(8pp) Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 0.120426, notes: ['5% margin', '(18pp) Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 0.017105, valueText: '$17M', notes: ['1% margin', '(21pp) Y/Y'] },
         },
       },
     ],

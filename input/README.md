@@ -7,6 +7,18 @@ Use these folders to keep source images separate from stable app references.
 - `icon-crop-specs/` contains dataset-specific JSON specs for extracting
   validated icon reference crops into `data/assets/icon-references/`.
 
+Before starting the input workflow, run:
+
+```bash
+pnpm check:pending
+```
+
+If a pending PNG already matches an image in `processed/`, or if its candidate
+dataset key would overwrite an existing processed image, stop before moving the
+image or changing dataset files. If the final dataset key differs from the
+script's candidate key, check the final key in `processed/`, `data/datasets/`,
+`data/income-statements.js`, and `index.html` before continuing.
+
 Run an icon crop spec with:
 
 ```bash

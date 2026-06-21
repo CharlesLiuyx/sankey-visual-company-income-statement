@@ -1,0 +1,28 @@
+{
+  "source": "input/processed/arm-holdings-q4-fy26.png",
+  "outputDir": "data/assets/icon-references/arm-holdings/",
+  "validationSheetDir": "data/assets/icon-references/arm-holdings/validation-sheets/",
+  "report": "crop-report.json",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  },
+  "crops": [
+    {
+      "key": "arm-holdings-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": { "x": 690, "y": 270, "width": 545, "height": 178 },
+      "cropBox": { "x": 680, "y": 255, "width": 565, "height": 205 },
+      "threshold": 24,
+      "minComponentArea": 120,
+      "validation": {
+        "borderBand": 5,
+        "maxCenterOffset": 0.06,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Arm company wordmark only; excludes title text, revenue labels, flows, website mark, and publisher attribution."
+    }
+  ]
+}

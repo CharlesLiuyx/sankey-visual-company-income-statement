@@ -12,17 +12,28 @@ reference assets when needed, and run a d3-sankey fidelity loop automatically.
 ## Input Workflow
 
 1. Inspect `input/pending/` and ignore `.gitkeep`.
-2. For each pending PNG, choose a stable dataset key:
+2. Before moving images or updating data, check whether each pending PNG has
+   already been processed:
+   - Run `pnpm check:pending`, or manually compare the pending PNG against
+     `input/processed/` by content and candidate dataset key.
+   - Treat exact matches in `input/processed/` and candidate-key collisions as
+     stop conditions. Do not move, overwrite, create, update, crop, vectorize,
+     or verify anything for that pending image; report the duplicate or
+     collision instead.
+   - If the final stable dataset key differs from the script's candidate key,
+     check that final key against `input/processed/`, `data/datasets/`,
+     `data/income-statements.js`, and `index.html` before continuing.
+3. For each new pending PNG, choose a stable dataset key:
    - Lowercase kebab case.
    - Include company and period, for example `nvidia-q4-fy26`.
-3. Move the durable source image to:
+4. Move the durable source image to:
    - `input/processed/<dataset-key>.png`
-4. Create or update:
+5. Create or update:
    - `data/datasets/<dataset-key>.js`
    - `data/income-statements.js`
    - `data/company-metadata.js` when the company is new
    - `index.html` dataset script registration
-5. If company icons or company-internal business/segment icons appear in the
+6. If company icons or company-internal business/segment icons appear in the
    source image, run the spec-driven icon extraction workflow before
    vectorizing or rendering them:
    - Create or update `input/icon-crop-specs/<dataset-key>.json`.
@@ -50,11 +61,11 @@ reference assets when needed, and run a d3-sankey fidelity loop automatically.
      neighboring icon parts are included.
    Re-crop until those checks pass. These crops are reference/conversion
    assets only and must not be used in d3 runtime output.
-6. Before authoring a new company's first dataset, gather company metadata
+7. Before authoring a new company's first dataset, gather company metadata
    (description, sector, industry, headquarters, website, ticker/exchange when
    available, and source URLs) and add it to `data/company-metadata.js`.
-7. Set `meta.referenceImage` to the processed PNG with exact source dimensions.
-8. Keep `input/pending/` empty except `.gitkeep` after processing.
+8. Set `meta.referenceImage` to the processed PNG with exact source dimensions.
+9. Keep `input/pending/` empty except `.gitkeep` after processing.
 
 ## Dataset Authoring
 

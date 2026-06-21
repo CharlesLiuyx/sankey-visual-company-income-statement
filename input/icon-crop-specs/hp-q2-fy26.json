@@ -1,0 +1,23 @@
+{
+  "source": "input/processed/hp-q2-fy26.png",
+  "outputDir": "data/assets/icon-references/hp",
+  "validationSheetDir": "data/assets/icon-references/hp/validation-sheets",
+  "report": "crop-report.json",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "crops": [
+    {
+      "key": "hp-company-logo",
+      "output": "crops/company-logo.png",
+      "searchBox": { "x": 1045, "y": 220, "width": 315, "height": 300 },
+      "threshold": 18,
+      "minComponentArea": 50,
+      "padding": 30,
+      "note": "HP company logo above the revenue hub; excludes title text, flows, labels, and publisher attribution marks."
+    }
+  ]
+}

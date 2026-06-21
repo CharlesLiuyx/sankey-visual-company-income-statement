@@ -1,0 +1,43 @@
+{
+  "source": "input/processed/coreweave-q1-fy26.png",
+  "outputDir": "data/assets/icon-references/coreweave",
+  "validationSheetDir": "data/assets/icon-references/coreweave/validation-sheets",
+  "report": "crop-report.json",
+  "backgroundSampleBlocks": [
+    [0, 0, 80, 80],
+    [2587, 0, 80, 80],
+    [0, 1420, 80, 80],
+    [2587, 1420, 80, 80]
+  ],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "crops": [
+    {
+      "key": "coreweave-company-logo",
+      "output": "crops/company-logo.png",
+      "searchBox": {
+        "x": 650,
+        "y": 230,
+        "width": 530,
+        "height": 330
+      },
+      "cropBox": {
+        "x": 650,
+        "y": 230,
+        "width": 530,
+        "height": 330
+      },
+      "threshold": 18,
+      "minComponentArea": 35,
+      "validation": {
+        "borderBand": 5,
+        "maxCenterOffset": 0.04,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "CoreWeave company logo and wordmark above the revenue hub; excludes chart labels, flows, publisher marks, website URL, and bottom attribution badges."
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/synopsys-q2-fy26.png",
+  "spec": "input/icon-crop-specs/synopsys-q2-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-21T06:14:24.770636+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "synopsys-company-wordmark",
+      "output": "data/assets/icon-references/synopsys/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 4599,
+        "losslessBytes": 23026,
+        "savingsVsLossless": 0.8003,
+        "metrics": {
+          "meanAbsoluteError": 0.3143,
+          "rootMeanSquareError": 1.2866,
+          "p99AbsoluteError": 6.0,
+          "maxChannelDiff": 34,
+          "changedPixelRatio": 0.1454
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 48483,
+        "transparentPixelRatio": 0.6365
+      },
+      "searchBox": {
+        "x": 607,
+        "y": 255,
+        "width": 518,
+        "height": 115
+      },
+      "componentCount": 11,
+      "subjectBox": {
+        "x0": 607,
+        "y0": 255,
+        "x1": 1125,
+        "y1": 370
+      },
+      "cropBox": {
+        "x0": 594,
+        "y0": 244,
+        "x1": 1142,
+        "y1": 383
+      },
+      "validation": {
+        "width": 548,
+        "height": 139,
+        "foregroundPixels": 24364,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 13,
+          "right": 17,
+          "top": 11,
+          "bottom": 13
+        },
+        "centerOffset": {
+          "x": -0.0036,
+          "y": -0.0072
+        },
+        "passes": true
+      },
+      "note": "",
+      "validationSheet": "data/assets/icon-references/synopsys/validation-sheets/synopsys-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 237069,
+        "losslessBytes": 237069,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

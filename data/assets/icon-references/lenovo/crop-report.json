@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/lenovo-q4-fy26.png",
+  "spec": "input/icon-crop-specs/lenovo-q4-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-21T06:14:24.771187+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "lenovo-company-wordmark",
+      "output": "data/assets/icon-references/lenovo/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 3427,
+        "losslessBytes": 17613,
+        "savingsVsLossless": 0.8054,
+        "metrics": {
+          "meanAbsoluteError": 0.4148,
+          "rootMeanSquareError": 2.1301,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 37,
+          "changedPixelRatio": 0.35
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 57980,
+        "transparentPixelRatio": 0.6563
+      },
+      "searchBox": {
+        "x": 680,
+        "y": 270,
+        "width": 550,
+        "height": 140
+      },
+      "componentCount": 6,
+      "subjectBox": {
+        "x0": 688,
+        "y0": 284,
+        "x1": 1216,
+        "y1": 395
+      },
+      "cropBox": {
+        "x0": 670,
+        "y0": 260,
+        "x1": 1240,
+        "y1": 415
+      },
+      "validation": {
+        "width": 570,
+        "height": 155,
+        "foregroundPixels": 26539,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 18,
+          "right": 24,
+          "top": 24,
+          "bottom": 20
+        },
+        "centerOffset": {
+          "x": -0.0053,
+          "y": 0.0129
+        },
+        "passes": true
+      },
+      "note": "Central Lenovo company wordmark only; excludes title, Sankey flows, website mark, and publisher attribution.",
+      "validationSheet": "data/assets/icon-references/lenovo/validation-sheets/lenovo-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 254763,
+        "losslessBytes": 254763,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

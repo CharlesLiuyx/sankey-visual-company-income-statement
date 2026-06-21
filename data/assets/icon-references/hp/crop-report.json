@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/hp-q2-fy26.png",
+  "spec": "input/icon-crop-specs/hp-q2-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-21T06:14:24.770997+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "hp-company-logo",
+      "output": "data/assets/icon-references/hp/crops/company-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 3523,
+        "losslessBytes": 17414,
+        "savingsVsLossless": 0.7977,
+        "metrics": {
+          "meanAbsoluteError": 0.2245,
+          "rootMeanSquareError": 1.1487,
+          "p99AbsoluteError": 5.0,
+          "maxChannelDiff": 31,
+          "changedPixelRatio": 0.3626
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 57975,
+        "transparentPixelRatio": 0.6442
+      },
+      "searchBox": {
+        "x": 1045,
+        "y": 220,
+        "width": 315,
+        "height": 300
+      },
+      "componentCount": 2,
+      "subjectBox": {
+        "x0": 1078,
+        "y0": 236,
+        "x1": 1318,
+        "y1": 476
+      },
+      "cropBox": {
+        "x0": 1048,
+        "y0": 206,
+        "x1": 1348,
+        "y1": 506
+      },
+      "validation": {
+        "width": 300,
+        "height": 300,
+        "foregroundPixels": 31747,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 30,
+          "right": 30,
+          "top": 30,
+          "bottom": 30
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "HP company logo above the revenue hub; excludes title text, flows, labels, and publisher attribution marks.",
+      "validationSheet": "data/assets/icon-references/hp/validation-sheets/hp-company-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 273155,
+        "losslessBytes": 273155,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

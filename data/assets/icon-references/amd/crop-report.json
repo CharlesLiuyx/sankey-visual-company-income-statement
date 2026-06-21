@@ -1,0 +1,414 @@
+{
+  "source": "input/processed/amd-q1-fy26.png",
+  "spec": "input/icon-crop-specs/amd-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-21T06:14:24.771237+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "amd-company-wordmark",
+      "output": "data/assets/icon-references/amd/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 2632,
+        "losslessBytes": 9497,
+        "savingsVsLossless": 0.7229,
+        "metrics": {
+          "meanAbsoluteError": 0.1878,
+          "rootMeanSquareError": 1.0194,
+          "p99AbsoluteError": 5.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.0895
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 39106,
+        "transparentPixelRatio": 0.6055
+      },
+      "searchBox": {
+        "x": 834,
+        "y": 315,
+        "width": 430,
+        "height": 106
+      },
+      "componentCount": 5,
+      "subjectBox": {
+        "x0": 834,
+        "y0": 316,
+        "x1": 1264,
+        "y1": 420
+      },
+      "cropBox": {
+        "x0": 818,
+        "y0": 298,
+        "x1": 1286,
+        "y1": 436
+      },
+      "validation": {
+        "width": 468,
+        "height": 138,
+        "foregroundPixels": 22753,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 16,
+          "right": 22,
+          "top": 18,
+          "bottom": 16
+        },
+        "centerOffset": {
+          "x": -0.0064,
+          "y": 0.0072
+        },
+        "passes": true
+      },
+      "note": "AMD company wordmark above the revenue hub; excludes title, values, flows, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/amd/validation-sheets/amd-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 257679,
+        "losslessBytes": 257679,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "amd-business-data-center-cluster",
+      "output": "data/assets/icon-references/amd/crops/business-data-center-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 34174,
+        "losslessBytes": 34174,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 12,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 26832,
+        "transparentPixelRatio": 0.4191
+      },
+      "searchBox": {
+        "x": 56,
+        "y": 355,
+        "width": 180,
+        "height": 310
+      },
+      "componentCount": 3,
+      "subjectBox": {
+        "x0": 61,
+        "y0": 357,
+        "x1": 231,
+        "y1": 662
+      },
+      "cropBox": {
+        "x0": 48,
+        "y0": 348,
+        "x1": 245,
+        "y1": 673
+      },
+      "validation": {
+        "width": 197,
+        "height": 325,
+        "foregroundPixels": 31544,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 13,
+          "right": 14,
+          "top": 9,
+          "bottom": 11
+        },
+        "centerOffset": {
+          "x": -0.0025,
+          "y": -0.0031
+        },
+        "passes": true
+      },
+      "note": "Data Center EPYC logo and AMD Instinct package icon cluster only; excludes the Data Center label, values, notes, and flow marks.",
+      "validationSheet": "data/assets/icon-references/amd/validation-sheets/amd-business-data-center-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 305397,
+        "losslessBytes": 305397,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "amd-business-client-ryzen",
+      "output": "data/assets/icon-references/amd/crops/business-client-ryzen.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 2858,
+        "losslessBytes": 12268,
+        "savingsVsLossless": 0.767,
+        "metrics": {
+          "meanAbsoluteError": 0.5409,
+          "rootMeanSquareError": 2.2217,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 53,
+          "changedPixelRatio": 0.1973
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 23406,
+        "transparentPixelRatio": 0.7258
+      },
+      "searchBox": {
+        "x": 36,
+        "y": 786,
+        "width": 214,
+        "height": 120
+      },
+      "componentCount": 5,
+      "subjectBox": {
+        "x0": 37,
+        "y0": 786,
+        "x1": 237,
+        "y1": 884
+      },
+      "cropBox": {
+        "x0": 28,
+        "y0": 776,
+        "x1": 260,
+        "y1": 915
+      },
+      "validation": {
+        "width": 232,
+        "height": 139,
+        "foregroundPixels": 8566,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 9,
+          "right": 23,
+          "top": 10,
+          "bottom": 31
+        },
+        "centerOffset": {
+          "x": -0.0302,
+          "y": -0.0755
+        },
+        "passes": true
+      },
+      "note": "Ryzen client segment logo only; excludes the Client label, values, notes, and flow marks.",
+      "validationSheet": "data/assets/icon-references/amd/validation-sheets/amd-business-client-ryzen.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 285713,
+        "losslessBytes": 285713,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "amd-business-gaming-radeon",
+      "output": "data/assets/icon-references/amd/crops/business-gaming-radeon.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 23017,
+        "losslessBytes": 23017,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 9098,
+        "transparentPixelRatio": 0.2916
+      },
+      "searchBox": {
+        "x": 62,
+        "y": 988,
+        "width": 174,
+        "height": 142
+      },
+      "componentCount": 9,
+      "subjectBox": {
+        "x0": 65,
+        "y0": 988,
+        "x1": 232,
+        "y1": 1128
+      },
+      "cropBox": {
+        "x0": 52,
+        "y0": 979,
+        "x1": 247,
+        "y1": 1139
+      },
+      "validation": {
+        "width": 195,
+        "height": 160,
+        "foregroundPixels": 19162,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 13,
+          "right": 15,
+          "top": 9,
+          "bottom": 11
+        },
+        "centerOffset": {
+          "x": -0.0051,
+          "y": -0.0063
+        },
+        "passes": true
+      },
+      "note": "Radeon Graphics gaming segment badge only; excludes the Gaming label, values, notes, and flow marks.",
+      "validationSheet": "data/assets/icon-references/amd/validation-sheets/amd-business-gaming-radeon.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 332724,
+        "losslessBytes": 332724,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "amd-business-embedded-xilinx",
+      "output": "data/assets/icon-references/amd/crops/business-embedded-xilinx.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 1408,
+        "losslessBytes": 5618,
+        "savingsVsLossless": 0.7494,
+        "metrics": {
+          "meanAbsoluteError": 0.3043,
+          "rootMeanSquareError": 1.2375,
+          "p99AbsoluteError": 7.0,
+          "maxChannelDiff": 10,
+          "changedPixelRatio": 0.1156
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 12025,
+        "transparentPixelRatio": 0.7001
+      },
+      "searchBox": {
+        "x": 55,
+        "y": 1190,
+        "width": 203,
+        "height": 62
+      },
+      "componentCount": 6,
+      "subjectBox": {
+        "x0": 55,
+        "y0": 1192,
+        "x1": 253,
+        "y1": 1250
+      },
+      "cropBox": {
+        "x0": 43,
+        "y0": 1178,
+        "x1": 269,
+        "y1": 1254
+      },
+      "validation": {
+        "width": 226,
+        "height": 76,
+        "foregroundPixels": 5078,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 12,
+          "right": 16,
+          "top": 14,
+          "bottom": 4
+        },
+        "centerOffset": {
+          "x": -0.0088,
+          "y": 0.0658
+        },
+        "passes": true
+      },
+      "note": "Xilinx embedded segment wordmark only; excludes the Embedded label, values, notes, and bottom publisher marks.",
+      "validationSheet": "data/assets/icon-references/amd/validation-sheets/amd-business-embedded-xilinx.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 269353,
+        "losslessBytes": 269353,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

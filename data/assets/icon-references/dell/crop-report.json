@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/dell-q1-fy27.png",
+  "spec": "input/icon-crop-specs/dell-q1-fy27.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-21T06:14:24.770863+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "dell-company-wordmark",
+      "output": "data/assets/icon-references/dell/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 2854,
+        "losslessBytes": 13952,
+        "savingsVsLossless": 0.7954,
+        "metrics": {
+          "meanAbsoluteError": 0.3221,
+          "rootMeanSquareError": 1.5277,
+          "p99AbsoluteError": 6.0,
+          "maxChannelDiff": 39,
+          "changedPixelRatio": 0.5513
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 56169,
+        "transparentPixelRatio": 0.4567
+      },
+      "searchBox": {
+        "x": 775,
+        "y": 235,
+        "width": 600,
+        "height": 205
+      },
+      "componentCount": 3,
+      "subjectBox": {
+        "x0": 788,
+        "y0": 246,
+        "x1": 1351,
+        "y1": 426
+      },
+      "cropBox": {
+        "x0": 775,
+        "y0": 235,
+        "x1": 1375,
+        "y1": 440
+      },
+      "validation": {
+        "width": 600,
+        "height": 205,
+        "foregroundPixels": 64473,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 13,
+          "right": 24,
+          "top": 11,
+          "bottom": 14
+        },
+        "centerOffset": {
+          "x": -0.0092,
+          "y": -0.0073
+        },
+        "passes": true
+      },
+      "note": "",
+      "validationSheet": "data/assets/icon-references/dell/validation-sheets/dell-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 235143,
+        "losslessBytes": 235143,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,272 @@
+{
+  "source": "input/processed/meta-q1-fy26.png",
+  "spec": "input/icon-crop-specs/meta-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T20:06:00.019136+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 7
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "meta-company-logo",
+      "output": "data/assets/icon-references/meta/crops/company-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 6479,
+        "losslessBytes": 44530,
+        "savingsVsLossless": 0.8545,
+        "metrics": {
+          "meanAbsoluteError": 1.1835,
+          "rootMeanSquareError": 2.707,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 43,
+          "changedPixelRatio": 0.5813
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 7,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 28063,
+        "transparentPixelRatio": 0.3685
+      },
+      "searchBox": {
+        "x": 1098,
+        "y": 265,
+        "width": 292,
+        "height": 210
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 1102,
+        "y0": 269,
+        "x1": 1390,
+        "y1": 472
+      },
+      "cropBox": {
+        "x0": 1084,
+        "y0": 250,
+        "x1": 1404,
+        "y1": 488
+      },
+      "validation": {
+        "width": 320,
+        "height": 238,
+        "foregroundPixels": 40399,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 18,
+          "right": 14,
+          "top": 19,
+          "bottom": 16
+        },
+        "centerOffset": {
+          "x": 0.0063,
+          "y": 0.0063
+        },
+        "passes": true
+      },
+      "note": "",
+      "validationSheet": "data/assets/icon-references/meta/validation-sheets/meta-company-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 318156,
+        "losslessBytes": 318156,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "meta-business-family-apps-cluster",
+      "output": "data/assets/icon-references/meta/crops/business-family-apps-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 72253,
+        "losslessBytes": 72253,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 9,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 52291,
+        "transparentPixelRatio": 0.3701
+      },
+      "searchBox": {
+        "x": 82,
+        "y": 513,
+        "width": 365,
+        "height": 346
+      },
+      "componentCount": 4,
+      "subjectBox": {
+        "x0": 82,
+        "y0": 513,
+        "x1": 442,
+        "y1": 857
+      },
+      "cropBox": {
+        "x0": 74,
+        "y0": 504,
+        "x1": 460,
+        "y1": 870
+      },
+      "validation": {
+        "width": 386,
+        "height": 366,
+        "foregroundPixels": 88921,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 8,
+          "right": 18,
+          "top": 9,
+          "bottom": 13
+        },
+        "centerOffset": {
+          "x": -0.013,
+          "y": -0.0055
+        },
+        "passes": true
+      },
+      "note": "",
+      "validationSheet": "data/assets/icon-references/meta/validation-sheets/meta-business-family-apps-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 327520,
+        "losslessBytes": 327520,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "meta-business-reality-labs-quest-wordmark",
+      "output": "data/assets/icon-references/meta/crops/business-reality-labs-quest-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 2571,
+        "losslessBytes": 11392,
+        "savingsVsLossless": 0.7743,
+        "metrics": {
+          "meanAbsoluteError": 0.558,
+          "rootMeanSquareError": 1.9374,
+          "p99AbsoluteError": 8.0,
+          "maxChannelDiff": 36,
+          "changedPixelRatio": 0.2155
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 7,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 15159,
+        "transparentPixelRatio": 0.7036
+      },
+      "searchBox": {
+        "x": 498,
+        "y": 1199,
+        "width": 338,
+        "height": 58
+      },
+      "componentCount": 10,
+      "subjectBox": {
+        "x0": 502,
+        "y0": 1200,
+        "x1": 820,
+        "y1": 1241
+      },
+      "cropBox": {
+        "x0": 490,
+        "y0": 1189,
+        "x1": 832,
+        "y1": 1252
+      },
+      "validation": {
+        "width": 342,
+        "height": 63,
+        "foregroundPixels": 5146,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 12,
+          "right": 12,
+          "top": 11,
+          "bottom": 11
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "",
+      "validationSheet": "data/assets/icon-references/meta/validation-sheets/meta-business-reality-labs-quest-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 192,
+        "bytes": 86775,
+        "losslessBytes": 258975,
+        "savingsVsLossless": 0.6649,
+        "metrics": {
+          "meanAbsoluteError": 0.4273,
+          "rootMeanSquareError": 2.692,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 66,
+          "changedPixelRatio": 0.0883
+        }
+      }
+    }
+  ]
+}

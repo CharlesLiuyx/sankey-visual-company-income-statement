@@ -1,0 +1,506 @@
+{
+  "source": "input/processed/alphabet-q1-fy26.png",
+  "spec": "input/icon-crop-specs/alphabet-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T20:05:34.239344+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "alphabet-company-google-g",
+      "output": "data/assets/icon-references/alphabet/crops/company-google-g.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 2573,
+        "losslessBytes": 10900,
+        "savingsVsLossless": 0.7639,
+        "metrics": {
+          "meanAbsoluteError": 0.2531,
+          "rootMeanSquareError": 1.7162,
+          "p99AbsoluteError": 6.0,
+          "maxChannelDiff": 49,
+          "changedPixelRatio": 0.2537
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 49605,
+        "transparentPixelRatio": 0.6583
+      },
+      "searchBox": {
+        "x": 1100,
+        "y": 250,
+        "width": 250,
+        "height": 255
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 1107,
+        "y0": 282,
+        "x1": 1324,
+        "y1": 505
+      },
+      "cropBox": {
+        "x0": 1088,
+        "y0": 242,
+        "x1": 1362,
+        "y1": 517
+      },
+      "validation": {
+        "width": 274,
+        "height": 275,
+        "foregroundPixels": 25441,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 19,
+          "right": 38,
+          "top": 40,
+          "bottom": 12
+        },
+        "centerOffset": {
+          "x": -0.0347,
+          "y": 0.0509
+        },
+        "passes": true
+      },
+      "note": "Central Google G company mark used for Alphabet's main revenue hub; excludes chart labels, flows, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/alphabet/validation-sheets/alphabet-company-google-g.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 289171,
+        "losslessBytes": 289171,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "alphabet-business-search-google-wordmark",
+      "output": "data/assets/icon-references/alphabet/crops/business-search-google-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 3007,
+        "losslessBytes": 15240,
+        "savingsVsLossless": 0.8027,
+        "metrics": {
+          "meanAbsoluteError": 0.3933,
+          "rootMeanSquareError": 2.0449,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 44,
+          "changedPixelRatio": 0.283
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 40394,
+        "transparentPixelRatio": 0.7239
+      },
+      "searchBox": {
+        "x": 50,
+        "y": 500,
+        "width": 360,
+        "height": 110
+      },
+      "componentCount": 6,
+      "subjectBox": {
+        "x0": 57,
+        "y0": 506,
+        "x1": 402,
+        "y1": 610
+      },
+      "cropBox": {
+        "x0": 45,
+        "y0": 480,
+        "x1": 417,
+        "y1": 630
+      },
+      "validation": {
+        "width": 372,
+        "height": 150,
+        "foregroundPixels": 12659,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 12,
+          "right": 15,
+          "top": 26,
+          "bottom": 20
+        },
+        "centerOffset": {
+          "x": -0.004,
+          "y": 0.02
+        },
+        "passes": true
+      },
+      "note": "Google wordmark for Search advertising only; excludes the Search advertising label, values, flow marks, and publisher branding.",
+      "validationSheet": "data/assets/icon-references/alphabet/validation-sheets/alphabet-business-search-google-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 286274,
+        "losslessBytes": 286274,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "alphabet-business-youtube-wordmark",
+      "output": "data/assets/icon-references/alphabet/crops/business-youtube-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 2121,
+        "losslessBytes": 9854,
+        "savingsVsLossless": 0.7848,
+        "metrics": {
+          "meanAbsoluteError": 0.6337,
+          "rootMeanSquareError": 2.577,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 37,
+          "changedPixelRatio": 0.3109
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 21543,
+        "transparentPixelRatio": 0.5568
+      },
+      "searchBox": {
+        "x": 50,
+        "y": 775,
+        "width": 350,
+        "height": 92
+      },
+      "componentCount": 8,
+      "subjectBox": {
+        "x0": 55,
+        "y0": 778,
+        "x1": 395,
+        "y1": 855
+      },
+      "cropBox": {
+        "x0": 43,
+        "y0": 767,
+        "x1": 408,
+        "y1": 873
+      },
+      "validation": {
+        "width": 365,
+        "height": 106,
+        "foregroundPixels": 15908,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 12,
+          "right": 13,
+          "top": 11,
+          "bottom": 18
+        },
+        "centerOffset": {
+          "x": -0.0014,
+          "y": -0.033
+        },
+        "passes": true
+      },
+      "note": "YouTube business wordmark and play mark only; excludes values, flow marks, and publisher branding.",
+      "validationSheet": "data/assets/icon-references/alphabet/validation-sheets/alphabet-business-youtube-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 275622,
+        "losslessBytes": 275622,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "alphabet-business-admob-wordmark",
+      "output": "data/assets/icon-references/alphabet/crops/business-admob-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 2971,
+        "losslessBytes": 13315,
+        "savingsVsLossless": 0.7769,
+        "metrics": {
+          "meanAbsoluteError": 0.3958,
+          "rootMeanSquareError": 1.6357,
+          "p99AbsoluteError": 7.0,
+          "maxChannelDiff": 47,
+          "changedPixelRatio": 0.237
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 24643,
+        "transparentPixelRatio": 0.7706
+      },
+      "searchBox": {
+        "x": 28,
+        "y": 897,
+        "width": 382,
+        "height": 63
+      },
+      "componentCount": 12,
+      "subjectBox": {
+        "x0": 33,
+        "y0": 897,
+        "x1": 406,
+        "y1": 960
+      },
+      "cropBox": {
+        "x0": 25,
+        "y0": 884,
+        "x1": 415,
+        "y1": 966
+      },
+      "validation": {
+        "width": 390,
+        "height": 82,
+        "foregroundPixels": 6440,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 8,
+          "right": 9,
+          "top": 13,
+          "bottom": 6
+        },
+        "centerOffset": {
+          "x": -0.0013,
+          "y": 0.0427
+        },
+        "passes": true
+      },
+      "note": "Google AdMob business wordmark only; excludes the AdSense / Google Ad Manager note, values, flow marks, and publisher branding.",
+      "validationSheet": "data/assets/icon-references/alphabet/validation-sheets/alphabet-business-admob-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 279171,
+        "losslessBytes": 279171,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "alphabet-business-google-play-wordmark",
+      "output": "data/assets/icon-references/alphabet/crops/business-google-play-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 2769,
+        "losslessBytes": 13904,
+        "savingsVsLossless": 0.8008,
+        "metrics": {
+          "meanAbsoluteError": 0.5846,
+          "rootMeanSquareError": 1.9837,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 45,
+          "changedPixelRatio": 0.2995
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 22041,
+        "transparentPixelRatio": 0.6927
+      },
+      "searchBox": {
+        "x": 235,
+        "y": 1034,
+        "width": 355,
+        "height": 67
+      },
+      "componentCount": 11,
+      "subjectBox": {
+        "x0": 236,
+        "y0": 1034,
+        "x1": 590,
+        "y1": 1101
+      },
+      "cropBox": {
+        "x0": 228,
+        "y0": 1029,
+        "x1": 598,
+        "y1": 1115
+      },
+      "validation": {
+        "width": 370,
+        "height": 86,
+        "foregroundPixels": 8838,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 8,
+          "right": 8,
+          "top": 5,
+          "bottom": 14
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": -0.0523
+        },
+        "passes": true
+      },
+      "note": "Google Play business wordmark and triangular mark; excludes the adjacent product note, values, flow marks, and publisher branding.",
+      "validationSheet": "data/assets/icon-references/alphabet/validation-sheets/alphabet-business-google-play-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 282312,
+        "losslessBytes": 282312,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "alphabet-business-google-cloud-wordmark",
+      "output": "data/assets/icon-references/alphabet/crops/business-google-cloud-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 2980,
+        "losslessBytes": 14226,
+        "savingsVsLossless": 0.7905,
+        "metrics": {
+          "meanAbsoluteError": 0.4717,
+          "rootMeanSquareError": 1.8476,
+          "p99AbsoluteError": 8.0,
+          "maxChannelDiff": 60,
+          "changedPixelRatio": 0.2725
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 25641,
+        "transparentPixelRatio": 0.7272
+      },
+      "searchBox": {
+        "x": 382,
+        "y": 1210,
+        "width": 390,
+        "height": 66
+      },
+      "componentCount": 12,
+      "subjectBox": {
+        "x0": 386,
+        "y0": 1212,
+        "x1": 772,
+        "y1": 1275
+      },
+      "cropBox": {
+        "x0": 375,
+        "y0": 1202,
+        "x1": 785,
+        "y1": 1288
+      },
+      "validation": {
+        "width": 410,
+        "height": 86,
+        "foregroundPixels": 7649,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 11,
+          "right": 13,
+          "top": 10,
+          "bottom": 13
+        },
+        "centerOffset": {
+          "x": -0.0024,
+          "y": -0.0174
+        },
+        "passes": true
+      },
+      "note": "Google Cloud business wordmark and cloud mark; excludes the Workspace / Enterprise Android / Chrome OS / APIs note, values, flow marks, and publisher branding.",
+      "validationSheet": "data/assets/icon-references/alphabet/validation-sheets/alphabet-business-google-cloud-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 279385,
+        "losslessBytes": 279385,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

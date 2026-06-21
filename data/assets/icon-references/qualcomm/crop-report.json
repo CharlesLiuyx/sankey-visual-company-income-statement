@@ -1,0 +1,350 @@
+{
+  "source": "input/processed/qualcomm-q2-fy26.png",
+  "spec": "input/icon-crop-specs/qualcomm-q2-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T20:25:02.464836+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "qualcomm-company-wordmark",
+      "output": "data/assets/icon-references/qualcomm/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 3900,
+        "losslessBytes": 19532,
+        "savingsVsLossless": 0.8003,
+        "metrics": {
+          "meanAbsoluteError": 0.4296,
+          "rootMeanSquareError": 1.9976,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 34,
+          "changedPixelRatio": 0.3071
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 47528,
+        "transparentPixelRatio": 0.6985
+      },
+      "searchBox": {
+        "x": 858,
+        "y": 262,
+        "width": 540,
+        "height": 126
+      },
+      "componentCount": 7,
+      "subjectBox": {
+        "x0": 873,
+        "y0": 277,
+        "x1": 1384,
+        "y1": 372
+      },
+      "cropBox": {
+        "x0": 858,
+        "y0": 262,
+        "x1": 1398,
+        "y1": 388
+      },
+      "validation": {
+        "width": 540,
+        "height": 126,
+        "foregroundPixels": 16038,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 15,
+          "right": 14,
+          "top": 15,
+          "bottom": 16
+        },
+        "centerOffset": {
+          "x": 0.0009,
+          "y": -0.004
+        },
+        "passes": true
+      },
+      "note": "",
+      "validationSheet": "data/assets/icon-references/qualcomm/validation-sheets/qualcomm-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 250041,
+        "losslessBytes": 250041,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "qualcomm-business-handsets-phone",
+      "output": "data/assets/icon-references/qualcomm/crops/business-handsets-phone.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 357,
+        "losslessBytes": 1070,
+        "savingsVsLossless": 0.6664,
+        "metrics": {
+          "meanAbsoluteError": 0.1628,
+          "rootMeanSquareError": 0.7471,
+          "p99AbsoluteError": 2.0,
+          "maxChannelDiff": 24,
+          "changedPixelRatio": 0.2662
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 6886,
+        "transparentPixelRatio": 0.6113
+      },
+      "searchBox": {
+        "x": 158,
+        "y": 520,
+        "width": 76,
+        "height": 116
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 174,
+        "y0": 531,
+        "x1": 223,
+        "y1": 621
+      },
+      "cropBox": {
+        "x0": 154,
+        "y0": 512,
+        "x1": 242,
+        "y1": 640
+      },
+      "validation": {
+        "width": 88,
+        "height": 128,
+        "foregroundPixels": 1262,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 20,
+          "right": 19,
+          "top": 19,
+          "bottom": 19
+        },
+        "centerOffset": {
+          "x": 0.0057,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "",
+      "validationSheet": "data/assets/icon-references/qualcomm/validation-sheets/qualcomm-business-handsets-phone.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 234681,
+        "losslessBytes": 234681,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "qualcomm-business-automotive-car",
+      "output": "data/assets/icon-references/qualcomm/crops/business-automotive-car.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 833,
+        "losslessBytes": 2919,
+        "savingsVsLossless": 0.7146,
+        "metrics": {
+          "meanAbsoluteError": 0.1421,
+          "rootMeanSquareError": 0.8131,
+          "p99AbsoluteError": 4.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.0998
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 9885,
+        "transparentPixelRatio": 0.7815
+      },
+      "searchBox": {
+        "x": 144,
+        "y": 758,
+        "width": 120,
+        "height": 91
+      },
+      "componentCount": 2,
+      "subjectBox": {
+        "x0": 167,
+        "y0": 773,
+        "x1": 233,
+        "y1": 833
+      },
+      "cropBox": {
+        "x0": 138,
+        "y0": 752,
+        "x1": 262,
+        "y1": 854
+      },
+      "validation": {
+        "width": 124,
+        "height": 102,
+        "foregroundPixels": 2032,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 29,
+          "right": 29,
+          "top": 21,
+          "bottom": 21
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "",
+      "validationSheet": "data/assets/icon-references/qualcomm/validation-sheets/qualcomm-business-automotive-car.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 260700,
+        "losslessBytes": 260700,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "qualcomm-business-iot-cluster",
+      "output": "data/assets/icon-references/qualcomm/crops/business-iot-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 1226,
+        "losslessBytes": 5524,
+        "savingsVsLossless": 0.7781,
+        "metrics": {
+          "meanAbsoluteError": 0.3734,
+          "rootMeanSquareError": 1.6263,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 25,
+          "changedPixelRatio": 0.2031
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 16,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 10568,
+        "transparentPixelRatio": 0.8277
+      },
+      "searchBox": {
+        "x": 150,
+        "y": 920,
+        "width": 100,
+        "height": 100
+      },
+      "componentCount": 6,
+      "subjectBox": {
+        "x0": 165,
+        "y0": 938,
+        "x1": 238,
+        "y1": 1004
+      },
+      "cropBox": {
+        "x0": 143,
+        "y0": 914,
+        "x1": 257,
+        "y1": 1026
+      },
+      "validation": {
+        "width": 114,
+        "height": 112,
+        "foregroundPixels": 1973,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 22,
+          "right": 19,
+          "top": 24,
+          "bottom": 22
+        },
+        "centerOffset": {
+          "x": 0.0132,
+          "y": 0.0089
+        },
+        "passes": true
+      },
+      "note": "",
+      "validationSheet": "data/assets/icon-references/qualcomm/validation-sheets/qualcomm-business-iot-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 279300,
+        "losslessBytes": 279300,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

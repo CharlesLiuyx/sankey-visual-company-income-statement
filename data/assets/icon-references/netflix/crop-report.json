@@ -1,0 +1,400 @@
+{
+  "source": "input/processed/netflix-q1-fy26.png",
+  "spec": "input/icon-crop-specs/netflix-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T19:55:32.997835+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 9
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "netflix-company-wordmark",
+      "output": "data/assets/icon-references/netflix/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 2679,
+        "losslessBytes": 9988,
+        "savingsVsLossless": 0.7318,
+        "metrics": {
+          "meanAbsoluteError": 0.3771,
+          "rootMeanSquareError": 1.851,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 35,
+          "changedPixelRatio": 0.4282
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 9,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 50163,
+        "transparentPixelRatio": 0.5831
+      },
+      "searchBox": {
+        "x": 560,
+        "y": 260,
+        "width": 555,
+        "height": 155
+      },
+      "componentCount": 7,
+      "subjectBox": {
+        "x0": 572,
+        "y0": 266,
+        "x1": 1099,
+        "y1": 407
+      },
+      "cropBox": {
+        "x0": 560,
+        "y0": 260,
+        "x1": 1115,
+        "y1": 415
+      },
+      "validation": {
+        "width": 555,
+        "height": 155,
+        "foregroundPixels": 32165,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 12,
+          "right": 16,
+          "top": 6,
+          "bottom": 8
+        },
+        "centerOffset": {
+          "x": -0.0036,
+          "y": -0.0065
+        },
+        "passes": true
+      },
+      "note": "Netflix company wordmark only; excludes source chart title and publisher marks.",
+      "validationSheet": "data/assets/icon-references/netflix/validation-sheets/netflix-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 225679,
+        "losslessBytes": 225679,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "netflix-region-ucan-globe",
+      "output": "data/assets/icon-references/netflix/crops/region-ucan-globe.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 9269,
+        "losslessBytes": 9269,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 12,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 3507,
+        "transparentPixelRatio": 0.3652
+      },
+      "searchBox": {
+        "x": 76,
+        "y": 416,
+        "width": 98,
+        "height": 98
+      },
+      "componentCount": 3,
+      "subjectBox": {
+        "x0": 80,
+        "y0": 420,
+        "x1": 167,
+        "y1": 507
+      },
+      "cropBox": {
+        "x0": 76,
+        "y0": 416,
+        "x1": 174,
+        "y1": 514
+      },
+      "validation": {
+        "width": 98,
+        "height": 98,
+        "foregroundPixels": 4204,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 4,
+          "right": 7,
+          "top": 4,
+          "bottom": 7
+        },
+        "centerOffset": {
+          "x": -0.0153,
+          "y": -0.0153
+        },
+        "passes": true
+      },
+      "note": "UCAN regional globe icon only; excludes label and value text.",
+      "validationSheet": "data/assets/icon-references/netflix/validation-sheets/netflix-region-ucan-globe.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 294254,
+        "losslessBytes": 294254,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "netflix-region-emea-globe",
+      "output": "data/assets/icon-references/netflix/crops/region-emea-globe.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 10239,
+        "losslessBytes": 10239,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 12,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 4386,
+        "transparentPixelRatio": 0.4567
+      },
+      "searchBox": {
+        "x": 76,
+        "y": 740,
+        "width": 98,
+        "height": 98
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 80,
+        "y0": 743,
+        "x1": 161,
+        "y1": 824
+      },
+      "cropBox": {
+        "x0": 76,
+        "y0": 740,
+        "x1": 174,
+        "y1": 838
+      },
+      "validation": {
+        "width": 98,
+        "height": 98,
+        "foregroundPixels": 4217,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 4,
+          "right": 13,
+          "top": 3,
+          "bottom": 14
+        },
+        "centerOffset": {
+          "x": -0.0459,
+          "y": -0.0561
+        },
+        "passes": true
+      },
+      "note": "EMEA regional globe icon only; excludes label and value text.",
+      "validationSheet": "data/assets/icon-references/netflix/validation-sheets/netflix-region-emea-globe.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 304251,
+        "losslessBytes": 304251,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "netflix-region-latam-globe",
+      "output": "data/assets/icon-references/netflix/crops/region-latam-globe.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 7434,
+        "losslessBytes": 7434,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 12,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 8695,
+        "transparentPixelRatio": 0.7058
+      },
+      "searchBox": {
+        "x": 74,
+        "y": 970,
+        "width": 98,
+        "height": 112
+      },
+      "componentCount": 4,
+      "subjectBox": {
+        "x0": 80,
+        "y0": 976,
+        "x1": 162,
+        "y1": 1057
+      },
+      "cropBox": {
+        "x0": 66,
+        "y0": 970,
+        "x1": 176,
+        "y1": 1082
+      },
+      "validation": {
+        "width": 110,
+        "height": 112,
+        "foregroundPixels": 3931,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 14,
+          "right": 14,
+          "top": 6,
+          "bottom": 25
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": -0.0848
+        },
+        "passes": true
+      },
+      "note": "LATAM regional globe icon only; excludes label and value text.",
+      "validationSheet": "data/assets/icon-references/netflix/validation-sheets/netflix-region-latam-globe.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 266483,
+        "losslessBytes": 266483,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "netflix-region-apac-globe",
+      "output": "data/assets/icon-references/netflix/crops/region-apac-globe.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 8403,
+        "losslessBytes": 8403,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 12,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 6487,
+        "transparentPixelRatio": 0.5569
+      },
+      "searchBox": {
+        "x": 76,
+        "y": 1188,
+        "width": 104,
+        "height": 112
+      },
+      "componentCount": 3,
+      "subjectBox": {
+        "x0": 88,
+        "y0": 1192,
+        "x1": 168,
+        "y1": 1272
+      },
+      "cropBox": {
+        "x0": 76,
+        "y0": 1188,
+        "x1": 180,
+        "y1": 1300
+      },
+      "validation": {
+        "width": 104,
+        "height": 112,
+        "foregroundPixels": 3810,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 12,
+          "right": 12,
+          "top": 4,
+          "bottom": 28
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": -0.1071
+        },
+        "passes": true
+      },
+      "note": "APAC regional globe icon only; excludes label and value text.",
+      "validationSheet": "data/assets/icon-references/netflix/validation-sheets/netflix-region-apac-globe.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 279900,
+        "losslessBytes": 279900,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

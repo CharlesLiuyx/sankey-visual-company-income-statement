@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/servicenow-q1-fy26.png",
+  "spec": "input/icon-crop-specs/servicenow-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T20:32:21.053295+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 7
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "servicenow-company-wordmark",
+      "output": "data/assets/icon-references/servicenow/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 4953,
+        "losslessBytes": 24165,
+        "savingsVsLossless": 0.795,
+        "metrics": {
+          "meanAbsoluteError": 0.2767,
+          "rootMeanSquareError": 1.8302,
+          "p99AbsoluteError": 8.0,
+          "maxChannelDiff": 35,
+          "changedPixelRatio": 0.0731
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 7,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 76826,
+        "transparentPixelRatio": 0.7064
+      },
+      "searchBox": {
+        "x": 455,
+        "y": 250,
+        "width": 735,
+        "height": 160
+      },
+      "componentCount": 11,
+      "subjectBox": {
+        "x0": 474,
+        "y0": 279,
+        "x1": 1181,
+        "y1": 383
+      },
+      "cropBox": {
+        "x0": 455,
+        "y0": 260,
+        "x1": 1205,
+        "y1": 405
+      },
+      "validation": {
+        "width": 750,
+        "height": 145,
+        "foregroundPixels": 29385,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 19,
+          "right": 24,
+          "top": 19,
+          "bottom": 22
+        },
+        "centerOffset": {
+          "x": -0.0033,
+          "y": -0.0103
+        },
+        "passes": true
+      },
+      "note": "ServiceNow company wordmark only; excludes chart title, flow labels, KPI cards, website mark, and publisher attribution.",
+      "validationSheet": "data/assets/icon-references/servicenow/validation-sheets/servicenow-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 246512,
+        "losslessBytes": 246512,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

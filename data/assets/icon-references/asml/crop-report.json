@@ -1,0 +1,123 @@
+{
+  "source": "input/processed/asml-q1-fy26.png",
+  "spec": "input/icon-crop-specs/asml-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T20:01:58.902706+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "asml-company-wordmark",
+      "output": "data/assets/icon-references/asml/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 3529,
+        "losslessBytes": 15257,
+        "savingsVsLossless": 0.7687,
+        "metrics": {
+          "meanAbsoluteError": 0.2621,
+          "rootMeanSquareError": 1.6979,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 37,
+          "changedPixelRatio": 0.061
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 48987,
+        "transparentPixelRatio": 0.6025
+      },
+      "searchBox": {
+        "x": 990,
+        "y": 248,
+        "width": 468,
+        "height": 154
+      },
+      "componentCount": 5,
+      "subjectBox": {
+        "x0": 997,
+        "y0": 263,
+        "x1": 1444,
+        "y1": 389
+      },
+      "cropBox": {
+        "x0": 982,
+        "y0": 242,
+        "x1": 1466,
+        "y1": 410
+      },
+      "validation": {
+        "width": 484,
+        "height": 168,
+        "foregroundPixels": 31149,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 15,
+          "right": 22,
+          "top": 21,
+          "bottom": 21
+        },
+        "centerOffset": {
+          "x": -0.0072,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "ASML company wordmark only; excludes the title, chart labels, flows, website mark, and publisher attribution.",
+      "validationSheet": "data/assets/icon-references/asml/validation-sheets/asml-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 192,
+        "bytes": 79255,
+        "losslessBytes": 225258,
+        "savingsVsLossless": 0.6482,
+        "metrics": {
+          "meanAbsoluteError": 0.3167,
+          "rootMeanSquareError": 2.1523,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 70,
+          "changedPixelRatio": 0.0725
+        }
+      }
+    }
+  ]
+}

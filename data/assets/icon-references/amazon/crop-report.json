@@ -1,0 +1,577 @@
+{
+  "source": "input/processed/amazon-q1-fy26.png",
+  "spec": "input/icon-crop-specs/amazon-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T20:10:04.474722+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "amazon-company-wordmark",
+      "output": "data/assets/icon-references/amazon/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 4809,
+        "losslessBytes": 21686,
+        "savingsVsLossless": 0.7782,
+        "metrics": {
+          "meanAbsoluteError": 0.4955,
+          "rootMeanSquareError": 1.965,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 40,
+          "changedPixelRatio": 0.3292
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 64738,
+        "transparentPixelRatio": 0.6771
+      },
+      "searchBox": {
+        "x": 690,
+        "y": 276,
+        "width": 500,
+        "height": 170
+      },
+      "componentCount": 8,
+      "subjectBox": {
+        "x0": 702,
+        "y0": 289,
+        "x1": 1175,
+        "y1": 433
+      },
+      "cropBox": {
+        "x0": 684,
+        "y0": 268,
+        "x1": 1198,
+        "y1": 454
+      },
+      "validation": {
+        "width": 514,
+        "height": 186,
+        "foregroundPixels": 28734,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 18,
+          "right": 23,
+          "top": 21,
+          "bottom": 21
+        },
+        "centerOffset": {
+          "x": -0.0049,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Amazon company wordmark above the revenue hub; excludes title, values, flows, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/amazon/validation-sheets/amazon-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 298035,
+        "losslessBytes": 298035,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "amazon-business-online-stores",
+      "output": "data/assets/icon-references/amazon/crops/business-online-stores.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 2229,
+        "losslessBytes": 9603,
+        "savingsVsLossless": 0.7679,
+        "metrics": {
+          "meanAbsoluteError": 0.5162,
+          "rootMeanSquareError": 1.926,
+          "p99AbsoluteError": 8.0,
+          "maxChannelDiff": 43,
+          "changedPixelRatio": 0.1692
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 14031,
+        "transparentPixelRatio": 0.7393
+      },
+      "searchBox": {
+        "x": 98,
+        "y": 424,
+        "width": 238,
+        "height": 56
+      },
+      "componentCount": 11,
+      "subjectBox": {
+        "x0": 108,
+        "y0": 429,
+        "x1": 336,
+        "y1": 475
+      },
+      "cropBox": {
+        "x0": 88,
+        "y0": 415,
+        "x1": 348,
+        "y1": 488
+      },
+      "validation": {
+        "width": 260,
+        "height": 73,
+        "foregroundPixels": 4481,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 20,
+          "right": 12,
+          "top": 14,
+          "bottom": 13
+        },
+        "centerOffset": {
+          "x": 0.0154,
+          "y": 0.0068
+        },
+        "passes": true
+      },
+      "note": "amazon.com logo for Online Stores only; excludes the Online Stores label, values, and flow marks.",
+      "validationSheet": "data/assets/icon-references/amazon/validation-sheets/amazon-business-online-stores.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 299533,
+        "losslessBytes": 299533,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "amazon-business-physical-store",
+      "output": "data/assets/icon-references/amazon/crops/business-physical-store.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 3749,
+        "losslessBytes": 16684,
+        "savingsVsLossless": 0.7753,
+        "metrics": {
+          "meanAbsoluteError": 0.6648,
+          "rootMeanSquareError": 2.1908,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 41,
+          "changedPixelRatio": 0.3092
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 18850,
+        "transparentPixelRatio": 0.7013
+      },
+      "searchBox": {
+        "x": 88,
+        "y": 568,
+        "width": 260,
+        "height": 84
+      },
+      "componentCount": 16,
+      "subjectBox": {
+        "x0": 99,
+        "y0": 568,
+        "x1": 335,
+        "y1": 648
+      },
+      "cropBox": {
+        "x0": 80,
+        "y0": 568,
+        "x1": 360,
+        "y1": 664
+      },
+      "validation": {
+        "width": 280,
+        "height": 96,
+        "foregroundPixels": 7008,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 19,
+          "right": 25,
+          "top": 0,
+          "bottom": 16
+        },
+        "centerOffset": {
+          "x": -0.0107,
+          "y": -0.0833
+        },
+        "passes": true
+      },
+      "note": "Fresh and Whole Foods business cluster only; excludes the Physical Store label, values, and flow marks.",
+      "validationSheet": "data/assets/icon-references/amazon/validation-sheets/amazon-business-physical-store.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 315817,
+        "losslessBytes": 315817,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "amazon-business-advertising",
+      "output": "data/assets/icon-references/amazon/crops/business-advertising.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 2310,
+        "losslessBytes": 10513,
+        "savingsVsLossless": 0.7803,
+        "metrics": {
+          "meanAbsoluteError": 0.4951,
+          "rootMeanSquareError": 1.7115,
+          "p99AbsoluteError": 8.0,
+          "maxChannelDiff": 30,
+          "changedPixelRatio": 0.2558
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 18066,
+        "transparentPixelRatio": 0.7556
+      },
+      "searchBox": {
+        "x": 74,
+        "y": 900,
+        "width": 260,
+        "height": 76
+      },
+      "componentCount": 10,
+      "subjectBox": {
+        "x0": 80,
+        "y0": 900,
+        "x1": 330,
+        "y1": 960
+      },
+      "cropBox": {
+        "x0": 66,
+        "y0": 898,
+        "x1": 344,
+        "y1": 984
+      },
+      "validation": {
+        "width": 278,
+        "height": 86,
+        "foregroundPixels": 4216,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 14,
+          "right": 14,
+          "top": 2,
+          "bottom": 24
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": -0.1279
+        },
+        "passes": true
+      },
+      "note": "Amazon Ads and Twitch cluster for Advertising only; excludes the Advertising label, values, and flow marks.",
+      "validationSheet": "data/assets/icon-references/amazon/validation-sheets/amazon-business-advertising.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 300535,
+        "losslessBytes": 300535,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "amazon-business-subscription",
+      "output": "data/assets/icon-references/amazon/crops/business-subscription.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 2538,
+        "losslessBytes": 10483,
+        "savingsVsLossless": 0.7579,
+        "metrics": {
+          "meanAbsoluteError": 0.5722,
+          "rootMeanSquareError": 2.1866,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 44,
+          "changedPixelRatio": 0.2322
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 16977,
+        "transparentPixelRatio": 0.7829
+      },
+      "searchBox": {
+        "x": 105,
+        "y": 1056,
+        "width": 260,
+        "height": 66
+      },
+      "componentCount": 19,
+      "subjectBox": {
+        "x0": 113,
+        "y0": 1056,
+        "x1": 356,
+        "y1": 1122
+      },
+      "cropBox": {
+        "x0": 96,
+        "y0": 1054,
+        "x1": 374,
+        "y1": 1132
+      },
+      "validation": {
+        "width": 278,
+        "height": 78,
+        "foregroundPixels": 4223,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 17,
+          "right": 18,
+          "top": 2,
+          "bottom": 10
+        },
+        "centerOffset": {
+          "x": -0.0018,
+          "y": -0.0513
+        },
+        "passes": true
+      },
+      "note": "Prime and Audible business cluster for Subscription only; excludes the Subscription label, values, and flow marks.",
+      "validationSheet": "data/assets/icon-references/amazon/validation-sheets/amazon-business-subscription.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 300043,
+        "losslessBytes": 300043,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "amazon-business-aws-left",
+      "output": "data/assets/icon-references/amazon/crops/business-aws-left.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 2309,
+        "losslessBytes": 10121,
+        "savingsVsLossless": 0.7719,
+        "metrics": {
+          "meanAbsoluteError": 0.4468,
+          "rootMeanSquareError": 2.0493,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 42,
+          "changedPixelRatio": 0.2162
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 20138,
+        "transparentPixelRatio": 0.7946
+      },
+      "searchBox": {
+        "x": 186,
+        "y": 1150,
+        "width": 176,
+        "height": 116
+      },
+      "componentCount": 5,
+      "subjectBox": {
+        "x0": 203,
+        "y0": 1173,
+        "x1": 351,
+        "y1": 1263
+      },
+      "cropBox": {
+        "x0": 178,
+        "y0": 1152,
+        "x1": 370,
+        "y1": 1284
+      },
+      "validation": {
+        "width": 192,
+        "height": 132,
+        "foregroundPixels": 4850,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 25,
+          "right": 19,
+          "top": 21,
+          "bottom": 21
+        },
+        "centerOffset": {
+          "x": 0.0156,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "AWS business mark for the revenue line only; excludes revenue values, the Other line, and flow marks.",
+      "validationSheet": "data/assets/icon-references/amazon/validation-sheets/amazon-business-aws-left.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 323520,
+        "losslessBytes": 323520,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "amazon-business-aws-callout",
+      "output": "data/assets/icon-references/amazon/crops/business-aws-callout.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 5129,
+        "losslessBytes": 5129,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          239,
+          239,
+          239
+        ],
+        "transparentPixels": 3823,
+        "transparentPixelRatio": 0.717
+      },
+      "searchBox": {
+        "x": 1740,
+        "y": 544,
+        "width": 82,
+        "height": 58
+      },
+      "componentCount": 5,
+      "subjectBox": {
+        "x0": 1741,
+        "y0": 552,
+        "x1": 1816,
+        "y1": 598
+      },
+      "cropBox": {
+        "x0": 1738,
+        "y0": 544,
+        "x1": 1824,
+        "y1": 606
+      },
+      "validation": {
+        "width": 86,
+        "height": 62,
+        "foregroundPixels": 1429,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 3,
+          "right": 8,
+          "top": 8,
+          "bottom": 8
+        },
+        "centerOffset": {
+          "x": -0.0291,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Small AWS mark inside the operating-profit callout; excludes the value, Other text, and callout border.",
+      "validationSheet": "data/assets/icon-references/amazon/validation-sheets/amazon-business-aws-callout.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 350993,
+        "losslessBytes": 350993,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

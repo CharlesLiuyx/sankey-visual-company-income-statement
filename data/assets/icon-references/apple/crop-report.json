@@ -1,0 +1,343 @@
+{
+  "source": "input/processed/apple-q2-fy26.png",
+  "spec": "input/icon-crop-specs/apple-q2-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T19:24:52.056431+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "apple-company-logo",
+      "output": "data/assets/icon-references/apple/crops/company-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 2331,
+        "losslessBytes": 9014,
+        "savingsVsLossless": 0.7414,
+        "metrics": {
+          "meanAbsoluteError": 0.0728,
+          "rootMeanSquareError": 0.6586,
+          "p99AbsoluteError": 3.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.0234
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 35063,
+        "transparentPixelRatio": 0.4752
+      },
+      "searchBox": {
+        "x": 1048,
+        "y": 238,
+        "width": 246,
+        "height": 276
+      },
+      "componentCount": 2,
+      "subjectBox": {
+        "x0": 1055,
+        "y0": 242,
+        "x1": 1280,
+        "y1": 508
+      },
+      "cropBox": {
+        "x0": 1038,
+        "y0": 232,
+        "x1": 1296,
+        "y1": 518
+      },
+      "validation": {
+        "width": 258,
+        "height": 286,
+        "foregroundPixels": 38524,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 17,
+          "right": 16,
+          "top": 10,
+          "bottom": 10
+        },
+        "centerOffset": {
+          "x": 0.0019,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "",
+      "validationSheet": "data/assets/icon-references/apple/validation-sheets/apple-company-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 259414,
+        "losslessBytes": 259414,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "apple-business-iphone-wordmark",
+      "output": "data/assets/icon-references/apple/crops/business-iphone-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 1750,
+        "losslessBytes": 7294,
+        "savingsVsLossless": 0.7601,
+        "metrics": {
+          "meanAbsoluteError": 0.4254,
+          "rootMeanSquareError": 1.8473,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 25,
+          "changedPixelRatio": 0.1341
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 15037,
+        "transparentPixelRatio": 0.6935
+      },
+      "searchBox": {
+        "x": 90,
+        "y": 493,
+        "width": 270,
+        "height": 64
+      },
+      "componentCount": 9,
+      "subjectBox": {
+        "x0": 97,
+        "y0": 497,
+        "x1": 349,
+        "y1": 550
+      },
+      "cropBox": {
+        "x0": 86,
+        "y0": 486,
+        "x1": 364,
+        "y1": 564
+      },
+      "validation": {
+        "width": 278,
+        "height": 78,
+        "foregroundPixels": 5660,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 11,
+          "right": 15,
+          "top": 11,
+          "bottom": 14
+        },
+        "centerOffset": {
+          "x": -0.0072,
+          "y": -0.0192
+        },
+        "passes": true
+      },
+      "note": "",
+      "validationSheet": "data/assets/icon-references/apple/validation-sheets/apple-business-iphone-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 257643,
+        "losslessBytes": 257643,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "apple-business-wearables-wordmark",
+      "output": "data/assets/icon-references/apple/crops/business-wearables-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 3235,
+        "losslessBytes": 14629,
+        "savingsVsLossless": 0.7789,
+        "metrics": {
+          "meanAbsoluteError": 0.556,
+          "rootMeanSquareError": 2.0369,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 26,
+          "changedPixelRatio": 0.2891
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 27398,
+        "transparentPixelRatio": 0.7149
+      },
+      "searchBox": {
+        "x": 92,
+        "y": 1028,
+        "width": 270,
+        "height": 118
+      },
+      "componentCount": 17,
+      "subjectBox": {
+        "x0": 98,
+        "y0": 1028,
+        "x1": 335,
+        "y1": 1145
+      },
+      "cropBox": {
+        "x0": 74,
+        "y0": 1017,
+        "x1": 360,
+        "y1": 1151
+      },
+      "validation": {
+        "width": 286,
+        "height": 134,
+        "foregroundPixels": 9598,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 24,
+          "right": 25,
+          "top": 11,
+          "bottom": 6
+        },
+        "centerOffset": {
+          "x": -0.0017,
+          "y": 0.0187
+        },
+        "passes": true
+      },
+      "note": "",
+      "validationSheet": "data/assets/icon-references/apple/validation-sheets/apple-business-wearables-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 275546,
+        "losslessBytes": 275546,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "apple-business-services-app-cluster",
+      "output": "data/assets/icon-references/apple/crops/business-services-app-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 37865,
+        "losslessBytes": 37865,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          225,
+          223,
+          242
+        ],
+        "transparentPixels": 0,
+        "transparentPixelRatio": 0.0
+      },
+      "searchBox": {
+        "x": 76,
+        "y": 1222,
+        "width": 668,
+        "height": 100
+      },
+      "componentCount": 6,
+      "subjectBox": {
+        "x0": 79,
+        "y0": 1222,
+        "x1": 735,
+        "y1": 1318
+      },
+      "cropBox": {
+        "x0": 74,
+        "y0": 1218,
+        "x1": 746,
+        "y1": 1326
+      },
+      "validation": {
+        "width": 672,
+        "height": 108,
+        "foregroundPixels": 54889,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 5,
+          "right": 11,
+          "top": 4,
+          "bottom": 8
+        },
+        "centerOffset": {
+          "x": -0.0045,
+          "y": -0.0185
+        },
+        "passes": true
+      },
+      "note": "",
+      "validationSheet": "data/assets/icon-references/apple/validation-sheets/apple-business-services-app-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 264982,
+        "losslessBytes": 264982,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

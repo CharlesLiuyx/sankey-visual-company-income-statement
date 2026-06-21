@@ -1,0 +1,421 @@
+{
+  "source": "input/processed/samsung-q1-fy26.png",
+  "spec": "input/icon-crop-specs/samsung-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T20:32:20.228317+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "samsung-company-wordmark",
+      "output": "data/assets/icon-references/samsung/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 4480,
+        "losslessBytes": 17968,
+        "savingsVsLossless": 0.7507,
+        "metrics": {
+          "meanAbsoluteError": 0.1962,
+          "rootMeanSquareError": 1.2122,
+          "p99AbsoluteError": 6.0,
+          "maxChannelDiff": 40,
+          "changedPixelRatio": 0.0673
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 63424,
+        "transparentPixelRatio": 0.6602
+      },
+      "searchBox": {
+        "x": 664,
+        "y": 350,
+        "width": 572,
+        "height": 123
+      },
+      "componentCount": 6,
+      "subjectBox": {
+        "x0": 672,
+        "y0": 370,
+        "x1": 1230,
+        "y1": 470
+      },
+      "cropBox": {
+        "x0": 646,
+        "y0": 330,
+        "x1": 1254,
+        "y1": 488
+      },
+      "validation": {
+        "width": 608,
+        "height": 158,
+        "foregroundPixels": 32021,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 26,
+          "right": 24,
+          "top": 40,
+          "bottom": 18
+        },
+        "centerOffset": {
+          "x": 0.0016,
+          "y": 0.0696
+        },
+        "passes": true
+      },
+      "note": "Samsung company wordmark above the sales hub; excludes title, values, flows, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/samsung/validation-sheets/samsung-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 256297,
+        "losslessBytes": 256297,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "samsung-business-device-solutions-chip-cluster",
+      "output": "data/assets/icon-references/samsung/crops/business-device-solutions-chip-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 13575,
+        "losslessBytes": 13575,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 8621,
+        "transparentPixelRatio": 0.566
+      },
+      "searchBox": {
+        "x": 205,
+        "y": 476,
+        "width": 117,
+        "height": 91
+      },
+      "componentCount": 4,
+      "subjectBox": {
+        "x0": 209,
+        "y0": 479,
+        "x1": 321,
+        "y1": 562
+      },
+      "cropBox": {
+        "x0": 196,
+        "y0": 466,
+        "x1": 332,
+        "y1": 578
+      },
+      "validation": {
+        "width": 136,
+        "height": 112,
+        "foregroundPixels": 6401,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 13,
+          "right": 11,
+          "top": 13,
+          "bottom": 16
+        },
+        "centerOffset": {
+          "x": 0.0074,
+          "y": -0.0134
+        },
+        "passes": true
+      },
+      "note": "Device Solutions semiconductor/package icon cluster only; excludes the Device Solutions label, values, notes, and flow marks.",
+      "validationSheet": "data/assets/icon-references/samsung/validation-sheets/samsung-business-device-solutions-chip-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 321896,
+        "losslessBytes": 321896,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "samsung-business-device-experience-device-cluster",
+      "output": "data/assets/icon-references/samsung/crops/business-device-experience-device-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 3136,
+        "losslessBytes": 14010,
+        "savingsVsLossless": 0.7762,
+        "metrics": {
+          "meanAbsoluteError": 0.6697,
+          "rootMeanSquareError": 2.5912,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 52,
+          "changedPixelRatio": 0.2372
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 25178,
+        "transparentPixelRatio": 0.76
+      },
+      "searchBox": {
+        "x": 70,
+        "y": 776,
+        "width": 300,
+        "height": 73
+      },
+      "componentCount": 7,
+      "subjectBox": {
+        "x0": 70,
+        "y0": 792,
+        "x1": 370,
+        "y1": 847
+      },
+      "cropBox": {
+        "x0": 56,
+        "y0": 762,
+        "x1": 384,
+        "y1": 863
+      },
+      "validation": {
+        "width": 328,
+        "height": 101,
+        "foregroundPixels": 7469,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 14,
+          "right": 14,
+          "top": 30,
+          "bottom": 16
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0693
+        },
+        "passes": true
+      },
+      "note": "Device eXperience product icon cluster only; excludes the Device eXperience label, values, notes, and flow marks.",
+      "validationSheet": "data/assets/icon-references/samsung/validation-sheets/samsung-business-device-experience-device-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 261395,
+        "losslessBytes": 261395,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "samsung-business-display-wordmark",
+      "output": "data/assets/icon-references/samsung/crops/business-display-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 2637,
+        "losslessBytes": 15063,
+        "savingsVsLossless": 0.8249,
+        "metrics": {
+          "meanAbsoluteError": 0.9256,
+          "rootMeanSquareError": 2.4901,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 52,
+          "changedPixelRatio": 0.4033
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 9889,
+        "transparentPixelRatio": 0.6067
+      },
+      "searchBox": {
+        "x": 93,
+        "y": 1127,
+        "width": 303,
+        "height": 51
+      },
+      "componentCount": 13,
+      "subjectBox": {
+        "x0": 98,
+        "y0": 1127,
+        "x1": 396,
+        "y1": 1156
+      },
+      "cropBox": {
+        "x0": 82,
+        "y0": 1116,
+        "x1": 408,
+        "y1": 1166
+      },
+      "validation": {
+        "width": 326,
+        "height": 50,
+        "foregroundPixels": 6134,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 16,
+          "right": 12,
+          "top": 11,
+          "bottom": 10
+        },
+        "centerOffset": {
+          "x": 0.0061,
+          "y": 0.01
+        },
+        "passes": true
+      },
+      "note": "Samsung Display segment wordmark only; excludes the value, Y/Y note, flow marks, and adjacent Harman logo.",
+      "validationSheet": "data/assets/icon-references/samsung/validation-sheets/samsung-business-display-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 264281,
+        "losslessBytes": 264281,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "samsung-business-harman-wordmark",
+      "output": "data/assets/icon-references/samsung/crops/business-harman-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 6006,
+        "losslessBytes": 25997,
+        "savingsVsLossless": 0.769,
+        "metrics": {
+          "meanAbsoluteError": 0.5173,
+          "rootMeanSquareError": 1.8997,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 48,
+          "changedPixelRatio": 0.2289
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 46849,
+        "transparentPixelRatio": 0.7827
+      },
+      "searchBox": {
+        "x": 91,
+        "y": 1185,
+        "width": 319,
+        "height": 148
+      },
+      "componentCount": 20,
+      "subjectBox": {
+        "x0": 100,
+        "y0": 1186,
+        "x1": 406,
+        "y1": 1333
+      },
+      "cropBox": {
+        "x0": 78,
+        "y0": 1172,
+        "x1": 422,
+        "y1": 1346
+      },
+      "validation": {
+        "width": 344,
+        "height": 174,
+        "foregroundPixels": 10813,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 22,
+          "right": 16,
+          "top": 14,
+          "bottom": 13
+        },
+        "centerOffset": {
+          "x": 0.0087,
+          "y": 0.0029
+        },
+        "passes": true
+      },
+      "note": "Harman segment logo/wordmark only; excludes the value, Y/Y note, flow marks, and bottom publisher marks.",
+      "validationSheet": "data/assets/icon-references/samsung/validation-sheets/samsung-business-harman-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 279380,
+        "losslessBytes": 279380,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

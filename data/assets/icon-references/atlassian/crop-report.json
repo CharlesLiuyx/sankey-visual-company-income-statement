@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/atlassian-q3-fy26.png",
+  "spec": "input/icon-crop-specs/atlassian-q3-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T20:33:04.772629+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "atlassian-company-logo",
+      "output": "data/assets/icon-references/atlassian/crops/company-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 2961,
+        "losslessBytes": 16129,
+        "savingsVsLossless": 0.8164,
+        "metrics": {
+          "meanAbsoluteError": 0.45,
+          "rootMeanSquareError": 1.9913,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 35,
+          "changedPixelRatio": 0.2747
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 53209,
+        "transparentPixelRatio": 0.7299
+      },
+      "searchBox": {
+        "x": 760,
+        "y": 248,
+        "width": 245,
+        "height": 245
+      },
+      "componentCount": 11,
+      "subjectBox": {
+        "x0": 777,
+        "y0": 256,
+        "x1": 978,
+        "y1": 479
+      },
+      "cropBox": {
+        "x0": 748,
+        "y0": 238,
+        "x1": 1018,
+        "y1": 508
+      },
+      "validation": {
+        "width": 270,
+        "height": 270,
+        "foregroundPixels": 19406,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 29,
+          "right": 40,
+          "top": 18,
+          "bottom": 29
+        },
+        "centerOffset": {
+          "x": -0.0204,
+          "y": -0.0204
+        },
+        "passes": true
+      },
+      "note": "Atlassian company logo above the revenue hub; excludes revenue labels, chart flows, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/atlassian/validation-sheets/atlassian-company-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 230977,
+        "losslessBytes": 230977,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

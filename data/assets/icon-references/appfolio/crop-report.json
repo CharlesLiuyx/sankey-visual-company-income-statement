@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/appfolio-q1-fy26.png",
+  "spec": "input/icon-crop-specs/appfolio-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T20:33:23.859118+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 9
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "appfolio-company-wordmark",
+      "output": "data/assets/icon-references/appfolio/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 4644,
+        "losslessBytes": 23205,
+        "savingsVsLossless": 0.7999,
+        "metrics": {
+          "meanAbsoluteError": 0.3895,
+          "rootMeanSquareError": 2.2027,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 33,
+          "changedPixelRatio": 0.1449
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 9,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 70942,
+        "transparentPixelRatio": 0.6914
+      },
+      "searchBox": {
+        "x": 590,
+        "y": 300,
+        "width": 570,
+        "height": 180
+      },
+      "componentCount": 8,
+      "subjectBox": {
+        "x0": 609,
+        "y0": 338,
+        "x1": 1139,
+        "y1": 474
+      },
+      "cropBox": {
+        "x0": 590,
+        "y0": 310,
+        "x1": 1160,
+        "y1": 490
+      },
+      "validation": {
+        "width": 570,
+        "height": 180,
+        "foregroundPixels": 19222,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 19,
+          "right": 21,
+          "top": 28,
+          "bottom": 16
+        },
+        "centerOffset": {
+          "x": -0.0018,
+          "y": 0.0333
+        },
+        "passes": true
+      },
+      "note": "AppFolio company wordmark only; excludes title, chart marks, values, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/appfolio/validation-sheets/appfolio-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 227742,
+        "losslessBytes": 227742,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

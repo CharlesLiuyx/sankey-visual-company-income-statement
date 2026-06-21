@@ -1,0 +1,378 @@
+{
+  "source": "input/processed/microsoft-q3-fy26-by-bu.png",
+  "spec": "input/icon-crop-specs/microsoft-q3-fy26-by-bu.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T19:36:08.461149+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "microsoft-bybu-company-logo",
+      "output": "data/assets/icon-references/microsoft/crops/bybu-company-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 506,
+        "losslessBytes": 866,
+        "savingsVsLossless": 0.4157,
+        "metrics": {
+          "meanAbsoluteError": 0.0578,
+          "rootMeanSquareError": 0.4126,
+          "p99AbsoluteError": 1.0,
+          "maxChannelDiff": 46,
+          "changedPixelRatio": 0.1606
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 19860,
+        "transparentPixelRatio": 0.3723
+      },
+      "searchBox": {
+        "x": 870,
+        "y": 250,
+        "width": 225,
+        "height": 215
+      },
+      "componentCount": 4,
+      "subjectBox": {
+        "x0": 885,
+        "y0": 261,
+        "x1": 1076,
+        "y1": 451
+      },
+      "cropBox": {
+        "x0": 864,
+        "y0": 244,
+        "x1": 1099,
+        "y1": 471
+      },
+      "validation": {
+        "width": 235,
+        "height": 227,
+        "foregroundPixels": 33304,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 21,
+          "right": 23,
+          "top": 17,
+          "bottom": 20
+        },
+        "centerOffset": {
+          "x": -0.0043,
+          "y": -0.0066
+        },
+        "passes": true
+      },
+      "note": "Microsoft four-pane company logo above the Revenue hub; excludes labels, flows, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/microsoft/validation-sheets/microsoft-bybu-company-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 192,
+        "bytes": 77637,
+        "losslessBytes": 235022,
+        "savingsVsLossless": 0.6697,
+        "metrics": {
+          "meanAbsoluteError": 0.4082,
+          "rootMeanSquareError": 2.4792,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 62,
+          "changedPixelRatio": 0.0903
+        }
+      }
+    },
+    {
+      "key": "microsoft-bybu-productivity-business-processes",
+      "output": "data/assets/icon-references/microsoft/crops/bybu-productivity-business-processes.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 3121,
+        "losslessBytes": 14683,
+        "savingsVsLossless": 0.7874,
+        "metrics": {
+          "meanAbsoluteError": 0.4391,
+          "rootMeanSquareError": 2.0519,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 42,
+          "changedPixelRatio": 0.1364
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 33854,
+        "transparentPixelRatio": 0.6997
+      },
+      "searchBox": {
+        "x": 68,
+        "y": 330,
+        "width": 360,
+        "height": 118
+      },
+      "componentCount": 23,
+      "subjectBox": {
+        "x0": 71,
+        "y0": 334,
+        "x1": 424,
+        "y1": 445
+      },
+      "cropBox": {
+        "x0": 60,
+        "y0": 326,
+        "x1": 438,
+        "y1": 454
+      },
+      "validation": {
+        "width": 378,
+        "height": 128,
+        "foregroundPixels": 13215,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 11,
+          "right": 14,
+          "top": 8,
+          "bottom": 9
+        },
+        "centerOffset": {
+          "x": -0.004,
+          "y": -0.0039
+        },
+        "passes": true
+      },
+      "note": "Microsoft 365 and LinkedIn product marks shown for Productivity & Business Processes; excludes the segment label, value, flows, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/microsoft/validation-sheets/microsoft-bybu-productivity-business-processes.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 128,
+        "bytes": 80886,
+        "losslessBytes": 257322,
+        "savingsVsLossless": 0.6857,
+        "metrics": {
+          "meanAbsoluteError": 0.4466,
+          "rootMeanSquareError": 2.6187,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 71,
+          "changedPixelRatio": 0.1002
+        }
+      }
+    },
+    {
+      "key": "microsoft-bybu-intelligent-cloud",
+      "output": "data/assets/icon-references/microsoft/crops/bybu-intelligent-cloud.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 2027,
+        "losslessBytes": 9234,
+        "savingsVsLossless": 0.7805,
+        "metrics": {
+          "meanAbsoluteError": 0.9729,
+          "rootMeanSquareError": 2.4279,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 40,
+          "changedPixelRatio": 0.5104
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 16306,
+        "transparentPixelRatio": 0.4904
+      },
+      "searchBox": {
+        "x": 230,
+        "y": 690,
+        "width": 180,
+        "height": 165
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 235,
+        "y0": 693,
+        "x1": 397,
+        "y1": 845
+      },
+      "cropBox": {
+        "x0": 225,
+        "y0": 685,
+        "x1": 415,
+        "y1": 860
+      },
+      "validation": {
+        "width": 190,
+        "height": 175,
+        "foregroundPixels": 16508,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 10,
+          "right": 18,
+          "top": 8,
+          "bottom": 15
+        },
+        "centerOffset": {
+          "x": -0.0211,
+          "y": -0.02
+        },
+        "passes": true
+      },
+      "note": "Azure logo shown for Intelligent Cloud; excludes the segment label, value, flows, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/microsoft/validation-sheets/microsoft-bybu-intelligent-cloud.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 192,
+        "bytes": 89010,
+        "losslessBytes": 272213,
+        "savingsVsLossless": 0.673,
+        "metrics": {
+          "meanAbsoluteError": 0.4524,
+          "rootMeanSquareError": 2.5889,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 55,
+          "changedPixelRatio": 0.1368
+        }
+      }
+    },
+    {
+      "key": "microsoft-bybu-more-personal-computing",
+      "output": "data/assets/icon-references/microsoft/crops/bybu-more-personal-computing.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 2490,
+        "losslessBytes": 12177,
+        "savingsVsLossless": 0.7955,
+        "metrics": {
+          "meanAbsoluteError": 0.5168,
+          "rootMeanSquareError": 2.0087,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 45,
+          "changedPixelRatio": 0.3365
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 22449,
+        "transparentPixelRatio": 0.5981
+      },
+      "searchBox": {
+        "x": 175,
+        "y": 1040,
+        "width": 260,
+        "height": 125
+      },
+      "componentCount": 12,
+      "subjectBox": {
+        "x0": 180,
+        "y0": 1042,
+        "x1": 435,
+        "y1": 1155
+      },
+      "cropBox": {
+        "x0": 170,
+        "y0": 1036,
+        "x1": 446,
+        "y1": 1172
+      },
+      "validation": {
+        "width": 276,
+        "height": 136,
+        "foregroundPixels": 14093,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 10,
+          "right": 11,
+          "top": 6,
+          "bottom": 17
+        },
+        "centerOffset": {
+          "x": -0.0018,
+          "y": -0.0404
+        },
+        "passes": true
+      },
+      "note": "Windows and Xbox product marks shown for More Personal Computing; excludes the segment label, value, flows, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/microsoft/validation-sheets/microsoft-bybu-more-personal-computing.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 192,
+        "bytes": 89756,
+        "losslessBytes": 263414,
+        "savingsVsLossless": 0.6593,
+        "metrics": {
+          "meanAbsoluteError": 0.359,
+          "rootMeanSquareError": 2.2442,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 66,
+          "changedPixelRatio": 0.0836
+        }
+      }
+    }
+  ]
+}

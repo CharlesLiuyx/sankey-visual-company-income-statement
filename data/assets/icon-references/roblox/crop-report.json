@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/roblox-q1-fy26.png",
+  "spec": "input/icon-crop-specs/roblox-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T19:55:44.280911+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "roblox-company-wordmark",
+      "output": "data/assets/icon-references/roblox/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 2082,
+        "losslessBytes": 8498,
+        "savingsVsLossless": 0.755,
+        "metrics": {
+          "meanAbsoluteError": 0.2499,
+          "rootMeanSquareError": 1.3657,
+          "p99AbsoluteError": 7.0,
+          "maxChannelDiff": 19,
+          "changedPixelRatio": 0.0774
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 23220,
+        "transparentPixelRatio": 0.5146
+      },
+      "searchBox": {
+        "x": 665,
+        "y": 305,
+        "width": 475,
+        "height": 95
+      },
+      "componentCount": 6,
+      "subjectBox": {
+        "x0": 676,
+        "y0": 316,
+        "x1": 1110,
+        "y1": 391
+      },
+      "cropBox": {
+        "x0": 665,
+        "y0": 305,
+        "x1": 1140,
+        "y1": 400
+      },
+      "validation": {
+        "width": 475,
+        "height": 95,
+        "foregroundPixels": 19705,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 11,
+          "right": 30,
+          "top": 11,
+          "bottom": 9
+        },
+        "centerOffset": {
+          "x": -0.02,
+          "y": 0.0105
+        },
+        "passes": true
+      },
+      "note": "Roblox company wordmark only; excludes the chart title, revenue labels, flows, KPI cards, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/roblox/validation-sheets/roblox-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 244860,
+        "losslessBytes": 244860,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

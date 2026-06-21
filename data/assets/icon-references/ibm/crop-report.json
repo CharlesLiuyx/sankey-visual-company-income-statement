@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/ibm-q1-fy26.png",
+  "spec": "input/icon-crop-specs/ibm-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T20:35:05.622998+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "ibm-company-logo",
+      "output": "data/assets/icon-references/ibm/crops/company-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 1980,
+        "losslessBytes": 6710,
+        "savingsVsLossless": 0.7049,
+        "metrics": {
+          "meanAbsoluteError": 0.393,
+          "rootMeanSquareError": 1.6922,
+          "p99AbsoluteError": 8.0,
+          "maxChannelDiff": 44,
+          "changedPixelRatio": 0.3254
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 66420,
+        "transparentPixelRatio": 0.6876
+      },
+      "searchBox": {
+        "x": 675,
+        "y": 305,
+        "width": 430,
+        "height": 176
+      },
+      "componentCount": 37,
+      "subjectBox": {
+        "x0": 679,
+        "y0": 308,
+        "x1": 1099,
+        "y1": 477
+      },
+      "cropBox": {
+        "x0": 660,
+        "y0": 288,
+        "x1": 1120,
+        "y1": 498
+      },
+      "validation": {
+        "width": 460,
+        "height": 210,
+        "foregroundPixels": 30090,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 19,
+          "right": 21,
+          "top": 20,
+          "bottom": 21
+        },
+        "centerOffset": {
+          "x": -0.0022,
+          "y": -0.0024
+        },
+        "passes": true
+      },
+      "note": "IBM company wordmark above the revenue hub; excludes title, values, flows, and publisher attribution marks.",
+      "validationSheet": "data/assets/icon-references/ibm/validation-sheets/ibm-company-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 219337,
+        "losslessBytes": 219337,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

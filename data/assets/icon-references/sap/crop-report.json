@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/sap-q1-fy26.png",
+  "spec": "input/icon-crop-specs/sap-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-20T20:30:20.789436+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "sap-company-logo",
+      "output": "data/assets/icon-references/sap/crops/company-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 2829,
+        "losslessBytes": 13150,
+        "savingsVsLossless": 0.7849,
+        "metrics": {
+          "meanAbsoluteError": 0.8693,
+          "rootMeanSquareError": 2.3786,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 41,
+          "changedPixelRatio": 0.5636
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 31971,
+        "transparentPixelRatio": 0.4207
+      },
+      "searchBox": {
+        "x": 1005,
+        "y": 245,
+        "width": 365,
+        "height": 190
+      },
+      "componentCount": 4,
+      "subjectBox": {
+        "x0": 1011,
+        "y0": 252,
+        "x1": 1350,
+        "y1": 422
+      },
+      "cropBox": {
+        "x0": 1000,
+        "y0": 240,
+        "x1": 1380,
+        "y1": 440
+      },
+      "validation": {
+        "width": 380,
+        "height": 200,
+        "foregroundPixels": 27599,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 11,
+          "right": 30,
+          "top": 12,
+          "bottom": 18
+        },
+        "centerOffset": {
+          "x": -0.025,
+          "y": -0.015
+        },
+        "passes": true
+      },
+      "note": "Central SAP company logo only; excludes title, chart labels, Sankey flows, website mark, and publisher attribution.",
+      "validationSheet": "data/assets/icon-references/sap/validation-sheets/sap-company-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 238127,
+        "losslessBytes": 238127,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

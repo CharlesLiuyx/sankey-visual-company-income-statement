@@ -289,6 +289,7 @@ body.is-resizing-sidebar {
   font: inherit; cursor: pointer; color: var(--text-strong);
 }
 .nav-item:hover { background: var(--soft); border-color: var(--line); }
+.nav-item:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
 .nav-item.active { background: var(--active-bg); border-color: var(--active-border); box-shadow: inset 3px 0 0 var(--ink); }
 .item-top { display: flex; align-items: center; gap: 5px; min-width: 0; height: 18px; }
 .item-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; line-height: 18px; font-weight: 800; }

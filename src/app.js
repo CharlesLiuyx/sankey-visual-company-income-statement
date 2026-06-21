@@ -1219,20 +1219,67 @@ function renderActiveSummary() {
     ? [displayCompany(record), [displayPeriod(record), displayPeriodNote(record)].filter(Boolean).join(' - ')].filter(Boolean).join(' · ')
     : t('noDataPointSelected');
 }
+function visibleCompanyGroups() {
+  return groups.filter((group) => matches(searchTextForGroup(group), companySearch.value));
+}
+function activeCompanyButton() {
+  const key = companyKey(state.company);
+  return key ? companyList.querySelector(`[data-company-key="${escapeSelector(key)}"]`) : null;
+}
+function focusActiveCompanyItem() {
+  const button = activeCompanyButton();
+  if (!button) return;
+  button.focus({ preventScroll: true });
+  button.scrollIntoView({ block: 'nearest' });
+}
+function selectCompanyGroup(group, { closeSearch = false, focusCompany = false, scrollKind = 'company' } = {}) {
+  if (!group) return;
+  const groupRecords = sortedRecords(group);
+  state.company = group.company;
+  const next = groupRecords.find((record) => matches(searchTextForRecord(record), periodSearch.value)) || groupRecords[0];
+  if (next) {
+    state.activeIndex = next.index;
+    syncDatasetHash(next);
+  }
+  renderAll();
+  draw({ renderTable: false, syncView: false });
+  if (closeSearch) companySearchController.setOpen(false);
+  if (focusCompany) requestAnimationFrame(focusActiveCompanyItem);
+  scrollActiveTableRow(scrollKind);
+}
+function moveCompanySelection(offset) {
+  const visibleGroups = visibleCompanyGroups();
+  if (!visibleGroups.length) return false;
+  const focusedKey = document.activeElement?.closest?.('.company-item')?.dataset.companyKey;
+  let index = focusedKey
+    ? visibleGroups.findIndex((group) => companyKey(group.company) === focusedKey)
+    : visibleGroups.findIndex((group) => group.company === state.company);
+  if (index < 0) index = offset > 0 ? -1 : visibleGroups.length;
+  const nextIndex = clamp(index + offset, 0, visibleGroups.length - 1);
+  selectCompanyGroup(visibleGroups[nextIndex], { focusCompany: true });
+  return true;
+}
 function renderCompanies() {
-  const visibleGroups = groups.filter((group) => matches(searchTextForGroup(group), companySearch.value));
+  const visibleGroups = visibleCompanyGroups();
   companyList.innerHTML = '';
   if (!visibleGroups.length) {
+    companyList.removeAttribute('aria-activedescendant');
     companyList.innerHTML = `<div class="empty-state">${escapeHtml(t('noMatchingCompanies'))}</div>`;
     return;
   }
-  visibleGroups.forEach((group) => {
+  const selectedVisible = visibleGroups.some((group) => group.company === state.company);
+  visibleGroups.forEach((group, index) => {
+    const isActive = group.company === state.company;
+    const key = companyKey(group.company);
     const button = document.createElement('button');
     button.type = 'button';
-    button.className = 'nav-item company-item' + (group.company === state.company ? ' active' : '');
+    button.className = 'nav-item company-item' + (isActive ? ' active' : '');
+    button.id = `company-option-${key}`;
     button.setAttribute('role', 'option');
-    button.setAttribute('aria-selected', group.company === state.company ? 'true' : 'false');
+    button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    button.tabIndex = isActive || (!selectedVisible && index === 0) ? 0 : -1;
     button.dataset.company = group.company;
+    button.dataset.companyKey = key;
     button.innerHTML = `
       <div class="item-top">
         <span class="item-name">${escapeHtml(displayCompany(group.latest))}</span>
@@ -1241,19 +1288,13 @@ function renderCompanies() {
       </div>
     `;
     button.addEventListener('click', () => {
-      state.company = group.company;
-      const next = sortedRecords(group).find((record) => matches(searchTextForRecord(record), periodSearch.value)) || sortedRecords(group)[0];
-      if (next) {
-        state.activeIndex = next.index;
-        syncDatasetHash(next);
-      }
-      renderAll();
-      draw({ renderTable: false, syncView: false });
-      companySearchController.setOpen(false);
-      scrollActiveTableRow('company');
+      selectCompanyGroup(group, { closeSearch: true, focusCompany: true });
     });
     companyList.appendChild(button);
   });
+  const activeId = selectedVisible ? `company-option-${companyKey(state.company)}` : '';
+  if (activeId) companyList.setAttribute('aria-activedescendant', activeId);
+  else companyList.removeAttribute('aria-activedescendant');
 }
 function renderPeriods() {
   const group = groupFor(state.company);
@@ -1416,6 +1457,12 @@ const periodSearchController = createHeaderSearchController({
   input: periodSearch,
   toggle: periodSearchToggle,
   render: renderPeriods,
+});
+companyList.addEventListener('keydown', (e) => {
+  if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  e.preventDefault();
+  moveCompanySelection(e.key === 'ArrowDown' ? 1 : -1);
 });
 periodSortToggle.addEventListener('click', () => {
   state.sort = state.sort === 'desc' ? 'asc' : 'desc';

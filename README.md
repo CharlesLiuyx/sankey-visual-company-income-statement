@@ -47,6 +47,15 @@ localized display text at runtime. Dataset-specific wording can be refined with
 `i18n.<language>` overlays on dataset adapters, financial SSOT records, and
 company metadata records.
 
+For fixed-layout Sankey datasets, localizing the node labels is not the same as
+localizing the rendered chart text. Any explicit
+`layout.labels.*.blocks[].lines[].text`, KPI card text, `annotationsSvg` text,
+or other fixed-position SVG copy needs a dataset-level language overlay when it
+changes in translation. Acronyms and punctuation-heavy labels such as `R&D`,
+`SG&A`, `G&A`, `D&A`, and labels using `&` or money suffixes should be treated
+as high-risk strings: either preserve them intentionally or override the exact
+localized lines instead of relying on generic phrase replacement.
+
 ## Visual loop workflow
 
 Use this workflow when a new reference image is added and the chart needs
@@ -99,6 +108,12 @@ another fidelity loop:
      or profile text changes.
    Language overlays may tune text layout such as `titleTextLength`, but should
    not change values, links, node positions, or financial semantics.
+   For datasets with fixed `layout.labels`, include localized `layout.labels`
+   blocks for every visible text line that should differ from English. Do not
+   rely on the global phrase dictionary to translate fixed-position chart text.
+   After localization, render the non-default language and inspect the actual
+   SVG text bounds for mixed-language leftovers, malformed acronym output,
+   overlap, and canvas overflow.
 9. Install the pinned local tooling once:
 
    ```bash
@@ -113,6 +128,13 @@ another fidelity loop:
    pnpm verify:i18n -- --strict <dataset-key>
    pnpm verify:d3 -- <dataset-key>
    ```
+
+For non-default languages, `verify:i18n --strict` confirms overlay coverage but
+does not prove that fixed text fits. For edge-sensitive text such as right-side
+`anchor: 'start'` labels, left-side `anchor: 'end'` labels, titles, KPI cards,
+and annotations, inspect the localized rendered SVG with `getBBox()` or an
+equivalent browser check and make sure text stays within
+`meta.referenceImage.width` and `meta.referenceImage.height`.
 
 The verifier starts its own static server, renders a bare d3 SVG for the
 dataset, screenshots `#chart > svg`, asserts that no source image or unapproved

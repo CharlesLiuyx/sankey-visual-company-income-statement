@@ -499,6 +499,55 @@
           operating: { id: 'operating_profit', label: 'Operating profit', value: 3.656, notes: ['8% margin', '+3pp Y/Y'] },
           net: { id: 'net_profit', label: 'Net profit', value: 3.438, notes: ['8% margin', '+4pp Y/Y'] },
         },
+        i18n: {
+          zh: {
+            period: '2027 财年第一季度',
+            periodNote: '截至 2026 年 5 月',
+            revenue: {
+              notes: ['同比 +88%'],
+              items: [
+                {
+                  id: 'isg',
+                  label: 'ISG（基础设施）',
+                  notes: ['同比 +181%'],
+                  children: [
+                    { id: 'ai_optimized_servers', label: 'AI 优化服务器', notes: ['同比 +757%'] },
+                    { id: 'traditional_servers_networking', label: '传统服务器与网络', notes: ['同比 +92%'] },
+                    { id: 'storage', label: '存储', notes: ['同比 +8%'] },
+                  ],
+                },
+                {
+                  id: 'csg',
+                  label: 'CSG（客户端）',
+                  notes: ['同比 +17%'],
+                  children: [
+                    { id: 'commercial', label: '商业', notes: ['同比 +18%'] },
+                    { id: 'consumer', label: '消费者', notes: ['同比 +9%'] },
+                  ],
+                },
+                { id: 'other_revenue', label: '其他', notes: ['同比 (59%)'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                items: [
+                  { id: 'sga', label: '销售、一般及行政', notes: ['占收入 7%', '同比 (6 个百分点)'] },
+                  { id: 'rnd', label: '研发', notes: ['占收入 2%', '同比 (1 个百分点)'] },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            otherIncome: {
+              items: [{ id: 'other', label: '其他' }],
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 18%', '同比 (3 个百分点)'] },
+              operating: { label: '营业利润', notes: ['利润率 8%', '同比 +3 个百分点'] },
+              net: { label: '净利润', notes: ['利润率 8%', '同比 +4 个百分点'] },
+            },
+          },
+        },
       },
       {
         key: 'goldman-sachs-q1-fy26',
@@ -2031,6 +2080,64 @@
           },
           operating: { id: 'operating_profit', label: 'Operating profit', value: 0.678, notes: ['23% margin', '+3pp Y/Y'] },
           net: { id: 'net_profit', label: 'Net profit', value: 0.383, notes: ['13% margin', '+2pp Y/Y'] },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 +9%'],
+              items: [
+                { id: 'franchise_fees', label: '特许经营费', notes: ['同比 +11%'] },
+                { id: 'base_management_fees', label: '基础管理费', notes: ['同比 +8%'] },
+                { id: 'incentive_management_fees', label: '激励管理费', notes: ['同比 +6%'] },
+                { id: 'owned_leased_and_other', label: '自有、租赁及其他', notes: ['同比 +6%'] },
+                { id: 'other_revenue', label: '其他', notes: ['同比 +43%'] },
+                {
+                  id: 'managed_franchised_other_revenue',
+                  label: '管理和特许经营物业的其他收入',
+                  notes: ['同比 +8%', 'Hilton 将该项目列报为成本报销收入。'],
+                },
+              ],
+            },
+            costs: {
+              costOfRevenue: {
+                label: '收入成本',
+                notes: ['来源图未单独显示毛利润或收入成本小计。'],
+              },
+              operatingExpenses: {
+                notes: ['来源图将 Hilton 的费用列示为运营费用，而非毛利润拆分。'],
+                items: [
+                  { id: 'owned_leased_hotels', label: '自有及租赁酒店' },
+                  { id: 'ga', label: '管理费用' },
+                  { id: 'da', label: '折旧与摊销' },
+                  {
+                    id: 'managed_franchised_other_expenses',
+                    label: '管理和特许经营物业的其他费用',
+                    notes: ['包括 $1.849B 报销费用和 $0.022B 其他费用。'],
+                  },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            otherExpenses: {
+              items: [
+                {
+                  id: 'other_nonoperating',
+                  label: '其他',
+                  notes: ['利息费用、外币损失及其他非运营收入净额。'],
+                },
+              ],
+            },
+            profit: {
+              gross: {
+                label: '毛利润',
+                notes: ['来源图未显示毛利润，因此 SSOT 使用合成小计。'],
+              },
+              operating: { label: '营业利润', notes: ['利润率 23%', '同比 +3 个百分点'] },
+              net: { label: '净利润', notes: ['利润率 13%', '同比 +2 个百分点'] },
+            },
+          },
         },
       },
       {

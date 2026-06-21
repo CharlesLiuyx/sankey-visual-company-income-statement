@@ -50,6 +50,21 @@
       <text x="329" y="1344" text-anchor="middle" font-size="29" font-weight="400" fill="${NOTE}">RevPAR = Revenue Per Available Room</text>
     </g>`;
 
+  const annotationsZh = `
+    <g font-family="Montserrat,Arial,sans-serif">
+      ${hiltonLogo}
+      ${statsCard(96, 1161, 305, [
+        { text: '可比', size: 27, weight: 800 },
+        { text: '全系统 RevPAR', size: 24, weight: 800 },
+        { text: '同比 +3.6%', size: 24, weight: 400 },
+      ])}
+      ${statsCard(412, 1161, 330, [
+        { text: '9,260 处物业', size: 27, weight: 800 },
+        { text: '1.36M 间客房', size: 27, weight: 800 },
+      ])}
+      <text x="329" y="1344" text-anchor="middle" font-size="29" font-weight="400" fill="${NOTE}">RevPAR = 每间可售客房收入</text>
+    </g>`;
+
   window.DATASETS = window.DATASETS || [];
   window.DATASETS.push({
     key: 'hilton-q1-fy26',
@@ -384,5 +399,40 @@
       { source: 'operating_expenses', target: 'da', value: 0.050, width: 5, sourceOrder: 2, targetOrder: 0 },
       { source: 'operating_expenses', target: 'managed_franchised_other_expenses', value: 1.871, width: 184, sourceOrder: 3, targetOrder: 0 },
     ],
+
+    i18n: {
+      zh: {
+        name: 'Hilton · 2026 财年第一季度',
+        meta: {
+          title: 'Hilton 2026 财年第一季度利润表',
+          period: '2026 财年第一季度',
+          periodNote: '截至 2026 年 3 月',
+        },
+        annotationsSvg: annotationsZh,
+        nodes: {
+          franchise_fees: { label: '特许经营费', notes: ['同比 +11%'] },
+          base_management_fees: { label: '基础管理费', notes: ['同比 +8%'] },
+          incentive_management_fees: { label: '激励管理费', notes: ['同比 +6%'] },
+          owned_leased_and_other: { label: '自有、租赁及其他', notes: ['同比 +6%'] },
+          other_revenue: { label: '其他', notes: ['同比 +43%'] },
+          managed_franchised_other_revenue: { label: '管理和特许经营物业的其他收入', notes: ['同比 +8%'] },
+          revenue: { label: '收入', notes: ['同比 +9%'] },
+          gross_profit: { label: '毛利润' },
+          cost_of_revenue: { label: ['收入', '成本'] },
+          operating_profit: { label: '营业利润', notes: ['利润率 23%', '同比 +3 个百分点'] },
+          operating_expenses: { label: '运营费用' },
+          net_profit: { label: '净利润', notes: ['利润率 13%', '同比 +2 个百分点'] },
+          other_nonoperating: { label: '其他' },
+          tax: { label: '税费' },
+          owned_leased_hotels: { label: '自有及租赁酒店' },
+          ga: { label: '管理费用' },
+          da: { label: '折旧与摊销' },
+          managed_franchised_other_expenses: {
+            label: '管理和特许经营物业的其他费用',
+            notes: ['包括报销费用和其他费用。'],
+          },
+        },
+      },
+    },
   });
 })();

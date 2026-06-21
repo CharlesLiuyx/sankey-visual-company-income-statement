@@ -579,6 +579,9 @@
     '& exchange fees': '与交易所费用',
     'AI-optimized Servers': 'AI 优化服务器',
     'Traditional Servers & Networking': '传统服务器与网络',
+    'Traditional Servers': '传统服务器',
+    '& Networking': '与网络',
+    'Networking': '网络',
     'Storage': '存储',
     'storage': '存储',
     'CSG (Client)': 'CSG（客户端）',
@@ -597,6 +600,12 @@
     'Incentive management fees': '激励管理费',
     'Owned, leased and other': '自有、租赁及其他',
     'Owned, leased hotels': '自有及租赁酒店',
+    'Other revenue from managed & franchised properties': '管理和特许经营物业的其他收入',
+    'Other expenses from managed & franchised properties': '管理和特许经营物业的其他费用',
+    'Incentive': '激励',
+    'management fees': '管理费',
+    'Owned, leased': '自有、租赁',
+    'hotels': '酒店',
     'China E-commerce': '中国电子商务',
     'China': '中国',
     'International Digital Commerce': '国际数字商业',
@@ -661,6 +670,10 @@
     'Customers > $10K Cloud ARR': '云 ARR 超 $10K 客户',
     'Digital ARPU': '数字 ARPU',
     'Systemwide RevPAR': '全系统 RevPAR',
+    'Comparable': '可比',
+    '9,260 properties': '9,260 处物业',
+    '1.36M rooms': '1.36M 间客房',
+    'rooms': '客房',
     'Trips': '行程',
     'Gross Bookings': '总预订额',
     'Take rate': '抽成率',
@@ -939,6 +952,13 @@
     'Amortization & other': ['摊销及', '其他'],
     'Amortization & impairment': ['摊销与', '减值'],
     'Amortization of intangibles': ['无形资产', '摊销'],
+    'Traditional Servers & Networking': ['传统服务器', '与网络'],
+    'Base management fees': ['基础', '管理费'],
+    'Incentive management fees': ['激励', '管理费'],
+    'Owned, leased and other': ['自有、租赁', '及其他'],
+    'Owned, leased hotels': ['自有及租赁', '酒店'],
+    'Other revenue from managed & franchised properties': ['管理和特许', '经营物业的', '其他', '收入'],
+    'Other expenses from managed & franchised properties': ['管理和特许', '经营物业的', '其他', '费用'],
   };
 
   const SECTOR_ZH = {
@@ -1277,8 +1297,8 @@
       translateTrailingChange,
       translateMargin,
       translateOfRevenue,
-      translateKnownPhraseText,
       translateEmbeddedMoneyLabel,
+      translateKnownPhraseText,
     ];
     for (const translator of translators) {
       const next = translator(value, code);

@@ -403,6 +403,25 @@
         },
         layout: {
           labels: {
+            online_marketing: {
+              blocks: [
+                {
+                  x: 473, top: 524, anchor: 'middle', lineGap: 8,
+                  lines: [
+                    { text: '$value', size: 40, weight: 400 },
+                    { text: '同比 +2%', size: 29, weight: 400, color: NOTE },
+                  ],
+                },
+                {
+                  x: 190, top: 654, anchor: 'middle', lineGap: 9,
+                  lines: [
+                    { text: '在线营销', size: 38, weight: 800 },
+                    { text: '及其他', size: 38, weight: 800 },
+                    { text: '基于绩效的服务', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
             transaction_services: {
               blocks: [
                 {

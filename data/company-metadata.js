@@ -404,6 +404,17 @@
           'https://investors.delltechnologies.com/financial-information/quarterly-results',
           'https://investors.delltechnologies.com/static-files/ef369f17-2b83-4fd4-9a37-6b6ab53ac9c5',
         ],
+        i18n: {
+          zh: {
+            displayName: '戴尔',
+            sector: '信息技术',
+            industry: 'AI 基础设施、服务器、存储、网络、个人电脑、外设、软件和技术服务',
+            headquarters: '美国德克萨斯州朗德罗克',
+            fiscalYearEnd: '截至最接近 1 月 31 日的星期五的 52 或 53 周期间',
+            description:
+              'Dell Technologies 提供 IT 硬件、软件和服务解决方案，覆盖 AI 优化服务器、传统服务器与网络、存储、商用和消费客户端设备、外设及相关基础设施服务。',
+          },
+        },
       },
       {
         key: 'goldman-sachs',
@@ -457,6 +468,16 @@
           'https://ir.hilton.com/investor-resources/faqs',
           'https://ir.hilton.com/~/media/Files/H/Hilton-Worldwide-IR-V3/quarterly-results/2026/q1-2026-earnings-release.pdf',
         ],
+        i18n: {
+          zh: {
+            sector: '非必需消费品',
+            industry: '酒店、度假村、酒店特许经营、酒店管理、自有和租赁酒店以及会员忠诚度计划',
+            headquarters: '美国弗吉尼亚州麦克莱恩',
+            fiscalYearEnd: '12 月 31 日',
+            description:
+              'Hilton 是一家全球酒店集团，品牌组合覆盖豪华、生活方式、全服务、精选服务、全套房、度假所有权和会员忠诚度业务，并通过特许经营、管理、自有及租赁物业开展运营。',
+          },
+        },
       },
       {
         key: 'hp',

@@ -115,6 +115,24 @@ Prefer the existing project patterns:
   `layout.labels.*.blocks[].lines[].text` that is not `$value`. Localize the
   matching financial SSOT labels/notes and new company metadata as part of the
   same workflow.
+- Do not rely on the global i18n phrase dictionary for fixed-position chart
+  text. If a dataset uses explicit `layout.labels`, `annotationsSvg`, KPI
+  cards, or other SVG text fragments, add dataset-specific
+  `i18n.<language>.layout.labels` or localized annotation overrides for every
+  visible line that changes in translation. Translating `nodes[].label` alone
+  is not enough when fixed layout text is present.
+- Treat acronyms, ampersands, punctuation-heavy labels, and labels with money
+  suffixes as high-risk i18n text. Examples include `R&D`, `SG&A`,
+  `G&A`, `D&A`, `Online Marketing & Others`, and
+  `Sales & marketing ($3.1B)`. Preserve approved acronyms or provide explicit
+  localized lines; do not let generic punctuation cleanup split them into
+  malformed text.
+- For non-default language layout tuning, check rendered SVG text bounds, not
+  just source coordinates. In particular, right-side `anchor: 'start'` labels,
+  left-side `anchor: 'end'` labels, titles, KPI cards, and annotations must
+  remain inside `meta.referenceImage.width` and `meta.referenceImage.height`
+  after localization. Prefer line breaks, local x/y adjustments, or local font
+  sizing over changing values, links, node geometry, or financial semantics.
 
 For company and business icons:
 
@@ -319,6 +337,12 @@ Before final response, verify:
 - `pnpm verify:ssot` passes.
 - `pnpm verify:i18n -- --strict <dataset-key>` passes for new or materially
   changed datasets after their language overlays have been added.
+- For each non-default language on new or materially changed datasets, rendered
+  localized SVG text was inspected for mixed-language leftovers, malformed
+  acronym/punctuation output, overlap, and out-of-canvas bounds. Use browser
+  `getBBox()` or an equivalent rendered-SVG check for edge-sensitive labels;
+  `verify:i18n --strict` alone does not prove fixed-layout text is visually
+  valid.
 - If icon assets were extracted:
   - `python3 scripts/extract_icon_crops.py --spec input/icon-crop-specs/<dataset-key>.json` passes.
   - `data/assets/icon-references/<company>/crop-report.json` shows every crop

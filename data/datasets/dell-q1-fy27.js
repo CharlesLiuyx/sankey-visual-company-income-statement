@@ -392,5 +392,83 @@
       { source: 'operating_expenses', target: 'sga', value: 3.143, width: 27 },
       { source: 'operating_expenses', target: 'rnd', value: 0.983, width: 8 },
     ],
+
+    i18n: {
+      zh: {
+        name: 'Dell · 2027 财年第一季度',
+        meta: {
+          title: 'DELL 2027 财年第一季度利润表',
+          period: '2027 财年第一季度',
+          periodNote: '截至 2026 年 5 月',
+        },
+        nodes: {
+          ai_optimized_servers: { label: 'AI 优化服务器', notes: ['同比 +757%'] },
+          traditional_servers_networking: { label: '传统服务器与网络', notes: ['同比 +92%'] },
+          storage: { label: '存储', notes: ['同比 +8%'] },
+          isg: { label: 'ISG（基础设施）', notes: ['同比 +181%'] },
+          commercial: { label: '商业', notes: ['同比 +18%'] },
+          consumer: { label: '消费者', notes: ['同比 +9%'] },
+          csg: { label: 'CSG（客户端）', notes: ['同比 +17%'] },
+          other_revenue: { label: '其他', notes: ['同比 (59%)'] },
+          revenue: { label: '收入', notes: ['同比 +88%'] },
+          gross_profit: { label: '毛利润', notes: ['利润率 18%', '同比 (3 个百分点)'] },
+          cost_of_revenue: { label: ['收入', '成本'] },
+          operating_profit: { label: '营业利润', notes: ['利润率 8%', '同比 +3 个百分点'] },
+          operating_expenses: { label: '运营费用' },
+          other: { label: '其他' },
+          net_profit: { label: '净利润', notes: ['利润率 8%', '同比 +4 个百分点'] },
+          tax: { label: '税费' },
+          sga: { label: '销售、一般及行政', notes: ['占收入 7%', '同比 (6 个百分点)'] },
+          rnd: { label: '研发', notes: ['占收入 2%', '同比 (1 个百分点)'] },
+        },
+        layout: {
+          labels: {
+            traditional_servers_networking: {
+              blocks: [
+                {
+                  x: 496, top: 612, anchor: 'middle', lineGap: 9,
+                  lines: [
+                    { text: '$value', size: 39, weight: 400 },
+                    { text: '同比 +92%', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+                {
+                  x: 424, top: 700, anchor: 'end', lineGap: 10,
+                  lines: [
+                    { text: '传统服务器', size: 38, weight: 800 },
+                    { text: '与网络', size: 38, weight: 800 },
+                  ],
+                },
+              ],
+            },
+            sga: {
+              blocks: [
+                {
+                  x: 2418, top: 863, anchor: 'start', lineGap: 8,
+                  lines: [
+                    { text: '销售、一般及行政', size: 30, weight: 800 },
+                    { text: '($3.1B)', size: 30, weight: 800 },
+                    { text: '占收入 7%', size: 28, weight: 400, color: NOTE },
+                    { text: '同比 (6 个百分点)', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            rnd: {
+              blocks: [
+                {
+                  x: RIGHT_LABEL_X, top: 1102, anchor: 'start', lineGap: 9,
+                  lines: [
+                    { text: '研发 ($1.0B)', size: 32, weight: 800 },
+                    { text: '占收入 2%', size: 28, weight: 400, color: NOTE },
+                    { text: '同比 (1 个百分点)', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
   });
 })();

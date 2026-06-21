@@ -1,0 +1,286 @@
+{
+  "source": "input/processed/pdd-holdings-q1-fy26.png",
+  "spec": "input/icon-crop-specs/pdd-holdings-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-21T19:47:34.130124+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "pdd-holdings-company-logo-wordmark",
+      "output": "data/assets/icon-references/pdd-holdings/crops/company-logo-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 9035,
+        "losslessBytes": 38574,
+        "savingsVsLossless": 0.7658,
+        "metrics": {
+          "meanAbsoluteError": 0.3065,
+          "rootMeanSquareError": 1.6033,
+          "p99AbsoluteError": 7.0,
+          "maxChannelDiff": 36,
+          "changedPixelRatio": 0.1947
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 127006,
+        "transparentPixelRatio": 0.719
+      },
+      "searchBox": {
+        "x": 620,
+        "y": 235,
+        "width": 710,
+        "height": 295
+      },
+      "componentCount": 23,
+      "subjectBox": {
+        "x0": 670,
+        "y0": 244,
+        "x1": 1217,
+        "y1": 511
+      },
+      "cropBox": {
+        "x0": 652,
+        "y0": 226,
+        "x1": 1235,
+        "y1": 529
+      },
+      "validation": {
+        "width": 583,
+        "height": 303,
+        "foregroundPixels": 38027,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 18,
+          "right": 18,
+          "top": 18,
+          "bottom": 18
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Main Pinduoduo company logo and wordmark near the top center; excludes title, revenue label, chart links, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/pdd-holdings/validation-sheets/pdd-holdings-company-logo-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 244356,
+        "losslessBytes": 244356,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "pdd-holdings-business-pinduoduo-app-icon",
+      "output": "data/assets/icon-references/pdd-holdings/crops/business-pinduoduo-app-icon.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 3771,
+        "losslessBytes": 14956,
+        "savingsVsLossless": 0.7479,
+        "metrics": {
+          "meanAbsoluteError": 0.8015,
+          "rootMeanSquareError": 2.1103,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 30,
+          "changedPixelRatio": 0.7722
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 5579,
+        "transparentPixelRatio": 0.2235
+      },
+      "searchBox": {
+        "x": 65,
+        "y": 825,
+        "width": 150,
+        "height": 155
+      },
+      "componentCount": 13,
+      "subjectBox": {
+        "x0": 68,
+        "y0": 834,
+        "x1": 210,
+        "y1": 976
+      },
+      "cropBox": {
+        "x0": 60,
+        "y0": 826,
+        "x1": 218,
+        "y1": 984
+      },
+      "validation": {
+        "width": 158,
+        "height": 158,
+        "foregroundPixels": 13135,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 8,
+          "right": 8,
+          "top": 8,
+          "bottom": 8
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Pinduoduo app icon in the left product cluster; excludes nearby labels, connector bars, and the adjacent Temu app icon.",
+      "validationSheet": "data/assets/icon-references/pdd-holdings/validation-sheets/pdd-holdings-business-pinduoduo-app-icon.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 128,
+        "bytes": 98862,
+        "losslessBytes": 302676,
+        "savingsVsLossless": 0.6734,
+        "metrics": {
+          "meanAbsoluteError": 0.514,
+          "rootMeanSquareError": 2.7721,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 64,
+          "changedPixelRatio": 0.1179
+        }
+      }
+    },
+    {
+      "key": "pdd-holdings-business-temu-app-icon",
+      "output": "data/assets/icon-references/pdd-holdings/crops/business-temu-app-icon.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 1619,
+        "losslessBytes": 6767,
+        "savingsVsLossless": 0.7608,
+        "metrics": {
+          "meanAbsoluteError": 0.5219,
+          "rootMeanSquareError": 2.0348,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 43,
+          "changedPixelRatio": 0.7839
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 5792,
+        "transparentPixelRatio": 0.2167
+      },
+      "searchBox": {
+        "x": 218,
+        "y": 825,
+        "width": 155,
+        "height": 155
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 219,
+        "y0": 831,
+        "x1": 366,
+        "y1": 979
+      },
+      "cropBox": {
+        "x0": 211,
+        "y0": 823,
+        "x1": 374,
+        "y1": 987
+      },
+      "validation": {
+        "width": 163,
+        "height": 164,
+        "foregroundPixels": 17328,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 8,
+          "right": 8,
+          "top": 8,
+          "bottom": 8
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Temu app icon in the left product cluster; excludes nearby labels, connector bars, and the adjacent Pinduoduo app icon.",
+      "validationSheet": "data/assets/icon-references/pdd-holdings/validation-sheets/pdd-holdings-business-temu-app-icon.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 192,
+        "bytes": 94249,
+        "losslessBytes": 261149,
+        "savingsVsLossless": 0.6391,
+        "metrics": {
+          "meanAbsoluteError": 0.3362,
+          "rootMeanSquareError": 2.1708,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 56,
+          "changedPixelRatio": 0.0844
+        }
+      }
+    }
+  ]
+}

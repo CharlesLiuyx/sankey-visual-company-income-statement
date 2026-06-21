@@ -12,3 +12,5 @@ input/**
 !input/**/.gitkeep
 !input/README.md
 !input/**/README.md
+input/pending/*
+!input/pending/.gitkeep

@@ -1,0 +1,28 @@
+{
+  "source": "input/processed/sony-fy25.png",
+  "outputDir": "data/assets/icon-references/sony",
+  "validationSheetDir": "data/assets/icon-references/sony/validation-sheets",
+  "report": "crop-report.json",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "crops": [
+    {
+      "key": "sony-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": { "x": 760, "y": 330, "width": 560, "height": 140 },
+      "cropBox": { "x": 775, "y": 334, "width": 520, "height": 120 },
+      "threshold": 18,
+      "minComponentArea": 45,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.08,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Sony company wordmark above the sales hub; excludes title, values, flows, and publisher marks."
+    }
+  ]
+}

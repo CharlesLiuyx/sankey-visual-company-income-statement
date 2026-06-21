@@ -1,0 +1,130 @@
+{
+  "source": "input/processed/pdd-holdings-q1-fy26.png",
+  "outputDir": "data/assets/icon-references/pdd-holdings",
+  "validationSheetDir": "data/assets/icon-references/pdd-holdings/validation-sheets",
+  "report": "crop-report.json",
+  "backgroundSampleBlocks": [
+    [0, 0, 80, 80],
+    [2587, 0, 80, 80],
+    [0, 1420, 80, 80],
+    [2587, 1420, 80, 80]
+  ],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "crops": [
+    {
+      "key": "pdd-holdings-company-logo-wordmark",
+      "output": "crops/company-logo-wordmark.png",
+      "searchBox": {
+        "x": 620,
+        "y": 235,
+        "width": 710,
+        "height": 295
+      },
+      "threshold": 20,
+      "foreground": {
+        "any": [
+          {
+            "channels": {
+              "r": [0, 50],
+              "g": [0, 50],
+              "b": [0, 50]
+            }
+          },
+          {
+            "channels": {
+              "r": [180, 255],
+              "g": [0, 80],
+              "b": [0, 80]
+            }
+          }
+        ]
+      },
+      "minComponentArea": 80,
+      "padding": 18,
+      "validation": {
+        "borderBand": 5,
+        "maxCenterOffset": 0.02,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Main Pinduoduo company logo and wordmark near the top center; excludes title, revenue label, chart links, and publisher marks."
+    },
+    {
+      "key": "pdd-holdings-business-pinduoduo-app-icon",
+      "output": "crops/business-pinduoduo-app-icon.png",
+      "searchBox": {
+        "x": 65,
+        "y": 825,
+        "width": 150,
+        "height": 155
+      },
+      "threshold": 20,
+      "foreground": {
+        "any": [
+          {
+            "channels": {
+              "r": [180, 255],
+              "g": [0, 90],
+              "b": [0, 90]
+            }
+          },
+          {
+            "channels": {
+              "r": [230, 255],
+              "g": [230, 255],
+              "b": [230, 255]
+            }
+          }
+        ]
+      },
+      "minComponentArea": 45,
+      "padding": 8,
+      "validation": {
+        "borderBand": 4,
+        "maxCenterOffset": 0.02,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Pinduoduo app icon in the left product cluster; excludes nearby labels, connector bars, and the adjacent Temu app icon."
+    },
+    {
+      "key": "pdd-holdings-business-temu-app-icon",
+      "output": "crops/business-temu-app-icon.png",
+      "searchBox": {
+        "x": 218,
+        "y": 825,
+        "width": 155,
+        "height": 155
+      },
+      "threshold": 20,
+      "foreground": {
+        "any": [
+          {
+            "channels": {
+              "r": [230, 255],
+              "g": [85, 150],
+              "b": [0, 50]
+            }
+          },
+          {
+            "channels": {
+              "r": [230, 255],
+              "g": [230, 255],
+              "b": [230, 255]
+            }
+          }
+        ]
+      },
+      "minComponentArea": 45,
+      "padding": 8,
+      "validation": {
+        "borderBand": 4,
+        "maxCenterOffset": 0.02,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Temu app icon in the left product cluster; excludes nearby labels, connector bars, and the adjacent Pinduoduo app icon."
+    }
+  ]
+}

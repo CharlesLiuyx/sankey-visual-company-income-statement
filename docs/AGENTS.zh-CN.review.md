@@ -54,13 +54,13 @@
 
 对于公司和业务图标：
 
-- 将公司图标以及公司内部业务/segment 示意图标视为可复用的 vector 资产。
-- 第一次添加图标时，先通过 `scripts/extract_icon_crops.py` 和数据集专用 JSON spec 裁切所有相关源图区域，作为 original-icon reference asset。只有在确认主体完整、居中、没有无关内容之后，才能将它对齐到图表，转换为 SVG/vector 几何，并保存转换后的资产以便后续复用。
+- 将公司图标以及公司内部业务/segment 示意图标视为可复用资产。图标可以干净矢量化时优先使用 vector；当源图包含品牌专属 bitmap 细节，或用户要求图片嵌入模式时，允许对已验证的公司/业务 icon cluster 使用图片嵌入模式。
+- 第一次添加图标时，先通过 `scripts/extract_icon_crops.py` 和数据集专用 JSON spec 裁切所有相关源图区域，作为 original-icon reference asset。只有在确认主体完整、居中、没有无关内容之后，才能将它对齐到图表，并转换为 SVG/vector 几何，或在图片嵌入模式下通过 `runtimeOutputDir` 写出独立 runtime 副本。
 - 视觉/模型 crop 校验使用每张自动生成的 validation sheet。sheet 同时包含原始源图、crop 框和裁切结果。验收结论记录在 `data/assets/icon-references/<company>/model-validation.md`。
-- SVG 转换本身也要跑保真度循环，将转换后的 SVG 渲染与裁切/对齐后的参考进行比较，直到匹配稳定到足够可接受。
+- 矢量化时，SVG 转换本身也要跑保真度循环，将转换后的 SVG 渲染与裁切/对齐后的参考进行比较，直到匹配稳定到足够可接受。
 - 后续数据集中，只要源图标在实质上相似，就复用已有 SVG/vector 图标。优先调整现有 SVG 的 viewBox、transform、尺寸、位置或样式，而不是创建近似重复资产。
 - 当通用语义图标能匹配源图意图时，使用 `src/icons.js` 中的 Lucide/vector 图标。
-- 不要把源图片裁切、raster 图标资产、文本裁切、前景像素或覆盖层放进 d3 模式。裁切只允许作为转换参考，绝不是 runtime 渲染资产。
+- 图片嵌入模式下，runtime raster 资产只有同时满足以下条件才允许：源区域是有语义的公司或业务/segment icon cluster；不是数值 label、纯文本裁切、水印、网站、创作者/账号标记、归因块、整张源图或遮盖差异的补丁；crop 已通过验证并记录在 `data/assets/icon-references/<company>/crop-report.json` 和 `model-validation.md`；runtime 文件位于 `data/assets/raster-annotations/<company>/` 且由 spec 的 `runtimeOutputDir` 生成；数据集通过 `data.rasterAnnotations` 引用，并显式设置 `render.allowRasterAnnotations = true`。
 
 ## Data 与资产布局
 
@@ -76,9 +76,12 @@ data/assets/
       validation-sheets/  # 原图 + crop 框审阅 sheet
       crop-report.json    # 脚本输出和验证指标
       model-validation.md # 模型/视觉验收记录
+  raster-annotations/
+    <company>/            # 压缩后的 runtime raster annotations
 ```
 
 `data/assets/icon-references/` 中的 crop 不是 runtime 资产，只用于 SVG/vector 转换和未来复用判断。
+`data/assets/raster-annotations/` 中的 runtime raster annotations 只允许给显式设置 `render.allowRasterAnnotations` 并通过 `data.rasterAnnotations` 引用的 dataset 使用。
 
 ## d3-Sankey 保真度循环
 
@@ -105,9 +108,10 @@ data/assets/
 
 3. 评分前先确认输出纯净：
    - 候选结果必须是 d3/SVG 渲染。
-   - `#chart > svg image` 数量必须为 `0`。
+   - `#chart > svg image` 数量必须为 `0`，除非 dataset 通过 `render.allowRasterAnnotations = true` 显式启用图片嵌入模式。
+   - 启用图片嵌入模式时，每个 SVG `<image>` 都必须对应 `data/assets/raster-annotations/<company>/` 下的已批准 runtime raster annotation；验证输出应报告 `rasterAllowed: true` 和预期的 image 数量。
    - 候选结果中不能出现源图片 `<img>`。
-   - 不能使用 raster 裁剪、前景覆盖层、锁定背景，或从源图片提取的 logo/图标资产来遮盖差异。
+   - 不能使用临时 raster 裁剪、前景覆盖层、锁定背景，或从源图片提取的资产来遮盖差异。
 
 4. 将候选截图与 `input/processed/<dataset-key>.png` 比较。脚本会报告：
    - RGB MAE
@@ -121,6 +125,7 @@ data/assets/
    - `data.render` 的尺寸、颜色、透明度和排版
    - link 顺序或 target 顺序
    - vector logo 或 vector 图标
+   - 图片嵌入模式下已批准的 runtime raster annotations
    - 渲染器对 SVG 几何或文本控制的支持
 
 6. 迭代到改进进入平台期，或输出在视觉上足够接近。不要通过切换成参考 raster 或源图片覆盖层来宣称达到 99%+ 的 d3 结果。
@@ -132,8 +137,8 @@ data/assets/
 - viewer 只发布 d3-sankey 模式。参考 PNG 只作为验证标准；不要在 app runtime 或 standalone HTML artifact 中重新引入 Reference mode。
 - 当请求可分享的最终 HTML artifact 时，使用 `pnpm build:standalone` 生成 standalone 文件。该 artifact 必须自包含：运行时不应需要同级 CSS、JS、字体、vendor、data 或参考 PNG 文件。
 - 直接使用源 PNG 的 `<img>` 不是渲染。
-- d3-sankey 模式中不允许使用从源图片提取的 raster 覆盖层。
-- 如果候选结果包含源像素，则 d3 循环结果无效。
+- d3-sankey 模式中不允许使用从源图片提取的 raster 覆盖层，除非它们是 `data/assets/raster-annotations/<company>/` 下已批准的 runtime raster annotations，通过 `data.rasterAnnotations` 引用，并由 `render.allowRasterAnnotations = true` 保护。
+- 如果候选结果包含整张参考图、未批准 crop、前景覆盖层、锁定背景或归因标记中的源像素，则 d3 循环结果无效。有语义的公司/业务图标 runtime raster annotation 是唯一例外。
 - `compare/` 只是 scratch 目录。结束前不要在那里保留循环截图或 diff。
 - 分配稳定数据集 key 后，不要重命名已处理图片。
 
@@ -174,10 +179,11 @@ data/assets/
   - 已使用同时包含原图和裁切结果的 validation sheet 做视觉/模型检查。
   - `data/assets/icon-references/<company>/model-validation.md` 记录了模型/视觉验收结果。
   - 源图中所有有语义的 company 和 business/segment icon cluster 都已提取，或明确记录了跳过原因。
+  - 如果使用图片嵌入模式，crop spec 设置了 `runtimeOutputDir`，已接受的 runtime 副本存在于 `data/assets/raster-annotations/<company>/`，且数据集使用 `data.rasterAnnotations` 并设置 `render.allowRasterAnnotations = true`。
 - 如果需要 standalone HTML artifact，`pnpm build:standalone` 和 `pnpm verify:standalone` 通过。
 - 如果改动了渲染器代码，`node --check src/sankey-engine.js` 通过。
 - `pnpm verify:d3 -- <dataset-key>` 通过。
-- 已检查 d3 输出纯净性（`#chart > svg` 内 `imageCount: 0`）。
+- 已检查 d3 输出纯净性（`#chart > svg` 内 `imageCount: 0`，或在 `rasterAllowed: true` 时为预期 runtime raster annotation 数量）。
 - 循环指标是用 d3 截图与源 PNG 计算得出。
 - `compare/` 已清理。
 

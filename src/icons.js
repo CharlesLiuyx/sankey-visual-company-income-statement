@@ -25,6 +25,55 @@ window.SANKEY_BRAND = {
 };
 
 window.SANKEY_BUSINESS_ICONS = {
+  sonyCompanyWordmark: `
+    <text x="0" y="104" font-family="Times New Roman, Georgia, serif" font-size="116" font-weight="900" fill="#000000"
+      textLength="467" lengthAdjust="spacingAndGlyphs">SONY</text>
+  `,
+  costcoCompanyWordmark: `
+    <g>
+      <text x="8" y="92" font-family="Arial Black, Arial, sans-serif" font-size="94" font-style="italic" font-weight="900"
+        fill="#e31837" stroke="#ffffff" stroke-width="12" paint-order="stroke"
+        textLength="572" lengthAdjust="spacingAndGlyphs">COSTCO</text>
+      <g transform="translate(12 108)" fill="#0060a9">
+        <rect x="0" y="0" width="226" height="13"/>
+        <rect x="0" y="22" width="232" height="13"/>
+        <rect x="0" y="44" width="238" height="13"/>
+        <polygon points="226,0 258,57 238,57 206,0"/>
+        <text x="255" y="57" font-family="Arial Black, Arial, sans-serif" font-size="58" font-style="italic" font-weight="900"
+          textLength="350" lengthAdjust="spacingAndGlyphs">WHOLESALE</text>
+      </g>
+    </g>
+  `,
+  costcoMembershipCards: `
+    <g>
+      <rect x="0" y="5" width="145" height="96" rx="8" fill="#ffffff" stroke="#9ea3a8" stroke-width="1.4"/>
+      <text x="15" y="39" font-family="Arial Black, Arial, sans-serif" font-size="29" font-style="italic" font-weight="900"
+        fill="#e31837">COSTCO</text>
+      <text x="43" y="58" font-family="Arial Black, Arial, sans-serif" font-size="18" font-style="italic" font-weight="900"
+        fill="#0060a9">WHOLESALE</text>
+      <g fill="#0060a9">
+        <rect x="6" y="55" width="74" height="4"/>
+        <rect x="6" y="62" width="83" height="4"/>
+        <rect x="6" y="69" width="91" height="4"/>
+      </g>
+      <path d="M72 65l6 15h16l-13 9 5 15-14-9-13 9 5-15-13-9h16z" fill="#f8b21a"/>
+      <text x="73" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="800" fill="#e31837">GOLD STAR MEMBER</text>
+    </g>
+    <g transform="translate(168 0)">
+      <rect x="0" y="5" width="145" height="96" rx="8" fill="#070707" stroke="#2e2e2e" stroke-width="1.4"/>
+      <g fill="none" stroke="#c9a24c" stroke-width="2" opacity="0.92">
+        <ellipse cx="72" cy="53" rx="55" ry="27"/>
+        <ellipse cx="72" cy="53" rx="31" ry="53" transform="rotate(33 72 53)"/>
+        <ellipse cx="72" cy="53" rx="31" ry="53" transform="rotate(-33 72 53)"/>
+        <line x1="12" y1="53" x2="132" y2="53"/>
+      </g>
+      <text x="32" y="40" font-family="Arial Black, Arial, sans-serif" font-size="23" font-style="italic" font-weight="900"
+        fill="#e31837" stroke="#ffffff" stroke-width="2" paint-order="stroke">COSTCO</text>
+      <text x="49" y="56" font-family="Arial Black, Arial, sans-serif" font-size="14" font-style="italic" font-weight="900"
+        fill="#0060a9" stroke="#ffffff" stroke-width="1.4" paint-order="stroke">WHOLESALE</text>
+      <text x="72" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="800" fill="#f6d37a">EXECUTIVE MEMBER</text>
+    </g>
+  `,
   walmartCompanyWordmark: `
     <g>
       <text x="0" y="104" font-family="Arial Rounded MT Bold, Arial, sans-serif" font-size="104" font-weight="800" fill="#0071ce"
@@ -587,6 +636,70 @@ window.SANKEY_BUSINESS_ICONS = {
       <path d="M49 112H95" stroke="#4285f4"/>
     </g>
     <text x="150" y="86" font-family="Arial,Helvetica,sans-serif" font-size="70" font-weight="500" fill="#5f6368">Google Cloud</text>
+  `,
+  jdCompanyWordmark: `
+    <g transform="translate(46 0)">
+      <ellipse cx="105" cy="62" rx="74" ry="48" fill="#f8f8f8" stroke="#d8d8d8" stroke-width="2"/>
+      <path d="M39 50C18 48 3 66 0 87C18 84 35 74 46 59Z" fill="#eeeeee" stroke="#d0d0d0" stroke-width="2"/>
+      <path d="M161 26C186 21 203 27 202 37C201 47 181 52 158 48Z" fill="#2b2b2b"/>
+      <circle cx="115" cy="48" r="6" fill="#292929"/>
+      <path d="M95 70C121 98 159 98 187 70" fill="none" stroke="#222222" stroke-width="6" stroke-linecap="round"/>
+      <path d="M94 104L92 146M121 104L121 146M90 145L74 165M122 146L139 165" fill="none" stroke="#c8c8c8" stroke-width="4" stroke-linecap="round"/>
+      <rect x="103" y="112" width="24" height="8" rx="4" fill="#e2231a"/>
+    </g>
+    <text x="0" y="260" font-family="Arial,Helvetica,sans-serif" font-size="112" font-weight="700" fill="#e2231a">JD.COM</text>
+  `,
+  jdRetailJdcom: `
+    <g transform="translate(0 8)">
+      <g transform="translate(0 6) scale(0.55)">
+        <ellipse cx="105" cy="62" rx="74" ry="48" fill="#f8f8f8" stroke="#d8d8d8" stroke-width="2"/>
+        <path d="M39 50C18 48 3 66 0 87C18 84 35 74 46 59Z" fill="#eeeeee" stroke="#d0d0d0" stroke-width="2"/>
+        <path d="M161 26C186 21 203 27 202 37C201 47 181 52 158 48Z" fill="#2b2b2b"/>
+        <circle cx="115" cy="48" r="6" fill="#292929"/>
+        <path d="M95 70C121 98 159 98 187 70" fill="none" stroke="#222222" stroke-width="6" stroke-linecap="round"/>
+        <rect x="103" y="112" width="24" height="8" rx="4" fill="#e2231a"/>
+      </g>
+      <text x="88" y="56" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="52" font-weight="800" fill="#e2231a">京东</text>
+      <text x="95" y="100" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="700" fill="#e2231a">JD.COM</text>
+    </g>
+  `,
+  jdHealthWordmark: `
+    <text x="0" y="62" font-family="Arial Black,Arial,Helvetica,sans-serif" font-size="64" font-weight="900" fill="#e2231a">JDH</text>
+    <path d="M130 16C137 34 132 48 118 58C135 58 148 51 153 38C146 36 139 29 130 16Z" fill="#e2231a"/>
+    <text x="159" y="62" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="50" font-weight="800" fill="#e2231a">京东健康</text>
+  `,
+  jdLogisticsWordmark: `
+    <g transform="translate(0 4)">
+      <ellipse cx="58" cy="34" rx="46" ry="31" fill="#ececec" stroke="#c7c7c7" stroke-width="2"/>
+      <circle cx="42" cy="33" r="8" fill="#191919"/>
+      <path d="M58 38C71 49 88 49 101 38" fill="none" stroke="#191919" stroke-width="5" stroke-linecap="round"/>
+      <path d="M21 35C8 39 2 50 4 65C17 64 27 58 32 47Z" fill="#e4e4e4" stroke="#c7c7c7" stroke-width="2"/>
+      <path d="M101 35C116 38 124 49 122 64C108 63 97 57 91 47Z" fill="#e4e4e4" stroke="#c7c7c7" stroke-width="2"/>
+      <path d="M30 69H89V111H30Z" fill="#ececec" stroke="#c7c7c7" stroke-width="2"/>
+      <path d="M34 102H84" stroke="#e2231a" stroke-width="6" stroke-linecap="round"/>
+    </g>
+    <text x="150" y="66" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="58" font-weight="800" fill="#e2231a">京东物流</text>
+    <text x="252" y="112" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#e2231a">JD Logistics</text>
+  `,
+  jdNewBusinessesCluster: `
+    <g transform="translate(0 0)">
+      <circle cx="54" cy="54" r="50" fill="#1686e8"/>
+      <path d="M44 30C57 31 62 42 55 53L76 53L78 66H52L42 88L29 83L38 61L24 60L21 47L43 47C50 38 38 36 36 34Z" fill="#ffffff"/>
+      <text x="54" y="95" text-anchor="middle" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="18" font-weight="800" fill="#ffffff">达达快送</text>
+    </g>
+    <g transform="translate(118 0)">
+      <circle cx="54" cy="54" r="50" fill="#20b636"/>
+      <ellipse cx="55" cy="42" rx="30" ry="23" fill="#ffffff"/>
+      <path d="M78 26C96 22 106 30 101 42C91 39 83 34 78 26Z" fill="#ffffff" stroke="#d7d7d7" stroke-width="2"/>
+      <circle cx="47" cy="38" r="4" fill="#222222"/>
+      <path d="M54 48C65 58 78 58 89 48" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+      <rect x="47" y="62" width="18" height="7" rx="3.5" fill="#e2231a"/>
+      <text x="54" y="95" text-anchor="middle" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="18" font-weight="800" fill="#ffffff">京东到家</text>
+    </g>
+    <g transform="translate(242 22)" font-family="Arial,'Microsoft YaHei',sans-serif" fill="#1a1a1a">
+      <text x="0" y="46" font-size="54" font-weight="800">达达集团</text>
+      <text x="36" y="83" font-size="22" font-weight="700" letter-spacing="6">DADA GROUP</text>
+    </g>
   `,
   amazonCompanyWordmark: `
     <text x="0" y="95" font-family="Arial Black,Arial,Helvetica,sans-serif" font-size="104" font-weight="900" fill="#232323">amazon</text>

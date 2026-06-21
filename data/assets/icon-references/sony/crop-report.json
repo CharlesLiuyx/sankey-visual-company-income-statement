@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/sony-fy25.png",
+  "spec": "input/icon-crop-specs/sony-fy25.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-21T19:47:34.131911+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "sony-company-wordmark",
+      "output": "data/assets/icon-references/sony/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 2816,
+        "losslessBytes": 13719,
+        "savingsVsLossless": 0.7947,
+        "metrics": {
+          "meanAbsoluteError": 0.2351,
+          "rootMeanSquareError": 1.1296,
+          "p99AbsoluteError": 6.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.1071
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 42327,
+        "transparentPixelRatio": 0.6783
+      },
+      "searchBox": {
+        "x": 760,
+        "y": 330,
+        "width": 560,
+        "height": 140
+      },
+      "componentCount": 4,
+      "subjectBox": {
+        "x0": 801,
+        "y0": 354,
+        "x1": 1269,
+        "y1": 434
+      },
+      "cropBox": {
+        "x0": 775,
+        "y0": 334,
+        "x1": 1295,
+        "y1": 454
+      },
+      "validation": {
+        "width": 520,
+        "height": 120,
+        "foregroundPixels": 17131,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 26,
+          "right": 26,
+          "top": 20,
+          "bottom": 20
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Sony company wordmark above the sales hub; excludes title, values, flows, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/sony/validation-sheets/sony-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 239461,
+        "losslessBytes": 239461,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

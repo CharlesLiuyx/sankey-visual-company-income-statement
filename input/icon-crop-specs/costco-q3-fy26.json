@@ -1,0 +1,35 @@
+{
+  "source": "input/processed/costco-q3-fy26.png",
+  "outputDir": "data/assets/icon-references/costco",
+  "validationSheetDir": "data/assets/icon-references/costco/validation-sheets",
+  "report": "crop-report.json",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "crops": [
+    {
+      "key": "costco-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": { "x": 575, "y": 248, "width": 590, "height": 168 },
+      "cropBox": { "x": 560, "y": 235, "width": 625, "height": 185 },
+      "threshold": 18,
+      "minComponentArea": 30,
+      "note": "Costco Wholesale company wordmark above the revenue hub; excludes title, chart values, flows, and publisher marks."
+    },
+    {
+      "key": "costco-membership-card-cluster",
+      "output": "crops/membership-card-cluster.png",
+      "searchBox": { "x": 45, "y": 1076, "width": 325, "height": 102 },
+      "cropBox": { "x": 45, "y": 1072, "width": 325, "height": 118 },
+      "threshold": 16,
+      "minComponentArea": 25,
+      "validation": {
+        "maxCenterOffset": 0.08
+      },
+      "note": "Gold Star Member and Executive Member cards tied to the membership-fee revenue line; excludes the Membership Fee label, value text, flows, KPI cards, and bottom publisher marks."
+    }
+  ]
+}

@@ -19,9 +19,10 @@ data/assets/
 ```
 
 `icon-references/` contains validated icon reference crops used before vector
-conversion. The crop extractor removes solid crop backgrounds and writes
-transparent PNGs by default. These files are reusable source references, not
-runtime d3 assets.
+conversion or image-embedding output. The crop extractor removes solid crop
+backgrounds and writes transparent PNGs by default. These files are reusable
+source references, not runtime d3 assets, and datasets should not point to this
+folder directly.
 
 `raster-annotations/` contains final runtime image assets for datasets that
 explicitly opt in to `render.allowRasterAnnotations`. These files must be
@@ -59,6 +60,7 @@ When `runtimeOutputDir` is set, the same accepted crops are written as
 compressed runtime raster annotations under `raster-annotations/<company>/`.
 
 After visual/model validation passes, future datasets with materially similar
-icons should reuse the existing reference and the derived vector asset instead
-of creating near-duplicate icon references. Add a new company directory only
-when no existing company-level reference applies.
+icons should reuse the existing reference and the derived runtime asset
+(vector icon or approved raster annotation) instead of creating near-duplicate
+icon references. Add a new company directory only when no existing company-level
+reference applies.

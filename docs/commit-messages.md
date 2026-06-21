@@ -100,7 +100,7 @@ BREAKING CHANGE: dataset meta.referenceImage must include width and height
 ```text
 data(salesforce-q1-fy27): add processed reference dataset
 render(engine): support fixed label anchors
-verify(verify-d3): fail when candidate svg contains raster images
+verify(verify-d3): fail when candidate svg contains unapproved raster images
 docs(readme): document d3 fidelity workflow
 schema(layout): clarify low-level node overrides
 chore(deps): pin playwright 1.61.0

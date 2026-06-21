@@ -1,0 +1,85 @@
+{
+  "source": "input/processed/jd-com-q1-fy26.png",
+  "outputDir": "data/assets/icon-references/jd-com",
+  "runtimeOutputDir": "data/assets/raster-annotations/jd-com",
+  "validationSheetDir": "data/assets/icon-references/jd-com/validation-sheets",
+  "report": "crop-report.json",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 5
+  },
+  "crops": [
+    {
+      "key": "jd-com-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": { "x": 690, "y": 240, "width": 280, "height": 230 },
+      "cropBox": { "x": 680, "y": 238, "width": 300, "height": 236 },
+      "threshold": 8,
+      "minComponentArea": 28,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.08,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Large JD.com dog and wordmark above the source revenue flows; excludes title text, values, chart links, and publisher marks."
+    },
+    {
+      "key": "jd-com-business-retail-jdcom",
+      "output": "crops/business-retail-jdcom.png",
+      "searchBox": { "x": 200, "y": 622, "width": 190, "height": 70 },
+      "cropBox": { "x": 198, "y": 620, "width": 198, "height": 78 },
+      "threshold": 8,
+      "minComponentArea": 24,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.08,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "JD retail JD.com logo cluster; excludes the JD Retail label, margin text, values, and flow marks."
+    },
+    {
+      "key": "jd-com-business-jd-health",
+      "output": "crops/business-jd-health.png",
+      "searchBox": { "x": 145, "y": 716, "width": 230, "height": 56 },
+      "cropBox": { "x": 140, "y": 702, "width": 246, "height": 70 },
+      "threshold": 12,
+      "minComponentArea": 24,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.08,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "JD Health wordmark shown under the JD Retail segment; excludes operating-margin text and chart marks."
+    },
+    {
+      "key": "jd-com-business-logistics",
+      "output": "crops/business-logistics.png",
+      "searchBox": { "x": 82, "y": 928, "width": 300, "height": 82 },
+      "cropBox": { "x": 76, "y": 924, "width": 316, "height": 80 },
+      "threshold": 8,
+      "minComponentArea": 24,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.10,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "JD Logistics robot and wordmark cluster; excludes revenue value, operating-margin text, and source flow marks."
+    },
+    {
+      "key": "jd-com-business-new-businesses-cluster",
+      "output": "crops/business-new-businesses-cluster.png",
+      "searchBox": { "x": 48, "y": 1124, "width": 330, "height": 78 },
+      "cropBox": { "x": 42, "y": 1118, "width": 346, "height": 90 },
+      "threshold": 8,
+      "minComponentArea": 22,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.12,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Dada Now, JD Daojia, and Dada Group cluster for New Businesses; excludes the New businesses label, revenue value, Y/Y notes, and publisher marks."
+    }
+  ]
+}

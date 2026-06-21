@@ -61,8 +61,12 @@ reference assets when needed, and run a d3-sankey fidelity loop automatically.
    - The main structure is visually centered in the crop.
    - No unrelated text, chart marks, connector fragments, watermarks, or
      neighboring icon parts are included.
-   Re-crop until those checks pass. These crops are reference/conversion
-   assets only and must not be used in d3 runtime output.
+   Re-crop until those checks pass. The files under
+   `data/assets/icon-references/<company>/crops/` are reference/conversion
+   assets only and must not be referenced directly from d3 runtime output.
+   When image embedding mode is explicitly used, set `runtimeOutputDir` in the
+   crop spec so the accepted crops are written as compressed runtime copies
+   under `data/assets/raster-annotations/<company>/`.
 7. Before authoring a new company's first dataset, gather company metadata
    (description, sector, industry, headquarters, website, ticker/exchange when
    available, and source URLs) and add it to `data/company-metadata.js`.
@@ -115,30 +119,44 @@ Prefer the existing project patterns:
 For company and business icons:
 
 - Treat company icons and company-internal business/segment illustrative icons
-  as reusable vector assets.
+  as reusable assets. Prefer vector assets when the icon can be represented
+  cleanly, but image embedding mode is allowed for validated company/business
+  icon clusters when the source contains brand-specific bitmap detail or the
+  user asks for image embedding.
 - When adding icons for the first time, first crop every relevant source region
   as original-icon reference assets through `scripts/extract_icon_crops.py`.
   The script must be driven by a dataset-specific JSON spec so the workflow
   stays reusable across companies. The script should remove the solid crop
   background and emit a transparent PNG after cropping. Use each crop only after
   checking that the icon subject is complete, centered, and free of unrelated
-  surrounding content. Then align it to the chart, convert it to SVG/vector
-  geometry, and save the resulting vector asset for future reuse.
+  surrounding content. Then either convert it to SVG/vector geometry for reuse,
+  or, in image embedding mode, write a separate runtime copy through
+  `runtimeOutputDir`.
 - For visual/model crop validation, use the generated validation sheet for each
   crop. It contains the original source image, the highlighted crop box, and
   the extracted crop. Record acceptance in
   `data/assets/icon-references/<company>/model-validation.md`.
-- Run a fidelity loop for the SVG conversion itself, comparing the converted
-  SVG render against the cropped/aligned reference until the match is stable
-  enough.
+- Run a fidelity loop for the SVG conversion itself when vectorizing,
+  comparing the converted SVG render against the cropped/aligned reference
+  until the match is stable enough.
 - For later datasets, reuse existing SVG/vector icons whenever the source icon
   is materially similar. Adjust the existing SVG viewBox, transform, size,
   placement, or styling instead of creating near-duplicate assets.
 - Use Lucide/vector icons from `src/icons.js` for generic semantic icons when
   they match the source intent.
-- Do not put source-image crops, raster icon assets, text crops, foreground
-  pixels, or overlays into d3 mode. Crops are conversion references only, never
-  runtime render assets.
+- In image embedding mode, runtime raster assets are allowed only when all of
+  the following are true:
+  - The source region is a semantically relevant company or business/segment
+    icon cluster, not a value label, text-only crop, watermark, website,
+    creator/account mark, attribution block, whole source image, or mismatch
+    cover-up.
+  - The crop passed validation and is recorded in
+    `data/assets/icon-references/<company>/crop-report.json` and
+    `model-validation.md`.
+  - The runtime file lives under `data/assets/raster-annotations/<company>/`
+    and was produced through the spec's `runtimeOutputDir`.
+  - The dataset references it through `data.rasterAnnotations` and explicitly
+    sets `render.allowRasterAnnotations = true`.
 
 ## Data and Asset Layout
 
@@ -155,10 +173,15 @@ data/assets/
       validation-sheets/  # original image + crop-box review sheets
       crop-report.json    # script output and validation metrics
       model-validation.md # model/visual acceptance record
+  raster-annotations/
+    <company>/            # compressed runtime raster annotations
 ```
 
 Reference crops in `data/assets/icon-references/` are not runtime assets. They
 exist to support SVG/vector conversion and future reuse decisions only.
+Runtime raster annotations in `data/assets/raster-annotations/` are allowed
+only for datasets that explicitly opt in with `render.allowRasterAnnotations`
+and reference the files through `data.rasterAnnotations`.
 
 ## d3-Sankey Fidelity Loop
 
@@ -194,10 +217,15 @@ Run this loop automatically after creating or materially changing a dataset:
 
 3. Assert output purity before scoring:
    - The candidate must be a d3/SVG render.
-   - `#chart > svg image` count must be `0`.
+   - `#chart > svg image` count must be `0` unless the dataset explicitly opts
+     in to image embedding with `render.allowRasterAnnotations = true`.
+   - When image embedding mode is enabled, every SVG `<image>` must correspond
+     to an approved runtime raster annotation under
+     `data/assets/raster-annotations/<company>/`; the verifier should report
+     `rasterAllowed: true` and the expected image count.
    - No source-image `<img>` may be present in the candidate.
-   - No raster crops, foreground overlays, locked backgrounds, or extracted
-     source-image logo/icon assets may be used to cover mismatches.
+   - No ad hoc raster crops, foreground overlays, locked backgrounds, or
+     extracted source-image assets may be used to cover mismatches.
 
 4. Compare candidate screenshot against `input/processed/<dataset-key>.png`.
    The script reports:
@@ -212,6 +240,7 @@ Run this loop automatically after creating or materially changing a dataset:
    - `data.render` sizing, colors, opacity, and typography
    - link order / target order
    - vector logo / vector icons
+   - approved runtime raster annotations in image embedding mode
    - renderer support for SVG geometry or text controls
 
 6. Iterate until improvements plateau or the output is visually close enough.
@@ -236,10 +265,15 @@ finishing.
   at runtime.
 - A direct `<img>` of the source PNG is not a render.
 - Raster overlays extracted from the source image are not allowed in d3-sankey
-  mode.
+  mode unless they are approved runtime raster annotations under
+  `data/assets/raster-annotations/<company>/`, referenced through
+  `data.rasterAnnotations`, and gated by `render.allowRasterAnnotations = true`.
 - Source publisher watermarks, creator/account branding, website URLs, social
   badges, and unrelated attribution blocks are not part of d3-sankey output.
-- If the candidate includes source pixels, the d3 loop result is invalid.
+- If the candidate includes source pixels from the whole reference image,
+  unapproved crops, foreground overlays, locked backgrounds, or attribution
+  marks, the d3 loop result is invalid. Approved runtime raster annotations for
+  semantic company/business icons are the only exception.
 - `compare/` is scratch only. Do not keep loop screenshots or diffs there after
   finishing.
 - Do not rename processed images after assigning a stable dataset key.
@@ -295,11 +329,16 @@ Before final response, verify:
     model/visual pass result.
   - Every semantically relevant company and business/segment icon cluster in
     the source image is either extracted or explicitly documented as skipped.
+  - If image embedding mode is used, the crop spec sets `runtimeOutputDir`,
+    the accepted runtime copies exist under
+    `data/assets/raster-annotations/<company>/`, and the dataset uses
+    `data.rasterAnnotations` with `render.allowRasterAnnotations = true`.
 - If a standalone HTML artifact is required, `pnpm build:standalone` and
   `pnpm verify:standalone` pass.
 - If renderer code changed, `node --check src/sankey-engine.js` passes.
 - `pnpm verify:d3 -- <dataset-key>` passes.
-- d3 output purity was checked (`imageCount: 0` inside `#chart > svg`).
+- d3 output purity was checked (`imageCount: 0` inside `#chart > svg`, or the
+  expected runtime raster annotation count with `rasterAllowed: true`).
 - Loop metrics were computed from d3 screenshot vs source PNG.
 - `compare/` was cleaned.
 

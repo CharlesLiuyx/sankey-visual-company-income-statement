@@ -18,4 +18,4 @@ Skipped source elements:
 
 - The bottom `HOW THEY MAKE MONEY` badge, `appeconomyinsights.com`, social/account branding, and App Economy Insights attribution are publisher marks and were intentionally excluded.
 
-All accepted crops pass script validation in `crop-report.json` and visual/model validation against the generated validation sheets. The crops are reference/conversion assets only and are not used in d3 runtime output.
+All accepted crops pass script validation in `crop-report.json` and visual/model validation against the generated validation sheets. The `icon-references/` crops remain reusable review/conversion references. `data/assets/raster-annotations/netease/` contains the explicit runtime image-annotation copies used by `netease-q1-fy26` in image embedding mode.

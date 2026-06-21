@@ -115,10 +115,12 @@ another fidelity loop:
    ```
 
 The verifier starts its own static server, renders a bare d3 SVG for the
-dataset, screenshots `#chart > svg`, asserts that no source image or SVG
-`<image>` is present, computes pixel metrics against `meta.referenceImage`, and
-cleans `compare/`. Use `pnpm verify:d3 -- <dataset-key> --keep` when you need to
-inspect the candidate PNG.
+dataset, screenshots `#chart > svg`, asserts that no source image or unapproved
+SVG `<image>` is present, computes pixel metrics against `meta.referenceImage`,
+and cleans `compare/`. Datasets that explicitly set
+`render.allowRasterAnnotations` may render approved runtime images from
+`data/assets/raster-annotations/`. Use `pnpm verify:d3 -- <dataset-key> --keep`
+when you need to inspect the candidate PNG.
 
 `compare/` is a scratch directory. Keep incoming assets in `input/pending/` and
 stable app references in `input/processed/`; do not rely on old files in
@@ -126,9 +128,12 @@ stable app references in `input/processed/`; do not rely on old files in
 
 For a **d3-sankey fidelity loop**, the rendered output under comparison must be
 the SVG produced by `SankeyEngine.render()` / d3-sankey. Do not compare against
-Reference mode, a direct `<img>` of the source PNG, or any source-image crop /
-raster overlay placed into the d3 output. The source PNG is only the standard to
-measure against, never part of the d3-sankey render being scored.
+Reference mode, a direct `<img>` of the source PNG, or ad hoc source-image crops
+or raster overlays placed into the d3 output to cover mismatches. The source PNG
+is only the standard to measure against, never part of the d3-sankey render
+being scored. The allowed exception is explicit image embedding mode, where
+validated semantic icon crops are written to `data/assets/raster-annotations/`
+and gated by `render.allowRasterAnnotations`.
 
 ## Icon asset workflow
 

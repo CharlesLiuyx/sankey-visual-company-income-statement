@@ -361,6 +361,78 @@
         },
       },
       {
+        key: 'costco-q3-fy26',
+        company: 'Costco',
+        period: 'Q3 FY26',
+        periodNote: 'Ending May 2026',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/costco-q3-fy26.png',
+        roundingTolerance: 0.15,
+        revenue: {
+          total: 70.5,
+          notes: ['+12% Y/Y'],
+          items: [
+            { id: 'net_sales', label: 'Net Sales', value: 69.2, notes: ['+12% Y/Y'] },
+            { id: 'membership_fee', label: 'Membership Fee', value: 1.4, notes: ['+11% Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'merchandise_costs', label: 'Merchandise costs', value: 61.5 },
+          operatingExpenses: {
+            total: 6.2,
+            items: [
+              { id: 'operating_expenses', label: 'SG&A expenses', value: 6.2 },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 0.7 },
+        },
+        otherIncome: {
+          total: 0.1,
+          items: [{ id: 'interest', label: 'Interest', value: 0.1 }],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 9.0, notes: ['12.8% margin', '(0.2pp) Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 2.8, notes: ['4.0% margin', '(0.0pp) Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 2.2, notes: ['3.1% margin', '+0.1pp Y/Y'] },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第三季度',
+            periodNote: '截至 2026 年 5 月',
+            revenue: {
+              notes: ['同比 +12%'],
+              items: [
+                { id: 'net_sales', label: '净销售额', notes: ['同比 +12%'] },
+                { id: 'membership_fee', label: '会员费', notes: ['同比 +11%'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '商品成本' },
+              operatingExpenses: {
+                items: [
+                  { id: 'operating_expenses', label: '销售、一般及行政费用' },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            otherIncome: {
+              items: [{ id: 'interest', label: '利息' }],
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 12.8%', '同比 (0.2 个百分点)'] },
+              operating: { label: '营业利润', notes: ['利润率 4.0%', '同比 (0.0 个百分点)'] },
+              net: { label: '净利润', notes: ['利润率 3.1%', '同比 +0.1 个百分点'] },
+            },
+          },
+        },
+      },
+      {
         key: 'dell-q1-fy27',
         company: 'Dell',
         period: 'Q1 FY27',
@@ -1067,6 +1139,89 @@
               gross: { label: '毛利润', notes: ['利润率 69%', '同比 +5 个百分点'] },
               operating: { label: '营业利润', notes: ['利润率 41%', '同比 +5 个百分点'] },
               net: { label: '净利润', notes: ['利润率 35%', '同比 (1 个百分点)'] },
+            },
+          },
+        },
+      },
+      {
+        key: 'pdd-holdings-q1-fy26',
+        company: 'PDD Holdings',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/pdd-holdings-q1-fy26.png',
+        roundingTolerance: 0.15,
+        revenue: {
+          total: 15.4,
+          notes: ['+11% Y/Y'],
+          items: [
+            {
+              id: 'online_marketing',
+              label: 'Online Marketing & Others',
+              value: 7.2,
+              notes: ['+2% Y/Y', 'Performance-based services'],
+            },
+            { id: 'transaction_services', label: 'Transaction Services', value: 8.2, notes: ['+20% Y/Y', 'Merchant fee'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 6.8 },
+          operatingExpenses: {
+            total: 5.8,
+            notes: ['R&D, sales and marketing, and G&A line items sum to $5.7B because the source chart rounds to one decimal place.'],
+            items: [
+              { id: 'sm', label: 'Sales & marketing', value: 4.9, notes: ['32% of revenue', '(3pp) Y/Y'] },
+              { id: 'rnd', label: 'R&D', value: 0.6, notes: ['4% of revenue', '+0pp Y/Y'] },
+              { id: 'ga', label: 'G&A', value: 0.2, notes: ['1% of revenue', '(0pp) Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 0.6 },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0.4,
+          items: [{ id: 'other', label: 'Other', value: 0.4 }],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 8.6, notes: ['56% margin', '(1pp) Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 2.8, notes: ['18% margin', '+2pp Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 1.8, notes: ['12% margin', '(4pp) Y/Y'] },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 +11%'],
+              items: [
+                { label: '在线营销及其他', notes: ['同比 +2%', '基于绩效的服务'] },
+                { label: '交易服务', notes: ['同比 +20%', '商户费用'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                notes: ['研发、销售与市场、管理费用明细合计为 57 亿美元，因为源图按一位小数四舍五入。'],
+                items: [
+                  { label: '销售与市场', notes: ['占收入 32%', '同比 (3 个百分点)'] },
+                  { label: '研发', notes: ['占收入 4%', '同比 +0 个百分点'] },
+                  { label: '管理费用', notes: ['占收入 1%', '同比 (0 个百分点)'] },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            otherExpenses: {
+              items: [{ label: '其他' }],
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 56%', '同比 (1 个百分点)'] },
+              operating: { label: '营业利润', notes: ['利润率 18%', '同比 +2 个百分点'] },
+              net: { label: '净利润', notes: ['利润率 12%', '同比 (4 个百分点)'] },
             },
           },
         },
@@ -1943,6 +2098,105 @@
         },
       },
       {
+        key: 'jd-com-q1-fy26',
+        company: 'JD.com',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/jd-com-q1-fy26.png',
+        roundingTolerance: 0.15,
+        revenue: {
+          total: 45.8,
+          notes: ['+5% Y/Y'],
+          items: [
+            { id: 'jd_retail', label: 'JD Retail', value: 38.9, notes: ['+2% Y/Y', '6% operating margin', '+1pp Y/Y'] },
+            { id: 'jd_logistics', label: 'JD Logistics', value: 8.8, notes: ['+29% Y/Y', '2% operating margin', '+2pp Y/Y'] },
+            {
+              id: 'new_businesses',
+              label: 'New Businesses',
+              value: 0.9,
+              notes: ['+9% Y/Y', '(165%) operating margin', '(188pp) Y/Y'],
+            },
+            {
+              label: 'Inter-segment eliminations',
+              value: -2.9,
+              notes: ['Source chart rounds segment revenue and eliminations; items sum to $45.7B versus $45.8B reported total.'],
+            },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 38.1 },
+          operatingExpenses: {
+            total: 7.1,
+            items: [
+              { id: 'fulfillment', label: 'Fulfillment', value: 3.4 },
+              { id: 'marketing', label: 'Marketing', value: 2.2 },
+              { id: 'rnd', label: 'R&D', value: 1.0 },
+              { id: 'ga', label: 'General & admin', value: 0.5 },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 0.2 },
+        },
+        otherIncome: {
+          total: 0.5,
+          items: [{ id: 'other', label: 'Other', value: 0.5 }],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 7.7, notes: ['17% margin', '+1pp Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 0.6, notes: ['1% margin', '(2pp) Y/Y'] },
+          net: {
+            id: 'net_profit',
+            label: 'Net profit',
+            value: 0.8,
+            notes: ['2% margin', '(2pp) Y/Y', 'Official release rounds net income to US$0.7B; source chart displays $0.8B.'],
+          },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 +5%'],
+              items: [
+                { label: '京东零售', notes: ['同比 +2%', '营业利润率 6%', '同比 +1 个百分点'] },
+                { label: '京东物流', notes: ['同比 +29%', '营业利润率 2%', '同比 +2 个百分点'] },
+                { label: '新业务', notes: ['同比 +9%', '营业利润率 (165%)', '同比 (188 个百分点)'] },
+                { label: '分部间抵销', notes: ['源图对分部收入和抵销额做了四舍五入；分项合计为 $45.7B，报告总收入为 $45.8B。'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                items: [
+                  { label: '履约' },
+                  { label: '营销' },
+                  { label: '研发' },
+                  { label: '管理费用' },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            otherIncome: {
+              items: [{ label: '其他' }],
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 17%', '同比 +1 个百分点'] },
+              operating: { label: '营业利润', notes: ['利润率 1%', '同比 (2 个百分点)'] },
+              net: {
+                label: '净利润',
+                notes: ['利润率 2%', '同比 (2 个百分点)', '官方公告将净利润四舍五入为 7 亿美元；源图显示为 8 亿美元。'],
+              },
+            },
+          },
+        },
+      },
+      {
         key: 'lenovo-q4-fy26',
         company: 'Lenovo',
         period: 'Q4 FY26',
@@ -2240,6 +2494,102 @@
           gross: { id: 'gross_profit', label: 'Gross profit', value: 81.9, notes: ['61% margin', '+24pp Y/Y'] },
           operating: { id: 'operating_profit', label: 'Operating profit', value: 57.2, notes: ['43% margin', '+34pp Y/Y'] },
           net: { id: 'net_profit', label: 'Net profit', value: 47.2, notes: ['35% margin', '+24pp Y/Y'] },
+        },
+      },
+      {
+        key: 'sony-fy25',
+        company: 'Sony',
+        period: 'FY25',
+        periodNote: 'Ending Mar. 2026',
+        currency: '¥',
+        unit: 'B',
+        decimals: 0,
+        sourceImage: 'input/processed/sony-fy25.png',
+        roundingTolerance: 1.5,
+        revenue: {
+          total: 12480,
+          notes: ['+4% Y/Y'],
+          items: [
+            { id: 'game_network', label: 'Game & Network', value: 4686, notes: ['+0% Y/Y', '10% operating margin'] },
+            { id: 'music', label: 'Music', value: 2120, notes: ['+15% Y/Y', '21% operating margin'] },
+            { id: 'pictures', label: 'Pictures', value: 1499, notes: ['+0% Y/Y', '7% operating margin'] },
+            { id: 'technology', label: 'Technology', value: 2261, notes: ['(6%) Y/Y', '7% operating margin'] },
+            { id: 'imaging_sensing', label: 'Imaging & Sensing', value: 2152, notes: ['+20% Y/Y', '17% operating margin'] },
+            { id: 'other_revenue', label: 'Other', value: 89, notes: ['(8%) Y/Y'] },
+            {
+              label: 'Elimination',
+              value: -327,
+              notes: ['Shown as an elimination cost before consolidated Sales in the source chart.'],
+            },
+          ],
+        },
+        costs: {
+          costOfRevenue: {
+            id: 'cost_of_sales',
+            label: 'Cost of sales',
+            value: 8635,
+            notes: ['Source chart sales and cost of sales imply ¥3,845B gross profit; chart displays ¥3,844B.'],
+          },
+          operatingExpenses: {
+            total: 2397,
+            items: [
+              { id: 'sga', label: 'SG&A', value: 2299 },
+              { id: 'other_expenses', label: 'Other expenses', value: 98 },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 367 },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 25,
+          items: [{ id: 'other_after_operating', label: 'Other', value: 25 }],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 3844, notes: ['31% margin', '+1pp Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 1448, notes: ['12% margin', '+1pp Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 1055, notes: ['8% margin', '(1pp) Y/Y'] },
+        },
+        i18n: {
+          zh: {
+            period: '2025 财年',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 +4%'],
+              items: [
+                { id: 'game_network', label: '游戏与网络', notes: ['同比 +0%', '营业利润率 10%'] },
+                { id: 'music', label: '音乐', notes: ['同比 +15%', '营业利润率 21%'] },
+                { id: 'pictures', label: '影视', notes: ['同比 +0%', '营业利润率 7%'] },
+                { id: 'technology', label: '技术', notes: ['同比 (6%)', '营业利润率 7%'] },
+                { id: 'imaging_sensing', label: '成像与传感', notes: ['同比 +20%', '营业利润率 17%'] },
+                { id: 'other_revenue', label: '其他', notes: ['同比 (8%)'] },
+                { id: 'eliminations', label: '抵销', notes: ['来源图表将其显示为合并销售额前的抵销成本。'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: {
+                label: '销售成本',
+                notes: ['来源图表销售额和销售成本推导毛利润为 ¥3,845B；图中显示为 ¥3,844B。'],
+              },
+              operatingExpenses: {
+                items: [
+                  { id: 'sga', label: '销售、一般及行政费用' },
+                  { id: 'other_expenses', label: '其他费用' },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            otherExpenses: {
+              items: [{ id: 'other_after_operating', label: '其他' }],
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 31%', '同比 +1 个百分点'] },
+              operating: { label: '营业利润', notes: ['利润率 12%', '同比 +1 个百分点'] },
+              net: { label: '净利润', notes: ['利润率 8%', '同比 (1 个百分点)'] },
+            },
+          },
         },
       },
       {

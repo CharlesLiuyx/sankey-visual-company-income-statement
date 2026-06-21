@@ -1,6 +1,7 @@
 {
   "source": "input/processed/netease-q1-fy26.png",
   "outputDir": "data/assets/icon-references/netease",
+  "runtimeOutputDir": "data/assets/raster-annotations/netease",
   "validationSheetDir": "data/assets/icon-references/netease/validation-sheets",
   "report": "crop-report.json",
   "backgroundSampleBlocks": [

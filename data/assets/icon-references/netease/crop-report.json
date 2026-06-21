@@ -6,7 +6,7 @@
     242,
     242
   ],
-  "generatedAt": "2026-06-21T16:35:27.690282+00:00",
+  "generatedAt": "2026-06-21T19:47:34.130963+00:00",
   "compression": {
     "enabled": true,
     "paletteColors": [
@@ -32,7 +32,7 @@
     "mode": "edge-connected",
     "tolerance": 6
   },
-  "runtimeOutputDir": null,
+  "runtimeOutputDir": "data/assets/raster-annotations/netease",
   "crops": [
     {
       "key": "netease-company-wordmark",
@@ -102,6 +102,22 @@
         "passes": true
       },
       "note": "NetEase company wordmark near the top center; excludes title text, revenue labels, and publisher marks.",
+      "runtimeOutput": "data/assets/raster-annotations/netease/company-wordmark.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 5069,
+        "losslessBytes": 21903,
+        "savingsVsLossless": 0.7686,
+        "metrics": {
+          "meanAbsoluteError": 0.3227,
+          "rootMeanSquareError": 1.7783,
+          "p99AbsoluteError": 7.0,
+          "maxChannelDiff": 41,
+          "changedPixelRatio": 0.105
+        }
+      },
       "validationSheet": "data/assets/icon-references/netease/validation-sheets/netease-company-wordmark.png",
       "validationSheetCompression": {
         "enabled": true,
@@ -173,6 +189,15 @@
         "passes": true
       },
       "note": "NetEase Games business cluster with the games wordmark and app icons; excludes values, gross-margin text, chart links, and attribution marks.",
+      "runtimeOutput": "data/assets/raster-annotations/netease/business-games-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 139131,
+        "losslessBytes": 139131,
+        "savingsVsLossless": 0.0
+      },
       "validationSheet": "data/assets/icon-references/netease/validation-sheets/netease-business-games-cluster.png",
       "validationSheetCompression": {
         "enabled": true,
@@ -251,6 +276,22 @@
         "passes": true
       },
       "note": "NetEase Cloud Music logo and text only; excludes the Cloud Music financial value, gross-margin text, and chart links.",
+      "runtimeOutput": "data/assets/raster-annotations/netease/business-cloud-music.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 2500,
+        "losslessBytes": 10327,
+        "savingsVsLossless": 0.7579,
+        "metrics": {
+          "meanAbsoluteError": 0.4197,
+          "rootMeanSquareError": 1.9818,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 48,
+          "changedPixelRatio": 0.1502
+        }
+      },
       "validationSheet": "data/assets/icon-references/netease/validation-sheets/netease-business-cloud-music.png",
       "validationSheetCompression": {
         "enabled": true,
@@ -329,6 +370,22 @@
         "passes": true
       },
       "note": "Youdao business wordmark only; excludes values, gross-margin text, chart links, and attribution marks.",
+      "runtimeOutput": "data/assets/raster-annotations/netease/business-youdao-wordmark.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 3101,
+        "losslessBytes": 15656,
+        "savingsVsLossless": 0.8019,
+        "metrics": {
+          "meanAbsoluteError": 0.5245,
+          "rootMeanSquareError": 2.346,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 34,
+          "changedPixelRatio": 0.2125
+        }
+      },
       "validationSheet": "data/assets/icon-references/netease/validation-sheets/netease-business-youdao-wordmark.png",
       "validationSheetCompression": {
         "enabled": true,
@@ -407,6 +464,22 @@
         "passes": true
       },
       "note": "Innovative Businesses and Others product/logo cluster; excludes the segment label, values, gross-margin text, chart links, and bottom publisher marks.",
+      "runtimeOutput": "data/assets/raster-annotations/netease/business-innovative-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 2482,
+        "losslessBytes": 12320,
+        "savingsVsLossless": 0.7985,
+        "metrics": {
+          "meanAbsoluteError": 0.7741,
+          "rootMeanSquareError": 2.4288,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 40,
+          "changedPixelRatio": 0.4884
+        }
+      },
       "validationSheet": "data/assets/icon-references/netease/validation-sheets/netease-business-innovative-cluster.png",
       "validationSheetCompression": {
         "enabled": true,

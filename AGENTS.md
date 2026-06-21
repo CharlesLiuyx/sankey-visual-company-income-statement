@@ -79,6 +79,11 @@ Prefer the existing project patterns:
 - Use `window.SankeyEngine.fromIncomeStatement(...)` for ordinary company input.
 - Use explicit low-level `nodes`, `links`, `layout.nodes`, and `layout.labels`
   when pixel/layout fidelity matters.
+- When first identifying label regions in a source image, keep each semantic
+  label unit intact. Do not split a node's related name, value, notes, margin,
+  or Y/Y text into unrelated regions just because they are visually separated;
+  group them under the same node/label intent first, then split into
+  `layout.labels.*.blocks` or line breaks for placement.
 - Preserve values and notes from the source image.
 - Do not reproduce source publisher watermarks, creator/account branding,
   website URLs, social badges, "how they make money" marks, or other attribution

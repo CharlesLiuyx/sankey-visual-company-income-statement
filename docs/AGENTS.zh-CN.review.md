@@ -45,6 +45,7 @@
 
 - 对普通公司输入，使用 `window.SankeyEngine.fromIncomeStatement(...)`。
 - 当像素或布局保真度重要时，使用显式的低层级 `nodes`、`links`、`layout.nodes` 和 `layout.labels`。
+- 一开始识别源图 label 区域时，要保持每个语义 label 单元完整。不要因为名称、数值、备注、margin 或同比文本在视觉上分开，就把同一节点的相关内容识别成互不相关的区域；先按同一个 node/label 意图归组，再为了排版拆成 `layout.labels.*.blocks` 或换行。
 - 保留源图片中的数值和备注。
 - 成本保持为正数；渲染器会将 `type: 'cost'` 格式化为带括号的数值。
 - 在依赖项之后注册新数据集；如果复用了其他数据集，也要在被复用数据集之后注册。

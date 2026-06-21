@@ -1,0 +1,258 @@
+#!/usr/bin/env node
+import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import { fileURLToPath } from 'node:url';
+import { dataScriptsFromIndex } from './script-sources.mjs';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const rootDir = path.resolve(__dirname, '..');
+
+function readProjectFile(relativePath) {
+  return readFileSync(path.join(rootDir, relativePath), 'utf8');
+}
+
+function parseArgs(argv) {
+  const strict = argv.includes('--strict');
+  const keys = argv.filter((arg) => arg !== '--strict');
+  return { strict, keys: new Set(keys) };
+}
+
+function loadBrowserData() {
+  const context = { console };
+  context.window = context;
+  context.document = undefined;
+  vm.createContext(context);
+
+  for (const script of [
+    'src/icons.js',
+    'src/sankey-engine.js',
+    'src/income-statement.js',
+    'src/i18n.js',
+    'data/income-statements.js',
+    'data/company-metadata.js',
+    ...dataScriptsFromIndex(readProjectFile('index.html')),
+  ]) {
+    vm.runInContext(readProjectFile(script), context, { filename: script });
+  }
+
+  return {
+    i18n: context.SANKEY_I18N,
+    datasets: context.DATASETS || [],
+    records: context.INCOME_STATEMENT_SSOT?.records || [],
+    companies: context.COMPANY_METADATA?.companies || [],
+  };
+}
+
+function assert(condition, message, errors) {
+  if (!condition) errors.push(message);
+}
+
+function clean(value) {
+  return String(value || '').replace(/\s+/g, ' ').trim();
+}
+
+function textItems(value) {
+  if (Array.isArray(value)) return value.flatMap(textItems);
+  return value == null ? [] : [String(value)];
+}
+
+function addText(list, owner, pathLabel, sourceValue, localizedValue) {
+  const sourceItems = textItems(sourceValue);
+  const localizedItems = textItems(localizedValue);
+  sourceItems.forEach((source, index) => {
+    list.push({
+      owner,
+      path: pathLabel,
+      source: clean(source),
+      localized: clean(localizedItems[index] ?? localizedItems.join(' ')),
+    });
+  });
+}
+
+function collectItemTexts(list, owner, item, localizedItem, basePath) {
+  if (!item) return;
+  addText(list, owner, `${basePath}.label`, item.label, localizedItem?.label);
+  addText(list, owner, `${basePath}.notes`, item.notes, localizedItem?.notes);
+  (item.children || []).forEach((child, index) => {
+    collectItemTexts(list, owner, child, localizedItem?.children?.[index], `${basePath}.children[${index}]`);
+  });
+}
+
+function collectDatasetTexts(dataset, localized) {
+  const list = [];
+  addText(list, dataset.key, 'name', dataset.name, localized.name);
+  addText(list, dataset.key, 'meta.title', dataset.meta?.title, localized.meta?.title);
+  addText(list, dataset.key, 'meta.period', dataset.meta?.period, localized.meta?.period);
+  addText(list, dataset.key, 'meta.periodNote', dataset.meta?.periodNote, localized.meta?.periodNote);
+  (dataset.nodes || []).forEach((node, index) => {
+    const localizedNode = localized.nodes?.[index];
+    addText(list, dataset.key, `nodes.${node.id || index}.label`, node.label, localizedNode?.label);
+    addText(list, dataset.key, `nodes.${node.id || index}.notes`, node.notes, localizedNode?.notes);
+  });
+  Object.entries(dataset.layout?.labels || {}).forEach(([nodeId, labelSpec]) => {
+    const localizedSpec = localized.layout?.labels?.[nodeId];
+    (labelSpec.blocks || []).forEach((block, blockIndex) => {
+      (block.lines || []).forEach((line, lineIndex) => {
+        const sourceText = typeof line === 'string' ? line : line?.text;
+        const localizedLine = localizedSpec?.blocks?.[blockIndex]?.lines?.[lineIndex];
+        const localizedText = typeof localizedLine === 'string' ? localizedLine : localizedLine?.text;
+        addText(list, dataset.key, `layout.labels.${nodeId}.blocks[${blockIndex}].lines[${lineIndex}]`, sourceText, localizedText);
+      });
+    });
+  });
+  return list;
+}
+
+function collectFinancialTexts(record, localized) {
+  const list = [];
+  addText(list, record.key, 'period', record.period, localized.period);
+  addText(list, record.key, 'periodNote', record.periodNote, localized.periodNote);
+  addText(list, record.key, 'revenue.notes', record.revenue?.notes, localized.revenue?.notes);
+  (record.revenue?.items || []).forEach((item, index) => {
+    collectItemTexts(list, record.key, item, localized.revenue?.items?.[index], `revenue.items[${index}]`);
+  });
+  collectItemTexts(list, record.key, record.costs?.costOfRevenue, localized.costs?.costOfRevenue, 'costs.costOfRevenue');
+  (record.costs?.costOfRevenue?.items || []).forEach((item, index) => {
+    collectItemTexts(list, record.key, item, localized.costs?.costOfRevenue?.items?.[index], `costs.costOfRevenue.items[${index}]`);
+  });
+  (record.costs?.operatingExpenses?.items || []).forEach((item, index) => {
+    collectItemTexts(list, record.key, item, localized.costs?.operatingExpenses?.items?.[index], `costs.operatingExpenses.items[${index}]`);
+  });
+  collectItemTexts(list, record.key, record.costs?.tax, localized.costs?.tax, 'costs.tax');
+  (record.otherIncome?.items || []).forEach((item, index) => {
+    collectItemTexts(list, record.key, item, localized.otherIncome?.items?.[index], `otherIncome.items[${index}]`);
+  });
+  (record.otherExpenses?.items || []).forEach((item, index) => {
+    collectItemTexts(list, record.key, item, localized.otherExpenses?.items?.[index], `otherExpenses.items[${index}]`);
+  });
+  Object.keys(record.profit || {}).forEach((key) => {
+    collectItemTexts(list, record.key, record.profit[key], localized.profit?.[key], `profit.${key}`);
+  });
+  return list;
+}
+
+function collectCompanyTexts(company, localized) {
+  const list = [];
+  for (const field of ['sector', 'industry', 'headquarters', 'fiscalYearEnd', 'description']) {
+    addText(list, company.key || company.name, field, company[field], localized[field]);
+  }
+  return list;
+}
+
+function looksTranslatable(text) {
+  const value = clean(text);
+  if (!value || value === '$value') return false;
+  if (!/[A-Za-z]/.test(value)) return false;
+  if (/^https?:\/\//i.test(value)) return false;
+  if (/^\(?\$?\d[\d.,]*[BMK]?\)?$/i.test(value)) return false;
+  if (/^[A-Z0-9&./ +-]{1,12}$/.test(value)) return false;
+  if (/^[\d\s$().,%+-]+[BMK]?$/.test(value)) return false;
+  return true;
+}
+
+function fallbackItems(items) {
+  return items.filter((item) => (
+    looksTranslatable(item.source) &&
+    item.source === item.localized
+  ));
+}
+
+function main() {
+  const { strict, keys } = parseArgs(process.argv.slice(2));
+  const { i18n, datasets, records, companies } = loadBrowserData();
+  const errors = [];
+  const warnings = [];
+
+  assert(i18n, 'window.SANKEY_I18N is not defined', errors);
+  if (!i18n) throw new Error(errors.join('\n'));
+
+  const languages = i18n.languageCodes || [];
+  const defaultLanguage = i18n.defaultLanguage || 'en';
+  assert(languages.includes(defaultLanguage), `default language "${defaultLanguage}" is not in languageCodes`, errors);
+
+  const defaultUiKeys = Object.keys(i18n.ui?.[defaultLanguage] || {});
+  for (const language of languages) {
+    for (const key of defaultUiKeys) {
+      assert(i18n.ui?.[language]?.[key] != null, `UI language "${language}" missing key "${key}"`, errors);
+    }
+  }
+
+  const selectedDatasets = keys.size ? datasets.filter((dataset) => keys.has(dataset.key)) : datasets;
+  const selectedRecords = records.filter((record) => !keys.size || keys.has(record.key));
+  const selectedCompanyNames = new Set(selectedRecords.map((record) => clean(record.company).toLowerCase()));
+  if (keys.size) {
+    for (const key of keys) {
+      assert(datasets.some((dataset) => dataset.key === key), `Unknown dataset key "${key}"`, errors);
+    }
+  }
+
+  for (const language of languages.filter((code) => code !== defaultLanguage)) {
+    for (const dataset of selectedDatasets) {
+      const localized = i18n.localizeDataset(dataset, language);
+      assert(clean(localized.name), `${dataset.key}: localized dataset name is empty for ${language}`, errors);
+      if (clean(dataset.meta?.title)) {
+        assert(clean(localized.meta?.title), `${dataset.key}: localized meta.title is empty for ${language}`, errors);
+      }
+      for (const node of localized.nodes || []) {
+        const sourceNode = (dataset.nodes || []).find((item) => item.id === node.id);
+        if (clean(textItems(sourceNode?.label).join(' '))) {
+          assert(clean(textItems(node.label).join(' ')), `${dataset.key}: node "${node.id}" localized label is empty for ${language}`, errors);
+        }
+      }
+      const fallbacks = fallbackItems(collectDatasetTexts(dataset, localized));
+      if (fallbacks.length) {
+        const sample = fallbacks.slice(0, 5).map((item) => `${item.path}="${item.source}"`).join('; ');
+        const message = `${dataset.key}: ${fallbacks.length} dataset text fallback(s) for ${language}; ${sample}`;
+        if (strict) errors.push(message);
+        else warnings.push(message);
+      }
+      if (strict) {
+        assert(dataset.i18n?.[language], `${dataset.key}: missing explicit dataset.i18n.${language} overlay`, errors);
+      }
+    }
+
+    for (const record of selectedRecords) {
+      const localized = i18n.localizeFinancialRecord(record, language);
+      const fallbacks = fallbackItems(collectFinancialTexts(record, localized));
+      if (fallbacks.length) {
+        const sample = fallbacks.slice(0, 5).map((item) => `${item.path}="${item.source}"`).join('; ');
+        const message = `${record.key}: ${fallbacks.length} financial SSOT fallback(s) for ${language}; ${sample}`;
+        if (strict) errors.push(message);
+        else warnings.push(message);
+      }
+      if (strict) {
+        assert(record.i18n?.[language], `${record.key}: missing explicit financial record i18n.${language} overlay`, errors);
+      }
+    }
+
+    {
+      for (const company of companies.filter((company) => !keys.size || selectedCompanyNames.has(clean(company.name).toLowerCase()) || (company.aliases || []).some((alias) => selectedCompanyNames.has(clean(alias).toLowerCase())))) {
+        const localized = i18n.localizeCompanyMetadata(company, language);
+        const fallbacks = fallbackItems(collectCompanyTexts(company, localized));
+        if (fallbacks.length) {
+          const sample = fallbacks.slice(0, 3).map((item) => `${item.path}="${item.source}"`).join('; ');
+          const message = `${company.key || company.name}: ${fallbacks.length} company metadata fallback(s) for ${language}; ${sample}`;
+          if (strict) errors.push(message);
+          else warnings.push(message);
+        }
+        if (strict) {
+          assert(company.i18n?.[language], `${company.key || company.name}: missing explicit company i18n.${language} overlay`, errors);
+        }
+      }
+    }
+  }
+
+  if (errors.length) {
+    console.error(`i18n verification failed with ${errors.length} error(s):`);
+    for (const error of errors) console.error(`- ${error}`);
+    process.exit(1);
+  }
+
+  for (const warning of warnings.slice(0, 80)) console.warn(`warning: ${warning}`);
+  if (warnings.length > 80) console.warn(`warning: ${warnings.length - 80} additional fallback warning(s) omitted`);
+  console.log(`i18n verification passed: ${languages.length} language(s), ${selectedDatasets.length} dataset(s), strict=${strict}.`);
+}
+
+main();

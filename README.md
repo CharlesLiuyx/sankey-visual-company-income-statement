@@ -41,6 +41,12 @@ the current d3-sankey chart as SVG/PNG at 2× resolution. Table mode shows the
 company metadata table and the period-level income statement table, with CSV
 exports for both.
 
+The viewer supports app-wide language switching through `src/i18n.js`. English
+data is the canonical verification source, while Sankey and Table mode project
+localized display text at runtime. Dataset-specific wording can be refined with
+`i18n.<language>` overlays on dataset adapters, financial SSOT records, and
+company metadata records.
+
 ## Visual loop workflow
 
 Use this workflow when a new reference image is added and the chart needs
@@ -83,17 +89,28 @@ another fidelity loop:
    `data/income-statements.js`. This file is the comparable financial
    statement SSOT: reported totals, line items, notes, currency and units only,
    with no Sankey layout or render settings.
-8. Install the pinned local tooling once:
+8. Add localized display text for every non-default language in
+   `window.SANKEY_I18N.languageCodes`:
+   - `data/datasets/<dataset-key>.js`: `name`, `meta.title`, period labels,
+     node labels/notes, and explicit fixed-layout label text.
+   - `data/income-statements.js`: financial line-item labels and notes used by
+     Table mode.
+   - `data/company-metadata.js`: company profile fields when the company is new
+     or profile text changes.
+   Language overlays may tune text layout such as `titleTextLength`, but should
+   not change values, links, node positions, or financial semantics.
+9. Install the pinned local tooling once:
 
    ```bash
    pnpm install --frozen-lockfile
    pnpm exec playwright install chromium
    ```
 
-9. Run the deterministic data and d3 checks:
+10. Run the deterministic data, i18n, and d3 checks:
 
    ```bash
    pnpm verify:ssot
+   pnpm verify:i18n -- --strict <dataset-key>
    pnpm verify:d3 -- <dataset-key>
    ```
 

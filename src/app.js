@@ -55,7 +55,8 @@ const TABLE_COLUMN_PRESETS = {
 };
 const virtualTables = new WeakMap();
 let virtualTableFrame = 0;
-const I18N = {
+const I18N_API = window.SANKEY_I18N || {};
+const I18N = I18N_API.ui || {
   en: {
     documentTitle: 'Income Statement Sankey Visualizer',
     appTitle: 'Income Statement Sankey Visualizer',
@@ -221,6 +222,15 @@ const I18N = {
     tableSourceImage: '来源图片',
   },
 };
+const i18nObjectCaches = {
+  datasets: new Map(),
+  financialRecords: new Map(),
+  companies: new Map(),
+  records: new Map(),
+  groups: new Map(),
+};
+const i18nTextCache = new Map();
+const tableModelCache = new Map();
 
 function readStoredNumber(key, fallback) {
   try {
@@ -254,9 +264,11 @@ function readStoredViewMode() {
 }
 function readStoredLanguage() {
   try {
-    return window.localStorage.getItem(LANGUAGE_KEY) === 'zh' ? 'zh' : 'en';
+    return I18N_API.normalizeLanguage
+      ? I18N_API.normalizeLanguage(window.localStorage.getItem(LANGUAGE_KEY))
+      : window.localStorage.getItem(LANGUAGE_KEY) === 'zh' ? 'zh' : 'en';
   } catch (error) {
-    return 'en';
+    return I18N_API.defaultLanguage || 'en';
   }
 }
 function readStoredTheme() {
@@ -266,10 +278,29 @@ function readStoredTheme() {
     return 'light';
   }
 }
-function t(key, values = {}) {
-  const bundle = I18N[state?.language] || I18N.en;
+function t(key, values = {}, language = state?.language) {
+  const code = languageCode(language);
+  if (I18N_API.t) return I18N_API.t(key, values, code);
+  const bundle = I18N[code] || I18N.en;
   const text = bundle[key] || I18N.en[key] || key;
   return text.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? '');
+}
+function languageCode(language = state?.language) {
+  return I18N_API.normalizeLanguage
+    ? I18N_API.normalizeLanguage(language)
+    : language === 'zh' ? 'zh' : 'en';
+}
+function languageObjectCache(cache, language = state.language) {
+  const code = languageCode(language);
+  if (!cache.has(code)) cache.set(code, new WeakMap());
+  return cache.get(code);
+}
+function cachedLocalizedObject(cache, source, localizer, language = state.language) {
+  const code = languageCode(language);
+  if (!source || typeof source !== 'object' || code === (I18N_API.defaultLanguage || 'en') || !localizer) return source;
+  const byLanguage = languageObjectCache(cache, code);
+  if (!byLanguage.has(source)) byLanguage.set(source, localizer(source, code));
+  return byLanguage.get(source);
 }
 function countText(oneKey, manyKey, count) {
   return t(count === 1 ? oneKey : manyKey, { count });
@@ -491,7 +522,7 @@ function syncThemeControls() {
   themeToggle.setAttribute('aria-pressed', state.theme === 'dark' ? 'true' : 'false');
 }
 function applyStaticTranslations() {
-  document.documentElement.lang = state.language === 'zh' ? 'zh-CN' : 'en';
+  document.documentElement.lang = I18N_API.htmlLang ? I18N_API.htmlLang(state.language) : state.language === 'zh' ? 'zh-CN' : 'en';
   document.querySelectorAll('[data-i18n]').forEach((element) => {
     element.textContent = t(element.dataset.i18n);
   });
@@ -513,12 +544,14 @@ function applyStaticTranslations() {
   syncToolbarHeight();
 }
 function setLanguage(language) {
-  if (language !== 'en' && language !== 'zh') return;
-  if (state.language === language) return;
-  state.language = language;
-  writeStoredValue(LANGUAGE_KEY, language);
+  const nextLanguage = I18N_API.normalizeLanguage ? I18N_API.normalizeLanguage(language) : language;
+  if (!I18N[nextLanguage]) return;
+  if (state.language === nextLanguage) return;
+  state.language = nextLanguage;
+  writeStoredValue(LANGUAGE_KEY, nextLanguage);
   applyStaticTranslations();
   renderAll();
+  draw({ renderTable: false, syncView: false });
 }
 function setTheme(theme) {
   if (theme !== 'light' && theme !== 'dark') return;
@@ -574,6 +607,74 @@ function currentRecord() {
 function currentDataset() {
   return currentRecord()?.dataset || sets[0];
 }
+function localizedDataset(dataset, language = state.language) {
+  return cachedLocalizedObject(i18nObjectCaches.datasets, dataset, I18N_API.localizeDataset, language);
+}
+function localizedFinancialRecord(record, language = state.language) {
+  return cachedLocalizedObject(i18nObjectCaches.financialRecords, record, I18N_API.localizeFinancialRecord, language);
+}
+function localizedCompanyRecord(company, language = state.language) {
+  return cachedLocalizedObject(i18nObjectCaches.companies, company, I18N_API.localizeCompanyMetadata, language);
+}
+function localizedText(value, language = state.language) {
+  if (!I18N_API.text || value == null) return value;
+  const code = languageCode(language);
+  if (code === (I18N_API.defaultLanguage || 'en')) return value;
+  const key = `${code}\u0000${String(value)}`;
+  if (!i18nTextCache.has(key)) i18nTextCache.set(key, I18N_API.text(value, code));
+  return i18nTextCache.get(key);
+}
+function displayDataset(record, language = state.language) {
+  return displayRecord(record, language).dataset;
+}
+function displayRecord(record, language = state.language) {
+  const code = languageCode(language);
+  if (!record) {
+    return {
+      dataset: null,
+      company: '',
+      period: '',
+      periodNote: '',
+      label: '',
+      variantLabel: t('defaultVariant', {}, code),
+      searchText: '',
+    };
+  }
+  const byLanguage = languageObjectCache(i18nObjectCaches.records, code);
+  if (byLanguage.has(record)) return byLanguage.get(record);
+  const dataset = localizedDataset(record.dataset, code) || record.dataset;
+  const meta = localizedCompanyRecord(metadataFor(record.company), code);
+  const display = {
+    dataset,
+    company: clean(meta.displayName || meta.name || record.company),
+    period: periodFor(dataset),
+    periodNote: clean(dataset?.meta?.periodNote || record.periodNote),
+    label: clean(dataset?.name || dataset?.meta?.title || record.label),
+    variantLabel: record.variantFeature ? localizedText(record.variantFeature, code) : t('defaultVariant', {}, code),
+  };
+  display.searchText = [
+    record.searchText,
+    display.company,
+    display.period,
+    display.periodNote,
+    display.label,
+    display.variantLabel,
+  ].join(' ');
+  byLanguage.set(record, display);
+  return display;
+}
+function displayCompany(record, language = state.language) {
+  return displayRecord(record, language).company;
+}
+function displayPeriod(record, language = state.language) {
+  return displayRecord(record, language).period;
+}
+function displayPeriodNote(record, language = state.language) {
+  return displayRecord(record, language).periodNote;
+}
+function displayLabel(record, language = state.language) {
+  return displayRecord(record, language).label;
+}
 function groupFor(company) {
   return groups.find((group) => group.company === company) || groups[0];
 }
@@ -595,8 +696,8 @@ function sortedVariantRecords(recordList) {
     a.index - b.index
   );
 }
-function variantLabel(record) {
-  return record?.variantFeature || t('defaultVariant');
+function variantLabel(record, language = state.language) {
+  return displayRecord(record, language).variantLabel;
 }
 function recordByIndex(index) {
   return records.find((record) => record.index === index);
@@ -607,20 +708,20 @@ function selectRecord(record, scrollKind = 'statement') {
   state.company = record.company;
   syncDatasetHash(record);
   renderAll();
-  draw();
+  draw({ renderTable: false, syncView: false });
   scrollActiveTableRow(scrollKind);
 }
 function descriptionForPeriodRecord(record, bucket) {
   if (!record) return '';
   const parts = [
     record.periodParts.quarterKey === ANNUAL_PERIOD_KEY ? t('annualPeriodTag') : record.periodParts.quarterKey,
-    record.periodNote || record.label,
+    displayPeriodNote(record) || displayLabel(record),
   ];
   if ((bucket?.records || []).length > 1 || record.variantFeature) parts.push(variantLabel(record));
   return parts.map(clean).filter(Boolean).join(' · ');
 }
 function periodTreeFor(group) {
-  const visibleRecords = sortedRecords(group).filter((record) => matches(record.searchText, periodSearch.value));
+  const visibleRecords = sortedRecords(group).filter((record) => matches(searchTextForRecord(record), periodSearch.value));
   const yearMap = new Map();
   visibleRecords.forEach((record) => {
     const parts = record.periodParts;
@@ -686,6 +787,20 @@ function metadataFor(company) {
     description: '',
     sourceUrls: [],
   };
+}
+function searchTextForRecord(record) {
+  return displayRecord(record).searchText;
+}
+function searchTextForGroup(group) {
+  if (!group) return '';
+  const byLanguage = languageObjectCache(i18nObjectCaches.groups);
+  if (!byLanguage.has(group)) {
+    byLanguage.set(group, [
+      group.searchText,
+      ...group.records.map((record) => searchTextForRecord(record)),
+    ].join(' '));
+  }
+  return byLanguage.get(group);
 }
 function labelText(label) {
   return Array.isArray(label) ? label.map(clean).filter(Boolean).join(' ') : clean(label);
@@ -871,28 +986,81 @@ function websiteHtml(url) {
 function financialFor(record) {
   return financialRecordByKey.get(record.dataset.key);
 }
-function companyRows() {
-  return groups.map((group) => {
-    const meta = metadataFor(group.company);
+function tableModelForLanguage(language = state.language) {
+  const code = languageCode(language);
+  if (tableModelCache.has(code)) return tableModelCache.get(code);
+  const companyRows = groups.map((group) => {
+    const sourceMeta = metadataFor(group.company);
+    const meta = localizedCompanyRecord(sourceMeta, code);
     return {
       ...meta,
-      company: group.company,
-      latestPeriod: group.latest?.period || '',
+      company: clean(meta.displayName || meta.name || group.company),
+      companyCanonical: group.company,
+      latestPeriod: group.latest ? displayPeriod(group.latest, code) : '',
       datasetCount: group.records.length,
-      active: group.company === state.company,
       tableAttrs: `data-company-key="${escapeHtml(companyKey(group.company))}"`,
     };
   });
+  const statementRows = [...records]
+    .sort((a, b) => a.company.localeCompare(b.company) || b.sortValue - a.sortValue || a.period.localeCompare(b.period))
+    .map((record) => {
+      const financial = localizedFinancialRecord(financialFor(record), code);
+      return {
+        record,
+        financial,
+        displayCompany: displayCompany(record, code),
+        displayPeriod: displayPeriod(record, code),
+        displayPeriodNote: displayPeriodNote(record, code),
+        revenueTotal: formatAmount(financial, financial?.revenue?.total),
+        revenueItems: describeItems(financial?.revenue?.items, financial),
+        costOfRevenue: formatAmount(financial, financial?.costs?.costOfRevenue?.value, true),
+        grossProfit: formatAmount(financial, financial?.profit?.gross?.value),
+        operatingExpenses: formatAmount(financial, financial?.costs?.operatingExpenses?.total, true),
+        operatingExpenseItems: describeItems(financial?.costs?.operatingExpenses?.items, financial),
+        operatingProfit: formatAmount(financial, financial?.profit?.operating?.value),
+        otherIncome: formatAmount(financial, financial?.otherIncome?.total || 0),
+        tax: formatAmount(financial, financial?.costs?.tax?.value, true),
+        netProfit: formatAmount(financial, financial?.profit?.net?.value),
+        sourceImage: financial?.sourceImage || '',
+        tableAttrs: `data-dataset-key="${escapeHtml(record.dataset.key)}"`,
+      };
+    });
+  const model = { companyRows, statementRows };
+  tableModelCache.set(code, model);
+  return model;
+}
+function companyRows() {
+  return tableModelForLanguage().companyRows.map((row) => ({
+    ...row,
+    active: row.companyCanonical === state.company,
+  }));
 }
 function statementRows() {
-  return [...records]
-    .sort((a, b) => a.company.localeCompare(b.company) || b.sortValue - a.sortValue || a.period.localeCompare(b.period))
-    .map((record) => ({
-      record,
-      financial: financialFor(record),
-      active: record.index === state.activeIndex,
-      tableAttrs: `data-dataset-key="${escapeHtml(record.dataset.key)}"`,
-    }));
+  return tableModelForLanguage().statementRows.map((row) => ({
+    ...row,
+    active: row.record.index === state.activeIndex,
+  }));
+}
+function scheduleIdleTask(callback) {
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(callback, { timeout: 1200 });
+    return;
+  }
+  window.setTimeout(() => callback({ timeRemaining: () => 0 }), 160);
+}
+function prewarmI18nCaches() {
+  const languages = (I18N_API.languageCodes || Object.keys(I18N))
+    .map((language) => languageCode(language))
+    .filter((language, index, list) => language && list.indexOf(language) === index);
+  const pending = languages.filter((language) => language !== languageCode());
+  let index = 0;
+  const run = () => {
+    const language = pending[index];
+    index += 1;
+    if (language) tableModelForLanguage(language);
+    if (index < pending.length) scheduleIdleTask(run);
+  };
+  if (pending.length) scheduleIdleTask(run);
 }
 function renderDataTable(table, columns, rows, emptyText, targetWidth = 0) {
   table.className = 'data-table';
@@ -936,20 +1104,20 @@ function renderTables() {
   ];
   const statementColumns = [
     { label: t('tableDataset'), className: 'nowrap', widthPreset: 'id', maxWidth: 160, grow: 0.35, value: (row) => row.record.dataset.key },
-    { label: t('tableCompany'), className: 'nowrap', widthPreset: 'text', maxWidth: 150, grow: 0.6, value: (row) => row.record.company },
-    { label: t('tablePeriod'), className: 'nowrap', widthPreset: 'compact', maxWidth: 78, grow: 0.05, value: (row) => row.record.period },
-    { label: t('tablePeriodEnd'), className: 'nowrap', widthPreset: 'compact', minWidth: 86, maxWidth: 96, grow: 0.1, value: (row) => row.record.periodNote },
-    { label: t('tableRevenue'), className: 'num', widthPreset: 'money', maxWidth: 106, grow: 0, value: (row) => formatAmount(row.financial, row.financial?.revenue?.total) },
-    { label: t('tableRevenueItems'), className: 'wide', widthPreset: 'wide', maxWidth: 340, grow: 2, value: (row) => describeItems(row.financial?.revenue?.items, row.financial) },
-    { label: t('tableCostOfRevenue'), className: 'num', widthPreset: 'money', maxWidth: 112, grow: 0, value: (row) => formatAmount(row.financial, row.financial?.costs?.costOfRevenue?.value, true) },
-    { label: t('tableGrossProfit'), className: 'num', widthPreset: 'money', maxWidth: 108, grow: 0, value: (row) => formatAmount(row.financial, row.financial?.profit?.gross?.value) },
-    { label: t('tableOperatingExpenses'), className: 'num', widthPreset: 'money', maxWidth: 114, grow: 0, value: (row) => formatAmount(row.financial, row.financial?.costs?.operatingExpenses?.total, true) },
-    { label: t('tableOpexItems'), className: 'wide', widthPreset: 'wide', maxWidth: 330, grow: 2, value: (row) => describeItems(row.financial?.costs?.operatingExpenses?.items, row.financial) },
-    { label: t('tableOperatingProfit'), className: 'num', widthPreset: 'money', maxWidth: 112, grow: 0, value: (row) => formatAmount(row.financial, row.financial?.profit?.operating?.value) },
-    { label: t('tableOtherIncome'), className: 'num', widthPreset: 'money', maxWidth: 108, grow: 0, value: (row) => formatAmount(row.financial, row.financial?.otherIncome?.total || 0) },
-    { label: t('tableTax'), className: 'num', widthPreset: 'money', maxWidth: 98, grow: 0, value: (row) => formatAmount(row.financial, row.financial?.costs?.tax?.value, true) },
-    { label: t('tableNetProfit'), className: 'num', widthPreset: 'money', maxWidth: 104, grow: 0, value: (row) => formatAmount(row.financial, row.financial?.profit?.net?.value) },
-    { label: t('tableSourceImage'), className: 'nowrap', widthPreset: 'id', maxWidth: 150, grow: 0.1, value: (row) => row.financial?.sourceImage || '' },
+    { label: t('tableCompany'), className: 'nowrap', widthPreset: 'text', maxWidth: 150, grow: 0.6, value: (row) => row.displayCompany },
+    { label: t('tablePeriod'), className: 'nowrap', widthPreset: 'compact', maxWidth: 98, grow: 0.05, value: (row) => row.displayPeriod },
+    { label: t('tablePeriodEnd'), className: 'nowrap', widthPreset: 'compact', minWidth: 86, maxWidth: 126, grow: 0.1, value: (row) => row.displayPeriodNote },
+    { label: t('tableRevenue'), className: 'num', widthPreset: 'money', maxWidth: 106, grow: 0, value: (row) => row.revenueTotal },
+    { label: t('tableRevenueItems'), className: 'wide', widthPreset: 'wide', maxWidth: 340, grow: 2, value: (row) => row.revenueItems },
+    { label: t('tableCostOfRevenue'), className: 'num', widthPreset: 'money', maxWidth: 112, grow: 0, value: (row) => row.costOfRevenue },
+    { label: t('tableGrossProfit'), className: 'num', widthPreset: 'money', maxWidth: 108, grow: 0, value: (row) => row.grossProfit },
+    { label: t('tableOperatingExpenses'), className: 'num', widthPreset: 'money', maxWidth: 114, grow: 0, value: (row) => row.operatingExpenses },
+    { label: t('tableOpexItems'), className: 'wide', widthPreset: 'wide', maxWidth: 330, grow: 2, value: (row) => row.operatingExpenseItems },
+    { label: t('tableOperatingProfit'), className: 'num', widthPreset: 'money', maxWidth: 112, grow: 0, value: (row) => row.operatingProfit },
+    { label: t('tableOtherIncome'), className: 'num', widthPreset: 'money', maxWidth: 108, grow: 0, value: (row) => row.otherIncome },
+    { label: t('tableTax'), className: 'num', widthPreset: 'money', maxWidth: 98, grow: 0, value: (row) => row.tax },
+    { label: t('tableNetProfit'), className: 'num', widthPreset: 'money', maxWidth: 104, grow: 0, value: (row) => row.netProfit },
+    { label: t('tableSourceImage'), className: 'nowrap', widthPreset: 'id', maxWidth: 150, grow: 0.1, value: (row) => row.sourceImage },
   ];
   companiesTableCount.textContent = countText('companiesCountOne', 'companiesCountMany', companies.length);
   statementsTableCount.textContent = countText('statementsCountOne', 'statementsCountMany', statements.length);
@@ -966,7 +1134,7 @@ function virtualTableTarget(kind) {
   if (!info) return null;
   if (kind === 'company') {
     const key = companyKey(state.company);
-    const index = info.rows.findIndex((row) => companyKey(row.company) === key);
+    const index = info.rows.findIndex((row) => companyKey(row.companyCanonical || row.company) === key);
     return index >= 0 ? { table, info, index } : null;
   }
   const key = currentRecord()?.dataset?.key;
@@ -1048,11 +1216,11 @@ function timelineColors(record, group) {
 function renderActiveSummary() {
   const record = currentRecord();
   actionTitle.textContent = record
-    ? [record.company, [record.period, record.periodNote].filter(Boolean).join(' - ')].filter(Boolean).join(' · ')
+    ? [displayCompany(record), [displayPeriod(record), displayPeriodNote(record)].filter(Boolean).join(' - ')].filter(Boolean).join(' · ')
     : t('noDataPointSelected');
 }
 function renderCompanies() {
-  const visibleGroups = groups.filter((group) => matches(group.searchText, companySearch.value));
+  const visibleGroups = groups.filter((group) => matches(searchTextForGroup(group), companySearch.value));
   companyList.innerHTML = '';
   if (!visibleGroups.length) {
     companyList.innerHTML = `<div class="empty-state">${escapeHtml(t('noMatchingCompanies'))}</div>`;
@@ -1067,20 +1235,20 @@ function renderCompanies() {
     button.dataset.company = group.company;
     button.innerHTML = `
       <div class="item-top">
-        <span class="item-name">${escapeHtml(group.company)}</span>
-        <span class="item-meta">${escapeHtml(t('latest'))} ${escapeHtml(group.latest.period)}</span>
+        <span class="item-name">${escapeHtml(displayCompany(group.latest))}</span>
+        <span class="item-meta">${escapeHtml(t('latest'))} ${escapeHtml(displayPeriod(group.latest))}</span>
         <span class="count-pill">${group.records.length}</span>
       </div>
     `;
     button.addEventListener('click', () => {
       state.company = group.company;
-      const next = sortedRecords(group).find((record) => matches(record.searchText, periodSearch.value)) || sortedRecords(group)[0];
+      const next = sortedRecords(group).find((record) => matches(searchTextForRecord(record), periodSearch.value)) || sortedRecords(group)[0];
       if (next) {
         state.activeIndex = next.index;
         syncDatasetHash(next);
       }
       renderAll();
-      draw();
+      draw({ renderTable: false, syncView: false });
       companySearchController.setOpen(false);
       scrollActiveTableRow('company');
     });
@@ -1111,7 +1279,7 @@ function renderPeriods() {
       const bucket = year.quarters.get(tag);
       const record = bucket?.records[0];
       const isActive = Boolean(bucket?.records.some((entry) => entry.index === state.activeIndex));
-      const title = record ? [record.period, record.periodNote || record.label].filter(Boolean).join(', ') : `${year.yearKey} ${tag}`;
+      const title = record ? [displayPeriod(record), displayPeriodNote(record) || displayLabel(record)].filter(Boolean).join(', ') : `${year.yearKey} ${tag}`;
       return `
         <button
           type="button"
@@ -1131,7 +1299,7 @@ function renderPeriods() {
             type="button"
             class="variant-chip${record.index === state.activeIndex ? ' active' : ''}"
             data-index="${record.index}"
-            title="${escapeHtml(record.label || record.dataset.key)}"
+            title="${escapeHtml(displayLabel(record) || record.dataset.key)}"
             aria-pressed="${record.index === state.activeIndex ? 'true' : 'false'}"
           >${escapeHtml(variantLabel(record))}</button>
         `).join('')}
@@ -1157,6 +1325,7 @@ function renderPeriods() {
   });
 }
 function renderAll() {
+  syncViewModeControls();
   renderActiveSummary();
   renderCompanies();
   renderPeriods();
@@ -1184,22 +1353,24 @@ function setViewMode(mode, persist = true) {
   state.viewMode = mode;
   if (persist) writeStoredValue(VIEW_MODE_KEY, mode);
   renderAll();
-  draw();
+  draw({ renderTable: false, syncView: false });
   if (mode === 'table') scrollActiveTableRow('statement');
 }
 
 function createHeaderSearchController({ section, input, toggle, render }) {
   const isOpen = () => section.classList.contains('search-open');
+  const hasActiveFilter = () => Boolean(clean(input.value));
   const sync = () => {
     const open = isOpen();
-    const active = open || Boolean(clean(input.value));
+    const active = open || hasActiveFilter();
     toggle.classList.toggle('active', active);
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
   };
   const setOpen = (open) => {
-    section.classList.toggle('search-open', open);
+    const nextOpen = open || hasActiveFilter();
+    section.classList.toggle('search-open', nextOpen);
     sync();
-    if (open) requestAnimationFrame(() => input.focus());
+    if (nextOpen) requestAnimationFrame(() => input.focus());
   };
   toggle.addEventListener('click', () => {
     setOpen(!isOpen());
@@ -1213,6 +1384,8 @@ function createHeaderSearchController({ section, input, toggle, render }) {
     if (input.value) {
       input.value = '';
       render();
+      sync();
+      return;
     }
     setOpen(false);
     toggle.focus();
@@ -1255,7 +1428,7 @@ viewMode.addEventListener('click', (e) => {
   setViewMode(button.dataset.view);
 });
 languageToggle.addEventListener('click', () => {
-  setLanguage(state.language === 'en' ? 'zh' : 'en');
+  setLanguage(I18N_API.nextLanguage ? I18N_API.nextLanguage(state.language) : state.language === 'en' ? 'zh' : 'en');
 });
 themeToggle.addEventListener('click', () => {
   setTheme(state.theme === 'light' ? 'dark' : 'light');
@@ -1302,14 +1475,14 @@ sidebarResizer.addEventListener('keydown', (e) => {
 function chartWidth(d) {
   return d.render?.width || window.SankeyEngine.DEFAULTS?.width || 2862;
 }
-function draw() {
-  syncViewModeControls();
+function draw({ renderTable = true, syncView = true } = {}) {
+  if (syncView) syncViewModeControls();
   if (state.viewMode === 'table') {
-    renderTables();
+    if (renderTable) renderTables();
     svgBtn.disabled = true;
     return;
   }
-  const d = currentDataset();
+  const d = localizedDataset(currentDataset());
   const maxWidth = chartWidth(d);
   document.querySelector('.card').style.maxWidth = maxWidth + 'px';
   if (d) window.SankeyEngine.render('#chart', d);
@@ -1323,7 +1496,7 @@ window.addEventListener('hashchange', () => {
   state.activeIndex = record.index;
   state.company = record.company;
   renderAll();
-  draw();
+  draw({ renderTable: false, syncView: false });
   scrollActiveTableRow('statement');
 });
 
@@ -1342,10 +1515,11 @@ window.addEventListener('resize', () => {
 applyStaticTranslations();
 syncResponsiveLayout();
 renderAll();
-draw();
+draw({ renderTable: false, syncView: false });
 requestAnimationFrame(() => {
   requestAnimationFrame(() => {
     document.body.classList.remove('boot-no-motion');
+    prewarmI18nCaches();
   });
 });
 
@@ -1418,18 +1592,18 @@ companiesCsvBtn.onclick = () => {
 statementsCsvBtn.onclick = () => {
   const columns = [
     { label: 'dataset_key', value: (row) => row.record.dataset.key },
-    { label: 'company', value: (row) => row.record.company },
-    { label: 'period', value: (row) => row.record.period },
-    { label: 'period_note', value: (row) => row.record.periodNote },
+    { label: 'company', value: (row) => row.displayCompany },
+    { label: 'period', value: (row) => row.displayPeriod },
+    { label: 'period_note', value: (row) => row.displayPeriodNote },
     { label: 'currency', value: (row) => row.financial?.currency || '' },
     { label: 'unit', value: (row) => row.financial?.unit || '' },
     { label: 'revenue_total', value: (row) => row.financial?.revenue?.total ?? '' },
     { label: 'revenue_notes', value: (row) => notesText(row.financial?.revenue?.notes) },
-    { label: 'revenue_items', value: (row) => describeItems(row.financial?.revenue?.items, row.financial) },
+    { label: 'revenue_items', value: (row) => row.revenueItems },
     { label: 'cost_of_revenue', value: (row) => row.financial?.costs?.costOfRevenue?.value ?? '' },
     { label: 'gross_profit', value: (row) => row.financial?.profit?.gross?.value ?? '' },
     { label: 'operating_expenses', value: (row) => row.financial?.costs?.operatingExpenses?.total ?? '' },
-    { label: 'operating_expense_items', value: (row) => describeItems(row.financial?.costs?.operatingExpenses?.items, row.financial) },
+    { label: 'operating_expense_items', value: (row) => row.operatingExpenseItems },
     { label: 'operating_profit', value: (row) => row.financial?.profit?.operating?.value ?? '' },
     { label: 'other_income', value: (row) => row.financial?.otherIncome?.total ?? 0 },
     { label: 'tax', value: (row) => row.financial?.costs?.tax?.value ?? '' },

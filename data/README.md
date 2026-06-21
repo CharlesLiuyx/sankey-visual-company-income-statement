@@ -3,6 +3,12 @@
 The `data/` directory is the source of truth for dataset records and reusable
 data-adjacent assets.
 
+English fields are the canonical/default data. Runtime i18n comes from
+`src/i18n.js` plus optional `i18n.<language>` overlays in dataset adapters,
+financial SSOT records, and company metadata records. Keep localized overlays
+display-only: text and language-specific text layout adjustments are allowed;
+financial values, links, node geometry, and verification semantics are not.
+
 ```text
 data/
   README.md

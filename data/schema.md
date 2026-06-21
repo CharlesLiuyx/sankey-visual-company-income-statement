@@ -20,6 +20,12 @@ dataset.
 registering a new company's first dataset so Table mode can show company-level
 context separately from period-specific financial statements.
 
+`src/i18n.js` defines the project-wide language list. English fields are the
+canonical/default data used for verification. For every non-default supported
+language, add `i18n.<language>` overlays on datasets, financial SSOT records,
+and company metadata records when precise wording or language-specific layout
+is needed. Do not create parallel dataset files per language.
+
 ---
 
 ## Pure data SSOT
@@ -72,6 +78,21 @@ context separately from period-specific financial statements.
     operating: { id: 'operating_profit', label: 'Operating profit', value: 53.5 },
     net: { id: 'net_profit', label: 'Net profit', value: 58.3 },
   },
+  i18n: {
+    zh: {
+      periodNote: '截至 2026 年 4 月',
+      revenue: {
+        items: [
+          { id: 'data_center', label: '数据中心' },
+        ],
+      },
+      profit: {
+        gross: { label: '毛利润' },
+        operating: { label: '营业利润' },
+        net: { label: '净利润' },
+      },
+    },
+  },
 }
 ```
 
@@ -105,6 +126,15 @@ checks every company in the financial SSOT has a matching
   sourceUrls: [
     'https://www.nvidia.com/en-us/about-nvidia/',
   ],
+  i18n: {
+    zh: {
+      sector: '信息技术',
+      industry: '半导体',
+      headquarters: '美国加利福尼亚州圣克拉拉',
+      fiscalYearEnd: '1 月最后一个星期日',
+      description: 'Table 模式使用的本地化公司简介。',
+    },
+  },
 }
 ```
 
@@ -123,6 +153,7 @@ when they can be found from reliable public sources.
   meta: { … },                            // titles, period, currency, logo
   nodes: [ … ],
   links: [ … ],
+  i18n: { … },                            // localized display overlays
 }
 ```
 
@@ -139,6 +170,47 @@ when they can be found from reliable public sources.
 | `referenceImage` | object \| string | processed PNG for Reference mode, e.g. `{ src, width, height }` |
 | `logoSvg`     | string  | inner SVG markup drawn above the hub node (optional)         |
 | `logoViewBox` / `logoWidth` / `logoHeight` | — | size/coords for `logoSvg`              |
+
+### i18n overlay
+
+Dataset overlays are keyed by language code:
+
+```js
+i18n: {
+  zh: {
+    name: 'NVIDIA · 2027 财年第一季度',
+    meta: {
+      title: 'NVIDIA 2027 财年第一季度利润表',
+      period: '2027 财年第一季度',
+      periodNote: '截至 2026 年 4 月',
+      titleTextLength: 2100,
+    },
+    nodes: {
+      revenue: { label: '收入', notes: ['同比 +85%'] },
+      gross_profit: { label: '毛利润', notes: ['毛利率 75%', '同比 +14 个百分点'] },
+    },
+    layout: {
+      labels: {
+        revenue: {
+          blocks: [
+            { lines: [{ text: '收入' }, { text: '$value' }, { text: '同比 +85%' }] },
+          ],
+        },
+      },
+    },
+  },
+}
+```
+
+Allowed overlay content is display-only: localized strings and text layout
+adjustments such as title sizing or fixed-label line text. Overlays must not
+change financial values, `nodes[].value`, `links`, source images, node geometry,
+or any field that changes SSOT/d3 verification semantics.
+
+For fixed-layout datasets, every explicit `layout.labels.*.blocks[].lines[].text`
+that is not `$value` should have a localized equivalent. For helper-built
+datasets, node labels and notes are usually sufficient because the renderer
+builds label blocks from node text.
 
 ### node
 

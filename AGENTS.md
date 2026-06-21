@@ -33,6 +33,8 @@ reference assets when needed, and run a d3-sankey fidelity loop automatically.
    - `data/income-statements.js`
    - `data/company-metadata.js` when the company is new
    - `index.html` dataset script registration
+   - Dataset, SSOT, and company metadata i18n overlays for every non-default
+     language listed in `window.SANKEY_I18N.languageCodes`
 6. If company icons or company-internal business/segment icons appear in the
    source image, run the spec-driven icon extraction workflow before
    vectorizing or rendering them:
@@ -64,6 +66,9 @@ reference assets when needed, and run a d3-sankey fidelity loop automatically.
 7. Before authoring a new company's first dataset, gather company metadata
    (description, sector, industry, headquarters, website, ticker/exchange when
    available, and source URLs) and add it to `data/company-metadata.js`.
+   Also add localized company profile fields for every non-default supported
+   language, including at least display name when it differs, sector, industry,
+   headquarters, fiscal year end, and description.
 8. Set `meta.referenceImage` to the processed PNG with exact source dimensions.
 9. Keep `input/pending/` empty except `.gitkeep` after processing.
 
@@ -90,6 +95,17 @@ Prefer the existing project patterns:
 - Keep `data/company-metadata.js` as the company-profile SSOT. It powers the
   Table view's company list and should be updated before the first dataset for
   a new company is registered.
+- Keep English as the canonical/default data language. For Sankey and Table
+  i18n, add `i18n.<language>` overlays instead of creating parallel dataset
+  files. These overlays may contain localized display strings and language-
+  specific text layout adjustments, but must not change values, links, node
+  geometry, financial totals, source images, or verification semantics.
+- When authoring or materially changing a dataset, localize all user-visible
+  dataset text for every non-default supported language: `name`, `meta.title`,
+  `meta.period`, `meta.periodNote`, node labels, notes, and any explicit
+  `layout.labels.*.blocks[].lines[].text` that is not `$value`. Localize the
+  matching financial SSOT labels/notes and new company metadata as part of the
+  same workflow.
 
 For company and business icons:
 
@@ -262,6 +278,8 @@ Before final response, verify:
 - `node --check data/income-statements.js` passes.
 - `node --check data/company-metadata.js` passes.
 - `pnpm verify:ssot` passes.
+- `pnpm verify:i18n -- --strict <dataset-key>` passes for new or materially
+  changed datasets after their language overlays have been added.
 - If icon assets were extracted:
   - `python3 scripts/extract_icon_crops.py --spec input/icon-crop-specs/<dataset-key>.json` passes.
   - `data/assets/icon-references/<company>/crop-report.json` shows every crop

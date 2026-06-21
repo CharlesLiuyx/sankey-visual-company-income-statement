@@ -258,6 +258,48 @@
           operating: { id: 'operating_profit', label: 'Operating profit', value: 2.8, notes: ['42% margin', '+10pp Y/Y'] },
           net: { id: 'net_profit', label: 'Net income', value: 2.3, notes: ['35% margin', '+6pp Y/Y'] },
         },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 +27%'],
+              items: [
+                { id: 'investment_advisory_fees', label: '投资顾问、费用及证券借贷', notes: ['同比 +24%'] },
+                { id: 'performance_fees', label: '投资顾问绩效费', notes: ['同比 +353%'] },
+                { id: 'technology_services', label: '技术服务', notes: ['同比 +22%'] },
+                { id: 'distribution_fees', label: '分销费用', notes: ['同比 +21%'] },
+                { id: 'advisory_other', label: '顾问及其他', notes: ['同比 +19%'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: {
+                label: '收入成本',
+                notes: ['来源图未单独显示毛利润或收入成本层。'],
+              },
+              operatingExpenses: {
+                items: [
+                  { id: 'compensation_benefits', label: '薪酬与福利' },
+                  { id: 'sales_asset_account_expenses', label: '销售、资产及账户费用' },
+                  { id: 'amortization_other', label: '摊销及其他' },
+                  { id: 'ga', label: '管理费用' },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            otherIncome: {
+              items: [{ id: 'other', label: '其他' }],
+            },
+            profit: {
+              gross: {
+                label: '毛利润',
+                notes: ['来源图将收入直接流向营业利润和运营费用。'],
+              },
+              operating: { label: '营业利润', notes: ['利润率 42%', '同比 +10 个百分点'] },
+              net: { label: '净利润', notes: ['利润率 35%', '同比 +6 个百分点'] },
+            },
+          },
+        },
       },
       {
         key: 'coreweave-q1-fy26',

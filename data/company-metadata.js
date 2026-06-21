@@ -221,6 +221,16 @@
           'https://ir.blackrock.com/financials/sec-filings/default.aspx',
           'https://www.blackrock.com/corporate/newsroom/press-releases/article/corporate-one/press-releases/blackrock-reports-first-quarter-2026',
         ],
+        i18n: {
+          zh: {
+            sector: '金融',
+            industry: '投资管理、资产管理、ETF、金融科技和顾问服务',
+            headquarters: '美国纽约州纽约',
+            fiscalYearEnd: '12 月 31 日',
+            description:
+              'BlackRock 是全球投资管理与金融科技公司，面向个人、机构和中介客户提供投资顾问、iShares ETF、Aladdin 技术、风险管理及相关服务。',
+          },
+        },
       },
       {
         key: 'coreweave',

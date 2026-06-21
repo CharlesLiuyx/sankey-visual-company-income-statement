@@ -392,5 +392,32 @@
       { source: 'operating_expenses', target: 'amortization_other', value: 0.3, sourceOrder: 2, targetOrder: 0 },
       { source: 'operating_expenses', target: 'ga', value: 0.1, sourceOrder: 3, targetOrder: 0 },
     ],
+
+    i18n: {
+      zh: {
+        name: 'BlackRock · 2026 财年第一季度',
+        meta: {
+          title: 'BlackRock 2026 财年第一季度利润表',
+          period: '2026 财年第一季度',
+          periodNote: '截至 2026 年 3 月',
+        },
+        nodes: {
+          investment_advisory_fees: { label: '投资顾问、费用及证券借贷', notes: ['同比 +24%'] },
+          performance_fees: { label: '投资顾问绩效费', notes: ['同比 +353%'] },
+          technology_services: { label: '技术服务', notes: ['同比 +22%'] },
+          distribution_fees: { label: '分销费用', notes: ['同比 +21%'] },
+          advisory_other: { label: '顾问及其他', notes: ['同比 +19%'] },
+          revenue: { label: '收入', notes: ['同比 +27%'] },
+          operating_profit: { label: '营业利润', notes: ['利润率 42%', '同比 +10 个百分点'] },
+          operating_expenses: { label: '运营费用' },
+          net_profit: { label: '净利润', notes: ['利润率 35%', '同比 +6 个百分点'] },
+          tax: { label: '税费' },
+          compensation_benefits: { label: '薪酬与福利' },
+          sales_asset_account_expenses: { label: '销售、资产及账户费用' },
+          amortization_other: { label: '摊销及其他' },
+          ga: { label: '管理费用' },
+        },
+      },
+    },
   });
 })();

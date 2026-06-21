@@ -28278,16 +28278,18 @@
 
       function createHeaderSearchController({ section, input, toggle, render }) {
         const isOpen = () => section.classList.contains('search-open');
+        const hasActiveFilter = () => Boolean(clean(input.value));
         const sync = () => {
           const open = isOpen();
-          const active = open || Boolean(clean(input.value));
+          const active = open || hasActiveFilter();
           toggle.classList.toggle('active', active);
           toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         };
         const setOpen = (open) => {
-          section.classList.toggle('search-open', open);
+          const nextOpen = open || hasActiveFilter();
+          section.classList.toggle('search-open', nextOpen);
           sync();
-          if (open) requestAnimationFrame(() => input.focus());
+          if (nextOpen) requestAnimationFrame(() => input.focus());
         };
         toggle.addEventListener('click', () => {
           setOpen(!isOpen());
@@ -28301,6 +28303,8 @@
           if (input.value) {
             input.value = '';
             render();
+            sync();
+            return;
           }
           setOpen(false);
           toggle.focus();

@@ -53,7 +53,6 @@ function loadBrowserData() {
   for (const script of [
     'src/icons.js',
     'src/sankey-engine.js',
-    'src/income-statement.js',
     'src/i18n.js',
     'data/income-statements.js',
     'data/company-metadata.js',

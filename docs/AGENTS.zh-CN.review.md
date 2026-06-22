@@ -63,8 +63,8 @@
 
 优先沿用项目中已有模式：
 
-- 对普通公司输入，使用 `window.SankeyEngine.fromIncomeStatement(...)`。
-- 当像素或布局保真度重要时，使用显式的低层级 `nodes`、`links`、`layout.nodes` 和 `layout.labels`。
+- 已注册数据集应编写为高保真 adapter：使用显式的低层级 `nodes`、`links`、
+  `layout.nodes` 和 `layout.labels`，并按源图调校。
 - 一开始识别源图 label 区域时，要保持每个语义 label 单元完整。不要因为名称、数值、备注、margin 或同比文本在视觉上分开，就把同一节点的相关内容识别成互不相关的区域；先按同一个 node/label 意图归组，再为了排版拆成 `layout.labels.*.blocks` 或换行。
 - 保留源图片中的数值和备注。
 - 不要复现发布方水印、创作者/账号品牌、网站 URL、社交徽标、

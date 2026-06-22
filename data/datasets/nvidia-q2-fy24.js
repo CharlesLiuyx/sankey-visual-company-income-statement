@@ -1,154 +1,836 @@
 /* ====================================================================
- *  NVIDIA Q2 FY24 income statement ($B)
- *  Reconstructed from input/processed/nvidia-q2-fy24.png with the
- *  NVIDIA quarterly income-statement helper and fixed source geometry.
+ * NVIDIA · Q2 FY24 income statement ($B)
+ * Static high-fidelity dataset adapter generated from the prior runtime
+ * helper output so this quarter is self-contained.
  * ==================================================================== */
 (function () {
-  const dataset = window.SankeyEngine.nvidiaQuarterlyDataset({
-    key: 'nvidia-q2-fy24',
-    period: 'Q2 FY24',
-    periodNote: 'Ending July 2023',
-    periodStamp: 'bottom-center',
-    width: 2922,
-    height: 1424,
-    revenueHeight: 400,
-
-    revenue: [
-      { id: 'data_center', value: 10.3, notes: ['+141% Q/Q'] },
-      { id: 'gaming', value: 2.5, notes: ['+11% Q/Q'] },
-      { id: 'professional_visualization', value: 0.4, notes: ['+28% Q/Q'] },
-      { id: 'automotive', value: 0.3, notes: ['(15%) Q/Q'] },
-      { id: 'oem_other', value: 0.1, notes: ['(14%) Q/Q'] },
-    ],
-    revenueTotal: 13.5,
-    revenueNotes: ['+88% Q/Q'],
-    costOfRevenue: 4.0,
-    grossProfit: 9.5,
-    grossProfitNotes: ['70% margin', '+5pp Q/Q'],
-    operatingExpenses: 2.7,
-    rnd: 2.0,
-    sga: 0.6,
-    operatingProfit: 6.8,
-    operatingProfitNotes: ['50% margin', '+21pp Q/Q'],
-    otherIncome: [{ id: 'other', label: 'Other', value: 0.2 }],
-    tax: 0.8,
-    netProfit: 6.2,
-    netProfitNotes: ['46% margin', '+17pp Q/Q'],
-  });
-
-  dataset.layout.scale = 25.2;
-  Object.assign(dataset.layout.nodes.data_center, { x: 495, y: 359, width: 80, height: 258 });
-  Object.assign(dataset.layout.nodes.gaming, { x: 495, y: 797, width: 81, height: 61 });
-  Object.assign(dataset.layout.nodes.professional_visualization, { x: 500, y: 1025, width: 81, height: 8 });
-  Object.assign(dataset.layout.nodes.automotive, { x: 495, y: 1205, width: 80, height: 5 });
-  Object.assign(dataset.layout.nodes.oem_other, { x: 495, y: 1368, width: 80, height: 2 });
-  Object.assign(dataset.layout.nodes.revenue, { x: 1017, y: 651, width: 78, height: 338 });
-  Object.assign(dataset.layout.nodes.gross_profit, { x: 1532, y: 553, width: 80, height: 238 });
-  Object.assign(dataset.layout.nodes.cost_of_revenue, { x: 1534, y: 973, width: 81, height: 102 });
-  Object.assign(dataset.layout.nodes.operating_profit, { x: 2062, y: 447, width: 80, height: 170 });
-  Object.assign(dataset.layout.nodes.operating_expenses, { x: 2059, y: 855, width: 80, height: 66 });
-  Object.assign(dataset.layout.nodes.net_profit, { x: 2580, y: 358, width: 81, height: 155 });
-  Object.assign(dataset.layout.nodes.tax, { x: 2580, y: 726, width: 81, height: 19 });
-  Object.assign(dataset.layout.nodes.rnd, { x: 2580, y: 988, width: 81, height: 50 });
-  Object.assign(dataset.layout.nodes.sga, { x: 2580, y: 1243, width: 81, height: 15 });
-  Object.assign(dataset.layout.nodes.other, { x: 2442, y: 573, width: 81, height: 3 });
-
-  const setLinkWidth = (source, target, width) => {
-    const link = dataset.links.find((item) => item.source === source && item.target === target);
-    if (link) link.width = width;
-  };
-  [
-    ['data_center', 'revenue', 258],
-    ['gaming', 'revenue', 61],
-    ['professional_visualization', 'revenue', 8],
-    ['automotive', 'revenue', 5],
-    ['oem_other', 'revenue', 2],
-    ['revenue', 'gross_profit', 238],
-    ['revenue', 'cost_of_revenue', 102],
-    ['gross_profit', 'operating_profit', 170],
-    ['gross_profit', 'operating_expenses', 66],
-    ['operating_profit', 'net_profit', 151],
-    ['operating_profit', 'tax', 19],
-    ['operating_expenses', 'rnd', 50],
-    ['operating_expenses', 'sga', 15],
-    ['other', 'net_profit', 3],
-  ].forEach(([source, target, width]) => setLinkWidth(source, target, width));
-
-  Object.assign(dataset.meta, {
-    titleX: 1453,
-    titleY: 115,
-    titleSize: 143,
-    titleWeight: 700,
-    titleTextLength: 2412,
-    logoWidth: 317,
-    logoHeight: 227,
-    logoY: 199,
-    periodX: 1433,
-    periodY: 1358,
-    periodNoteY: 1410,
-  });
-  dataset.meta.logoSvg = `
-        <rect x="140" y="0" width="166" height="178" fill="#76b900"/>
-        <g transform="translate(140,10) scale(6.8)" fill="#ffffff">
-          <path d="${window.SANKEY_BRAND.nvidia}"/>
-        </g>
-        <text x="195" y="279" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-size="94" font-weight="800" letter-spacing="0" fill="#000000">NVIDIA</text>
-      `;
-  Object.assign(dataset.layout.labels.data_center.icons, { x: 24, y: 400, size: 150 });
-  Object.assign(dataset.layout.labels.gaming.icons, { x: 5, y: 751, size: 170 });
-  Object.assign(dataset.layout.labels.professional_visualization.icons, { x: 17, y: 945, size: 170 });
-  Object.assign(dataset.layout.labels.automotive.icons, { x: 0, y: 1088, size: 178 });
-  Object.assign(dataset.layout.labels.oem_other.icons, { x: 20, y: 1268, size: 156 });
-  dataset.layout.labels.data_center.blocks = [
-    { parts: ['name'], x: 345, top: 468, anchor: 'middle', nameSize: 40 },
-    { parts: ['value', 'notes'], x: 535, top: 251, anchor: 'middle', valueSize: 43, noteSize: 31, lineGap: 10 },
-  ];
-  dataset.layout.labels.gaming.blocks = [
-    { parts: ['name'], x: 382, top: 801, anchor: 'middle', nameSize: 40 },
-    { parts: ['value', 'notes'], x: 535, top: 687, anchor: 'middle', valueSize: 43, noteSize: 31, lineGap: 17 },
-  ];
-  dataset.layout.labels.professional_visualization.blocks = [
-    { parts: ['name'], x: 320, top: 967, anchor: 'middle', nameSize: 40, lineGap: 10 },
-    { parts: ['value', 'notes'], x: 535, top: 917, anchor: 'middle', valueSize: 43, noteSize: 31 },
-  ];
-  dataset.layout.labels.automotive.blocks = [
-    { parts: ['name'], x: 337, top: 1186, anchor: 'middle', nameSize: 40 },
-    { parts: ['value', 'notes'], x: 535, top: 1097, anchor: 'middle', valueSize: 43, noteSize: 31 },
-  ];
-  dataset.layout.labels.oem_other.blocks = [
-    { parts: ['name'], x: 331, top: 1350, anchor: 'middle', nameSize: 40 },
-    { parts: ['value', 'notes'], x: 535, top: 1262, anchor: 'middle', valueSize: 43, noteSize: 31, lineGap: 17 },
-  ];
-  dataset.layout.labels.revenue.blocks = [
-    { parts: ['name', 'value', 'notes'], x: 1056, top: 491, anchor: 'middle', nameSize: 40, valueSize: 43, noteSize: 31 },
-  ];
-  dataset.layout.labels.gross_profit.blocks = [
-    { parts: ['name', 'value', 'notes'], x: 1576, top: 342, anchor: 'middle', nameSize: 41, valueSize: 44, noteSize: 32, lineGap: 12 },
-  ];
-  dataset.layout.labels.operating_profit.blocks = [
-    { parts: ['name', 'value', 'notes'], x: 2100, top: 235, anchor: 'middle', nameSize: 41, valueSize: 44, noteSize: 32, lineGap: 12 },
-  ];
-  dataset.layout.labels.net_profit.blocks = [
-    { parts: ['name', 'value', 'notes'], x: 2690, top: 344, anchor: 'start', nameSize: 41, valueSize: 44, noteSize: 32, lineGap: 12 },
-  ];
-  dataset.layout.labels.cost_of_revenue.blocks = [
-    { parts: ['name', 'value'], x: 1571, top: 1090, anchor: 'middle', nameSize: 38, valueSize: 37, lineGap: 18 },
-  ];
-  dataset.layout.labels.operating_expenses.blocks = [
-    { parts: ['name', 'value'], x: 2095, top: 912, anchor: 'middle', nameSize: 38, valueSize: 37, lineGap: 30 },
-  ];
-  dataset.layout.labels.rnd.blocks = [
-    { parts: ['name', 'value', 'notes'], x: 2795, top: 945, anchor: 'middle', nameSize: 34, valueSize: 34, noteSize: 31, lineGap: 13 },
-  ];
-  dataset.layout.labels.sga.blocks = [
-    { parts: ['name', 'value', 'notes'], x: 2790, top: 1177, anchor: 'middle', nameSize: 34, valueSize: 34, noteSize: 31, lineGap: 13 },
-  ];
-  dataset.layout.labels.other.blocks = [
-    { parts: ['name', 'value'], x: 2478, top: 600, anchor: 'middle', nameSize: 34, valueSize: 34 },
-  ];
-  dataset.layout.labels.tax.blocks = [
-    { parts: ['name', 'value'], x: 2732, top: 697, anchor: 'start', nameSize: 35, valueSize: 34 },
-  ];
+  const dataset = {
+  "key": "nvidia-q2-fy24",
+  "name": "NVIDIA · Q2 FY24",
+  "meta": {
+    "title": "NVIDIA Q2 FY24 Income Statement",
+    "period": "Q2 FY24",
+    "periodNote": "Ending July 2023",
+    "titleSize": 143,
+    "titleX": 1453,
+    "titleY": 115,
+    "titleTextLength": 2412,
+    "currency": "$",
+    "unit": "B",
+    "decimals": 1,
+    "referenceImage": {
+      "src": "input/processed/nvidia-q2-fy24.png",
+      "width": 2922,
+      "height": 1424
+    },
+    "logoWidth": 317,
+    "logoHeight": 227,
+    "logoY": 199,
+    "logoViewBox": "0 0 390 279",
+    "logoSvg": "\n        <rect x=\"140\" y=\"0\" width=\"166\" height=\"178\" fill=\"#76b900\"/>\n        <g transform=\"translate(140,10) scale(6.8)\" fill=\"#ffffff\">\n          <path d=\"M8.948 8.798v-1.43a6.7 6.7 0 0 1 .424-.018c3.922-.124 6.493 3.374 6.493 3.374s-2.774 3.851-5.75 3.851c-.398 0-.787-.062-1.158-.185v-4.346c1.528.185 1.837.857 2.747 2.385l2.04-1.714s-1.492-1.952-4-1.952a6.016 6.016 0 0 0-.796.035m0-4.735v2.138l.424-.027c5.45-.185 9.01 4.47 9.01 4.47s-4.08 4.964-8.33 4.964c-.37 0-.733-.035-1.095-.097v1.325c.3.035.61.062.91.062 3.957 0 6.82-2.023 9.593-4.408.459.371 2.34 1.263 2.73 1.652-2.633 2.208-8.772 3.984-12.253 3.984-.335 0-.653-.018-.971-.053v1.864H24V4.063zm0 10.326v1.131c-3.657-.654-4.673-4.46-4.673-4.46s1.758-1.944 4.673-2.262v1.237H8.94c-1.528-.186-2.73 1.245-2.73 1.245s.68 2.412 2.739 3.11M2.456 10.9s2.164-3.197 6.5-3.533V6.201C4.153 6.59 0 10.653 0 10.653s2.35 6.802 8.948 7.42v-1.237c-4.84-.6-6.492-5.936-6.492-5.936z\"/>\n        </g>\n        <text x=\"195\" y=\"279\" text-anchor=\"middle\" font-family=\"Montserrat,Arial,sans-serif\" font-size=\"94\" font-weight=\"800\" letter-spacing=\"0\" fill=\"#000000\">NVIDIA</text>\n      ",
+    "periodX": 1433,
+    "periodY": 1358,
+    "periodNoteY": 1410,
+    "titleWeight": 700
+  },
+  "nodes": [
+    {
+      "id": "data_center",
+      "col": 0,
+      "order": 0,
+      "type": "source",
+      "labelSide": "left",
+      "label": "Data Center",
+      "value": 10.3,
+      "notes": [
+        "+141% Q/Q"
+      ],
+      "color": "#0e7451",
+      "labelColor": "#0e7451",
+      "icons": [
+        "server"
+      ],
+      "iconSize": 32,
+      "linkTint": "#88b7a3",
+      "valueText": "$10.3B"
+    },
+    {
+      "id": "gaming",
+      "col": 0,
+      "order": 1,
+      "type": "source",
+      "labelSide": "left",
+      "label": "Gaming",
+      "value": 2.5,
+      "notes": [
+        "+11% Q/Q"
+      ],
+      "color": "#a5db57",
+      "labelColor": "#66af04",
+      "icons": [
+        "controller"
+      ],
+      "iconSize": 32,
+      "linkTint": "#add383",
+      "valueText": "$2.5B"
+    },
+    {
+      "id": "professional_visualization",
+      "col": 0,
+      "order": 2,
+      "type": "source",
+      "labelSide": "left",
+      "label": [
+        "Professional",
+        "Visualization"
+      ],
+      "value": 0.4,
+      "notes": [
+        "+28% Q/Q"
+      ],
+      "color": "#49006f",
+      "labelColor": "#49006f",
+      "icons": [
+        "eye"
+      ],
+      "iconSize": 32,
+      "linkTint": "#a07fb4",
+      "valueText": "$0.4B"
+    },
+    {
+      "id": "automotive",
+      "col": 0,
+      "order": 3,
+      "type": "source",
+      "labelSide": "left",
+      "label": "Automotive",
+      "value": 0.3,
+      "notes": [
+        "(15%) Q/Q"
+      ],
+      "color": "#095ab8",
+      "labelColor": "#095ab8",
+      "icons": [
+        "car"
+      ],
+      "iconSize": 32,
+      "linkTint": "#82aad7",
+      "valueText": "$0.3B"
+    },
+    {
+      "id": "oem_other",
+      "col": 0,
+      "order": 4,
+      "type": "source",
+      "labelSide": "left",
+      "label": "OEM & Other",
+      "value": 0.1,
+      "notes": [
+        "(14%) Q/Q"
+      ],
+      "color": "#740046",
+      "labelColor": "#740046",
+      "icons": [
+        "factory"
+      ],
+      "iconSize": 32,
+      "linkTint": "#bc81a0",
+      "valueText": "$0.1B"
+    },
+    {
+      "id": "revenue",
+      "col": 1,
+      "order": 0,
+      "type": "hub",
+      "labelSide": "above",
+      "label": "Revenue",
+      "value": 13.5,
+      "notes": [
+        "+88% Q/Q"
+      ],
+      "valueText": "$13.5B"
+    },
+    {
+      "id": "gross_profit",
+      "col": 2,
+      "order": 0,
+      "type": "profit",
+      "labelSide": "above",
+      "label": "Gross profit",
+      "value": 9.5,
+      "notes": [
+        "70% margin",
+        "+5pp Q/Q"
+      ],
+      "valueText": "$9.5B"
+    },
+    {
+      "id": "cost_of_revenue",
+      "col": 2,
+      "order": 1,
+      "type": "cost",
+      "labelSide": "below",
+      "label": [
+        "Cost of",
+        "revenue"
+      ],
+      "value": 4,
+      "valueText": "($4.0B)"
+    },
+    {
+      "id": "other",
+      "col": 3,
+      "order": 0,
+      "type": "profit",
+      "labelSide": "above",
+      "label": "Other",
+      "value": 0.2,
+      "valueText": "$0.2B"
+    },
+    {
+      "id": "operating_profit",
+      "col": 3,
+      "order": 1,
+      "type": "profit",
+      "labelSide": "above",
+      "label": "Operating profit",
+      "value": 6.8,
+      "notes": [
+        "50% margin",
+        "+21pp Q/Q"
+      ],
+      "valueText": "$6.8B"
+    },
+    {
+      "id": "operating_expenses",
+      "col": 3,
+      "order": 2,
+      "type": "cost",
+      "labelSide": "below",
+      "label": [
+        "Operating",
+        "expenses"
+      ],
+      "value": 2.7,
+      "valueText": "($2.7B)"
+    },
+    {
+      "id": "net_profit",
+      "col": 4,
+      "order": 0,
+      "type": "profit",
+      "labelSide": "right",
+      "label": "Net profit",
+      "value": 6.2,
+      "notes": [
+        "46% margin",
+        "+17pp Q/Q"
+      ],
+      "valueText": "$6.2B"
+    },
+    {
+      "id": "tax",
+      "col": 4,
+      "order": 1,
+      "type": "cost",
+      "labelSide": "right",
+      "label": "Tax",
+      "value": 0.8,
+      "valueText": "($0.8B)"
+    },
+    {
+      "id": "rnd",
+      "col": 4,
+      "order": 2,
+      "type": "cost",
+      "labelSide": "right",
+      "label": [
+        "Research &",
+        "Development"
+      ],
+      "value": 2,
+      "valueText": "($2.0B)"
+    },
+    {
+      "id": "sga",
+      "col": 4,
+      "order": 3,
+      "type": "cost",
+      "labelSide": "right",
+      "label": [
+        "Sales, General",
+        "& Admin"
+      ],
+      "value": 0.6,
+      "valueText": "($0.6B)"
+    }
+  ],
+  "links": [
+    {
+      "source": "data_center",
+      "target": "revenue",
+      "value": 10.3,
+      "width": 258
+    },
+    {
+      "source": "gaming",
+      "target": "revenue",
+      "value": 2.5,
+      "width": 61
+    },
+    {
+      "source": "professional_visualization",
+      "target": "revenue",
+      "value": 0.4,
+      "width": 8
+    },
+    {
+      "source": "automotive",
+      "target": "revenue",
+      "value": 0.3,
+      "width": 5
+    },
+    {
+      "source": "oem_other",
+      "target": "revenue",
+      "value": 0.1,
+      "width": 2
+    },
+    {
+      "source": "revenue",
+      "target": "gross_profit",
+      "value": 9.600000000000001,
+      "width": 238
+    },
+    {
+      "source": "revenue",
+      "target": "cost_of_revenue",
+      "value": 4,
+      "width": 102
+    },
+    {
+      "source": "gross_profit",
+      "target": "operating_profit",
+      "value": 7.000000000000002,
+      "width": 170
+    },
+    {
+      "source": "gross_profit",
+      "target": "operating_expenses",
+      "value": 2.6,
+      "width": 66
+    },
+    {
+      "source": "other",
+      "target": "net_profit",
+      "value": 0.2,
+      "targetOrder": 1,
+      "curve": {
+        "c1x": 2540,
+        "c2x": 2534
+      },
+      "width": 3
+    },
+    {
+      "source": "operating_profit",
+      "target": "net_profit",
+      "value": 6.200000000000002,
+      "targetOrder": 0,
+      "width": 151
+    },
+    {
+      "source": "operating_profit",
+      "target": "tax",
+      "value": 0.8,
+      "width": 19
+    },
+    {
+      "source": "operating_expenses",
+      "target": "rnd",
+      "value": 2,
+      "width": 50
+    },
+    {
+      "source": "operating_expenses",
+      "target": "sga",
+      "value": 0.6,
+      "width": 15
+    }
+  ],
+  "render": {
+    "width": 2922,
+    "height": 1424,
+    "background": "#efefef",
+    "titleColor": "#123e65",
+    "subtitleColor": "#535353",
+    "noteColor": "#535353",
+    "palette": {
+      "source": {
+        "node": "#0e7451",
+        "label": "#0e7451"
+      },
+      "hub": {
+        "node": "#000000",
+        "label": "#000000"
+      },
+      "profit": {
+        "node": "#289321",
+        "label": "#128040"
+      },
+      "cost": {
+        "node": "#be0004",
+        "label": "#800003"
+      }
+    },
+    "linkTint": {
+      "source": "#88b7a3",
+      "hub": null,
+      "profit": "#93c68b",
+      "cost": "#de8577"
+    },
+    "linkOpacity": 1
+  },
+  "layout": {
+    "scale": 25.2,
+    "nodes": {
+      "data_center": {
+        "x": 495,
+        "y": 359,
+        "width": 80,
+        "height": 258
+      },
+      "gaming": {
+        "x": 495,
+        "y": 797,
+        "width": 81,
+        "height": 61
+      },
+      "professional_visualization": {
+        "x": 500,
+        "y": 1025,
+        "width": 81,
+        "height": 8
+      },
+      "automotive": {
+        "x": 495,
+        "y": 1205,
+        "width": 80,
+        "height": 5
+      },
+      "oem_other": {
+        "x": 495,
+        "y": 1368,
+        "width": 80,
+        "height": 2
+      },
+      "revenue": {
+        "x": 1017,
+        "y": 651,
+        "width": 78,
+        "height": 338
+      },
+      "gross_profit": {
+        "x": 1532,
+        "y": 553,
+        "width": 80,
+        "height": 238
+      },
+      "cost_of_revenue": {
+        "x": 1534,
+        "y": 973,
+        "width": 81,
+        "height": 102
+      },
+      "operating_profit": {
+        "x": 2062,
+        "y": 447,
+        "width": 80,
+        "height": 170
+      },
+      "operating_expenses": {
+        "x": 2059,
+        "y": 855,
+        "width": 80,
+        "height": 66
+      },
+      "net_profit": {
+        "x": 2580,
+        "y": 358,
+        "width": 81,
+        "height": 155
+      },
+      "tax": {
+        "x": 2580,
+        "y": 726,
+        "width": 81,
+        "height": 19
+      },
+      "rnd": {
+        "x": 2580,
+        "y": 988,
+        "width": 81,
+        "height": 50
+      },
+      "sga": {
+        "x": 2580,
+        "y": 1243,
+        "width": 81,
+        "height": 15
+      },
+      "other": {
+        "x": 2442,
+        "y": 573,
+        "width": 81,
+        "height": 3
+      }
+    },
+    "labels": {
+      "data_center": {
+        "blocks": [
+          {
+            "parts": [
+              "name"
+            ],
+            "x": 345,
+            "top": 468,
+            "anchor": "middle",
+            "nameSize": 40
+          },
+          {
+            "parts": [
+              "value",
+              "notes"
+            ],
+            "x": 535,
+            "top": 251,
+            "anchor": "middle",
+            "valueSize": 43,
+            "noteSize": 31,
+            "lineGap": 10
+          }
+        ],
+        "icons": {
+          "names": [
+            "server"
+          ],
+          "x": 24,
+          "y": 400,
+          "size": 150,
+          "color": "#000000",
+          "strokeWidth": 2.5
+        }
+      },
+      "gaming": {
+        "blocks": [
+          {
+            "parts": [
+              "name"
+            ],
+            "x": 382,
+            "top": 801,
+            "anchor": "middle",
+            "nameSize": 40
+          },
+          {
+            "parts": [
+              "value",
+              "notes"
+            ],
+            "x": 535,
+            "top": 687,
+            "anchor": "middle",
+            "valueSize": 43,
+            "noteSize": 31,
+            "lineGap": 17
+          }
+        ],
+        "icons": {
+          "names": [
+            "controller"
+          ],
+          "x": 5,
+          "y": 751,
+          "size": 170,
+          "color": "#000000",
+          "strokeWidth": 2.6
+        }
+      },
+      "professional_visualization": {
+        "blocks": [
+          {
+            "parts": [
+              "name"
+            ],
+            "x": 320,
+            "top": 967,
+            "anchor": "middle",
+            "nameSize": 40,
+            "lineGap": 10
+          },
+          {
+            "parts": [
+              "value",
+              "notes"
+            ],
+            "x": 535,
+            "top": 917,
+            "anchor": "middle",
+            "valueSize": 43,
+            "noteSize": 31
+          }
+        ],
+        "icons": {
+          "names": [
+            "eye"
+          ],
+          "x": 17,
+          "y": 945,
+          "size": 170,
+          "color": "#000000",
+          "strokeWidth": 2.6
+        }
+      },
+      "automotive": {
+        "blocks": [
+          {
+            "parts": [
+              "name"
+            ],
+            "x": 337,
+            "top": 1186,
+            "anchor": "middle",
+            "nameSize": 40
+          },
+          {
+            "parts": [
+              "value",
+              "notes"
+            ],
+            "x": 535,
+            "top": 1097,
+            "anchor": "middle",
+            "valueSize": 43,
+            "noteSize": 31
+          }
+        ],
+        "icons": {
+          "names": [
+            "car"
+          ],
+          "x": 0,
+          "y": 1088,
+          "size": 178,
+          "color": "#000000",
+          "strokeWidth": 2.6
+        }
+      },
+      "oem_other": {
+        "blocks": [
+          {
+            "parts": [
+              "name"
+            ],
+            "x": 331,
+            "top": 1350,
+            "anchor": "middle",
+            "nameSize": 40
+          },
+          {
+            "parts": [
+              "value",
+              "notes"
+            ],
+            "x": 535,
+            "top": 1262,
+            "anchor": "middle",
+            "valueSize": 43,
+            "noteSize": 31,
+            "lineGap": 17
+          }
+        ],
+        "icons": {
+          "names": [
+            "factory"
+          ],
+          "x": 20,
+          "y": 1268,
+          "size": 156,
+          "color": "#000000",
+          "strokeWidth": 2.6
+        }
+      },
+      "revenue": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value",
+              "notes"
+            ],
+            "x": 1056,
+            "top": 491,
+            "anchor": "middle",
+            "nameSize": 40,
+            "valueSize": 43,
+            "noteSize": 31
+          }
+        ]
+      },
+      "gross_profit": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value",
+              "notes"
+            ],
+            "x": 1576,
+            "top": 342,
+            "anchor": "middle",
+            "nameSize": 41,
+            "valueSize": 44,
+            "noteSize": 32,
+            "lineGap": 12
+          }
+        ]
+      },
+      "operating_profit": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value",
+              "notes"
+            ],
+            "x": 2100,
+            "top": 235,
+            "anchor": "middle",
+            "nameSize": 41,
+            "valueSize": 44,
+            "noteSize": 32,
+            "lineGap": 12
+          }
+        ]
+      },
+      "net_profit": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value",
+              "notes"
+            ],
+            "x": 2690,
+            "top": 344,
+            "anchor": "start",
+            "nameSize": 41,
+            "valueSize": 44,
+            "noteSize": 32,
+            "lineGap": 12
+          }
+        ]
+      },
+      "cost_of_revenue": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value"
+            ],
+            "x": 1571,
+            "top": 1090,
+            "anchor": "middle",
+            "nameSize": 38,
+            "valueSize": 37,
+            "lineGap": 18
+          }
+        ]
+      },
+      "operating_expenses": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value"
+            ],
+            "x": 2095,
+            "top": 912,
+            "anchor": "middle",
+            "nameSize": 38,
+            "valueSize": 37,
+            "lineGap": 30
+          }
+        ]
+      },
+      "rnd": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value",
+              "notes"
+            ],
+            "x": 2795,
+            "top": 945,
+            "anchor": "middle",
+            "nameSize": 34,
+            "valueSize": 34,
+            "noteSize": 31,
+            "lineGap": 13
+          }
+        ]
+      },
+      "sga": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value",
+              "notes"
+            ],
+            "x": 2790,
+            "top": 1177,
+            "anchor": "middle",
+            "nameSize": 34,
+            "valueSize": 34,
+            "noteSize": 31,
+            "lineGap": 13
+          }
+        ]
+      },
+      "tax": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value"
+            ],
+            "x": 2732,
+            "top": 697,
+            "anchor": "start",
+            "nameSize": 35,
+            "valueSize": 34
+          }
+        ]
+      },
+      "other": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value"
+            ],
+            "x": 2478,
+            "top": 600,
+            "anchor": "middle",
+            "nameSize": 34,
+            "valueSize": 34
+          }
+        ]
+      }
+    }
+  }
+};
 
   (window.DATASETS = window.DATASETS || []).push(dataset);
 })();

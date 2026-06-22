@@ -33,7 +33,6 @@ export function renderHarnessScripts(indexHtml) {
     'vendor/d3-sankey.min.js',
     'src/icons.js',
     'src/sankey-engine.js',
-    'src/income-statement.js',
     'data/income-statements.js',
   ]);
 

@@ -20,10 +20,9 @@ function dataScripts() {
 function loadBrowserData(scripts) {
   const context = { console };
   context.window = context;
-  context.SANKEY_BRAND = { nvidia: '' };
   vm.createContext(context);
 
-  vm.runInContext(readProjectFile('src/income-statement.js'), context, { filename: 'src/income-statement.js' });
+  vm.runInContext(readProjectFile('src/icons.js'), context, { filename: 'src/icons.js' });
   vm.runInContext(readProjectFile('data/income-statements.js'), context, { filename: 'data/income-statements.js' });
   vm.runInContext(readProjectFile('data/company-metadata.js'), context, { filename: 'data/company-metadata.js' });
   for (const script of scripts) {

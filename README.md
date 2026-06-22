@@ -192,37 +192,63 @@ Create a file in `data/datasets/`, register it on the global `DATASETS` array,
 add one `<script>` line in `index.html`, add the comparable financial statement
 record to `data/income-statements.js`, and add company-level context to
 `data/company-metadata.js` before registering the first dataset for that
-company. The fastest Sankey path is the high-level helper — you supply the line
-items and it derives every subtotal and flow:
+company. Registered datasets are authored as high-fidelity adapters: define the
+node/link graph explicitly, then tune `layout.nodes` and `layout.labels` against
+the processed reference image.
 
 ```js
 // data/datasets/my-company-fy25.js
-(window.DATASETS = window.DATASETS || []).push(
-  window.SankeyEngine.fromIncomeStatement({
-    key: 'my-company-fy25',
-    name: 'My Company · FY25',
-    meta: { title: 'My Company FY25 Income Statement',
-            period: 'FY2025', currency: '$', unit: 'M', decimals: 0 },
-
-    revenue: [
-      { label: 'Product', value: 800, notes: ['+20% Y/Y'] },
-      { label: 'Services', value: 200, notes: ['+5% Y/Y'] },
-    ],
-    costOfRevenue: 300,
-    opex: [
-      { label: ['Research &', 'Development'], value: 180 },
-      { label: ['Sales &', 'Marketing'],     value: 150 },
-      { label: ['General &', 'Admin'],        value: 60 },
-    ],
-    tax: 28,
-    otherIncome: [{ label: 'Interest', value: 10 }],   // optional
-    derived: {
-      grossProfit:     { notes: ['70% margin'] },
-      operatingProfit: { notes: ['41% margin'] },
-      netProfit:       { notes: ['33% margin'] },
+const dataset = {
+  key: 'my-company-fy25',
+  name: 'My Company · FY25',
+  meta: {
+    title: 'My Company FY25 Income Statement',
+    period: 'FY2025',
+    currency: '$',
+    unit: 'M',
+    decimals: 0,
+    referenceImage: {
+      src: 'input/processed/my-company-fy25.png',
+      width: 2862,
+      height: 1536,
     },
-  })
-);
+  },
+  nodes: [
+    { id: 'product', label: 'Product', value: 800, type: 'revenue' },
+    { id: 'services', label: 'Services', value: 200, type: 'revenue' },
+    { id: 'revenue', label: 'Revenue', value: 1000, type: 'total' },
+    { id: 'cost_of_revenue', label: 'Cost of revenue', value: 300, type: 'cost' },
+    { id: 'gross_profit', label: 'Gross profit', value: 700, type: 'profit' },
+  ],
+  links: [
+    { source: 'product', target: 'revenue', value: 800 },
+    { source: 'services', target: 'revenue', value: 200 },
+    { source: 'revenue', target: 'gross_profit', value: 700 },
+    { source: 'revenue', target: 'cost_of_revenue', value: 300 },
+  ],
+  layout: {
+    nodes: {
+      product: { x: 120, y: 280, width: 80, height: 240 },
+      services: { x: 120, y: 640, width: 80, height: 120 },
+      revenue: { x: 760, y: 390, width: 80, height: 360 },
+      gross_profit: { x: 1380, y: 330, width: 80, height: 260 },
+      cost_of_revenue: { x: 1380, y: 760, width: 80, height: 100 },
+    },
+    labels: {
+      product: {
+        blocks: [{ x: 88, top: 300, anchor: 'end', lines: [{ text: 'Product' }, { text: '$800M' }] }],
+      },
+      services: {
+        blocks: [{ x: 88, top: 660, anchor: 'end', lines: [{ text: 'Services' }, { text: '$200M' }] }],
+      },
+      revenue: {
+        blocks: [{ x: 800, top: 320, anchor: 'middle', lines: [{ text: 'Revenue' }, { text: '$1.0B' }] }],
+      },
+    },
+  },
+};
+
+(window.DATASETS = window.DATASETS || []).push(dataset);
 ```
 
 ```html
@@ -230,14 +256,11 @@ items and it derives every subtotal and flow:
 <script src="data/datasets/my-company-fy25.js"></script>
 ```
 
-That's it. The helper computes Revenue, Gross / Operating / Net profit and wires
-all the flows for you. Keep `data/income-statements.js` updated with the same
-reported totals and line items, then run `pnpm verify:ssot` to confirm the SSOT
-still covers every registered dataset. For pixel-level control over columns,
-ordering, icons and label placement, author `nodes` + `links` directly instead — see
-[`data/schema.md`](data/schema.md). `data/datasets/nvidia-q1-fy27.js` is a full
-hand-authored example; `data/datasets/nvidia-from-figures.js` builds the same chart from
-raw figures via the helper.
+Keep `data/income-statements.js` updated with the same reported totals and line
+items, then run `pnpm verify:ssot` to confirm the SSOT still covers every
+registered dataset. See [`data/schema.md`](data/schema.md) for the full
+low-level format. `data/datasets/nvidia-q1-fy27.js` is a compact hand-authored
+example.
 
 ## How it's built
 
@@ -247,7 +270,6 @@ raw figures via the helper.
 | `src/app.css`               | viewer layout, controls, sidebar, and responsive styles       |
 | `src/app.js`                | viewer app logic: navigation, mode switching, resizing, export |
 | `src/sankey-engine.js`      | **d3-sankey** renderer: layout + custom nodes/links/labels/logo/interactions |
-| `src/income-statement.js`   | `fromIncomeStatement()` — figures → `{nodes, links}`         |
 | `src/icons.js`              | Lucide icon set (inline SVG) + the NVIDIA brand glyph         |
 | `scripts/build-standalone.mjs` | builds the self-contained HTML artifact                    |
 | `scripts/verify-standalone.mjs` | opens the artifact via `file://` and checks d3 rendering |

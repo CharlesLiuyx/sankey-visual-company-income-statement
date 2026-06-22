@@ -81,9 +81,9 @@ reference assets when needed, and run a d3-sankey fidelity loop automatically.
 
 Prefer the existing project patterns:
 
-- Use `window.SankeyEngine.fromIncomeStatement(...)` for ordinary company input.
-- Use explicit low-level `nodes`, `links`, `layout.nodes`, and `layout.labels`
-  when pixel/layout fidelity matters.
+- Author registered datasets as high-fidelity adapters with explicit low-level
+  `nodes`, `links`, `layout.nodes`, and `layout.labels` tuned against the source
+  image.
 - When first identifying label regions in a source image, keep each semantic
   label unit intact. Do not split a node's related name, value, notes, margin,
   or Y/Y text into unrelated regions just because they are visually separated;

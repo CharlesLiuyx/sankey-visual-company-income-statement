@@ -1,268 +1,813 @@
 /* ====================================================================
- *  NVIDIA Q1 FY26 income statement ($B)
- *  Reconstructed from input/processed/nvidia-q1-fy26.png with the
- *  high-level income-statement helper and fixed source-image geometry.
+ * NVIDIA · Q1 FY26 income statement ($B)
+ * Static high-fidelity dataset adapter generated from the prior runtime
+ * helper output so this quarter is self-contained.
  * ==================================================================== */
 (function () {
-  const dataset = window.SankeyEngine.fromIncomeStatement({
-    key: 'nvidia-q1-fy26',
-    name: 'NVIDIA · Q1 FY26',
-    meta: {
-      title: 'NVIDIA Q1 FY26 Income Statement',
-      period: 'Q1 FY26',
-      periodNote: 'Ending Apr. 2025',
-      periodX: 2850,
-      periodY: 232,
-      periodNoteY: 287,
-      titleSize: 142,
-      titleX: 1490,
-      titleY: 122,
-      titleTextLength: 2473,
-      currency: '$',
-      unit: 'B',
-      decimals: 1,
-      referenceImage: { src: 'input/processed/nvidia-q1-fy26.png', width: 2990, height: 1464 },
-      logoWidth: 390,
-      logoHeight: 279,
-      logoY: 167,
-      logoViewBox: '0 0 390 279',
-      logoSvg: `
-        <rect x="140" y="0" width="166" height="178" fill="#76b900"/>
-        <g transform="translate(151,25) scale(6.2)" fill="#ffffff">
-          <path d="${window.SANKEY_BRAND.nvidia}"/>
-        </g>
-        <text x="195" y="281" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-size="94" font-weight="800" letter-spacing="0" fill="#1d1d1d">NVIDIA<tspan font-size="38" baseline-shift="super">&#174;</tspan></text>
-      `,
+  const dataset = {
+  "key": "nvidia-q1-fy26",
+  "name": "NVIDIA · Q1 FY26",
+  "meta": {
+    "title": "NVIDIA Q1 FY26 Income Statement",
+    "period": "Q1 FY26",
+    "periodNote": "Ending Apr. 2025",
+    "periodX": 2850,
+    "periodY": 232,
+    "periodNoteY": 287,
+    "titleSize": 142,
+    "titleX": 1490,
+    "titleY": 122,
+    "titleTextLength": 2473,
+    "currency": "$",
+    "unit": "B",
+    "decimals": 1,
+    "referenceImage": {
+      "src": "input/processed/nvidia-q1-fy26.png",
+      "width": 2990,
+      "height": 1464
     },
-
-    revenue: [
-      {
-        id: 'data_center',
-        label: 'Data Center',
-        value: 39.1,
-        notes: ['+10% Q/Q'],
-        icons: ['server'],
-        iconSize: 34,
-        labelSide: 'left',
-        color: '#0e7451',
-        labelColor: '#0e7451',
-      },
-      {
-        id: 'gaming',
-        label: 'Gaming',
-        value: 3.8,
-        notes: ['+48% Q/Q'],
-        icons: ['controller'],
-        iconSize: 32,
-        labelSide: 'left',
-        color: '#a5db57',
-        labelColor: '#66af04',
-      },
-      {
-        id: 'professional_visualization',
-        label: ['Professional', 'Visualization'],
-        value: 0.5,
-        notes: ['(0%) Q/Q'],
-        icons: ['eye'],
-        iconSize: 32,
-        labelSide: 'left',
-        color: '#49006f',
-        labelColor: '#49006f',
-      },
-      {
-        id: 'automotive',
-        label: 'Automotive',
-        value: 0.6,
-        notes: ['(1%) Q/Q'],
-        icons: ['car'],
-        iconSize: 32,
-        labelSide: 'left',
-        color: '#095ab8',
-        labelColor: '#095ab8',
-      },
-      {
-        id: 'oem_other',
-        label: 'OEM & Other',
-        value: 0.1,
-        notes: ['(12%) Q/Q'],
-        icons: ['factory'],
-        iconSize: 32,
-        labelSide: 'left',
-        color: '#740046',
-        labelColor: '#740046',
-      },
-    ],
-    costOfRevenue: 17.4,
-    opex: [
-      { id: 'rnd', label: ['Research &', 'Development'], value: 4.0, notes: ['9% of revenue', '(0pp) Q/Q'] },
-      { id: 'sga', label: ['Sales, General', '& Admin'], value: 1.0, notes: ['2% of revenue', '(0pp) Q/Q'] },
-    ],
-    tax: 3.1,
-    otherIncome: [{ id: 'other', label: 'Other', value: 0.3 }],
-
-    derived: {
-      revenueHub: { value: 44.1, notes: ['+12% Q/Q'] },
-      grossProfit: { value: 26.7, notes: ['61% margin', '(13pp) Q/Q'] },
-      operatingProfit: { label: 'Operating profit', value: 21.6, notes: ['49% margin', '(12pp) Q/Q'] },
-      operatingExpenses: { value: 5.0 },
-      netProfit: { label: 'Net profit', value: 18.9, notes: ['43% margin', '(14pp) Q/Q'] },
+    "logoWidth": 390,
+    "logoHeight": 279,
+    "logoY": 167,
+    "logoViewBox": "0 0 390 279",
+    "logoSvg": "\n        <rect x=\"140\" y=\"0\" width=\"166\" height=\"178\" fill=\"#76b900\"/>\n        <g transform=\"translate(151,25) scale(6.2)\" fill=\"#ffffff\">\n          <path d=\"M8.948 8.798v-1.43a6.7 6.7 0 0 1 .424-.018c3.922-.124 6.493 3.374 6.493 3.374s-2.774 3.851-5.75 3.851c-.398 0-.787-.062-1.158-.185v-4.346c1.528.185 1.837.857 2.747 2.385l2.04-1.714s-1.492-1.952-4-1.952a6.016 6.016 0 0 0-.796.035m0-4.735v2.138l.424-.027c5.45-.185 9.01 4.47 9.01 4.47s-4.08 4.964-8.33 4.964c-.37 0-.733-.035-1.095-.097v1.325c.3.035.61.062.91.062 3.957 0 6.82-2.023 9.593-4.408.459.371 2.34 1.263 2.73 1.652-2.633 2.208-8.772 3.984-12.253 3.984-.335 0-.653-.018-.971-.053v1.864H24V4.063zm0 10.326v1.131c-3.657-.654-4.673-4.46-4.673-4.46s1.758-1.944 4.673-2.262v1.237H8.94c-1.528-.186-2.73 1.245-2.73 1.245s.68 2.412 2.739 3.11M2.456 10.9s2.164-3.197 6.5-3.533V6.201C4.153 6.59 0 10.653 0 10.653s2.35 6.802 8.948 7.42v-1.237c-4.84-.6-6.492-5.936-6.492-5.936z\"/>\n        </g>\n        <text x=\"195\" y=\"281\" text-anchor=\"middle\" font-family=\"Montserrat,Arial,sans-serif\" font-size=\"94\" font-weight=\"800\" letter-spacing=\"0\" fill=\"#1d1d1d\">NVIDIA<tspan font-size=\"38\" baseline-shift=\"super\">&#174;</tspan></text>\n      "
+  },
+  "nodes": [
+    {
+      "id": "data_center",
+      "col": 0,
+      "order": 0,
+      "type": "source",
+      "labelSide": "left",
+      "label": "Data Center",
+      "value": 39.1,
+      "notes": [
+        "+10% Q/Q"
+      ],
+      "color": "#0e7451",
+      "labelColor": "#0e7451",
+      "icons": [
+        "server"
+      ],
+      "iconSize": 34,
+      "linkTint": "#89b5a2"
     },
-  });
-
-  const byId = Object.fromEntries(dataset.nodes.map((node) => [node.id, node]));
-  dataset.render = {
-    width: 2990,
-    height: 1464,
-    background: '#efefef',
-    titleColor: '#123e65',
-    subtitleColor: '#535353',
-    noteColor: '#535353',
-    palette: {
-      source: { node: '#0e7451', label: '#0e7451' },
-      hub: { node: '#000000', label: '#000000' },
-      profit: { node: '#289321', label: '#128040' },
-      cost: { node: '#be0004', label: '#800003' },
+    {
+      "id": "gaming",
+      "col": 0,
+      "order": 1,
+      "type": "source",
+      "labelSide": "left",
+      "label": "Gaming",
+      "value": 3.8,
+      "notes": [
+        "+48% Q/Q"
+      ],
+      "color": "#a5db57",
+      "labelColor": "#66af04",
+      "icons": [
+        "controller"
+      ],
+      "iconSize": 32,
+      "linkTint": "#bde586"
     },
-    linkTint: {
-      source: '#88b7a3',
-      hub: null,
-      profit: '#93c68b',
-      cost: '#de8577',
+    {
+      "id": "professional_visualization",
+      "col": 0,
+      "order": 2,
+      "type": "source",
+      "labelSide": "left",
+      "label": [
+        "Professional",
+        "Visualization"
+      ],
+      "value": 0.5,
+      "notes": [
+        "(0%) Q/Q"
+      ],
+      "color": "#49006f",
+      "labelColor": "#49006f",
+      "icons": [
+        "eye"
+      ],
+      "iconSize": 32,
+      "linkTint": "#b99bd1"
     },
-    linkOpacity: 1,
-  };
-
-  dataset.layout = {
-    scale: 9.61,
-    nodes: {
-      data_center: { x: 502, y: 435, width: 82, height: 377 },
-      gaming: { x: 502, y: 948, width: 82, height: 35 },
-      professional_visualization: { x: 502, y: 1117, width: 82, height: 5 },
-      automotive: { x: 502, y: 1268, width: 82, height: 6 },
-      oem_other: { x: 502, y: 1413, width: 82, height: 1.5 },
-      revenue: { x: 1035, y: 643, width: 81, height: 424 },
-      gross_profit: { x: 1567, y: 513, width: 82, height: 258 },
-      cost_of_revenue: { x: 1567, y: 1024, width: 82, height: 167 },
-      operating_profit: { x: 2100, y: 419, width: 81, height: 208 },
-      operating_expenses: { x: 2100, y: 837, width: 81, height: 47 },
-      other: { x: 2485, y: 576, width: 82, height: 2 },
-      net_profit: { x: 2632, y: 319, width: 82, height: 180 },
-      tax: { x: 2632, y: 727, width: 82, height: 29 },
-      rnd: { x: 2632, y: 981, width: 82, height: 37 },
-      sga: { x: 2632, y: 1270, width: 82, height: 9 },
+    {
+      "id": "automotive",
+      "col": 0,
+      "order": 3,
+      "type": "source",
+      "labelSide": "left",
+      "label": "Automotive",
+      "value": 0.6,
+      "notes": [
+        "(1%) Q/Q"
+      ],
+      "color": "#095ab8",
+      "labelColor": "#095ab8",
+      "icons": [
+        "car"
+      ],
+      "iconSize": 32,
+      "linkTint": "#96c4e9"
     },
-    labels: {
-      data_center: {
-        blocks: [
-          { parts: ['name'], x: 363, top: 579, anchor: 'middle', nameSize: 40 },
-          { parts: ['value', 'notes'], x: 543, top: 316, anchor: 'middle', valueSize: 43, noteSize: 31 },
-        ],
-        icons: { names: ['server'], x: 52, y: 524, size: 96, color: '#000000', strokeWidth: 2.15 },
-      },
-      gaming: {
-        blocks: [
-          { parts: ['name'], x: 359, top: 922, anchor: 'middle', nameSize: 40 },
-          { parts: ['value', 'notes'], x: 543, top: 819, anchor: 'middle', valueSize: 43, noteSize: 31 },
-        ],
-        icons: { names: ['controller'], x: 50, y: 915, size: 108, color: '#000000', strokeWidth: 2.15 },
-      },
-      professional_visualization: {
-        blocks: [
-          { parts: ['name'], x: 352, top: 1015, anchor: 'middle', nameSize: 40, lineGap: 10 },
-          { parts: ['value', 'notes'], x: 543, top: 996, anchor: 'middle', valueSize: 43, noteSize: 31 },
-        ],
-        icons: { names: ['eye'], x: 49, y: 1074, size: 110, color: '#000000', strokeWidth: 2.15 },
-      },
-      automotive: {
-        blocks: [
-          { parts: ['name'], x: 357, top: 1227, anchor: 'middle', nameSize: 40 },
-          { parts: ['value', 'notes'], x: 543, top: 1143, anchor: 'middle', valueSize: 43, noteSize: 31 },
-        ],
-        icons: { names: ['car'], x: 51, y: 1204, size: 108, color: '#000000', strokeWidth: 2.15 },
-      },
-      oem_other: {
-        blocks: [
-          { parts: ['name'], x: 352, top: 1362, anchor: 'middle', nameSize: 40 },
-          { parts: ['value', 'notes'], x: 543, top: 1286, anchor: 'middle', valueSize: 43, noteSize: 31 },
-        ],
-        icons: { names: ['factory'], x: 54, y: 1325, size: 102, color: '#000000', strokeWidth: 2.15 },
-      },
-      revenue: {
-        blocks: [
-          { parts: ['name', 'value', 'notes'], x: 1076, top: 462, anchor: 'middle', nameSize: 40, valueSize: 43, noteSize: 31 },
-        ],
-      },
-      gross_profit: {
-        blocks: [
-          { parts: ['name', 'value', 'notes'], x: 1608, top: 294, anchor: 'middle', nameSize: 40, valueSize: 43, noteSize: 31 },
-        ],
-      },
-      operating_profit: {
-        blocks: [
-          { parts: ['name', 'value', 'notes'], x: 2141, top: 203, anchor: 'middle', nameSize: 40, valueSize: 43, noteSize: 31 },
-        ],
-      },
-      other: {
-        blocks: [
-          { parts: ['name', 'value'], x: 2526, top: 596, anchor: 'middle', nameSize: 34, valueSize: 34 },
-        ],
-      },
-      net_profit: {
-        blocks: [
-          { parts: ['name', 'value', 'notes'], x: 2745, top: 318, anchor: 'start', nameSize: 40, valueSize: 43, noteSize: 31 },
-        ],
-      },
-      cost_of_revenue: {
-        blocks: [
-          { parts: ['name', 'value'], x: 1608, top: 1210, anchor: 'middle', nameSize: 38, valueSize: 37 },
-        ],
-      },
-      operating_expenses: {
-        blocks: [
-          { parts: ['name', 'value'], x: 2141, top: 914, anchor: 'middle', nameSize: 38, valueSize: 37 },
-        ],
-      },
-      tax: {
-        blocks: [
-          { parts: ['name', 'value'], x: 2808, top: 705, anchor: 'start', nameSize: 35, valueSize: 34 },
-        ],
-      },
-      rnd: {
-        blocks: [
-          { parts: ['name', 'value', 'notes'], x: 2846, top: 958, anchor: 'middle', nameSize: 34, valueSize: 34, noteSize: 31 },
-        ],
-      },
-      sga: {
-        blocks: [
-          { parts: ['name', 'value', 'notes'], x: 2846, top: 1253, anchor: 'middle', nameSize: 34, valueSize: 34, noteSize: 31 },
-        ],
-      },
+    {
+      "id": "oem_other",
+      "col": 0,
+      "order": 4,
+      "type": "source",
+      "labelSide": "left",
+      "label": "OEM & Other",
+      "value": 0.1,
+      "notes": [
+        "(12%) Q/Q"
+      ],
+      "color": "#740046",
+      "labelColor": "#740046",
+      "icons": [
+        "factory"
+      ],
+      "iconSize": 32,
+      "linkTint": "#cf91b4"
     },
-  };
-
-  Object.assign(byId.data_center || {}, { linkTint: '#89b5a2' });
-  Object.assign(byId.gaming || {}, { linkTint: '#bde586' });
-  Object.assign(byId.professional_visualization || {}, { linkTint: '#b99bd1' });
-  Object.assign(byId.automotive || {}, { linkTint: '#96c4e9' });
-  Object.assign(byId.oem_other || {}, { linkTint: '#cf91b4' });
-
-  if (byId.cost_of_revenue) byId.cost_of_revenue.valueText = '($17.4B)';
-  if (byId.operating_expenses) byId.operating_expenses.valueText = '($5.0B)';
-  if (byId.tax) byId.tax.valueText = '($3.1B)';
-  if (byId.rnd) byId.rnd.valueText = '($4.0B)';
-  if (byId.sga) byId.sga.valueText = '($1.0B)';
-  if (byId.net_profit) byId.net_profit.valueText = '$18.9B';
-
-  dataset.links.forEach((link) => {
-    if (link.source === 'operating_profit' && link.target === 'net_profit') link.targetOrder = 0;
-    if (link.source === 'other' && link.target === 'net_profit') {
-      link.targetOrder = 1;
-      link.width = 3;
-      link.y0 = 577;
-      link.y1 = 497;
-      link.curve = { c1x: 2600, c2x: 2588 };
+    {
+      "id": "revenue",
+      "col": 1,
+      "order": 0,
+      "type": "hub",
+      "labelSide": "above",
+      "label": "Revenue",
+      "value": 44.1,
+      "notes": [
+        "+12% Q/Q"
+      ]
+    },
+    {
+      "id": "gross_profit",
+      "col": 2,
+      "order": 0,
+      "type": "profit",
+      "labelSide": "above",
+      "label": "Gross profit",
+      "value": 26.7,
+      "notes": [
+        "61% margin",
+        "(13pp) Q/Q"
+      ]
+    },
+    {
+      "id": "cost_of_revenue",
+      "col": 2,
+      "order": 1,
+      "type": "cost",
+      "labelSide": "below",
+      "label": [
+        "Cost of",
+        "revenue"
+      ],
+      "value": 17.4,
+      "valueText": "($17.4B)"
+    },
+    {
+      "id": "other",
+      "col": 3,
+      "order": 0,
+      "type": "profit",
+      "labelSide": "above",
+      "label": "Other",
+      "value": 0.3
+    },
+    {
+      "id": "operating_profit",
+      "col": 3,
+      "order": 1,
+      "type": "profit",
+      "labelSide": "above",
+      "label": "Operating profit",
+      "value": 21.6,
+      "notes": [
+        "49% margin",
+        "(12pp) Q/Q"
+      ]
+    },
+    {
+      "id": "operating_expenses",
+      "col": 3,
+      "order": 2,
+      "type": "cost",
+      "labelSide": "below",
+      "label": [
+        "Operating",
+        "expenses"
+      ],
+      "value": 5,
+      "valueText": "($5.0B)"
+    },
+    {
+      "id": "net_profit",
+      "col": 4,
+      "order": 0,
+      "type": "profit",
+      "labelSide": "right",
+      "label": "Net profit",
+      "value": 18.9,
+      "notes": [
+        "43% margin",
+        "(14pp) Q/Q"
+      ],
+      "valueText": "$18.9B"
+    },
+    {
+      "id": "tax",
+      "col": 4,
+      "order": 1,
+      "type": "cost",
+      "labelSide": "right",
+      "label": "Tax",
+      "value": 3.1,
+      "valueText": "($3.1B)"
+    },
+    {
+      "id": "rnd",
+      "col": 4,
+      "order": 2,
+      "type": "cost",
+      "labelSide": "right",
+      "label": [
+        "Research &",
+        "Development"
+      ],
+      "value": 4,
+      "notes": [
+        "9% of revenue",
+        "(0pp) Q/Q"
+      ],
+      "valueText": "($4.0B)"
+    },
+    {
+      "id": "sga",
+      "col": 4,
+      "order": 3,
+      "type": "cost",
+      "labelSide": "right",
+      "label": [
+        "Sales, General",
+        "& Admin"
+      ],
+      "value": 1,
+      "notes": [
+        "2% of revenue",
+        "(0pp) Q/Q"
+      ],
+      "valueText": "($1.0B)"
     }
-  });
+  ],
+  "links": [
+    {
+      "source": "data_center",
+      "target": "revenue",
+      "value": 39.1
+    },
+    {
+      "source": "gaming",
+      "target": "revenue",
+      "value": 3.8
+    },
+    {
+      "source": "professional_visualization",
+      "target": "revenue",
+      "value": 0.5
+    },
+    {
+      "source": "automotive",
+      "target": "revenue",
+      "value": 0.6
+    },
+    {
+      "source": "oem_other",
+      "target": "revenue",
+      "value": 0.1
+    },
+    {
+      "source": "revenue",
+      "target": "gross_profit",
+      "value": 26.700000000000003
+    },
+    {
+      "source": "revenue",
+      "target": "cost_of_revenue",
+      "value": 17.4
+    },
+    {
+      "source": "gross_profit",
+      "target": "operating_profit",
+      "value": 21.700000000000003
+    },
+    {
+      "source": "gross_profit",
+      "target": "operating_expenses",
+      "value": 5
+    },
+    {
+      "source": "other",
+      "target": "net_profit",
+      "value": 0.3,
+      "targetOrder": 1,
+      "width": 3,
+      "y0": 577,
+      "y1": 497,
+      "curve": {
+        "c1x": 2600,
+        "c2x": 2588
+      }
+    },
+    {
+      "source": "operating_profit",
+      "target": "net_profit",
+      "value": 18.6,
+      "targetOrder": 0
+    },
+    {
+      "source": "operating_profit",
+      "target": "tax",
+      "value": 3.1
+    },
+    {
+      "source": "operating_expenses",
+      "target": "rnd",
+      "value": 4
+    },
+    {
+      "source": "operating_expenses",
+      "target": "sga",
+      "value": 1
+    }
+  ],
+  "render": {
+    "width": 2990,
+    "height": 1464,
+    "background": "#efefef",
+    "titleColor": "#123e65",
+    "subtitleColor": "#535353",
+    "noteColor": "#535353",
+    "palette": {
+      "source": {
+        "node": "#0e7451",
+        "label": "#0e7451"
+      },
+      "hub": {
+        "node": "#000000",
+        "label": "#000000"
+      },
+      "profit": {
+        "node": "#289321",
+        "label": "#128040"
+      },
+      "cost": {
+        "node": "#be0004",
+        "label": "#800003"
+      }
+    },
+    "linkTint": {
+      "source": "#88b7a3",
+      "hub": null,
+      "profit": "#93c68b",
+      "cost": "#de8577"
+    },
+    "linkOpacity": 1
+  },
+  "layout": {
+    "scale": 9.61,
+    "nodes": {
+      "data_center": {
+        "x": 502,
+        "y": 435,
+        "width": 82,
+        "height": 377
+      },
+      "gaming": {
+        "x": 502,
+        "y": 948,
+        "width": 82,
+        "height": 35
+      },
+      "professional_visualization": {
+        "x": 502,
+        "y": 1117,
+        "width": 82,
+        "height": 5
+      },
+      "automotive": {
+        "x": 502,
+        "y": 1268,
+        "width": 82,
+        "height": 6
+      },
+      "oem_other": {
+        "x": 502,
+        "y": 1413,
+        "width": 82,
+        "height": 1.5
+      },
+      "revenue": {
+        "x": 1035,
+        "y": 643,
+        "width": 81,
+        "height": 424
+      },
+      "gross_profit": {
+        "x": 1567,
+        "y": 513,
+        "width": 82,
+        "height": 258
+      },
+      "cost_of_revenue": {
+        "x": 1567,
+        "y": 1024,
+        "width": 82,
+        "height": 167
+      },
+      "operating_profit": {
+        "x": 2100,
+        "y": 419,
+        "width": 81,
+        "height": 208
+      },
+      "operating_expenses": {
+        "x": 2100,
+        "y": 837,
+        "width": 81,
+        "height": 47
+      },
+      "other": {
+        "x": 2485,
+        "y": 576,
+        "width": 82,
+        "height": 2
+      },
+      "net_profit": {
+        "x": 2632,
+        "y": 319,
+        "width": 82,
+        "height": 180
+      },
+      "tax": {
+        "x": 2632,
+        "y": 727,
+        "width": 82,
+        "height": 29
+      },
+      "rnd": {
+        "x": 2632,
+        "y": 981,
+        "width": 82,
+        "height": 37
+      },
+      "sga": {
+        "x": 2632,
+        "y": 1270,
+        "width": 82,
+        "height": 9
+      }
+    },
+    "labels": {
+      "data_center": {
+        "blocks": [
+          {
+            "parts": [
+              "name"
+            ],
+            "x": 363,
+            "top": 579,
+            "anchor": "middle",
+            "nameSize": 40
+          },
+          {
+            "parts": [
+              "value",
+              "notes"
+            ],
+            "x": 543,
+            "top": 316,
+            "anchor": "middle",
+            "valueSize": 43,
+            "noteSize": 31
+          }
+        ],
+        "icons": {
+          "names": [
+            "server"
+          ],
+          "x": 52,
+          "y": 524,
+          "size": 96,
+          "color": "#000000",
+          "strokeWidth": 2.15
+        }
+      },
+      "gaming": {
+        "blocks": [
+          {
+            "parts": [
+              "name"
+            ],
+            "x": 359,
+            "top": 922,
+            "anchor": "middle",
+            "nameSize": 40
+          },
+          {
+            "parts": [
+              "value",
+              "notes"
+            ],
+            "x": 543,
+            "top": 819,
+            "anchor": "middle",
+            "valueSize": 43,
+            "noteSize": 31
+          }
+        ],
+        "icons": {
+          "names": [
+            "controller"
+          ],
+          "x": 50,
+          "y": 915,
+          "size": 108,
+          "color": "#000000",
+          "strokeWidth": 2.15
+        }
+      },
+      "professional_visualization": {
+        "blocks": [
+          {
+            "parts": [
+              "name"
+            ],
+            "x": 352,
+            "top": 1015,
+            "anchor": "middle",
+            "nameSize": 40,
+            "lineGap": 10
+          },
+          {
+            "parts": [
+              "value",
+              "notes"
+            ],
+            "x": 543,
+            "top": 996,
+            "anchor": "middle",
+            "valueSize": 43,
+            "noteSize": 31
+          }
+        ],
+        "icons": {
+          "names": [
+            "eye"
+          ],
+          "x": 49,
+          "y": 1074,
+          "size": 110,
+          "color": "#000000",
+          "strokeWidth": 2.15
+        }
+      },
+      "automotive": {
+        "blocks": [
+          {
+            "parts": [
+              "name"
+            ],
+            "x": 357,
+            "top": 1227,
+            "anchor": "middle",
+            "nameSize": 40
+          },
+          {
+            "parts": [
+              "value",
+              "notes"
+            ],
+            "x": 543,
+            "top": 1143,
+            "anchor": "middle",
+            "valueSize": 43,
+            "noteSize": 31
+          }
+        ],
+        "icons": {
+          "names": [
+            "car"
+          ],
+          "x": 51,
+          "y": 1204,
+          "size": 108,
+          "color": "#000000",
+          "strokeWidth": 2.15
+        }
+      },
+      "oem_other": {
+        "blocks": [
+          {
+            "parts": [
+              "name"
+            ],
+            "x": 352,
+            "top": 1362,
+            "anchor": "middle",
+            "nameSize": 40
+          },
+          {
+            "parts": [
+              "value",
+              "notes"
+            ],
+            "x": 543,
+            "top": 1286,
+            "anchor": "middle",
+            "valueSize": 43,
+            "noteSize": 31
+          }
+        ],
+        "icons": {
+          "names": [
+            "factory"
+          ],
+          "x": 54,
+          "y": 1325,
+          "size": 102,
+          "color": "#000000",
+          "strokeWidth": 2.15
+        }
+      },
+      "revenue": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value",
+              "notes"
+            ],
+            "x": 1076,
+            "top": 462,
+            "anchor": "middle",
+            "nameSize": 40,
+            "valueSize": 43,
+            "noteSize": 31
+          }
+        ]
+      },
+      "gross_profit": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value",
+              "notes"
+            ],
+            "x": 1608,
+            "top": 294,
+            "anchor": "middle",
+            "nameSize": 40,
+            "valueSize": 43,
+            "noteSize": 31
+          }
+        ]
+      },
+      "operating_profit": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value",
+              "notes"
+            ],
+            "x": 2141,
+            "top": 203,
+            "anchor": "middle",
+            "nameSize": 40,
+            "valueSize": 43,
+            "noteSize": 31
+          }
+        ]
+      },
+      "other": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value"
+            ],
+            "x": 2526,
+            "top": 596,
+            "anchor": "middle",
+            "nameSize": 34,
+            "valueSize": 34
+          }
+        ]
+      },
+      "net_profit": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value",
+              "notes"
+            ],
+            "x": 2745,
+            "top": 318,
+            "anchor": "start",
+            "nameSize": 40,
+            "valueSize": 43,
+            "noteSize": 31
+          }
+        ]
+      },
+      "cost_of_revenue": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value"
+            ],
+            "x": 1608,
+            "top": 1210,
+            "anchor": "middle",
+            "nameSize": 38,
+            "valueSize": 37
+          }
+        ]
+      },
+      "operating_expenses": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value"
+            ],
+            "x": 2141,
+            "top": 914,
+            "anchor": "middle",
+            "nameSize": 38,
+            "valueSize": 37
+          }
+        ]
+      },
+      "tax": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value"
+            ],
+            "x": 2808,
+            "top": 705,
+            "anchor": "start",
+            "nameSize": 35,
+            "valueSize": 34
+          }
+        ]
+      },
+      "rnd": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value",
+              "notes"
+            ],
+            "x": 2846,
+            "top": 958,
+            "anchor": "middle",
+            "nameSize": 34,
+            "valueSize": 34,
+            "noteSize": 31
+          }
+        ]
+      },
+      "sga": {
+        "blocks": [
+          {
+            "parts": [
+              "name",
+              "value",
+              "notes"
+            ],
+            "x": 2846,
+            "top": 1253,
+            "anchor": "middle",
+            "nameSize": 34,
+            "valueSize": 34,
+            "noteSize": 31
+          }
+        ]
+      }
+    }
+  }
+};
 
   (window.DATASETS = window.DATASETS || []).push(dataset);
 })();

@@ -1,13 +1,9 @@
 # Data schema
 
-Two ways to author a chart. Both produce the same `{ meta, nodes, links }`
-object that `SankeyEngine.render(selector, data)` consumes.
-
-- **High-level** — `SankeyEngine.fromIncomeStatement(figures)`. You give the
-  raw line items; it derives Revenue / Gross / Operating / Net profit and wires
-  every flow. Best for "drop in a company's numbers". See the bottom section.
-- **Low-level** — write `nodes` + `links` by hand for full control over
-  columns, ordering and label placement. See below.
+Registered datasets should be authored in the low-level, high-fidelity format:
+write `nodes` + `links` by hand and tune `layout.nodes` / `layout.labels`
+against the processed reference image. The resulting `{ meta, nodes, links }`
+object is what `SankeyEngine.render(selector, data)` consumes.
 
 Separately, `data/income-statements.js` is the pure financial-statement SSOT.
 Every registered real dataset should have one matching record there. Keep it to
@@ -273,42 +269,3 @@ builds label blocks from node text.
 Link colour is derived automatically from the two endpoints' types (a teal→teal,
 green→green, or green→salmon gradient), so you only specify the flow amount.
 Keep flows conserved (sum of a node's inflows ≈ its outflows) for clean bars.
-
----
-
-## High-level format — `fromIncomeStatement(figures)`
-
-```js
-SankeyEngine.fromIncomeStatement({
-  key, name, meta,                  // same meta as above
-  revenue: [                        // one entry per revenue line
-    { label, value?, notes?, icons?, color?, labelColor?,
-      children?: [ { label, value, notes? }, … ] },   // optional sub-segments
-  ],
-  costOfRevenue: 20.5,              // number, or { value, label?, notes? }
-  opex: [ { label, value, notes? }, … ],   // R&D, S&M, G&A … (the breakdown)
-  tax: 11.6,                        // number, or { value, label?, notes? }
-  otherIncome: [ { label, value, notes? }, … ],   // optional → flows into net
-  derived: {                        // labels/notes for the computed subtotals
-    revenueHub:        { notes? },
-    grossProfit:       { value?, notes? },   // value override = reported figure
-    operatingProfit:   { value?, notes? },
-    operatingExpenses: { value?, notes? },
-    netProfit:         { value?, notes? },
-  },
-})
-```
-
-It computes:
-
-```
-revenueTotal    = Σ revenue
-grossProfit     = revenueTotal − costOfRevenue
-operatingProfit = grossProfit − Σ opex
-netProfit       = operatingProfit − tax + Σ otherIncome
-```
-
-A `revenue` line with `children` adds an extra column of sub-segments on the
-left (e.g. Hyperscale + AI Clouds → Data Center). A `derived.*.value` override
-lets a subtotal display a company's *reported* figure while the flow widths stay
-arithmetically conserved (handy when published numbers are rounded).

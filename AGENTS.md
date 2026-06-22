@@ -278,7 +278,6 @@ Before final response, verify:
 In the final response, include:
 
 - Files changed.
-- Whether pending input was cleared.
 - Whether the pure data SSOT was updated.
 - Which icon assets were extracted, and whether all relevant business clusters
   were accounted for.

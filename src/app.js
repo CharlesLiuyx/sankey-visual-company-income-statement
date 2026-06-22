@@ -41,7 +41,7 @@ const THEME_KEY = 'sankey.theme';
 const COMPANY_SORT_KEY = 'sankey.company.sort';
 const COMPANY_SORT_DIRECTION_KEY = 'sankey.company.sort.direction';
 const COMPANY_SORT_KEYS = ['name', 'recent', 'marketCap', 'netProfit', 'founded'];
-const COMPANY_SORT_DIRECTIONS = ['desc', 'asc'];
+const COMPANY_SORT_DIRECTIONS = ['asc', 'desc'];
 const COMPANY_SORT_CONFIG = {
   name: { labelKey: 'companySortName', defaultDirection: 'asc', ascLabelKey: 'companySortNameAsc', descLabelKey: 'companySortNameDesc' },
   recent: { labelKey: 'companySortRecent', defaultDirection: 'desc', ascLabelKey: 'companySortRecentAsc', descLabelKey: 'companySortRecentDesc' },

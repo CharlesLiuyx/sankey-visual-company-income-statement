@@ -63,6 +63,11 @@
           'https://www.alibabagroup.com/en-US/investor-relations',
           'https://www.alibabagroup.com/en-US/document-2003564382071554048',
         ],
+        i18n: {
+          zh: {
+            displayName: '阿里巴巴',
+          },
+        },
       },
       {
         key: 'amd',
@@ -118,6 +123,7 @@
         ],
         i18n: {
           zh: {
+            displayName: '亚马逊',
             sector: '非必需消费品',
             industry: '电子商务、云计算、数字广告、订阅、设备和物流',
             headquarters: '美国华盛顿州西雅图',
@@ -208,6 +214,11 @@
           'https://investor.apple.com/sec-filings/default.aspx',
           'https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm',
         ],
+        i18n: {
+          zh: {
+            displayName: '苹果',
+          },
+        },
       },
       {
         key: 'asml',
@@ -236,6 +247,11 @@
           'https://www.asml.com/en/investors/financial-results/q1-2026',
           'https://www.asml.com/en/news/press-releases/2026/q1-2026-financial-results',
         ],
+        i18n: {
+          zh: {
+            displayName: '阿斯麦',
+          },
+        },
       },
       {
         key: 'atlassian',
@@ -303,6 +319,7 @@
         ],
         i18n: {
           zh: {
+            displayName: '贝莱德',
             sector: '金融',
             industry: '投资管理、资产管理、ETF、金融科技和顾问服务',
             headquarters: '美国纽约州纽约',
@@ -442,6 +459,11 @@
           'https://www.goldmansachs.com/investor-relations/',
           'https://www.goldmansachs.com/pressroom/press-releases/2026/2026-04-13-q1-results',
         ],
+        i18n: {
+          zh: {
+            displayName: '高盛',
+          },
+        },
       },
       {
         key: 'hilton',
@@ -470,6 +492,7 @@
         ],
         i18n: {
           zh: {
+            displayName: '希尔顿',
             sector: '非必需消费品',
             industry: '酒店、度假村、酒店特许经营、酒店管理、自有和租赁酒店以及会员忠诚度计划',
             headquarters: '美国弗吉尼亚州麦克莱恩',
@@ -505,6 +528,11 @@
           'https://investor.hp.com/financials/financial-summary/default.aspx',
           'https://investor.hp.com/financials/sec-filings/default.aspx',
         ],
+        i18n: {
+          zh: {
+            displayName: '惠普',
+          },
+        },
       },
       {
         key: 'ibm',
@@ -600,6 +628,11 @@
           'https://investor.lenovo.com/en/financial/results.php',
           'https://investor.lenovo.com/en/financial/results/press_2526_q4.pdf',
         ],
+        i18n: {
+          zh: {
+            displayName: '联想',
+          },
+        },
       },
       {
         key: 'microsoft',
@@ -627,6 +660,11 @@
           'https://www.microsoft.com/en-us/investor/faq',
           'https://www.microsoft.com/en-us/Investor/earnings/FY-2026-Q3/press-release-webcast',
         ],
+        i18n: {
+          zh: {
+            displayName: '微软',
+          },
+        },
       },
       {
         key: 'meta',
@@ -679,6 +717,11 @@
           'https://www.morganstanley.com/about-us',
           'https://www.morganstanley.com/about-us-ir',
         ],
+        i18n: {
+          zh: {
+            displayName: '摩根士丹利',
+          },
+        },
       },
       {
         key: 'nvidia',
@@ -704,6 +747,11 @@
           'https://www.nvidia.com/en-us/about-nvidia/',
           'https://investor.nvidia.com/financial-info/annual-reports-and-proxies/default.aspx',
         ],
+        i18n: {
+          zh: {
+            displayName: '英伟达',
+          },
+        },
       },
       {
         key: 'netflix',
@@ -863,6 +911,11 @@
           'https://investor.qualcomm.com/overview/default.aspx',
           'https://investor.qualcomm.com/sec-filings/default.aspx',
         ],
+        i18n: {
+          zh: {
+            displayName: '高通',
+          },
+        },
       },
       {
         key: 'reddit',
@@ -968,6 +1021,11 @@
           'https://www.salesforce.com/company/our-story/',
           'https://investor.salesforce.com/financials/annual-reports/default.aspx',
         ],
+        i18n: {
+          zh: {
+            displayName: '赛富时',
+          },
+        },
       },
       {
         key: 'sap',
@@ -996,6 +1054,11 @@
           'https://www.sap.com/investors/en/financial-documents-and-events.html',
           'https://www.sap.com/investors/en/stock.html',
         ],
+        i18n: {
+          zh: {
+            displayName: '思爱普',
+          },
+        },
       },
       {
         key: 'servicenow',
@@ -1053,6 +1116,11 @@
           'https://www.samsung.com/global/ir/stock-information/listing-Info/',
           'https://www.samsung.com/global/ir/financial-information/earnings-release/',
         ],
+        i18n: {
+          zh: {
+            displayName: '三星',
+          },
+        },
       },
       {
         key: 'sony',
@@ -1084,6 +1152,7 @@
         ],
         i18n: {
           zh: {
+            displayName: '索尼',
             sector: '信息技术',
             industry: '消费电子、游戏、网络服务、音乐、影视、娱乐技术和图像传感器',
             headquarters: '日本东京都港区',
@@ -1148,6 +1217,11 @@
           'https://investor.starbucks.com/financials/quarterly-results-and-data/default.aspx',
           'https://investor.starbucks.com/financials/sec-filings/default.aspx',
         ],
+        i18n: {
+          zh: {
+            displayName: '星巴克',
+          },
+        },
       },
       {
         key: 'synopsys',
@@ -1177,6 +1251,7 @@
         ],
         i18n: {
           zh: {
+            displayName: '新思科技',
             sector: '信息技术',
             industry: '电子设计自动化、硅 IP、仿真与分析，以及硅到系统工程软件',
             headquarters: '美国加利福尼亚州桑尼维尔',
@@ -1211,6 +1286,11 @@
           'https://www.tencent.com/en-us/investors.html',
           'https://static.www.tencent.com/uploads/2026/05/13/47382ae415a209fd161bc19a1f9b3704.pdf',
         ],
+        i18n: {
+          zh: {
+            displayName: '腾讯',
+          },
+        },
       },
       {
         key: 'tesla',
@@ -1238,6 +1318,11 @@
           'https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm',
           'https://www.sec.gov/Archives/edgar/data/1318605/000162828026026673/tsla-20260331.htm',
         ],
+        i18n: {
+          zh: {
+            displayName: '特斯拉',
+          },
+        },
       },
       {
         key: 'tsmc',
@@ -1264,6 +1349,11 @@
           'https://investor.tsmc.com/english',
           'https://investor.tsmc.com/english/quarterly-results',
         ],
+        i18n: {
+          zh: {
+            displayName: '台积电',
+          },
+        },
       },
       {
         key: 'uber',
@@ -1291,6 +1381,7 @@
         ],
         i18n: {
           zh: {
+            displayName: '优步',
             sector: '工业',
             industry: '出行、配送和货运平台',
             headquarters: '美国加利福尼亚州旧金山',
@@ -1369,6 +1460,7 @@
         ],
         i18n: {
           zh: {
+            displayName: '百胜餐饮',
             sector: '非必需消费品',
             industry: '快餐餐厅、特许经营、餐厅品牌运营和餐厅技术',
             headquarters: '美国肯塔基州路易维尔',

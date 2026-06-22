@@ -789,6 +789,7 @@ function displayRecord(record, language = state.language) {
   };
   display.searchText = [
     record.searchText,
+    companyMetadataSearchText(record.company, code),
     display.company,
     display.period,
     display.periodNote,
@@ -924,8 +925,49 @@ function metadataFor(company) {
     marketCap: null,
   };
 }
+function supportedSearchLanguages(primary = state.language) {
+  return [
+    primary,
+    I18N_API.defaultLanguage || 'en',
+    ...(I18N_API.languageCodes || Object.keys(I18N)),
+  ]
+    .map((language) => languageCode(language))
+    .filter((language, index, list) => language && list.indexOf(language) === index);
+}
+function companyMetadataSearchText(company, language = state.language) {
+  const sourceMeta = metadataFor(company);
+  const meta = localizedCompanyRecord(sourceMeta, language) || sourceMeta;
+  const parts = [
+    company,
+    sourceMeta.key,
+    sourceMeta.name,
+    sourceMeta.displayName,
+    sourceMeta.legalName,
+    ...(sourceMeta.aliases || []),
+    sourceMeta.ticker,
+    sourceMeta.exchange,
+    meta.key,
+    meta.name,
+    meta.displayName,
+    meta.legalName,
+    ...(meta.aliases || []),
+    meta.ticker,
+    meta.exchange,
+  ];
+  return parts.map(clean).filter(Boolean).join(' ');
+}
 function searchTextForRecord(record) {
   return displayRecord(record).searchText;
+}
+function multilingualSearchTextForRecord(record) {
+  return supportedSearchLanguages()
+    .map((language) => displayRecord(record, language).searchText)
+    .join(' ');
+}
+function multilingualCompanySearchText(company) {
+  return supportedSearchLanguages()
+    .map((language) => companyMetadataSearchText(company, language))
+    .join(' ');
 }
 function searchTextForGroup(group) {
   if (!group) return '';
@@ -933,7 +975,8 @@ function searchTextForGroup(group) {
   if (!byLanguage.has(group)) {
     byLanguage.set(group, [
       group.searchText,
-      ...group.records.map((record) => searchTextForRecord(record)),
+      multilingualCompanySearchText(group.company),
+      ...group.records.map((record) => multilingualSearchTextForRecord(record)),
     ].join(' '));
   }
   return byLanguage.get(group);

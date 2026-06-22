@@ -215,8 +215,8 @@
     const y = (n) => Math.round(n * sy);
     const nodeWidth = 82;
     const revenueTotal = spec.revenueTotal;
-    const revenueHeight = Math.round((spec.revenueHeight || 424) * sy);
-    const scale = spec.scale || revenueHeight / revenueTotal;
+    const referenceRevenueHeight = Math.round((spec.revenueHeight || 424) * sy);
+    const scale = spec.scale || referenceRevenueHeight / revenueTotal;
     const heightFor = (value, min = 1.5) => (value > 0 ? Math.max(min, Math.round(value * scale * 10) / 10) : 0);
     const money = (value, nodeType) => {
       const body = `${spec.currency || '$'}${Number(value || 0).toFixed(spec.decimals ?? 1)}${spec.unit || 'B'}`;
@@ -294,6 +294,17 @@
     });
 
     const byId = Object.fromEntries(dataset.nodes.map((node) => [node.id, node]));
+    const linkTotal = (nodeId, side) =>
+      dataset.links
+        .filter((link) => link[side] === nodeId)
+        .reduce((total, link) => total + (Number(link.value) || 0), 0);
+    const flowValueFor = (nodeId, fallback = 0) => {
+      const flowValue = Math.max(linkTotal(nodeId, 'source'), linkTotal(nodeId, 'target'));
+      return flowValue > 0 ? flowValue : fallback;
+    };
+    // Reported NVIDIA subtotal labels are rounded. Size junction nodes from
+    // the rendered flow stack so link interfaces still meet the full column.
+    const flowHeightFor = (nodeId, fallback, min) => heightFor(flowValueFor(nodeId, fallback), min);
     dataset.render = {
       width: W,
       height: H,
@@ -333,11 +344,14 @@
     const grossY = y(536);
     const operatingY = y(446);
     const netY = y(356);
-    const grossProfitHeight = heightFor(spec.grossProfit);
-    const operatingProfitHeight = heightFor(spec.operatingProfit);
-    const operatingExpensesHeight = heightFor(spec.operatingExpenses);
-    const netProfitHeight = heightFor(spec.netProfit);
-    const rndHeight = heightFor(spec.rnd);
+    const revenueHeight = flowHeightFor('revenue', revenueTotal);
+    const grossProfitHeight = flowHeightFor('gross_profit', spec.grossProfit);
+    const costOfRevenueHeight = flowHeightFor('cost_of_revenue', spec.costOfRevenue);
+    const operatingProfitHeight = flowHeightFor('operating_profit', spec.operatingProfit);
+    const operatingExpensesHeight = flowHeightFor('operating_expenses', spec.operatingExpenses);
+    const netProfitHeight = flowHeightFor('net_profit', spec.netProfit);
+    const rndHeight = flowHeightFor('rnd', spec.rnd);
+    const sgaHeight = flowHeightFor('sga', spec.sga);
     const costY = Math.max(y(870), grossY + grossProfitHeight + y(242));
     const opexY = Math.max(y(690), operatingY + operatingProfitHeight + y(225));
     const otherY = netY + netProfitHeight + y(spec.otherGapAfterNet || 78);
@@ -358,13 +372,13 @@
       oem_other: { x: sourceX, y: sourceY.oem_other, width: nodeWidth, height: heightFor(byId.oem_other?.value || 0) },
       revenue: { x: revenueX, y: revenueY, width: nodeWidth, height: revenueHeight },
       gross_profit: { x: grossX, y: grossY, width: nodeWidth, height: grossProfitHeight },
-      cost_of_revenue: { x: grossX, y: costY, width: nodeWidth, height: heightFor(spec.costOfRevenue) },
+      cost_of_revenue: { x: grossX, y: costY, width: nodeWidth, height: costOfRevenueHeight },
       operating_profit: { x: operatingX, y: operatingY, width: nodeWidth, height: operatingProfitHeight },
       operating_expenses: { x: operatingX, y: opexY, width: nodeWidth, height: operatingExpensesHeight },
       net_profit: { x: rightX, y: netY, width: nodeWidth, height: netProfitHeight },
       tax: { x: rightX, y: taxY, width: nodeWidth, height: heightFor(spec.tax || 0, 0) },
       rnd: { x: rightX, y: rndY, width: nodeWidth, height: rndHeight },
-      sga: { x: rightX, y: sgaY, width: nodeWidth, height: heightFor(spec.sga) },
+      sga: { x: rightX, y: sgaY, width: nodeWidth, height: sgaHeight },
     };
     if (!(spec.tax > 0)) {
       nodes.tax = { x: -200, y: -200, width: 0, height: 0 };

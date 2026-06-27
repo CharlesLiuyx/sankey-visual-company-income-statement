@@ -15,19 +15,40 @@ const compareDir = path.join(rootDir, 'compare');
 const outputCompareDir = path.join(rootDir, 'output', 'compare');
 
 function usage() {
-  console.error('Usage: pnpm verify:d3 -- <dataset-key> [--keep]');
+  console.error('Usage: pnpm verify:d3 -- <dataset-key> [--keep] [--language <code>]');
 }
 
 function parseArgs(argv) {
   const args = argv.slice(2);
-  const keep = args.includes('--keep');
-  const positional = args.filter((arg) => arg !== '--keep' && arg !== '--');
+  let keep = false;
+  let language = 'en';
+  const positional = [];
+
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === '--') continue;
+    if (arg === '--keep') {
+      keep = true;
+      continue;
+    }
+    if (arg === '--language' || arg === '--lang') {
+      language = args[index + 1];
+      index += 1;
+      if (!language || language.startsWith('--')) {
+        usage();
+        process.exit(2);
+      }
+      continue;
+    }
+    positional.push(arg);
+  }
+
   const datasetKey = positional[0];
   if (!datasetKey || positional.length > 1) {
     usage();
     process.exit(2);
   }
-  return { datasetKey, keep };
+  return { datasetKey, keep, language };
 }
 
 async function cleanCompare() {
@@ -254,7 +275,7 @@ function formatPx(value) {
 
 function logLabelLayoutAudit(audit) {
   console.log(
-    `label-node layout audit: verticalStacks=${audit.verticalStacks.length} adjacentLabelGaps=${audit.adjacentLabelGaps.length} rule=centerDelta=0px gap=5px (docs/fidelity-loop-rules.md)`
+    `label-node layout audit: verticalStacks=${audit.verticalStacks.length} adjacentLabelGaps=${audit.adjacentLabelGaps.length} horizontalSideLabels=${audit.horizontalSideLabels.length} horizontalViolations=${audit.horizontalViolations.length} rule=vertical centerDelta=0px/gap=5px; horizontal overlap forbidden (docs/fidelity-loop-rules.md)`
   );
 
   const maxRows = 12;
@@ -275,10 +296,19 @@ function logLabelLayoutAudit(audit) {
   if (audit.adjacentLabelGaps.length > maxRows) {
     console.log(`  label-gap ... ${audit.adjacentLabelGaps.length - maxRows} more`);
   }
+
+  audit.horizontalSideLabels.slice(0, maxRows).forEach((item) => {
+    console.log(
+      `  horizontal ${item.node}#${item.labelIndex} ${item.side}: edgeGap=${formatPx(item.gap)} overlap=${formatPx(item.overlap)} verticalOverlap=${formatPx(item.verticalOverlap)}`
+    );
+  });
+  if (audit.horizontalSideLabels.length > maxRows) {
+    console.log(`  horizontal ... ${audit.horizontalSideLabels.length - maxRows} more`);
+  }
 }
 
 async function main() {
-  const { datasetKey, keep } = parseArgs(process.argv);
+  const { datasetKey, keep, language } = parseArgs(process.argv);
   const datasetScript = datasetScriptForKey(datasetKey);
   const datasetPath = path.join(rootDir, datasetScript);
   if (!existsSync(datasetPath)) {
@@ -297,8 +327,9 @@ async function main() {
   const server = await startStaticServer();
   let browser;
   const referenceComparePath = path.join(compareDir, `${datasetKey}-reference.png`);
-  const candidatePath = path.join(compareDir, `${datasetKey}-d3.png`);
-  const diffPath = path.join(compareDir, `${datasetKey}-pixel-diff-x4.png`);
+  const localizedSuffix = language && language !== 'en' ? `-${language}` : '';
+  const candidatePath = path.join(compareDir, `${datasetKey}${localizedSuffix}-d3.png`);
+  const diffPath = path.join(compareDir, `${datasetKey}${localizedSuffix}-pixel-diff-x4.png`);
 
   try {
     browser = await chromium.launch({ headless: true });
@@ -309,29 +340,43 @@ async function main() {
 
     await page.setContent(harnessHtml(server.baseUrl, scripts), { waitUntil: 'load' });
 
-    const meta = await page.evaluate((key) => {
+    const meta = await page.evaluate(({ key, requestedLanguage }) => {
       const dataset = window.DATASETS?.find((item) => item.key === key);
       if (!dataset) throw new Error(`Dataset not found: ${key}`);
-      const ref = dataset.meta?.referenceImage;
+      const i18n = window.SANKEY_I18N;
+      const language = i18n?.normalizeLanguage ? i18n.normalizeLanguage(requestedLanguage) : requestedLanguage || 'en';
+      const renderDataset =
+        language && language !== 'en'
+          ? i18n?.localizeDataset?.(dataset, language)
+          : dataset;
+      if (!renderDataset) throw new Error(`Dataset localization failed: ${key}, language=${language}`);
+      const ref = renderDataset.meta?.referenceImage;
       if (!ref || typeof ref !== 'object' || !ref.src || !ref.width || !ref.height) {
         throw new Error(`Dataset ${key} must define meta.referenceImage { src, width, height }`);
       }
-      return { referenceSrc: ref.src, width: ref.width, height: ref.height };
-    }, datasetKey);
+      return { referenceSrc: ref.src, width: ref.width, height: ref.height, language };
+    }, { key: datasetKey, requestedLanguage: language });
 
     await page.setViewportSize({ width: meta.width, height: meta.height });
-    const purity = await page.evaluate(async (key) => {
+    const purity = await page.evaluate(async ({ key, requestedLanguage }) => {
       const dataset = window.DATASETS.find((item) => item.key === key);
+      const i18n = window.SANKEY_I18N;
+      const language = i18n?.normalizeLanguage ? i18n.normalizeLanguage(requestedLanguage) : requestedLanguage || 'en';
+      const renderDataset =
+        language && language !== 'en'
+          ? i18n?.localizeDataset?.(dataset, language)
+          : dataset;
+      if (!renderDataset) throw new Error(`Dataset localization failed: ${key}, language=${language}`);
       const chart = document.querySelector('#chart');
-      chart.style.width = `${dataset.meta.referenceImage.width}px`;
-      chart.style.height = `${dataset.meta.referenceImage.height}px`;
-      window.SankeyEngine.render('#chart', dataset);
+      chart.style.width = `${renderDataset.meta.referenceImage.width}px`;
+      chart.style.height = `${renderDataset.meta.referenceImage.height}px`;
+      window.SankeyEngine.render('#chart', renderDataset);
       const svg = document.querySelector('#chart > svg');
       if (!svg) throw new Error('SankeyEngine.render did not create #chart > svg');
-      svg.setAttribute('width', String(dataset.meta.referenceImage.width));
-      svg.setAttribute('height', String(dataset.meta.referenceImage.height));
-      svg.style.width = `${dataset.meta.referenceImage.width}px`;
-      svg.style.height = `${dataset.meta.referenceImage.height}px`;
+      svg.setAttribute('width', String(renderDataset.meta.referenceImage.width));
+      svg.setAttribute('height', String(renderDataset.meta.referenceImage.height));
+      svg.style.width = `${renderDataset.meta.referenceImage.width}px`;
+      svg.style.height = `${renderDataset.meta.referenceImage.height}px`;
       const images = Array.from(svg.querySelectorAll('image'));
       const imageHrefs = images.map(
         (image) =>
@@ -357,13 +402,13 @@ async function main() {
       return {
         imageCount: images.length,
         imageHrefs,
-        rasterAllowed: dataset.render?.allowRasterAnnotations === true,
+        rasterAllowed: renderDataset.render?.allowRasterAnnotations === true,
         chartImgCount: document.querySelectorAll('#chart img').length,
         viewBox: svg.getAttribute('viewBox'),
         width: Math.round(svg.getBoundingClientRect().width),
         height: Math.round(svg.getBoundingClientRect().height),
       };
-    }, datasetKey);
+    }, { key: datasetKey, requestedLanguage: language });
     const fontStatus = await page.evaluate(() =>
       document.fonts.ready.then(() => ({
         montserratLoaded:
@@ -418,7 +463,9 @@ async function main() {
         .filter((item) => item.node && item.box.width > 0 && item.box.height > 0);
 
       const horizontalOverlap = (a, b) => Math.min(a.right, b.right) - Math.max(a.left, b.left);
+      const verticalOverlap = (a, b) => Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
       const verticalStacks = [];
+      const horizontalSideLabels = [];
       const byNode = new Map();
 
       labelBoxes.forEach((label) => {
@@ -431,6 +478,40 @@ async function main() {
         const above = label.box.bottom <= node.top;
         const below = label.box.top >= node.bottom;
         const stacked = (above || below) && horizontalOverlap(label.box, node) > 0;
+        const verticalOverlapPx = verticalOverlap(label.box, node);
+        const sideAdjacent = label.box.centerX < node.left || label.box.centerX > node.right;
+        if (verticalOverlapPx > 0 && sideAdjacent) {
+          const overlap = horizontalOverlap(label.box, node);
+          if (label.box.right <= node.left) {
+            horizontalSideLabels.push({
+              node: label.node,
+              labelIndex: label.labelIndex,
+              side: 'left-of-node',
+              gap: round(node.left - label.box.right),
+              overlap: 0,
+              verticalOverlap: round(verticalOverlapPx),
+            });
+          } else if (label.box.left >= node.right) {
+            horizontalSideLabels.push({
+              node: label.node,
+              labelIndex: label.labelIndex,
+              side: 'right-of-node',
+              gap: round(label.box.left - node.right),
+              overlap: 0,
+              verticalOverlap: round(verticalOverlapPx),
+            });
+          } else if (overlap > 0) {
+            horizontalSideLabels.push({
+              node: label.node,
+              labelIndex: label.labelIndex,
+              side: label.box.centerX < node.centerX ? 'left-overlap' : 'right-overlap',
+              gap: round(-overlap),
+              overlap: round(overlap),
+              verticalOverlap: round(verticalOverlapPx),
+            });
+          }
+        }
+
         if (!stacked) return;
 
         verticalStacks.push({
@@ -459,7 +540,9 @@ async function main() {
         }
       });
 
-      return { verticalStacks, adjacentLabelGaps };
+      const horizontalViolations = horizontalSideLabels.filter((item) => item.overlap > 0);
+
+      return { verticalStacks, adjacentLabelGaps, horizontalSideLabels, horizontalViolations };
     });
 
     if ((purity.imageCount !== 0 && !purity.rasterAllowed) || purity.chartImgCount !== 0) {
@@ -482,6 +565,7 @@ async function main() {
     }
 
     console.log(`dataset: ${datasetKey}`);
+    console.log(`language: ${meta.language}`);
     console.log(`reference: ${keep ? path.relative(rootDir, referenceComparePath) : path.relative(rootDir, referencePath)}`);
     console.log(`candidate: ${keep ? path.relative(rootDir, candidatePath) : '(scratch cleaned)'}`);
     console.log(`diff: ${keep ? path.relative(rootDir, diffPath) : '(scratch cleaned)'}`);
@@ -499,6 +583,13 @@ async function main() {
     console.log(`MAE similarity: ${metrics.maeSimilarity.toFixed(6)}`);
     console.log(`max channel difference: ${metrics.maxChannelDifference}`);
     console.log(`same-pixel ratio: ${metrics.samePixelRatio.toFixed(6)}`);
+    if (labelLayoutAudit.horizontalViolations.length) {
+      const details = labelLayoutAudit.horizontalViolations
+        .slice(0, 5)
+        .map((item) => `${item.node}#${item.labelIndex} ${item.side} overlap=${formatPx(item.overlap)}`)
+        .join(', ');
+      throw new Error(`Label-node horizontal overlap failed: ${details}`);
+    }
   } finally {
     if (browser) await browser.close();
     await server.close();

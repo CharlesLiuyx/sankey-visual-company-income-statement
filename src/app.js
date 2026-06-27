@@ -51,17 +51,42 @@ const COMPANY_SORT_CONFIG = {
   founded: { labelKey: 'companySortFounded', defaultDirection: 'asc', ascLabelKey: 'companySortFoundedAsc', descLabelKey: 'companySortFoundedDesc' },
 };
 const MONEY_UNIT_MULTIPLIERS = { T: 1e12, B: 1e9, M: 1e6, K: 1e3 };
-// Frankfurter USD rates as of 2026-06-19; used only for cross-currency UI sorting.
-const CURRENCY_UNITS_PER_USD = {
-  '$': 1,
-  USD: 1,
-  'US$': 1,
-  '€': 0.87207,
-  EUR: 0.87207,
-  RMB: 6.7693,
-  CNY: 6.7693,
-  CNH: 6.7693,
-  KRW: 1532.31,
+// Frankfurter USD rates as of 2026-06-26 from
+// https://api.frankfurter.app/latest?from=USD&to=EUR,CNY,JPY,KRW,HKD,GBP
+// Used only for cross-currency UI sorting/export normalization.
+const USD_FX_SNAPSHOT = {
+  asOf: '2026-06-26',
+  base: 'USD',
+  source: 'Frankfurter',
+  sourceUrl: 'https://api.frankfurter.app/latest?from=USD&to=EUR,CNY,JPY,KRW,HKD,GBP',
+  unitsPerUsd: {
+    USD: 1,
+    EUR: 0.87712,
+    CNY: 6.7982,
+    CNH: 6.7982,
+    JPY: 161.65,
+    KRW: 1536.47,
+    HKD: 7.8421,
+    GBP: 0.75654,
+  },
+};
+const CURRENCY_CODE_ALIASES = {
+  '$': 'USD',
+  USD: 'USD',
+  'US$': 'USD',
+  '€': 'EUR',
+  EUR: 'EUR',
+  RMB: 'CNY',
+  CNY: 'CNY',
+  CNH: 'CNH',
+  '¥': 'JPY',
+  JPY: 'JPY',
+  '₩': 'KRW',
+  KRW: 'KRW',
+  'HK$': 'HKD',
+  HKD: 'HKD',
+  '£': 'GBP',
+  GBP: 'GBP',
 };
 const SIDEBAR_MIN = 220;
 const SIDEBAR_MAX = 560;
@@ -1184,28 +1209,38 @@ function financialFor(record) {
   return financialRecordByKey.get(record.dataset.key);
 }
 function finiteNumber(value) {
+  if (value === null || value === undefined || value === '') return null;
   const number = Number(value);
   return Number.isFinite(number) ? number : null;
 }
 function marketCapValueUsd(company) {
   const marketCap = metadataFor(company)?.marketCap;
   if (!marketCap || typeof marketCap !== 'object') return null;
-  return finiteNumber(marketCap.valueUsd ?? marketCap.usd ?? marketCap.value);
+  const explicitUsd = finiteNumber(marketCap.valueUsd ?? marketCap.usd);
+  if (explicitUsd != null) return explicitUsd;
+  return amountValueUsd(marketCap.value, marketCap.currency || marketCap.currencyCode || '$', marketCap.unit);
 }
 function unitMultiplier(unit) {
   const key = clean(unit).toUpperCase();
   return MONEY_UNIT_MULTIPLIERS[key] || 1;
 }
+function currencyCode(currency) {
+  const raw = clean(currency);
+  const key = raw.toUpperCase();
+  return CURRENCY_CODE_ALIASES[raw] || CURRENCY_CODE_ALIASES[key] || key || 'USD';
+}
 function currencyUnitsPerUsd(currency) {
-  const key = clean(currency).toUpperCase();
-  if (CURRENCY_UNITS_PER_USD[currency] != null) return CURRENCY_UNITS_PER_USD[currency];
-  if (CURRENCY_UNITS_PER_USD[key] != null) return CURRENCY_UNITS_PER_USD[key];
-  return 1;
+  return finiteNumber(USD_FX_SNAPSHOT.unitsPerUsd[currencyCode(currency)]);
+}
+function amountValueUsd(value, currency = '$', unit = '') {
+  const number = finiteNumber(value);
+  const unitsPerUsd = currencyUnitsPerUsd(currency);
+  if (number == null || unitsPerUsd == null) return null;
+  return (number * unitMultiplier(unit)) / unitsPerUsd;
 }
 function financialValueUsd(record, value) {
-  const number = finiteNumber(value);
-  if (number == null || !record) return null;
-  return (number * unitMultiplier(record.unit)) / currencyUnitsPerUsd(record.currency);
+  if (!record) return null;
+  return amountValueUsd(value, record.currency, record.unit);
 }
 function latestFinancialForGroup(group) {
   return group?.latest ? financialFor(group.latest) : null;
@@ -1295,12 +1330,13 @@ function tableModelForLanguage(language = state.language) {
   const companyRows = groups.map((group) => {
     const sourceMeta = metadataFor(group.company);
     const meta = localizedCompanyRecord(sourceMeta, code);
+    const marketCapUsd = marketCapValueUsd(group.company);
     return {
       ...meta,
       company: clean(meta.displayName || meta.name || group.company),
       companyCanonical: group.company,
-      marketCap: formatUsdShort(sourceMeta.marketCap?.valueUsd, code),
-      marketCapValueUsd: sourceMeta.marketCap?.valueUsd ?? '',
+      marketCap: formatUsdShort(marketCapUsd, code),
+      marketCapValueUsd: marketCapUsd ?? '',
       marketCapAsOf: sourceMeta.marketCap?.asOf || '',
       marketCapSourceUrl: sourceMeta.marketCap?.sourceUrl || '',
       latestPeriod: group.latest ? displayPeriod(group.latest, code) : '',

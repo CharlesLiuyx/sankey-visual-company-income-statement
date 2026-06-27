@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/snap-q1-fy26.png",
+  "spec": "input/icon-crop-specs/snap-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-27T04:19:02.102416+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 9
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "snap-company-logo",
+      "output": "data/assets/icon-references/snap/crops/company-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 2342,
+        "losslessBytes": 11066,
+        "savingsVsLossless": 0.7884,
+        "metrics": {
+          "meanAbsoluteError": 0.6656,
+          "rootMeanSquareError": 2.2498,
+          "p99AbsoluteError": 11,
+          "maxChannelDiff": 59,
+          "changedPixelRatio": 0.71
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 9,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 12272,
+        "transparentPixelRatio": 0.2223
+      },
+      "searchBox": {
+        "x": 770,
+        "y": 220,
+        "width": 260,
+        "height": 235
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 795,
+        "y0": 231,
+        "x1": 1002,
+        "y1": 438
+      },
+      "cropBox": {
+        "x0": 780,
+        "y0": 220,
+        "x1": 1020,
+        "y1": 450
+      },
+      "validation": {
+        "width": 240,
+        "height": 230,
+        "foregroundPixels": 31347,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 15,
+          "right": 18,
+          "top": 11,
+          "bottom": 12
+        },
+        "centerOffset": {
+          "x": -0.0063,
+          "y": -0.0022
+        },
+        "passes": true
+      },
+      "note": "Snap company logo: yellow rounded square with Snapchat ghost; excludes title text, Sankey marks, and publisher attribution.",
+      "validationSheet": "data/assets/icon-references/snap/validation-sheets/snap-company-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 227356,
+        "losslessBytes": 227356,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

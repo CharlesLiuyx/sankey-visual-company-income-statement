@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/digital-ocean-q1-fy26.png",
+  "spec": "input/icon-crop-specs/digital-ocean-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-27T06:04:27.406708+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 10
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "digital-ocean-company-logo",
+      "output": "data/assets/icon-references/digital-ocean/crops/company-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 4781,
+        "losslessBytes": 21997,
+        "savingsVsLossless": 0.7827,
+        "metrics": {
+          "meanAbsoluteError": 0.2599,
+          "rootMeanSquareError": 1.4399,
+          "p99AbsoluteError": 7,
+          "maxChannelDiff": 49,
+          "changedPixelRatio": 0.2442
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 10,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 91201,
+        "transparentPixelRatio": 0.7627
+      },
+      "searchBox": {
+        "x": 676,
+        "y": 230,
+        "width": 386,
+        "height": 286
+      },
+      "componentCount": 15,
+      "subjectBox": {
+        "x0": 679,
+        "y0": 232,
+        "x1": 1059,
+        "y1": 516
+      },
+      "cropBox": {
+        "x0": 668,
+        "y0": 226,
+        "x1": 1072,
+        "y1": 522
+      },
+      "validation": {
+        "width": 404,
+        "height": 296,
+        "foregroundPixels": 26411,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 11,
+          "right": 13,
+          "top": 6,
+          "bottom": 6
+        },
+        "centerOffset": {
+          "x": -0.0025,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "DigitalOcean company symbol and wordmark above the revenue hub; excludes the revenue label, flows, footer publisher marks, website URL, and attribution badges.",
+      "validationSheet": "data/assets/icon-references/digital-ocean/validation-sheets/digital-ocean-company-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 266345,
+        "losslessBytes": 266345,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

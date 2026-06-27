@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/pinterest-q1-fy26.png",
+  "spec": "input/icon-crop-specs/pinterest-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-27T04:55:32.058622+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 9
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "pinterest-company-logo",
+      "output": "data/assets/icon-references/pinterest/crops/company-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 3379,
+        "losslessBytes": 16115,
+        "savingsVsLossless": 0.7903,
+        "metrics": {
+          "meanAbsoluteError": 0.394,
+          "rootMeanSquareError": 1.3924,
+          "p99AbsoluteError": 7,
+          "maxChannelDiff": 23,
+          "changedPixelRatio": 0.3179
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 9,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 15853,
+        "transparentPixelRatio": 0.3098
+      },
+      "searchBox": {
+        "x": 790,
+        "y": 205,
+        "width": 285,
+        "height": 250
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 840,
+        "y0": 232,
+        "x1": 1025,
+        "y1": 419
+      },
+      "cropBox": {
+        "x0": 820,
+        "y0": 222,
+        "x1": 1058,
+        "y1": 437
+      },
+      "validation": {
+        "width": 238,
+        "height": 215,
+        "foregroundPixels": 19818,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 20,
+          "right": 33,
+          "top": 10,
+          "bottom": 18
+        },
+        "centerOffset": {
+          "x": -0.0273,
+          "y": -0.0186
+        },
+        "passes": true
+      },
+      "note": "Pinterest company logo: red Pinterest mark inside the white circular badge; excludes title text, revenue label, Sankey marks, and publisher attribution.",
+      "validationSheet": "data/assets/icon-references/pinterest/validation-sheets/pinterest-company-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 270113,
+        "losslessBytes": 270113,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

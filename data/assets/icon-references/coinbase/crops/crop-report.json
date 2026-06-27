@@ -1,0 +1,112 @@
+{
+  "source": "input/processed/coinbase-q1-fy26.png",
+  "spec": "input/icon-crop-specs/coinbase-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-27T06:04:38.935297+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "coinbase-logo",
+      "output": "data/assets/icon-references/coinbase/crops/coinbase-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 3998,
+        "losslessBytes": 17815,
+        "savingsVsLossless": 0.7756,
+        "metrics": {
+          "meanAbsoluteError": 0.5613,
+          "rootMeanSquareError": 1.9754,
+          "p99AbsoluteError": 10,
+          "maxChannelDiff": 38,
+          "changedPixelRatio": 0.6538
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 21381,
+        "transparentPixelRatio": 0.3492
+      },
+      "searchBox": {
+        "x": 1218,
+        "y": 200,
+        "width": 253,
+        "height": 242
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 1234,
+        "y0": 205,
+        "x1": 1455,
+        "y1": 426
+      },
+      "cropBox": {
+        "x0": 1218,
+        "y0": 200,
+        "x1": 1471,
+        "y1": 442
+      },
+      "validation": {
+        "width": 253,
+        "height": 242,
+        "foregroundPixels": 24237,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 16,
+          "right": 16,
+          "top": 5,
+          "bottom": 16
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": -0.0227
+        },
+        "passes": true
+      },
+      "note": "Coinbase company logo centered above the revenue node. Publisher footer marks and website branding are excluded.",
+      "validationSheet": "data/assets/icon-references/coinbase/validation-sheets/coinbase-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 288079,
+        "losslessBytes": 288079,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

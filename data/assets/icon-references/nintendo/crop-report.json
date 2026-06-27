@@ -1,0 +1,414 @@
+{
+  "source": "input/processed/nintendo-fy26.png",
+  "spec": "input/icon-crop-specs/nintendo-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-27T04:09:08.626129+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  },
+  "runtimeOutputDir": "data/assets/raster-annotations/nintendo",
+  "crops": [
+    {
+      "key": "nintendo-company-logo",
+      "output": "data/assets/icon-references/nintendo/crops/company-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 4719,
+        "losslessBytes": 16384,
+        "savingsVsLossless": 0.712,
+        "metrics": {
+          "meanAbsoluteError": 0.5812,
+          "rootMeanSquareError": 1.4517,
+          "p99AbsoluteError": 6,
+          "maxChannelDiff": 54,
+          "changedPixelRatio": 0.7049
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 32895,
+        "transparentPixelRatio": 0.2906
+      },
+      "searchBox": {
+        "x": 895,
+        "y": 234,
+        "width": 598,
+        "height": 148
+      },
+      "componentCount": 12,
+      "subjectBox": {
+        "x0": 898,
+        "y0": 235,
+        "x1": 1483,
+        "y1": 380
+      },
+      "cropBox": {
+        "x0": 880,
+        "y0": 216,
+        "x1": 1502,
+        "y1": 398
+      },
+      "validation": {
+        "width": 622,
+        "height": 182,
+        "foregroundPixels": 40924,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 18,
+          "right": 19,
+          "top": 19,
+          "bottom": 18
+        },
+        "centerOffset": {
+          "x": -0.0008,
+          "y": 0.0027
+        },
+        "passes": true
+      },
+      "note": "Nintendo company logo near the top center; excludes the title, chart labels, website, and publisher attribution.",
+      "runtimeOutput": "data/assets/raster-annotations/nintendo/company-logo.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 4719,
+        "losslessBytes": 16384,
+        "savingsVsLossless": 0.712,
+        "metrics": {
+          "meanAbsoluteError": 0.5812,
+          "rootMeanSquareError": 1.4517,
+          "p99AbsoluteError": 6,
+          "maxChannelDiff": 54,
+          "changedPixelRatio": 0.7049
+        }
+      },
+      "validationSheet": "data/assets/icon-references/nintendo/validation-sheets/nintendo-company-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 255749,
+        "losslessBytes": 255749,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "nintendo-switch-console-icon",
+      "output": "data/assets/icon-references/nintendo/crops/switch-console-icon.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 1384,
+        "losslessBytes": 5065,
+        "savingsVsLossless": 0.7268,
+        "metrics": {
+          "meanAbsoluteError": 0.5436,
+          "rootMeanSquareError": 2.0846,
+          "p99AbsoluteError": 10,
+          "maxChannelDiff": 38,
+          "changedPixelRatio": 0.5918
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 12226,
+        "transparentPixelRatio": 0.4135
+      },
+      "searchBox": {
+        "x": 62,
+        "y": 568,
+        "width": 150,
+        "height": 146
+      },
+      "componentCount": 3,
+      "subjectBox": {
+        "x0": 66,
+        "y0": 569,
+        "x1": 208,
+        "y1": 711
+      },
+      "cropBox": {
+        "x0": 49,
+        "y0": 552,
+        "x1": 217,
+        "y1": 728
+      },
+      "validation": {
+        "width": 168,
+        "height": 176,
+        "foregroundPixels": 12494,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 17,
+          "right": 9,
+          "top": 17,
+          "bottom": 17
+        },
+        "centerOffset": {
+          "x": 0.0238,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Nintendo Switch controller icon associated with the Hardware segment; excludes hardware text and financial values.",
+      "runtimeOutput": "data/assets/raster-annotations/nintendo/switch-console-icon.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 1384,
+        "losslessBytes": 5065,
+        "savingsVsLossless": 0.7268,
+        "metrics": {
+          "meanAbsoluteError": 0.5436,
+          "rootMeanSquareError": 2.0846,
+          "p99AbsoluteError": 10,
+          "maxChannelDiff": 38,
+          "changedPixelRatio": 0.5918
+        }
+      },
+      "validationSheet": "data/assets/icon-references/nintendo/validation-sheets/nintendo-switch-console-icon.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 268086,
+        "losslessBytes": 268086,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "nintendo-switch-wordmark",
+      "output": "data/assets/icon-references/nintendo/crops/switch-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 2445,
+        "losslessBytes": 9345,
+        "savingsVsLossless": 0.7384,
+        "metrics": {
+          "meanAbsoluteError": 0.4324,
+          "rootMeanSquareError": 1.8717,
+          "p99AbsoluteError": 9,
+          "maxChannelDiff": 38,
+          "changedPixelRatio": 0.2545
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 17958,
+        "transparentPixelRatio": 0.7543
+      },
+      "searchBox": {
+        "x": 715,
+        "y": 420,
+        "width": 224,
+        "height": 66
+      },
+      "componentCount": 15,
+      "subjectBox": {
+        "x0": 719,
+        "y0": 422,
+        "x1": 938,
+        "y1": 485
+      },
+      "cropBox": {
+        "x0": 705,
+        "y0": 406,
+        "x1": 953,
+        "y1": 502
+      },
+      "validation": {
+        "width": 248,
+        "height": 96,
+        "foregroundPixels": 5556,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 14,
+          "right": 15,
+          "top": 16,
+          "bottom": 17
+        },
+        "centerOffset": {
+          "x": -0.002,
+          "y": -0.0052
+        },
+        "passes": true
+      },
+      "note": "Nintendo Switch wordmark above the main hardware flow; excludes values, chart links, and surrounding labels.",
+      "runtimeOutput": "data/assets/raster-annotations/nintendo/switch-wordmark.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 2445,
+        "losslessBytes": 9345,
+        "savingsVsLossless": 0.7384,
+        "metrics": {
+          "meanAbsoluteError": 0.4324,
+          "rootMeanSquareError": 1.8717,
+          "p99AbsoluteError": 9,
+          "maxChannelDiff": 38,
+          "changedPixelRatio": 0.2545
+        }
+      },
+      "validationSheet": "data/assets/icon-references/nintendo/validation-sheets/nintendo-switch-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 271935,
+        "losslessBytes": 271935,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "nintendo-mobile-store-icons",
+      "output": "data/assets/icon-references/nintendo/crops/mobile-store-icons.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 64,
+        "bytes": 1834,
+        "losslessBytes": 6701,
+        "savingsVsLossless": 0.7263,
+        "metrics": {
+          "meanAbsoluteError": 0.6551,
+          "rootMeanSquareError": 2.3306,
+          "p99AbsoluteError": 9,
+          "maxChannelDiff": 50,
+          "changedPixelRatio": 0.4725
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 10418,
+        "transparentPixelRatio": 0.4961
+      },
+      "searchBox": {
+        "x": 522,
+        "y": 1212,
+        "width": 198,
+        "height": 86
+      },
+      "componentCount": 2,
+      "subjectBox": {
+        "x0": 523,
+        "y0": 1212,
+        "x1": 699,
+        "y1": 1296
+      },
+      "cropBox": {
+        "x0": 506,
+        "y0": 1200,
+        "x1": 716,
+        "y1": 1300
+      },
+      "validation": {
+        "width": 210,
+        "height": 100,
+        "foregroundPixels": 9594,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 17,
+          "right": 17,
+          "top": 12,
+          "bottom": 4
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.04
+        },
+        "passes": true
+      },
+      "note": "App Store and Google Play icons associated with the Other revenue line; excludes the Other label, values, and bottom publisher marks.",
+      "runtimeOutput": "data/assets/raster-annotations/nintendo/mobile-store-icons.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 64,
+        "bytes": 1834,
+        "losslessBytes": 6701,
+        "savingsVsLossless": 0.7263,
+        "metrics": {
+          "meanAbsoluteError": 0.6551,
+          "rootMeanSquareError": 2.3306,
+          "p99AbsoluteError": 9,
+          "maxChannelDiff": 50,
+          "changedPixelRatio": 0.4725
+        }
+      },
+      "validationSheet": "data/assets/icon-references/nintendo/validation-sheets/nintendo-mobile-store-icons.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 267189,
+        "losslessBytes": 267189,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

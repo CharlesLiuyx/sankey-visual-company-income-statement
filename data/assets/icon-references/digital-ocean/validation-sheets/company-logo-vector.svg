@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="404" height="296" viewBox="0 0 404 296"><rect width="404" height="296" fill="#f2f2f2"/>
+    <g fill="#0080ff">
+      <path fill-rule="evenodd" d="M205 8C255.3 8 296 48.7 296 99C296 149.3 255.3 190 205 190H171V152H205C234.3 152 258 128.3 258 99C258 69.7 234.3 46 205 46C175.7 46 152 69.7 152 99V137H114V99C114 48.7 154.7 8 205 8Z"/>
+      <rect x="114" y="151" width="34" height="34"/>
+      <rect x="80" y="151" width="34" height="34"/>
+      <rect x="114" y="185" width="34" height="34"/>
+    </g>
+    <text x="12" y="282" font-family="Arial Rounded MT Bold, Montserrat, Arial, sans-serif" font-size="62" font-weight="800" fill="#0080ff"
+      textLength="380" lengthAdjust="spacingAndGlyphs">DigitalOcean</text>
+  </svg>

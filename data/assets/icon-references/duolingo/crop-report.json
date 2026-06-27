@@ -1,0 +1,226 @@
+{
+  "source": "input/processed/duolingo-q1-fy26.png",
+  "spec": "input/icon-crop-specs/duolingo-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-27T05:04:26.719661+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": "data/assets/raster-annotations/duolingo",
+  "crops": [
+    {
+      "key": "duolingo-company-wordmark",
+      "output": "data/assets/icon-references/duolingo/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 4386,
+        "losslessBytes": 20953,
+        "savingsVsLossless": 0.7907,
+        "metrics": {
+          "meanAbsoluteError": 0.2928,
+          "rootMeanSquareError": 1.3769,
+          "p99AbsoluteError": 7,
+          "maxChannelDiff": 37,
+          "changedPixelRatio": 0.3429
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 62051,
+        "transparentPixelRatio": 0.66
+      },
+      "searchBox": {
+        "x": 620,
+        "y": 300,
+        "width": 620,
+        "height": 140
+      },
+      "componentCount": 9,
+      "subjectBox": {
+        "x0": 642,
+        "y0": 310,
+        "x1": 1209,
+        "y1": 440
+      },
+      "cropBox": {
+        "x0": 628,
+        "y0": 296,
+        "x1": 1223,
+        "y1": 454
+      },
+      "validation": {
+        "width": 595,
+        "height": 158,
+        "foregroundPixels": 25309,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 14,
+          "right": 14,
+          "top": 14,
+          "bottom": 14
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Large Duolingo company wordmark centered above the revenue node; excludes the chart title, revenue label, and publisher marks.",
+      "runtimeOutput": "data/assets/raster-annotations/duolingo/company-wordmark.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 4386,
+        "losslessBytes": 20953,
+        "savingsVsLossless": 0.7907,
+        "metrics": {
+          "meanAbsoluteError": 0.2928,
+          "rootMeanSquareError": 1.3769,
+          "p99AbsoluteError": 7,
+          "maxChannelDiff": 37,
+          "changedPixelRatio": 0.3429
+        }
+      },
+      "validationSheet": "data/assets/icon-references/duolingo/validation-sheets/duolingo-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 232381,
+        "losslessBytes": 232381,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "duolingo-subscription-mascot",
+      "output": "data/assets/icon-references/duolingo/crops/subscription-mascot.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 3102,
+        "losslessBytes": 20592,
+        "savingsVsLossless": 0.8494,
+        "metrics": {
+          "meanAbsoluteError": 0.6623,
+          "rootMeanSquareError": 2.2836,
+          "p99AbsoluteError": 11,
+          "maxChannelDiff": 42,
+          "changedPixelRatio": 0.5025
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 17319,
+        "transparentPixelRatio": 0.4994
+      },
+      "searchBox": {
+        "x": 175,
+        "y": 565,
+        "width": 210,
+        "height": 170
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 186,
+        "y0": 574,
+        "x1": 370,
+        "y1": 724
+      },
+      "cropBox": {
+        "x0": 176,
+        "y0": 564,
+        "x1": 380,
+        "y1": 734
+      },
+      "validation": {
+        "width": 204,
+        "height": 170,
+        "foregroundPixels": 16380,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 10,
+          "right": 10,
+          "top": 10,
+          "bottom": 10
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Duo mascot icon for the Subscription revenue stream; excludes the Subscription label, chart connectors, KPI cards, and publisher attribution.",
+      "runtimeOutput": "data/assets/raster-annotations/duolingo/subscription-mascot.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 3102,
+        "losslessBytes": 20592,
+        "savingsVsLossless": 0.8494,
+        "metrics": {
+          "meanAbsoluteError": 0.6623,
+          "rootMeanSquareError": 2.2836,
+          "p99AbsoluteError": 11,
+          "maxChannelDiff": 42,
+          "changedPixelRatio": 0.5025
+        }
+      },
+      "validationSheet": "data/assets/icon-references/duolingo/validation-sheets/duolingo-subscription-mascot.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 278120,
+        "losslessBytes": 278120,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

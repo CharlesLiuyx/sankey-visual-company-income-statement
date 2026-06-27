@@ -302,6 +302,149 @@
         },
       },
       {
+        key: 'coinbase-q1-fy26',
+        company: 'Coinbase',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/coinbase-q1-fy26.png',
+        roundingTolerance: 1.1,
+        revenue: {
+          total: 1413,
+          notes: ['(31%) Y/Y'],
+          items: [
+            {
+              id: 'transaction_based',
+              label: 'Transaction-based',
+              value: 756,
+              notes: ['(40%) Y/Y'],
+              children: [
+                { id: 'consumer', label: 'Consumer', value: 567, notes: ['(48%) Y/Y'] },
+                { id: 'institutions', label: 'Institutions', value: 136, notes: ['+38% Y/Y'] },
+                { id: 'other_transaction', label: 'Other', value: 53, notes: ['(22%) Y/Y'] },
+              ],
+            },
+            {
+              id: 'subscription_services',
+              label: 'Subscription & Services',
+              value: 584,
+              notes: ['(14%) Y/Y'],
+              children: [
+                { id: 'stablecoin', label: 'Stablecoin', value: 305, notes: ['+11% Y/Y'] },
+                { id: 'blockchain_rewards', label: 'Blockchain rewards', value: 101, notes: ['(49%) Y/Y'] },
+                { id: 'interest_finance_fee_income', label: 'Interest & finance fee income', value: 68, notes: ['+8% Y/Y'] },
+                { id: 'other_subscription', label: 'Other sub', value: 109, notes: ['(23%) Y/Y'] },
+              ],
+            },
+            { id: 'other_revenue', label: 'Other', value: 74, notes: ['(25%) Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: {
+            label: 'Cost of revenue',
+            value: 0,
+            notes: ['The source chart does not show a gross profit or cost-of-revenue subtotal.'],
+          },
+          operatingExpenses: {
+            total: 1434,
+            notes: ['Source chart operating-expense detail sums to $1,435M because the source chart rounds each item.'],
+            items: [
+              { id: 'technology', label: 'Technology', value: 526, notes: ['37% of revenue', '+20pp Y/Y'] },
+              { id: 'ga', label: 'G&A', value: 376, notes: ['27% of revenue', '+7pp Y/Y'] },
+              { id: 'sm', label: 'S&M', value: 267, notes: ['19% of revenue', '+7pp Y/Y'] },
+              { id: 'transaction_costs', label: 'Transaction', value: 196, notes: ['14% of revenue', '(1pp) Y/Y'] },
+              { id: 'other_costs', label: 'Other costs', value: 70 },
+            ],
+          },
+          tax: { label: 'Tax', value: 0 },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: {
+            label: 'Revenue before operating expenses',
+            value: 1413,
+            notes: ['The source chart does not show a gross profit or cost-of-revenue subtotal.'],
+          },
+          operating: { id: 'operating_loss', label: 'Operating loss', value: -21, notes: ['(2%) margin', '(36pp) Y/Y'] },
+          net: {
+            id: 'operating_loss',
+            label: 'Operating loss',
+            value: -21,
+            notes: ['No separate net income line is shown in the source chart.'],
+          },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 (31%)'],
+              items: [
+                {
+                  id: 'transaction_based',
+                  label: '交易收入',
+                  notes: ['同比 (40%)'],
+                  children: [
+                    { id: 'consumer', label: '消费者', notes: ['同比 (48%)'] },
+                    { id: 'institutions', label: '机构', notes: ['同比 +38%'] },
+                    { id: 'other_transaction', label: '其他', notes: ['同比 (22%)'] },
+                  ],
+                },
+                {
+                  id: 'subscription_services',
+                  label: '订阅与服务',
+                  notes: ['同比 (14%)'],
+                  children: [
+                    { id: 'stablecoin', label: '稳定币', notes: ['同比 +11%'] },
+                    { id: 'blockchain_rewards', label: '区块链奖励', notes: ['同比 (49%)'] },
+                    { id: 'interest_finance_fee_income', label: '利息和金融手续费收入', notes: ['同比 +8%'] },
+                    { id: 'other_subscription', label: '其他订阅', notes: ['同比 (23%)'] },
+                  ],
+                },
+                { id: 'other_revenue', label: '其他', notes: ['同比 (25%)'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: {
+                label: '收入成本',
+                notes: ['来源图未显示毛利润或收入成本小计。'],
+              },
+              operatingExpenses: {
+                notes: ['来源图运营费用明细因逐项四舍五入合计为 $1,435M。'],
+                items: [
+                  { id: 'technology', label: '技术', notes: ['占收入 37%', '同比 +20 个百分点'] },
+                  { id: 'ga', label: '管理费用', notes: ['占收入 27%', '同比 +7 个百分点'] },
+                  { id: 'sm', label: '销售与营销', notes: ['占收入 19%', '同比 +7 个百分点'] },
+                  { id: 'transaction_costs', label: '交易', notes: ['占收入 14%', '同比 (1 个百分点)'] },
+                  { id: 'other_costs', label: '其他成本' },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            profit: {
+              gross: {
+                label: '运营费用前收入',
+                notes: ['来源图未显示毛利润或收入成本小计。'],
+              },
+              operating: { label: '营业亏损', notes: ['利润率 (2%)', '同比 (36 个百分点)'] },
+              net: {
+                label: '营业亏损',
+                notes: ['来源图未单独显示净利润项目。'],
+              },
+            },
+          },
+        },
+      },
+      {
         key: 'coreweave-q1-fy26',
         company: 'CoreWeave',
         period: 'Q1 FY26',
@@ -428,6 +571,184 @@
               gross: { label: '毛利润', notes: ['利润率 12.8%', '同比 (0.2 个百分点)'] },
               operating: { label: '营业利润', notes: ['利润率 4.0%', '同比 (0.0 个百分点)'] },
               net: { label: '净利润', notes: ['利润率 3.1%', '同比 +0.1 个百分点'] },
+            },
+          },
+        },
+      },
+      {
+        key: 'digital-ocean-q1-fy26',
+        company: 'DigitalOcean',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/digital-ocean-q1-fy26.png',
+        roundingTolerance: 1.1,
+        revenue: {
+          total: 258,
+          notes: ['+22% Y/Y'],
+          items: [
+            { id: 'north_america', label: 'North America', value: 113, notes: ['+19% Y/Y'] },
+            { id: 'europe', label: 'Europe', value: 62, notes: ['(14%) Y/Y'] },
+            { id: 'asia', label: 'Asia', value: 57, notes: ['(8%) Y/Y'] },
+            { id: 'other', label: 'Other', value: 26, notes: ['(9%) Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 113 },
+          operatingExpenses: {
+            total: 108,
+            notes: ['Source chart rounds R&D, G&A, and S&M labels; displayed components sum to $109M.'],
+            items: [
+              { id: 'rnd', label: 'R&D', value: 49, notes: ['19% of revenue', '+0pp Y/Y'] },
+              { id: 'ga', label: 'G&A', value: 38, notes: ['15% of revenue', '(1pp) Y/Y'] },
+              { id: 'sm', label: 'S&M', value: 22, notes: ['8% of revenue', '(1pp) Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 9 },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 12,
+          items: [{ id: 'interest', label: 'Interest', value: 12 }],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 145, notes: ['56% margin', '(5pp) Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 37, notes: ['14% margin', '(3pp) Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 16, notes: ['6% margin', '(12pp) Y/Y'] },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 +22%'],
+              items: [
+                { id: 'north_america', label: '北美', notes: ['同比 +19%'] },
+                { id: 'europe', label: '欧洲', notes: ['同比 (14%)'] },
+                { id: 'asia', label: '亚洲', notes: ['同比 (8%)'] },
+                { id: 'other', label: '其他', notes: ['同比 (9%)'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                notes: ['来源图表对 R&D、G&A 和 S&M 标签取整；显示的组成项合计为 $109M。'],
+                items: [
+                  { id: 'rnd', label: '研发', notes: ['占收入 19%', '同比 +0 个百分点'] },
+                  { id: 'ga', label: '管理费用', notes: ['占收入 15%', '同比 (1 个百分点)'] },
+                  { id: 'sm', label: '销售与营销', notes: ['占收入 8%', '同比 (1 个百分点)'] },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            otherExpenses: {
+              items: [{ id: 'interest', label: '利息' }],
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 56%', '同比 (5 个百分点)'] },
+              operating: { label: '营业利润', notes: ['利润率 14%', '同比 (3 个百分点)'] },
+              net: { label: '净利润', notes: ['利润率 6%', '同比 (12 个百分点)'] },
+            },
+          },
+        },
+      },
+      {
+        key: 'duolingo-q1-fy26',
+        company: 'Duolingo',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/duolingo-q1-fy26.png',
+        roundingTolerance: 0.65,
+        revenue: {
+          total: 291.967,
+          notes: ['+27% Y/Y'],
+          items: [
+            { id: 'subscription', label: 'Subscription', value: 250.908, notes: ['+31% Y/Y'] },
+            {
+              id: 'other_revenue',
+              label: 'Other',
+              value: 41.059,
+              notes: [
+                '+3% Y/Y',
+                'Comprises advertising $20.614M, Duolingo English Test $11.317M, in-app purchases $8.446M, and other $0.682M.',
+              ],
+            },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 78.871 },
+          operatingExpenses: {
+            total: 168.569,
+            items: [
+              { id: 'rnd', label: 'R&D', value: 82.974, notes: ['28% of revenue', '(2pp) Y/Y'] },
+              { id: 'sm', label: 'S&M', value: 39.249, notes: ['13% of revenue', '+2pp Y/Y'] },
+              { id: 'ga', label: 'G&A', value: 46.346, notes: ['16% of revenue', '(3pp) Y/Y'] },
+            ],
+          },
+          tax: {
+            id: 'tax_other',
+            label: 'Tax & Other',
+            value: 12.878,
+            notes: ['Combines provision for income taxes of $12.092M with other expense, net of $0.786M.'],
+          },
+        },
+        otherIncome: {
+          total: 11.811,
+          items: [{ id: 'interest', label: 'Interest', value: 11.811 }],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 213.096, notes: ['73% margin', '+2pp Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 44.527, notes: ['15% margin', '+5pp Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 43.46, notes: ['15% margin', '(0pp) Y/Y'] },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 +27%'],
+              items: [
+                { id: 'subscription', label: '订阅', notes: ['同比 +31%'] },
+                {
+                  id: 'other_revenue',
+                  label: '其他',
+                  notes: ['同比 +3%', '包括广告 $20.614M、Duolingo English Test $11.317M、应用内购买 $8.446M 和其他 $0.682M。'],
+                },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                items: [
+                  { id: 'rnd', label: '研发', notes: ['占收入 28%', '同比 (2 个百分点)'] },
+                  { id: 'sm', label: '销售与营销', notes: ['占收入 13%', '同比 +2 个百分点'] },
+                  { id: 'ga', label: '管理费用', notes: ['占收入 16%', '同比 (3 个百分点)'] },
+                ],
+              },
+              tax: {
+                label: '税费及其他',
+                notes: ['合并 $12.092M 所得税费用与 $0.786M 其他费用净额。'],
+              },
+            },
+            otherIncome: {
+              items: [{ id: 'interest', label: '利息' }],
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 73%', '同比 +2 个百分点'] },
+              operating: { label: '营业利润', notes: ['利润率 15%', '同比 +5 个百分点'] },
+              net: { label: '净利润', notes: ['利润率 15%', '同比 (0 个百分点)'] },
             },
           },
         },
@@ -1048,6 +1369,89 @@
         },
       },
       {
+        key: 'snap-q1-fy26',
+        company: 'Snap',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/snap-q1-fy26.png',
+        roundingTolerance: 1.1,
+        revenue: {
+          total: 1529,
+          notes: ['+12% Y/Y'],
+          items: [
+            { id: 'north_america', label: 'North America', value: 851, notes: ['+2% Y/Y'] },
+            { id: 'europe', label: 'Europe', value: 324, notes: ['+45% Y/Y'] },
+            { id: 'rest_of_world', label: 'Rest of world', value: 354, notes: ['+15% Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 665 },
+          operatingExpenses: {
+            total: 938,
+            items: [
+              { id: 'rnd', label: 'R&D', value: 478, notes: ['31% of revenue', '+0pp Y/Y'] },
+              { id: 'sm', label: 'S&M', value: 239, notes: ['16% of revenue', '(3pp) Y/Y'] },
+              { id: 'ga', label: 'G&A', value: 221, notes: ['14% of revenue', '(3pp) Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 0 },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 864, notes: ['57% margin', '+3pp Y/Y'] },
+          operating: { id: 'operating_loss', label: 'Operating loss', value: -74, notes: ['(5%) margin', '+9pp Y/Y'] },
+          net: {
+            id: 'operating_loss',
+            label: 'Operating loss',
+            value: -74,
+            notes: ['No separate net income line is shown in the source chart.'],
+          },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 +12%'],
+              items: [
+                { label: '北美', notes: ['同比 +2%'] },
+                { label: '欧洲', notes: ['同比 +45%'] },
+                { label: '世界其他地区', notes: ['同比 +15%'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                items: [
+                  { label: '研发', notes: ['占收入 31%', '同比 +0 个百分点'] },
+                  { label: '销售与营销', notes: ['占收入 16%', '同比 (3 个百分点)'] },
+                  { label: '管理费用', notes: ['占收入 14%', '同比 (3 个百分点)'] },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 57%', '同比 +3 个百分点'] },
+              operating: { label: '营业亏损', notes: ['利润率 (5%)', '同比 +9 个百分点'] },
+              net: {
+                label: '营业亏损',
+                notes: ['源图未显示单独的净利润/净亏损项目。'],
+              },
+            },
+          },
+        },
+      },
+      {
         key: 'netflix-q1-fy26',
         company: 'Netflix',
         period: 'Q1 FY26',
@@ -1193,6 +1597,130 @@
         },
       },
       {
+        key: 'nintendo-fy26',
+        company: 'Nintendo',
+        period: 'FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '¥',
+        unit: 'B',
+        decimals: 0,
+        sourceImage: 'input/processed/nintendo-fy26.png',
+        roundingTolerance: 1.2,
+        revenue: {
+          total: 2313,
+          notes: ['+99% Y/Y'],
+          items: [
+            {
+              id: 'dedicated_video_game_platform',
+              label: 'Dedicated video game platform',
+              value: 2240,
+              notes: ['+107% Y/Y'],
+              children: [
+                {
+                  id: 'hardware',
+                  label: 'Hardware',
+                  value: 1494,
+                  notes: ['+215% Y/Y', 'Switch 2: 19.9M units (New)', 'Switch 1: 3.8M units, (65%) Y/Y'],
+                },
+                {
+                  id: 'software',
+                  label: 'Software',
+                  value: 746,
+                  notes: ['+22% Y/Y', '186M units', '+19% Y/Y', '55% Digital'],
+                },
+              ],
+            },
+            {
+              id: 'other_revenue',
+              label: 'Other',
+              value: 74,
+              notes: ['(10%) Y/Y', 'Source chart shows this as Other; Nintendo reporting describes the comparable line as IP related income, etc.'],
+            },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_sales', label: 'Cost of sales', value: 1404 },
+          operatingExpenses: {
+            total: 549,
+            items: [
+              { id: 'other_sga', label: 'Other SG&A', value: 226, notes: ['10% of revenue', '(7pp) Y/Y'] },
+              { id: 'rnd', label: 'R&D', value: 178, notes: ['8% of revenue', '(5pp) Y/Y'] },
+              { id: 'advertising', label: 'Advertising', value: 145, notes: ['6% of revenue', '(1pp) Y/Y'] },
+            ],
+          },
+          tax: {
+            id: 'tax',
+            label: 'Tax',
+            value: 232,
+            notes: ['Modeled from the source chart to reconcile operating profit, other income, and displayed net profit.'],
+          },
+        },
+        otherIncome: {
+          total: 182,
+          items: [{ id: 'other_income', label: 'Other', value: 182 }],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 909, notes: ['39% margin', '(22pp) Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 360, notes: ['16% margin', '(9pp) Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 310, notes: ['13% margin', '(11pp) Y/Y'] },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 +99%'],
+              items: [
+                {
+                  label: '专用游戏平台',
+                  notes: ['同比 +107%'],
+                  children: [
+                    {
+                      label: '硬件',
+                      notes: ['同比 +215%', 'Switch 2：1,990 万台（新机型）', 'Switch 1：380 万台，同比 (65%)'],
+                    },
+                    {
+                      label: '软件',
+                      notes: ['同比 +22%', '1.86 亿套', '同比 +19%', '数字版占 55%'],
+                    },
+                  ],
+                },
+                {
+                  label: '其他',
+                  notes: ['同比 (10%)', '来源图表显示为其他；Nintendo 财报中相近项目为 IP 相关收入等。'],
+                },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '销售成本' },
+              operatingExpenses: {
+                items: [
+                  { label: '其他销售及管理费用', notes: ['占收入 10%', '同比 (7 个百分点)'] },
+                  { label: '研发', notes: ['占收入 8%', '同比 (5 个百分点)'] },
+                  { label: '广告', notes: ['占收入 6%', '同比 (1 个百分点)'] },
+                ],
+              },
+              tax: {
+                label: '税费',
+                notes: ['按来源图表建模，用于调和营业利润、其他收入和图中显示的净利润。'],
+              },
+            },
+            otherIncome: {
+              items: [{ label: '其他' }],
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 39%', '同比 (22 个百分点)'] },
+              operating: { label: '营业利润', notes: ['利润率 16%', '同比 (9 个百分点)'] },
+              net: { label: '净利润', notes: ['利润率 13%', '同比 (11 个百分点)'] },
+            },
+          },
+        },
+      },
+      {
         key: 'pdd-holdings-q1-fy26',
         company: 'PDD Holdings',
         period: 'Q1 FY26',
@@ -1271,6 +1799,93 @@
               gross: { label: '毛利润', notes: ['利润率 56%', '同比 (1 个百分点)'] },
               operating: { label: '营业利润', notes: ['利润率 18%', '同比 +2 个百分点'] },
               net: { label: '净利润', notes: ['利润率 12%', '同比 (4 个百分点)'] },
+            },
+          },
+        },
+      },
+      {
+        key: 'pinterest-q1-fy26',
+        company: 'Pinterest',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/pinterest-q1-fy26.png',
+        roundingTolerance: 1.1,
+        revenue: {
+          total: 1008,
+          notes: ['+18% Y/Y'],
+          items: [
+            { id: 'us_canada', label: 'US & Canada', value: 750, notes: ['+13% Y/Y'] },
+            { id: 'europe', label: 'Europe', value: 186, notes: ['+27% Y/Y'] },
+            { id: 'rest_of_world', label: 'Rest of the world', value: 72, notes: ['+59% Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 239 },
+          operatingExpenses: {
+            total: 849,
+            notes: ['R&D, S&M, G&A, and restructuring line items sum to $850M because the source chart rounds to whole millions.'],
+            items: [
+              { id: 'rnd', label: 'R&D', value: 381, notes: ['38% of revenue', '(1pp) Y/Y'] },
+              { id: 'sm', label: 'S&M', value: 318, notes: ['32% of revenue', '+2pp Y/Y'] },
+              { id: 'ga', label: 'G&A', value: 104, notes: ['10% of revenue', '(2pp) Y/Y'] },
+              { id: 'restructuring', label: 'Restructuring', value: 47, notes: ['5% of revenue', '+5pp Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 0 },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 769, notes: ['76% margin', '(0pp) Y/Y'] },
+          operating: { id: 'operating_loss', label: 'Operating loss', value: -80, notes: ['(8%) margin', '(4pp) Y/Y'] },
+          net: {
+            id: 'operating_loss',
+            label: 'Operating loss',
+            value: -80,
+            notes: ['No separate net income line is shown in the source chart.'],
+          },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 +18%'],
+              items: [
+                { label: '美国和加拿大', notes: ['同比 +13%'] },
+                { label: '欧洲', notes: ['同比 +27%'] },
+                { label: '世界其他地区', notes: ['同比 +59%'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                notes: ['研发、销售与营销、管理费用和重组费用明细合计为 8.50 亿美元，因为源图按整百万美元四舍五入。'],
+                items: [
+                  { label: '研发', notes: ['占收入 38%', '同比 (1 个百分点)'] },
+                  { label: '销售与营销', notes: ['占收入 32%', '同比 +2 个百分点'] },
+                  { label: '管理费用', notes: ['占收入 10%', '同比 (2 个百分点)'] },
+                  { label: '重组', notes: ['占收入 5%', '同比 +5 个百分点'] },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 76%', '同比 0 个百分点'] },
+              operating: { label: '营业亏损', notes: ['利润率 (8%)', '同比 (4 个百分点)'] },
+              net: {
+                label: '营业亏损',
+                notes: ['源图未显示单独的净利润/净亏损项目。'],
+              },
             },
           },
         },
@@ -2299,6 +2914,110 @@
                 label: '净利润',
                 notes: ['利润率 2%', '同比 (2 个百分点)', '官方公告将净利润四舍五入为 7 亿美元；源图显示为 8 亿美元。'],
               },
+            },
+          },
+        },
+      },
+      {
+        key: 'klarna-q1-fy26',
+        company: 'Klarna',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/klarna-q1-fy26.png',
+        roundingTolerance: 1.1,
+        revenue: {
+          total: 1012,
+          notes: ['+44% Y/Y'],
+          items: [
+            { id: 'transaction_revenue', label: 'Transaction revenue', value: 671, notes: ['+29% Y/Y'] },
+            { id: 'interest', label: 'Interest', value: 284, notes: ['+56% Y/Y'] },
+            { id: 'consumer_revenue', label: 'Consumer Revenue', value: 57, notes: ['New Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: {
+            label: 'Transaction margin costs',
+            value: 623,
+            notes: ['Source chart presents these costs as the bridge from revenue to transaction margin dollars.'],
+            items: [
+              { id: 'processing_servicing_costs', label: 'Processing and servicing costs', value: 266 },
+              { id: 'provision_credit_losses', label: 'Provision for credit losses', value: 186 },
+              { id: 'funding_costs', label: 'Funding costs', value: 171 },
+            ],
+          },
+          operatingExpenses: {
+            total: 372,
+            items: [
+              { id: 'tech_product_development', label: 'Tech & product development', value: 129 },
+              { id: 'sales_marketing', label: 'Sales & marketing', value: 105 },
+              { id: 'general_administrative', label: 'General & administrative', value: 81 },
+              { id: 'customer_service_operations', label: 'Customer service & operations', value: 55 },
+              { id: 'other_operating_expense', label: 'Other', value: 2 },
+            ],
+          },
+          tax: { label: 'Tax', value: 0, notes: ['No separate tax line is shown in the source chart.'] },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 16,
+          items: [{ id: 'other', label: 'Other', value: 16 }],
+        },
+        profit: {
+          gross: {
+            id: 'transaction_margin',
+            label: 'Transaction margin dollars',
+            value: 389,
+            notes: ['+44% Y/Y'],
+          },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 17, notes: ['1% margin', '+6pp Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 1, notes: ['0% margin', '+6pp Y/Y'] },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 +44%'],
+              items: [
+                { label: '交易收入', notes: ['同比 +29%'] },
+                { label: '利息', notes: ['同比 +56%'] },
+                { label: '消费者收入', notes: ['同比新增'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: {
+                label: '交易毛利成本',
+                notes: ['源图将这些成本列为从收入到交易毛利额的桥接项目。'],
+                items: [
+                  { label: '处理和服务成本' },
+                  { label: '信用损失准备金' },
+                  { label: '融资成本' },
+                ],
+              },
+              operatingExpenses: {
+                items: [
+                  { label: '技术与产品开发' },
+                  { label: '销售与营销' },
+                  { label: '一般及行政' },
+                  { label: '客服与运营' },
+                  { label: '其他' },
+                ],
+              },
+              tax: { label: '税费', notes: ['源图未显示单独的税费项目。'] },
+            },
+            otherExpenses: {
+              items: [{ label: '其他' }],
+            },
+            profit: {
+              gross: { label: '交易毛利额', notes: ['同比 +44%'] },
+              operating: { label: '营业利润', notes: ['利润率 1%', '同比 +6 个百分点'] },
+              net: { label: '净利润', notes: ['利润率 0%', '同比 +6 个百分点'] },
             },
           },
         },

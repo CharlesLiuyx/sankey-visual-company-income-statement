@@ -839,6 +839,117 @@
         },
       },
       {
+        key: 'elastic-q4-fy26',
+        company: 'Elastic',
+        period: 'Q4 FY26',
+        periodNote: 'Ending Apr. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/elastic-q4-fy26.png',
+        roundingTolerance: 1.1,
+        revenue: {
+          total: 451,
+          notes: ['+16% Y/Y', 'Elastic reported total revenue of $450.681M; source chart rounds to $451M.'],
+          items: [
+            {
+              id: 'subscription',
+              label: 'Subscription',
+              value: 423,
+              notes: [
+                '+17% Y/Y',
+                'Elastic reported subscription revenue of $422.446M; source chart displays $423M while visible components sum to $422M.',
+              ],
+              children: [
+                { id: 'cloud', label: 'Cloud', value: 217, notes: ['+20% Y/Y', '48% of revenue', '+2pp Y/Y'] },
+                { id: 'other_subscription', label: 'Other subscription', value: 205, notes: ['+14% Y/Y'] },
+              ],
+            },
+            { id: 'service', label: 'Service', value: 28, notes: ['+6% Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 111 },
+          operatingExpenses: {
+            total: 356,
+            items: [
+              { id: 'sm', label: 'S&M', value: 186, notes: ['41% of revenue', '(0pp) Y/Y'] },
+              { id: 'rnd', label: 'R&D', value: 120, notes: ['27% of revenue', '+2pp Y/Y'] },
+              { id: 'ga', label: 'G&A', value: 50, notes: ['11% of revenue', '(1pp) Y/Y'] },
+            ],
+          },
+          tax: {
+            label: 'Tax',
+            value: 0,
+            notes: ['No separate tax line is shown in the source chart.'],
+          },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 340, notes: ['75% margin', '+1pp Y/Y'] },
+          operating: { id: 'operating_loss', label: 'Operating loss', value: -16, notes: ['(4%) margin', '(0pp) Y/Y'] },
+          net: {
+            id: 'operating_loss',
+            label: 'Operating loss',
+            value: -16,
+            notes: ['No separate net income line is shown in the source chart.'],
+          },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第四季度',
+            periodNote: '截至 2026 年 4 月',
+            revenue: {
+              notes: ['同比 +16%', 'Elastic 披露总收入为 $450.681M；来源图四舍五入为 $451M。'],
+              items: [
+                {
+                  id: 'subscription',
+                  label: '订阅',
+                  notes: [
+                    '同比 +17%',
+                    'Elastic 披露订阅收入为 $422.446M；来源图显示 $423M，而可见组成项合计为 $422M。',
+                  ],
+                  children: [
+                    { id: 'cloud', label: '云', notes: ['同比 +20%', '占收入 48%', '同比 +2 个百分点'] },
+                    { id: 'other_subscription', label: '其他订阅', notes: ['同比 +14%'] },
+                  ],
+                },
+                { id: 'service', label: '服务', notes: ['同比 +6%'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                items: [
+                  { id: 'sm', label: '销售与市场', notes: ['占收入 41%', '同比 (0 个百分点)'] },
+                  { id: 'rnd', label: '研发', notes: ['占收入 27%', '同比 +2 个百分点'] },
+                  { id: 'ga', label: '管理费用', notes: ['占收入 11%', '同比 (1 个百分点)'] },
+                ],
+              },
+              tax: {
+                label: '税费',
+                notes: ['来源图未显示单独的税费项目。'],
+              },
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 75%', '同比 +1 个百分点'] },
+              operating: { label: '营业亏损', notes: ['利润率 (4%)', '同比 (0 个百分点)'] },
+              net: {
+                label: '营业亏损',
+                notes: ['来源图未单独显示净利润项目。'],
+              },
+            },
+          },
+        },
+      },
+      {
         key: 'dell-q1-fy27',
         company: 'Dell',
         period: 'Q1 FY27',
@@ -1130,6 +1241,41 @@
             label: 'Operating loss',
             value: -2.6,
             notes: ['No separate net income line is shown in the source chart.'],
+          },
+        },
+        i18n: {
+          zh: {
+            period: '2025 财年',
+            periodNote: '截至 2025 年 12 月',
+            revenue: {
+              notes: ['同比 +33%'],
+              items: [
+                { id: 'space', label: '航天', notes: ['同比 +8%', '毛利率 67%', '营业利润率 (16%)'] },
+                { id: 'connectivity', label: '连接服务', notes: ['同比 +50%', '毛利率 48%', '营业利润率 39%'] },
+                { id: 'ai', label: 'AI', notes: ['同比 +22%', '毛利率 32%', '营业利润率 (198%)'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                notes: ['来源图将运营费用明细四舍五入列示为 $11.8B 合计。'],
+                items: [
+                  { id: 'rnd', label: '研发', notes: ['占收入 46%', '同比 +22 个百分点'] },
+                  { id: 'sga', label: '销售、一般及行政', notes: ['占收入 14%', '同比 +1 个百分点'] },
+                  { id: 'restructuring', label: '重组费用', notes: ['占收入 3%', '同比 +1 个百分点'] },
+                  { id: 'impairment', label: '减值', notes: ['占收入 0%', '同比 (1 个百分点)'] },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 49%', '同比 +6 个百分点'] },
+              operating: { label: '营业亏损', notes: ['利润率 (14%)', '同比 (17 个百分点)'] },
+              net: {
+                label: '营业亏损',
+                notes: ['来源图未单独显示净利润项目。'],
+              },
+            },
           },
         },
       },
@@ -1801,6 +1947,88 @@
               gross: { label: '毛利润', notes: ['利润率 39%', '同比 (22 个百分点)'] },
               operating: { label: '营业利润', notes: ['利润率 16%', '同比 (9 个百分点)'] },
               net: { label: '净利润', notes: ['利润率 13%', '同比 (11 个百分点)'] },
+            },
+          },
+        },
+      },
+      {
+        key: 'palantir-q1-fy26',
+        company: 'Palantir',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/palantir-q1-fy26.png',
+        roundingTolerance: 1.1,
+        revenue: {
+          total: 1633,
+          notes: ['+85% Y/Y', 'Commercial and Government revenue items sum to $1,632M because the source chart rounds to whole millions.'],
+          items: [
+            { id: 'commercial', label: 'Commercial', value: 774, notes: ['+95% Y/Y'] },
+            { id: 'government', label: 'Government', value: 858, notes: ['+76% Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 216 },
+          operatingExpenses: {
+            total: 663,
+            items: [
+              { id: 'sm', label: 'S&M', value: 319, notes: ['20% of revenue', '(7pp) Y/Y'] },
+              { id: 'ga', label: 'G&A', value: 183, notes: ['11% of revenue', '(7pp) Y/Y'] },
+              { id: 'rnd', label: 'R&D', value: 161, notes: ['10% of revenue', '(5pp) Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 12 },
+        },
+        otherIncome: {
+          total: 134,
+          items: [
+            { id: 'interest', label: 'Interest', value: 66 },
+            { id: 'other', label: 'Other', value: 68 },
+          ],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 1417, notes: ['87% margin', '+6pp Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 754, notes: ['46% margin', '+26pp Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 876, notes: ['54% margin', '+29pp Y/Y'] },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 +85%', '由于来源图按百万美元四舍五入，商业和政府收入明细合计为 1,632M 美元。'],
+              items: [
+                { label: '商业', notes: ['同比 +95%'] },
+                { label: '政府', notes: ['同比 +76%'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                items: [
+                  { label: '销售与营销', notes: ['占收入 20%', '同比 (7 个百分点)'] },
+                  { label: '管理费用', notes: ['占收入 11%', '同比 (7 个百分点)'] },
+                  { label: '研发', notes: ['占收入 10%', '同比 (5 个百分点)'] },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            otherIncome: {
+              items: [
+                { label: '利息' },
+                { label: '其他' },
+              ],
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 87%', '同比 +6 个百分点'] },
+              operating: { label: '营业利润', notes: ['利润率 46%', '同比 +26 个百分点'] },
+              net: { label: '净利润', notes: ['利润率 54%', '同比 +29 个百分点'] },
             },
           },
         },
@@ -2632,6 +2860,89 @@
           gross: { id: 'gross_profit', label: 'Gross profit', value: 5.7, notes: ['54% margin', '(1pp) Y/Y'] },
           operating: { id: 'operating_profit', label: 'Operating profit', value: 2.3, notes: ['22% margin', '(7pp) Y/Y'] },
           net: { id: 'net_profit', label: 'Net profit', value: 7.4, notes: ['70% margin', '+44pp Y/Y'] },
+        },
+      },
+      {
+        key: 'asana-q1-fy27',
+        company: 'Asana',
+        period: 'Q1 FY27',
+        periodNote: 'Ending Apr. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/asana-q1-fy27.png',
+        roundingTolerance: 1.1,
+        revenue: {
+          total: 205,
+          notes: ['+10% Y/Y'],
+          items: [
+            { id: 'united_states', label: 'United States', value: 120, notes: ['+8% Y/Y'] },
+            { id: 'international', label: 'International', value: 85, notes: ['+12% Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 25 },
+          operatingExpenses: {
+            total: 195,
+            notes: ['Source chart operating expense detail sums to $194M due to rounding.'],
+            items: [
+              { id: 'sm', label: 'S&M', value: 92, notes: ['45% of revenue', '(8pp) Y/Y'] },
+              { id: 'rnd', label: 'R&D', value: 66, notes: ['32% of revenue', '(8pp) Y/Y'] },
+              { id: 'ga', label: 'G&A', value: 36, notes: ['18% of revenue', '(2pp) Y/Y'] },
+            ],
+          },
+          tax: { label: 'Tax', value: 0 },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 180, notes: ['88% margin', '(2pp) Y/Y'] },
+          operating: { id: 'operating_loss', label: 'Operating loss', value: -15, notes: ['(7%) margin', '+16pp Y/Y'] },
+          net: {
+            id: 'operating_loss',
+            label: 'Operating loss',
+            value: -15,
+            notes: ['No separate net loss line is shown in the source chart.'],
+          },
+        },
+        i18n: {
+          zh: {
+            period: '2027 财年第一季度',
+            periodNote: '截至 2026 年 4 月',
+            revenue: {
+              notes: ['同比 +10%'],
+              items: [
+                { id: 'united_states', label: '美国', notes: ['同比 +8%'] },
+                { id: 'international', label: '国际', notes: ['同比 +12%'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                notes: ['来源图运营费用明细因四舍五入合计为 $194M。'],
+                items: [
+                  { id: 'sm', label: '销售与市场', notes: ['占收入 45%', '同比 (8 个百分点)'] },
+                  { id: 'rnd', label: '研发', notes: ['占收入 32%', '同比 (8 个百分点)'] },
+                  { id: 'ga', label: '管理费用', notes: ['占收入 18%', '同比 (2 个百分点)'] },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 88%', '同比 (2 个百分点)'] },
+              operating: { label: '营业亏损', notes: ['利润率 (7%)', '同比 +16 个百分点'] },
+              net: {
+                label: '营业亏损',
+                notes: ['来源图未单独显示净亏损项目。'],
+              },
+            },
+          },
         },
       },
       {
@@ -4015,6 +4326,82 @@
         },
       },
       {
+        key: 'okta-q1-fy27',
+        company: 'Okta',
+        period: 'Q1 FY27',
+        periodNote: 'Ending Apr. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/okta-q1-fy27.png',
+        roundingTolerance: 0.65,
+        revenue: {
+          total: 765,
+          notes: ['+11% Y/Y'],
+          items: [
+            { id: 'subscription', label: 'Subscription', value: 750, notes: ['+11% Y/Y'] },
+            { id: 'professional_services', label: 'Professional services', value: 15, notes: ['Flat Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 170 },
+          operatingExpenses: {
+            total: 539,
+            items: [
+              { id: 'sm', label: 'Sales & marketing', value: 278, notes: ['36% of revenue', '+2pp Y/Y'] },
+              { id: 'rnd', label: 'Research & development', value: 163, notes: ['21% of revenue', '(1pp) Y/Y'] },
+              { id: 'ga', label: 'General & admin', value: 98, notes: ['13% of revenue', '(2pp) Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 4 },
+        },
+        otherIncome: {
+          total: 22,
+          items: [{ id: 'interest', label: 'Interest', value: 22 }],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 595, notes: ['78% margin', '+0pp Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 56, notes: ['7% margin', '+2pp Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 74, notes: ['10% margin', '+1pp Y/Y'] },
+        },
+        i18n: {
+          zh: {
+            period: '2027 财年第一季度',
+            periodNote: '截至 2026 年 4 月',
+            revenue: {
+              notes: ['同比 +11%'],
+              items: [
+                { id: 'subscription', label: '订阅', notes: ['同比 +11%'] },
+                { id: 'professional_services', label: '专业服务', notes: ['同比持平'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                items: [
+                  { id: 'sm', label: '销售与市场', notes: ['占收入 36%', '同比 +2 个百分点'] },
+                  { id: 'rnd', label: '研发', notes: ['占收入 21%', '同比 (1 个百分点)'] },
+                  { id: 'ga', label: '一般及行政', notes: ['占收入 13%', '同比 (2 个百分点)'] },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            otherIncome: {
+              items: [{ id: 'interest', label: '利息' }],
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 78%', '同比 +0 个百分点'] },
+              operating: { label: '营业利润', notes: ['利润率 7%', '同比 +2 个百分点'] },
+              net: { label: '净利润', notes: ['利润率 10%', '同比 +1 个百分点'] },
+            },
+          },
+        },
+      },
+      {
         key: 'nvidia-q1-fy27',
         company: 'NVIDIA',
         period: 'Q1 FY27',
@@ -4964,6 +5351,91 @@
               gross: { label: '毛利润', notes: ['利润率 76%', '同比 +0 个百分点'] },
               operating: { label: '营业利润', notes: ['利润率 13%', '同比 +12 个百分点'] },
               net: { label: '净利润', notes: ['利润率 9%', '同比 +6 个百分点'] },
+            },
+          },
+        },
+      },
+      {
+        key: 'uipath-q1-fy27',
+        company: 'UiPath',
+        period: 'Q1 FY27',
+        periodNote: 'Ending Apr. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/uipath-q1-fy27.png',
+        roundingTolerance: 1.1,
+        revenue: {
+          total: 418,
+          notes: ['+17% Y/Y'],
+          items: [
+            { id: 'subscription', label: 'Subscription', value: 253, notes: ['+16% Y/Y', '83% gross margin'] },
+            { id: 'licenses', label: 'Licenses', value: 149, notes: ['+16% Y/Y', '99% gross margin'] },
+            {
+              id: 'professional_services',
+              label: 'Professional services',
+              value: 16,
+              notes: ['+47% Y/Y', '(93%) gross margin'],
+            },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 77 },
+          operatingExpenses: {
+            total: 313,
+            items: [
+              { id: 'sm', label: 'S&M', value: 168, notes: ['40% of revenue', '(5pp) Y/Y'] },
+              { id: 'rnd', label: 'R&D', value: 93, notes: ['22% of revenue', '(4pp) Y/Y'] },
+              { id: 'ga', label: 'G&A', value: 53, notes: ['13% of revenue', '(3pp) Y/Y'] },
+            ],
+            notes: ['S&M, R&D, and G&A sum to $314M due to rounded source figures.'],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 18 },
+        },
+        otherIncome: {
+          total: 13,
+          items: [{ id: 'other', label: 'Other', value: 13 }],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 341, notes: ['82% margin', '(0pp) Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 28, notes: ['7% margin', '+11pp Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 23, notes: ['7% margin', '+11pp Y/Y'] },
+        },
+        i18n: {
+          zh: {
+            period: '2027 财年第一季度',
+            periodNote: '截至 2026 年 4 月',
+            revenue: {
+              notes: ['同比 +17%'],
+              items: [
+                { id: 'subscription', label: '订阅', notes: ['同比 +16%', '毛利率 83%'] },
+                { id: 'licenses', label: '许可证', notes: ['同比 +16%', '毛利率 99%'] },
+                { id: 'professional_services', label: '专业服务', notes: ['同比 +47%', '毛利率 (93%)'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                items: [
+                  { id: 'sm', label: '销售与营销', notes: ['占收入 40%', '同比 (5 个百分点)'] },
+                  { id: 'rnd', label: '研发', notes: ['占收入 22%', '同比 (4 个百分点)'] },
+                  { id: 'ga', label: '一般及行政', notes: ['占收入 13%', '同比 (3 个百分点)'] },
+                ],
+                notes: ['销售与营销、研发、一般及行政因源图四舍五入合计为 $314M。'],
+              },
+              tax: { label: '税费' },
+            },
+            otherIncome: {
+              items: [{ id: 'other', label: '其他' }],
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 82%', '同比 (0 个百分点)'] },
+              operating: { label: '营业利润', notes: ['利润率 7%', '同比 +11 个百分点'] },
+              net: { label: '净利润', notes: ['利润率 7%', '同比 +11 个百分点'] },
             },
           },
         },

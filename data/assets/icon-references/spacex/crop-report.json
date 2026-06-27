@@ -6,7 +6,7 @@
     242,
     242
   ],
-  "generatedAt": "2026-06-20T18:04:42.762937+00:00",
+  "generatedAt": "2026-06-27T13:43:16.464272+00:00",
   "compression": {
     "enabled": true,
     "paletteColors": [
@@ -32,7 +32,7 @@
     "mode": "edge-connected",
     "tolerance": 9
   },
-  "runtimeOutputDir": null,
+  "runtimeOutputDir": "data/assets/raster-annotations/spacex",
   "crops": [
     {
       "key": "spacex-company-wordmark",
@@ -102,6 +102,22 @@
         "passes": true
       },
       "note": "SpaceX company wordmark letterform from the source title; excludes the blue title text, the overlapping trailing arc, and publisher marks.",
+      "runtimeOutput": "data/assets/raster-annotations/spacex/company-wordmark.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 4176,
+        "losslessBytes": 20401,
+        "savingsVsLossless": 0.7953,
+        "metrics": {
+          "meanAbsoluteError": 0.5966,
+          "rootMeanSquareError": 0.9962,
+          "p99AbsoluteError": 4.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.7671
+        }
+      },
       "validationSheet": "data/assets/icon-references/spacex/validation-sheets/spacex-company-wordmark.png",
       "validationSheetCompression": {
         "enabled": true,
@@ -180,6 +196,22 @@
         "passes": true
       },
       "note": "Space segment rocket illustration; excludes the Space label, segment values, connectors, and publisher branding.",
+      "runtimeOutput": "data/assets/raster-annotations/spacex/business-space-rocket.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 6366,
+        "losslessBytes": 40079,
+        "savingsVsLossless": 0.8412,
+        "metrics": {
+          "meanAbsoluteError": 0.5689,
+          "rootMeanSquareError": 2.2338,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 50,
+          "changedPixelRatio": 0.1639
+        }
+      },
       "validationSheet": "data/assets/icon-references/spacex/validation-sheets/spacex-business-space-rocket.png",
       "validationSheetCompression": {
         "enabled": true,
@@ -258,6 +290,22 @@
         "passes": true
       },
       "note": "Starlink connectivity business wordmark/icon cluster; excludes the Connectivity label and revenue values.",
+      "runtimeOutput": "data/assets/raster-annotations/spacex/business-connectivity-starlink.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 2741,
+        "losslessBytes": 13786,
+        "savingsVsLossless": 0.8012,
+        "metrics": {
+          "meanAbsoluteError": 0.0994,
+          "rootMeanSquareError": 0.7804,
+          "p99AbsoluteError": 4.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.0301
+        }
+      },
       "validationSheet": "data/assets/icon-references/spacex/validation-sheets/spacex-business-connectivity-starlink.png",
       "validationSheetCompression": {
         "enabled": true,
@@ -336,6 +384,22 @@
         "passes": true
       },
       "note": "AI business cluster containing xAI/Grok/X marks; excludes the AI label, segment values, connectors, and publisher branding.",
+      "runtimeOutput": "data/assets/raster-annotations/spacex/business-ai-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 3910,
+        "losslessBytes": 19402,
+        "savingsVsLossless": 0.7985,
+        "metrics": {
+          "meanAbsoluteError": 0.1675,
+          "rootMeanSquareError": 0.9998,
+          "p99AbsoluteError": 6.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.0548
+        }
+      },
       "validationSheet": "data/assets/icon-references/spacex/validation-sheets/spacex-business-ai-cluster.png",
       "validationSheetCompression": {
         "enabled": true,

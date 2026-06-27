@@ -1,0 +1,123 @@
+{
+  "source": "input/processed/elastic-q4-fy26.png",
+  "spec": "input/icon-crop-specs/elastic-q4-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-27T13:44:10.063557+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "elastic-company-logo-wordmark",
+      "output": "data/assets/icon-references/elastic/crops/company-logo-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 4698,
+        "losslessBytes": 24464,
+        "savingsVsLossless": 0.808,
+        "metrics": {
+          "meanAbsoluteError": 0.513,
+          "rootMeanSquareError": 2.5174,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 49,
+          "changedPixelRatio": 0.1117
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 74477,
+        "transparentPixelRatio": 0.6882
+      },
+      "searchBox": {
+        "x": 800,
+        "y": 230,
+        "width": 555,
+        "height": 195
+      },
+      "componentCount": 14,
+      "subjectBox": {
+        "x0": 820,
+        "y0": 241,
+        "x1": 1334,
+        "y1": 406
+      },
+      "cropBox": {
+        "x0": 800,
+        "y0": 230,
+        "x1": 1355,
+        "y1": 425
+      },
+      "validation": {
+        "width": 555,
+        "height": 195,
+        "foregroundPixels": 26887,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 20,
+          "right": 21,
+          "top": 11,
+          "bottom": 19
+        },
+        "centerOffset": {
+          "x": -0.0009,
+          "y": -0.0205
+        },
+        "passes": true
+      },
+      "note": "Elastic company icon and wordmark above the chart; excludes title, chart flows, labels, KPI cards, website URL, How They Make Money mark, and App Economy Insights attribution.",
+      "validationSheet": "data/assets/icon-references/elastic/validation-sheets/elastic-company-logo-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 192,
+        "bytes": 80864,
+        "losslessBytes": 227639,
+        "savingsVsLossless": 0.6448,
+        "metrics": {
+          "meanAbsoluteError": 0.2172,
+          "rootMeanSquareError": 1.4604,
+          "p99AbsoluteError": 7.0,
+          "maxChannelDiff": 58,
+          "changedPixelRatio": 0.0677
+        }
+      }
+    }
+  ]
+}

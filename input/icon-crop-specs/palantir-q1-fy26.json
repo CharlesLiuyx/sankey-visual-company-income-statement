@@ -1,0 +1,28 @@
+{
+  "source": "input/processed/palantir-q1-fy26.png",
+  "outputDir": "data/assets/icon-references/palantir",
+  "validationSheetDir": "data/assets/icon-references/palantir/validation-sheets",
+  "report": "crop-report.json",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "crops": [
+    {
+      "key": "palantir-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": { "x": 540, "y": 260, "width": 625, "height": 180 },
+      "cropBox": { "x": 535, "y": 258, "width": 635, "height": 188 },
+      "threshold": 18,
+      "minComponentArea": 35,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.16,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Palantir company symbol and wordmark above the revenue hub; excludes title, values, flows, and publisher marks."
+    }
+  ]
+}

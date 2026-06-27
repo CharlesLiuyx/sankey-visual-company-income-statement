@@ -221,6 +221,45 @@
         },
       },
       {
+        key: 'asana',
+        name: 'Asana',
+        legalName: 'Asana, Inc.',
+        ticker: 'ASAN',
+        exchange: 'NYSE / LTSE',
+        marketCap: {
+          valueUsd: 1600000000,
+          asOf: '2026-06-26',
+          source: 'StockAnalysis',
+          sourceUrl: 'https://stockanalysis.com/stocks/asan/market-cap/',
+        },
+        sector: 'Information Technology',
+        industry: 'Work management software, collaborative work management, workflow orchestration, and AI teamwork platforms',
+        founded: '2008',
+        headquarters: 'San Francisco, California, United States',
+        fiscalYearEnd: 'January 31',
+        website: 'https://asana.com/',
+        description:
+          'Asana provides a work management and workflow orchestration platform for teams and enterprises, built around the Asana Work Graph and products for planning, coordinating, automating, and governing work across humans and AI agents.',
+        sourceUrls: [
+          'https://asana.com/company',
+          'https://investors.asana.com/investor-relations/',
+          'https://www.sec.gov/Archives/edgar/data/1477720/000147772026000037/asana8-kex991q1fy27.htm',
+          'https://www.sec.gov/Archives/edgar/data/1477720/000147772025000045/asan-20250131.htm',
+          'https://stockanalysis.com/stocks/asan/market-cap/',
+        ],
+        i18n: {
+          zh: {
+            displayName: 'Asana',
+            sector: '信息技术',
+            industry: '工作管理软件、协作工作管理、工作流编排和 AI 团队协作平台',
+            headquarters: '美国加利福尼亚州旧金山',
+            fiscalYearEnd: '1 月 31 日',
+            description:
+              'Asana 提供面向团队和企业的工作管理与工作流编排平台，基于 Asana Work Graph，覆盖规划、协同、自动化以及人与 AI 代理共同工作的治理流程。',
+          },
+        },
+      },
+      {
         key: 'asml',
         name: 'ASML',
         legalName: 'ASML Holding N.V.',
@@ -612,6 +651,45 @@
             fiscalYearEnd: '12 月 31 日',
             description:
               'Duolingo 运营以移动端为核心的学习平台，覆盖语言学习、数学、音乐、国际象棋和 Duolingo English Test，主要通过订阅、广告和应用内购买实现商业化。',
+          },
+        },
+      },
+      {
+        key: 'elastic',
+        name: 'Elastic',
+        legalName: 'Elastic N.V.',
+        ticker: 'ESTC',
+        exchange: 'NYSE',
+        marketCap: {
+          valueUsd: 5850000000,
+          asOf: '2026-06-26',
+          source: 'StockAnalysis',
+          sourceUrl: 'https://stockanalysis.com/stocks/estc/market-cap/',
+        },
+        sector: 'Information Technology',
+        industry: 'Search AI, enterprise search, observability, security, and data analytics software',
+        founded: '2012',
+        headquarters: 'Amsterdam, the Netherlands / distributed company',
+        fiscalYearEnd: 'April 30',
+        website: 'https://www.elastic.co/',
+        description:
+          'Elastic provides the Elastic Search AI Platform for enterprise search, observability, and security, helping organizations search, analyze, protect, and act on data across cloud, hybrid, and on-premises environments.',
+        sourceUrls: [
+          'https://www.elastic.co/about',
+          'https://www.elastic.co/about/press/elasticsearch-changes-name-to-elastic-to-reflect-wide-adoption-beyond-search',
+          'https://ir.elastic.co/News--Events/news/news-details/2026/Elastic-Reports-Fourth-Quarter-and-Fiscal-2026-Financial-Results/default.aspx',
+          'https://www.sec.gov/Archives/edgar/data/1707753/000170775325000021/estc-20250430.htm',
+          'https://stockanalysis.com/stocks/estc/market-cap/',
+        ],
+        i18n: {
+          zh: {
+            displayName: 'Elastic',
+            sector: '信息技术',
+            industry: 'Search AI、企业搜索、可观测性、安全和数据分析软件',
+            headquarters: '荷兰阿姆斯特丹 / 分布式公司',
+            fiscalYearEnd: '4 月 30 日',
+            description:
+              'Elastic 提供 Elastic Search AI Platform，服务企业搜索、可观测性和安全场景，帮助组织在云、混合和本地环境中搜索、分析、保护并利用数据。',
           },
         },
       },
@@ -1219,6 +1297,85 @@
         ],
       },
       {
+        key: 'okta',
+        name: 'Okta',
+        legalName: 'Okta, Inc.',
+        ticker: 'OKTA',
+        exchange: 'NASDAQ',
+        marketCap: {
+          valueUsd: 21600000000,
+          asOf: '2026-06-26',
+          source: 'StockAnalysis',
+          sourceUrl: 'https://stockanalysis.com/stocks/okta/market-cap/',
+        },
+        sector: 'Information Technology',
+        industry: 'Identity and access management, cybersecurity, workforce identity, customer identity, authentication, authorization, and identity governance software',
+        founded: '2009',
+        headquarters: 'San Francisco, California, United States',
+        fiscalYearEnd: 'January 31',
+        website: 'https://www.okta.com/',
+        description:
+          'Okta provides cloud-based identity and access management software across Workforce Identity, Customer Identity, authentication, authorization, governance, and identity security for human, machine, and AI identities.',
+        sourceUrls: [
+          'https://www.okta.com/company/',
+          'https://investor.okta.com/',
+          'https://investor.okta.com/news-and-events/news-releases/news-details/2026/Okta-Announces-First-Quarter-Fiscal-Year-2027-Financial-Results/default.aspx',
+          'https://www.sec.gov/Archives/edgar/data/1660134/000166013426000020/okta-20260131.htm',
+          'https://stockanalysis.com/stocks/okta/market-cap/',
+          'https://www.linkedin.com/company/okta-inc-',
+        ],
+        i18n: {
+          zh: {
+            displayName: 'Okta',
+            sector: '信息技术',
+            industry: '身份与访问管理、网络安全、员工身份、客户身份、认证、授权和身份治理软件',
+            headquarters: '美国加利福尼亚州旧金山',
+            fiscalYearEnd: '1 月 31 日',
+            description:
+              'Okta 提供云端身份与访问管理软件，覆盖员工身份、客户身份、认证、授权、治理，以及面向人类、机器和 AI 身份的身份安全。',
+          },
+        },
+      },
+      {
+        key: 'palantir',
+        name: 'Palantir',
+        legalName: 'Palantir Technologies Inc.',
+        aliases: ['Palantir Technologies'],
+        ticker: 'PLTR',
+        exchange: 'NASDAQ',
+        marketCap: {
+          valueUsd: 270730000000,
+          asOf: '2026-06-26',
+          source: 'StockAnalysis',
+          sourceUrl: 'https://stockanalysis.com/stocks/pltr/market-cap/',
+        },
+        sector: 'Information Technology',
+        industry: 'Data analytics, artificial intelligence software, data integration platforms, and government and commercial decision software',
+        founded: '2003',
+        headquarters: 'Aventura, Florida, United States',
+        fiscalYearEnd: 'December 31',
+        website: 'https://www.palantir.com/',
+        description:
+          'Palantir builds software platforms for data integration, analytics, operational decision-making, and AI-driven workflows used by government agencies and commercial enterprises.',
+        sourceUrls: [
+          'https://www.palantir.com/',
+          'https://investors.palantir.com/',
+          'https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm',
+          'https://stockanalysis.com/stocks/pltr/market-cap/',
+        ],
+        i18n: {
+          zh: {
+            displayName: 'Palantir',
+            sector: '信息技术',
+            industry: '数据分析、人工智能软件、数据集成平台，以及政府和商业决策软件',
+            headquarters: '美国佛罗里达州阿文图拉',
+            fiscalYearEnd: '12 月 31 日',
+            description:
+              'Palantir 构建数据集成、分析、运营决策和 AI 驱动工作流软件平台，服务政府机构和商业企业。',
+          },
+        },
+      },
+      {
         key: 'pdd-holdings',
         name: 'PDD Holdings',
         legalName: 'PDD Holdings Inc.',
@@ -1643,6 +1800,17 @@
           'https://x.ai/',
           'https://www.space.com/space-exploration/launches-spacecraft/spacex-starlink-17-54-b1093-vsfb-ocisly',
         ],
+        i18n: {
+          zh: {
+            displayName: 'SpaceX',
+            sector: '工业',
+            industry: '航天、卫星互联网、发射服务和 AI 基础设施',
+            headquarters: '美国得克萨斯州 Starbase',
+            fiscalYearEnd: '12 月 31 日',
+            description:
+              'SpaceX 开发并运营可重复使用运载火箭、航天器、Starlink 卫星互联网服务，以及来源图中体现的 AI 相关产品。',
+          },
+        },
       },
       {
         key: 'starbucks',
@@ -1843,6 +2011,46 @@
             fiscalYearEnd: '12 月 31 日',
             description:
               'Uber 是一家全球技术平台，业务覆盖出行、配送、货运、商务出行及相关服务，连接乘客、消费者、司机、配送员、商家、承运商和企业客户。',
+          },
+        },
+      },
+      {
+        key: 'uipath',
+        name: 'UiPath',
+        legalName: 'UiPath, Inc.',
+        ticker: 'PATH',
+        exchange: 'NYSE',
+        marketCap: {
+          valueUsd: 5450000000,
+          asOf: '2026-06-26',
+          source: 'CompaniesMarketCap',
+          sourceUrl: 'https://companiesmarketcap.com/uipath/marketcap/',
+        },
+        sector: 'Information Technology',
+        industry: 'Agentic automation, business orchestration, robotic process automation, AI agents, and enterprise software',
+        founded: '2005',
+        headquarters: 'New York, New York, United States',
+        fiscalYearEnd: 'January 31',
+        website: 'https://www.uipath.com/',
+        description:
+          'UiPath provides an agentic automation and business orchestration platform that brings together AI agents, robots, tools, AI models, and people to automate and orchestrate enterprise workflows.',
+        sourceUrls: [
+          'https://www.uipath.com/about-us',
+          'https://www.uipath.com/platform/agentic-automation',
+          'https://ir.uipath.com/',
+          'https://ir.uipath.com/news/detail/452/uipath-reports-first-quarter-fiscal-2027-financial-results',
+          'https://ir.uipath.com/financials/sec-filings/content/0001734722-26-000041/path-20260430.htm',
+          'https://companiesmarketcap.com/uipath/marketcap/',
+        ],
+        i18n: {
+          zh: {
+            displayName: 'UiPath',
+            sector: '信息技术',
+            industry: '智能体自动化、业务编排、机器人流程自动化、AI 代理和企业软件',
+            headquarters: '美国纽约州纽约',
+            fiscalYearEnd: '1 月 31 日',
+            description:
+              'UiPath 提供智能体自动化和业务编排平台，将 AI 代理、机器人、工具、AI 模型和人员连接起来，帮助企业自动化并编排工作流。',
           },
         },
       },

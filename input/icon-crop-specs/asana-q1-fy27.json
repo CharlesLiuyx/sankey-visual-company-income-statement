@@ -1,0 +1,31 @@
+{
+  "source": "input/processed/asana-q1-fy27.png",
+  "outputDir": "data/assets/icon-references/asana",
+  "validationSheetDir": "data/assets/icon-references/asana/validation-sheets",
+  "report": "crop-report.json",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "crops": [
+    {
+      "key": "asana-company-logo",
+      "output": "crops/company-logo.png",
+      "searchBox": { "x": 666, "y": 218, "width": 410, "height": 254 },
+      "cropBox": { "x": 666, "y": 218, "width": 410, "height": 254 },
+      "excludeBoxes": [
+        { "relativeTo": "crop", "x": 88, "y": 0, "width": 68, "height": 4 }
+      ],
+      "threshold": 18,
+      "minComponentArea": 35,
+      "validation": {
+        "borderBand": 2,
+        "maxCenterOffset": 0.08,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Asana company symbol and wordmark above the revenue hub; excludes chart labels, flows, source publisher watermarks, website URL, social badges, How They Make Money mark, and App Economy Insights attribution."
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "source": "input/processed/uipath-q1-fy27.png",
+  "spec": "input/icon-crop-specs/uipath-q1-fy27.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-27T13:44:10.318947+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3,
+      "maxP99AbsoluteError": 12,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "uipath-company-wordmark",
+      "output": "data/assets/icon-references/uipath/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 2724,
+        "losslessBytes": 10986,
+        "savingsVsLossless": 0.752,
+        "metrics": {
+          "meanAbsoluteError": 0.4378,
+          "rootMeanSquareError": 1.8947,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 55,
+          "changedPixelRatio": 0.3962
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 68163,
+        "transparentPixelRatio": 0.602
+      },
+      "searchBox": {
+        "x": 650,
+        "y": 250,
+        "width": 520,
+        "height": 225
+      },
+      "componentCount": 8,
+      "subjectBox": {
+        "x0": 671,
+        "y0": 277,
+        "x1": 1129,
+        "y1": 447
+      },
+      "cropBox": {
+        "x0": 645,
+        "y0": 251,
+        "x1": 1155,
+        "y1": 473
+      },
+      "validation": {
+        "width": 510,
+        "height": 222,
+        "foregroundPixels": 27017,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 26,
+          "right": 26,
+          "top": 26,
+          "bottom": 26
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "UiPath company logo and wordmark near the top center; excludes chart nodes, flows, title, website URL, How They Make Money mark, and App Economy Insights attribution.",
+      "validationSheet": "data/assets/icon-references/uipath/validation-sheets/uipath-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 240324,
+        "losslessBytes": 240324,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

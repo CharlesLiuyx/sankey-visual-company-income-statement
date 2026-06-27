@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="510" height="222" viewBox="0 0 510 222"><rect width="510" height="222" fill="#f2f2f2"/>
+    <g font-family="Montserrat,Arial,sans-serif" fill="#ff3f19">
+      <rect x="26" y="26" width="171" height="170" fill="#ff3f19"/>
+      <rect x="45" y="45" width="133" height="132" fill="#ffffff"/>
+      <text x="57" y="158" font-size="116" font-weight="900">Ui</text>
+      <text x="215" y="161" font-size="124" font-weight="900"
+        textLength="270" lengthAdjust="spacingAndGlyphs">Path</text>
+    </g></svg>

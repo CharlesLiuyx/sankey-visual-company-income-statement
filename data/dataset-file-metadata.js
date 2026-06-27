@@ -4,7 +4,7 @@
  */
 (function () {
   window.DATASET_FILE_METADATA = {
-  "generatedAt": "2026-06-27T12:27:47.865Z",
+  "generatedAt": "2026-06-27T13:39:23.957Z",
   "source": "dataset file modification times from index.html registrations",
   "files": {
     "alphabet-q1-fy26": {
@@ -14,8 +14,8 @@
     },
     "spacex-fy25": {
       "path": "data/datasets/spacex-fy25.js",
-      "mtimeMs": 1781979326021,
-      "mtime": "2026-06-20T18:15:26.021Z"
+      "mtimeMs": 1782567563957,
+      "mtime": "2026-06-27T13:39:23.957Z"
     },
     "alibaba-q4-fy26": {
       "path": "data/datasets/alibaba-q4-fy26.js",
@@ -46,6 +46,11 @@
       "path": "data/datasets/arm-holdings-q4-fy26.js",
       "mtimeMs": 1782019602347,
       "mtime": "2026-06-21T05:26:42.347Z"
+    },
+    "asana-q1-fy27": {
+      "path": "data/datasets/asana-q1-fy27.js",
+      "mtimeMs": 1782565522656,
+      "mtime": "2026-06-27T13:05:22.656Z"
     },
     "qualcomm-q2-fy26": {
       "path": "data/datasets/qualcomm-q2-fy26.js",
@@ -106,6 +111,11 @@
       "path": "data/datasets/duolingo-q1-fy26.js",
       "mtimeMs": 1782542346641,
       "mtime": "2026-06-27T06:39:06.641Z"
+    },
+    "elastic-q4-fy26": {
+      "path": "data/datasets/elastic-q4-fy26.js",
+      "mtimeMs": 1782565522668,
+      "mtime": "2026-06-27T13:05:22.668Z"
     },
     "goldman-sachs-q1-fy26": {
       "path": "data/datasets/goldman-sachs-q1-fy26.js",
@@ -217,10 +227,25 @@
       "mtimeMs": 1781968257351,
       "mtime": "2026-06-20T15:10:57.351Z"
     },
+    "okta-q1-fy27": {
+      "path": "data/datasets/okta-q1-fy27.js",
+      "mtimeMs": 1782565897913,
+      "mtime": "2026-06-27T13:11:37.913Z"
+    },
+    "palantir-q1-fy26": {
+      "path": "data/datasets/palantir-q1-fy26.js",
+      "mtimeMs": 1782565522642,
+      "mtime": "2026-06-27T13:05:22.642Z"
+    },
     "uber-q1-fy26": {
       "path": "data/datasets/uber-q1-fy26.js",
       "mtimeMs": 1782043945971,
       "mtime": "2026-06-21T12:12:25.971Z"
+    },
+    "uipath-q1-fy27": {
+      "path": "data/datasets/uipath-q1-fy27.js",
+      "mtimeMs": 1782565522690,
+      "mtime": "2026-06-27T13:05:22.690Z"
     },
     "walmart-q1-fy27": {
       "path": "data/datasets/walmart-q1-fy27.js",

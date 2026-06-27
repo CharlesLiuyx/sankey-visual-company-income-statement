@@ -1,0 +1,29 @@
+{
+  "source": "input/processed/elastic-q4-fy26.png",
+  "outputDir": "data/assets/icon-references/elastic",
+  "validationSheetDir": "data/assets/icon-references/elastic/validation-sheets",
+  "report": "crop-report.json",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "crops": [
+    {
+      "key": "elastic-company-logo-wordmark",
+      "output": "crops/company-logo-wordmark.png",
+      "searchBox": { "x": 800, "y": 230, "width": 555, "height": 195 },
+      "cropBox": { "x": 800, "y": 230, "width": 555, "height": 195 },
+      "threshold": 24,
+      "minComponentArea": 35,
+      "padding": 16,
+      "validation": {
+        "borderBand": 3,
+        "maxCenterOffset": 0.12,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Elastic company icon and wordmark above the chart; excludes title, chart flows, labels, KPI cards, website URL, How They Make Money mark, and App Economy Insights attribution."
+    }
+  ]
+}

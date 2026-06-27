@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/palantir-q1-fy26.png",
+  "spec": "input/icon-crop-specs/palantir-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-27T13:44:10.306185+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "palantir-company-wordmark",
+      "output": "data/assets/icon-references/palantir/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 4702,
+        "losslessBytes": 20466,
+        "savingsVsLossless": 0.7703,
+        "metrics": {
+          "meanAbsoluteError": 0.2232,
+          "rootMeanSquareError": 1.0816,
+          "p99AbsoluteError": 6.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.1104
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 86952,
+        "transparentPixelRatio": 0.7284
+      },
+      "searchBox": {
+        "x": 540,
+        "y": 260,
+        "width": 625,
+        "height": 180
+      },
+      "componentCount": 11,
+      "subjectBox": {
+        "x0": 556,
+        "y0": 282,
+        "x1": 1129,
+        "y1": 421
+      },
+      "cropBox": {
+        "x0": 535,
+        "y0": 258,
+        "x1": 1170,
+        "y1": 446
+      },
+      "validation": {
+        "width": 635,
+        "height": 188,
+        "foregroundPixels": 25458,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 21,
+          "right": 41,
+          "top": 24,
+          "bottom": 25
+        },
+        "centerOffset": {
+          "x": -0.0157,
+          "y": -0.0027
+        },
+        "passes": true
+      },
+      "note": "Palantir company symbol and wordmark above the revenue hub; excludes title, values, flows, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/palantir/validation-sheets/palantir-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 232305,
+        "losslessBytes": 232305,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

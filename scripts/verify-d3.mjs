@@ -226,7 +226,95 @@ function readPng(filePath) {
   return PNG.sync.read(readFileSync(filePath));
 }
 
-async function pngMetrics(referencePath, candidatePath, diffPath = null) {
+function emptyDiffBoundingBox() {
+  return null;
+}
+
+function formatDiffBoundingBox(box) {
+  return box ? `${box.x},${box.y},${box.width},${box.height}` : 'none';
+}
+
+function clippedBox(raw, width, height) {
+  const rawX = Number(raw.x) || 0;
+  const rawY = Number(raw.y) || 0;
+  const rawWidth = Number(raw.width) || 0;
+  const rawHeight = Number(raw.height) || 0;
+  const x = Math.max(0, Math.floor(rawX));
+  const y = Math.max(0, Math.floor(rawY));
+  const right = Math.min(width, Math.ceil(rawX + rawWidth));
+  const bottom = Math.min(height, Math.ceil(rawY + rawHeight));
+  return {
+    x,
+    y,
+    width: Math.max(0, right - x),
+    height: Math.max(0, bottom - y),
+  };
+}
+
+function boxMetrics(reference, candidate, rawBox) {
+  const box = clippedBox(rawBox, reference.width, reference.height);
+  const pixels = box.width * box.height;
+  if (!pixels) {
+    return {
+      x: box.x,
+      y: box.y,
+      width: box.width,
+      height: box.height,
+      mae: 0,
+      similarity: 1,
+      maxChannelDiff: 0,
+      samePixelRatio: 1,
+      changedPixelRatio: 0,
+      diffBoundingBox: emptyDiffBoundingBox(),
+    };
+  }
+
+  let total = 0;
+  let same = 0;
+  let max = 0;
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -1;
+  let maxY = -1;
+
+  for (let y = box.y; y < box.y + box.height; y += 1) {
+    for (let x = box.x; x < box.x + box.width; x += 1) {
+      const i = (y * reference.width + x) * 4;
+      const dr = Math.abs(reference.data[i] - candidate.data[i]);
+      const dg = Math.abs(reference.data[i + 1] - candidate.data[i + 1]);
+      const db = Math.abs(reference.data[i + 2] - candidate.data[i + 2]);
+      total += dr + dg + db;
+      if (dr === 0 && dg === 0 && db === 0) {
+        same += 1;
+      } else {
+        minX = Math.min(minX, x);
+        minY = Math.min(minY, y);
+        maxX = Math.max(maxX, x);
+        maxY = Math.max(maxY, y);
+      }
+      max = Math.max(max, dr, dg, db);
+    }
+  }
+
+  const mae = total / (pixels * 3);
+  return {
+    x: box.x,
+    y: box.y,
+    width: box.width,
+    height: box.height,
+    mae,
+    similarity: 1 - mae / 255,
+    maxChannelDiff: max,
+    samePixelRatio: same / pixels,
+    changedPixelRatio: 1 - same / pixels,
+    diffBoundingBox:
+      maxX >= 0
+        ? { x: minX, y: minY, width: maxX - minX + 1, height: maxY - minY + 1 }
+        : emptyDiffBoundingBox(),
+  };
+}
+
+async function pngMetrics(referencePath, candidatePath, diffPath = null, regions = []) {
   const reference = readPng(referencePath);
   const candidate = readPng(candidatePath);
 
@@ -239,6 +327,10 @@ async function pngMetrics(referencePath, candidatePath, diffPath = null) {
   let total = 0;
   let same = 0;
   let max = 0;
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -1;
+  let maxY = -1;
   const pixels = reference.width * reference.height;
   const diff = diffPath ? new PNG({ width: reference.width, height: reference.height }) : null;
   for (let i = 0; i < reference.data.length; i += 4) {
@@ -246,7 +338,17 @@ async function pngMetrics(referencePath, candidatePath, diffPath = null) {
     const dg = Math.abs(reference.data[i + 1] - candidate.data[i + 1]);
     const db = Math.abs(reference.data[i + 2] - candidate.data[i + 2]);
     total += dr + dg + db;
-    if (dr === 0 && dg === 0 && db === 0) same += 1;
+    if (dr === 0 && dg === 0 && db === 0) {
+      same += 1;
+    } else {
+      const pixelIndex = i / 4;
+      const x = pixelIndex % reference.width;
+      const y = Math.floor(pixelIndex / reference.width);
+      minX = Math.min(minX, x);
+      minY = Math.min(minY, y);
+      maxX = Math.max(maxX, x);
+      maxY = Math.max(maxY, y);
+    }
     max = Math.max(max, dr, dg, db);
     if (diff) {
       diff.data[i] = Math.min(255, dr * 4);
@@ -259,18 +361,83 @@ async function pngMetrics(referencePath, candidatePath, diffPath = null) {
     await writeFile(diffPath, PNG.sync.write(diff));
   }
   const mae = total / (pixels * 3);
-  return {
+  const full = {
     width: reference.width,
     height: reference.height,
+    mae,
+    similarity: 1 - mae / 255,
+    maxChannelDiff: max,
+    samePixelRatio: same / pixels,
+    changedPixelRatio: 1 - same / pixels,
+    diffBoundingBox:
+      maxX >= 0
+        ? { x: minX, y: minY, width: maxX - minX + 1, height: maxY - minY + 1 }
+        : emptyDiffBoundingBox(),
     rgbMae: mae,
     maeSimilarity: 1 - mae / 255,
     maxChannelDifference: max,
-    samePixelRatio: same / pixels,
   };
+  const regionMetrics = regions.map((region) => ({
+    region: region.region,
+    note: region.note || '',
+    ...boxMetrics(reference, candidate, region),
+  }));
+  return { full, regions: regionMetrics };
 }
 
 function formatPx(value) {
   return Number.isFinite(value) ? `${value.toFixed(1)}px` : 'n/a';
+}
+
+function rasterHrefPath(href) {
+  return String(href || '').split(/[?#]/)[0];
+}
+
+function isApprovedRasterHref(href) {
+  const clean = rasterHrefPath(href);
+  return /^data\/assets\/raster-annotations\/[^?#]+\.(?:png|jpe?g|webp|svg)$/i.test(clean);
+}
+
+function assertRasterFilesExist(hrefs) {
+  const missing = hrefs
+    .map(rasterHrefPath)
+    .filter((href) => isApprovedRasterHref(href) && !existsSync(path.join(rootDir, href)));
+  if (missing.length) {
+    throw new Error(`Missing runtime raster annotation file(s): ${missing.join(', ')}`);
+  }
+}
+
+function assertPurity(purity) {
+  const failures = [];
+  if (purity.chartImgCount !== 0) {
+    failures.push(`chartImgCount=${purity.chartImgCount}`);
+  }
+  if (purity.forbiddenElements.length) {
+    failures.push(`forbiddenElements=${purity.forbiddenElements.join(',')}`);
+  }
+  if (purity.backgroundImageElements.length) {
+    failures.push(`backgroundImageElements=${purity.backgroundImageElements.slice(0, 5).join(',')}`);
+  }
+
+  const expected = purity.expectedRasterHrefs.map(rasterHrefPath);
+  const actual = purity.imageHrefs.map(rasterHrefPath);
+  if (actual.length && !purity.rasterAllowed) {
+    failures.push(`imageCount=${actual.length} but rasterAllowed=false`);
+  }
+  if (actual.length !== expected.length) {
+    failures.push(`imageCount=${actual.length} expectedRasterAnnotations=${expected.length}`);
+  }
+  const unexpected = actual.filter((href) => !expected.includes(href));
+  const missing = expected.filter((href) => !actual.includes(href));
+  const unapproved = actual.filter((href) => !isApprovedRasterHref(href));
+  if (unexpected.length) failures.push(`unexpectedRasterHrefs=${unexpected.join(',')}`);
+  if (missing.length) failures.push(`missingRasterHrefs=${missing.join(',')}`);
+  if (unapproved.length) failures.push(`unapprovedRasterHrefs=${unapproved.join(',')}`);
+
+  if (failures.length) {
+    throw new Error(`Purity failed: ${failures.join('; ')}`);
+  }
+  assertRasterFilesExist(actual);
 }
 
 function logLabelLayoutAudit(audit) {
@@ -330,6 +497,7 @@ async function main() {
   const localizedSuffix = language && language !== 'en' ? `-${language}` : '';
   const candidatePath = path.join(compareDir, `${datasetKey}${localizedSuffix}-d3.png`);
   const diffPath = path.join(compareDir, `${datasetKey}${localizedSuffix}-pixel-diff-x4.png`);
+  const metricsPath = path.join(compareDir, `${datasetKey}${localizedSuffix}-metrics.json`);
 
   try {
     browser = await chromium.launch({ headless: true });
@@ -380,11 +548,34 @@ async function main() {
       const images = Array.from(svg.querySelectorAll('image'));
       const imageHrefs = images.map(
         (image) =>
-          image.href?.baseVal ||
           image.getAttribute('href') ||
           image.getAttributeNS('http://www.w3.org/1999/xlink', 'href') ||
+          image.href?.baseVal ||
           ''
       );
+      const expectedRasterHrefs = (Array.isArray(renderDataset.rasterAnnotations)
+        ? renderDataset.rasterAnnotations
+        : renderDataset.rasterAnnotations
+          ? [renderDataset.rasterAnnotations]
+          : []
+      )
+        .filter(Boolean)
+        .map((item) => item.href || item.src || '')
+        .filter(Boolean);
+      const forbiddenElements = Array.from(
+        chart.querySelectorAll('canvas,picture,video,iframe,object,embed,foreignObject')
+      ).map((element) => element.tagName.toLowerCase());
+      const backgroundImageElements = Array.from(chart.querySelectorAll('*'))
+        .filter((element) => {
+          const value = window.getComputedStyle(element).backgroundImage;
+          return value && value !== 'none';
+        })
+        .map((element) => {
+          const tag = element.tagName.toLowerCase();
+          const cls = element.getAttribute('class');
+          const id = element.getAttribute('id');
+          return `${tag}${id ? `#${id}` : ''}${cls ? `.${String(cls).replace(/\s+/g, '.')}` : ''}`;
+        });
       await Promise.all(
         imageHrefs
           .filter(Boolean)
@@ -402,8 +593,11 @@ async function main() {
       return {
         imageCount: images.length,
         imageHrefs,
+        expectedRasterHrefs,
         rasterAllowed: renderDataset.render?.allowRasterAnnotations === true,
         chartImgCount: document.querySelectorAll('#chart img').length,
+        forbiddenElements,
+        backgroundImageElements,
         viewBox: svg.getAttribute('viewBox'),
         width: Math.round(svg.getBoundingClientRect().width),
         height: Math.round(svg.getBoundingClientRect().height),
@@ -545,11 +739,110 @@ async function main() {
       return { verticalStacks, adjacentLabelGaps, horizontalSideLabels, horizontalViolations };
     });
 
-    if ((purity.imageCount !== 0 && !purity.rasterAllowed) || purity.chartImgCount !== 0) {
-      throw new Error(
-        `Purity failed: imageCount=${purity.imageCount}, chartImgCount=${purity.chartImgCount}, rasterAllowed=${purity.rasterAllowed}`
-      );
-    }
+    const renderedRegions = await page.evaluate(() => {
+      const svg = document.querySelector('#chart > svg');
+      if (!svg) throw new Error('SankeyEngine.render did not create #chart > svg');
+
+      const svgBox = svg.getBoundingClientRect();
+      const width = Math.round(svgBox.width);
+      const height = Math.round(svgBox.height);
+      const regions = [];
+      const seen = new Set();
+      const round = (value) => Math.round(value * 10) / 10;
+      const addBox = (region, element, note = '') => {
+        if (!element || typeof element.getBBox !== 'function') return;
+        let box;
+        try {
+          box = element.getBBox();
+        } catch {
+          return;
+        }
+        if (!box || box.width <= 0 || box.height <= 0) return;
+        const x = Math.max(0, Math.floor(box.x));
+        const y = Math.max(0, Math.floor(box.y));
+        const right = Math.min(width, Math.ceil(box.x + box.width));
+        const bottom = Math.min(height, Math.ceil(box.y + box.height));
+        if (right <= x || bottom <= y) return;
+        const key = `${region}:${x}:${y}:${right - x}:${bottom - y}`;
+        if (seen.has(key)) return;
+        seen.add(key);
+        regions.push({
+          region,
+          x,
+          y,
+          width: right - x,
+          height: bottom - y,
+          note,
+        });
+      };
+      const addRect = (region, x, y, w, h, note = '') => {
+        const left = Math.max(0, Math.floor(x));
+        const top = Math.max(0, Math.floor(y));
+        const right = Math.min(width, Math.ceil(x + w));
+        const bottom = Math.min(height, Math.ceil(y + h));
+        if (right <= left || bottom <= top) return;
+        const key = `${region}:${left}:${top}:${right - left}:${bottom - top}`;
+        if (seen.has(key)) return;
+        seen.add(key);
+        regions.push({ region, x: left, y: top, width: right - left, height: bottom - top, note });
+      };
+
+      addRect('edge:top', 0, 0, width, Math.min(80, height), 'canvas boundary sentinel');
+      addRect('edge:bottom', 0, Math.max(0, height - 80), width, Math.min(80, height), 'canvas boundary sentinel');
+      addRect('edge:left', 0, 0, Math.min(80, width), height, 'canvas boundary sentinel');
+      addRect('edge:right', Math.max(0, width - 80), 0, Math.min(80, width), height, 'canvas boundary sentinel');
+
+      Array.from(svg.querySelectorAll('.sankey-node[data-node]')).forEach((element) => {
+        addBox(`node:${element.getAttribute('data-node')}`, element, 'rendered node bbox');
+      });
+      Array.from(svg.querySelectorAll('.sankey-link')).forEach((element, index) => {
+        let box;
+        try {
+          box = element.getBBox();
+        } catch {
+          return;
+        }
+        const strokeWidth = Number(element.getAttribute('stroke-width')) || 0;
+        const pad = Math.ceil(strokeWidth / 2) + 2;
+        addRect(
+          `link:${element.getAttribute('data-source')}->${element.getAttribute('data-target')}#${index}`,
+          box.x - pad,
+          box.y - pad,
+          box.width + pad * 2,
+          box.height + pad * 2,
+          `rendered path bbox padded by ${pad}px`
+        );
+      });
+      Array.from(svg.querySelectorAll('.sankey-label[data-node]:not(.sankey-icon)')).forEach((element, index) => {
+        addBox(`label:${element.getAttribute('data-node')}#${index}`, element, 'rendered label bbox');
+      });
+      Array.from(svg.querySelectorAll('.sankey-label.sankey-icon[data-node]')).forEach((element, index) => {
+        addBox(`icon:${element.getAttribute('data-node')}#${index}`, element, 'rendered vector icon bbox');
+      });
+      Array.from(svg.querySelectorAll('.sankey-annotations')).forEach((element, index) => {
+        addBox(`annotation:${index}`, element, 'annotationsSvg group bbox');
+      });
+      Array.from(svg.querySelectorAll('.sankey-raster-annotations image')).forEach((element, index) => {
+        const key = element.getAttribute('data-key') || index;
+        addBox(`raster:${key}`, element, 'approved runtime raster annotation bbox');
+      });
+      Array.from(svg.children).forEach((element, index) => {
+        const tag = element.tagName.toLowerCase();
+        const cls = element.getAttribute('class') || '';
+        if (tag === 'text') addBox(`direct-text:${index}`, element, 'title or period text bbox');
+        if (tag === 'g' && !cls) addBox(`direct-group:${index}`, element, 'unclassified top-level SVG group bbox');
+      });
+
+      return regions.map((region) => ({
+        ...region,
+        x: round(region.x),
+        y: round(region.y),
+        width: round(region.width),
+        height: round(region.height),
+      }));
+    });
+
+    assertPurity(purity);
     if (purity.width !== meta.width || purity.height !== meta.height) {
       throw new Error(`SVG size mismatch: expected ${meta.width}x${meta.height}, got ${purity.width}x${purity.height}`);
     }
@@ -558,7 +851,25 @@ async function main() {
 
     const referencePath = path.join(rootDir, meta.referenceSrc);
     await copyFile(referencePath, referenceComparePath);
-    const metrics = await pngMetrics(referencePath, candidatePath, diffPath);
+    const metrics = await pngMetrics(referencePath, candidatePath, diffPath, renderedRegions);
+    await writeFile(
+      metricsPath,
+      `${JSON.stringify(
+        {
+          dataset: datasetKey,
+          language: meta.language,
+          reference: path.relative(rootDir, referencePath),
+          candidate: path.relative(rootDir, candidatePath),
+          diff: path.relative(rootDir, diffPath),
+          purity,
+          full: metrics.full,
+          regions: metrics.regions,
+          labelLayoutAudit,
+        },
+        null,
+        2
+      )}\n`
+    );
     const archive = await archiveCompare(datasetKey);
     if (pageErrors.length) {
       throw new Error(`Page errors during render; comparison artifacts archived at ${archive.dir}:\n${pageErrors.join('\n')}`);
@@ -569,20 +880,33 @@ async function main() {
     console.log(`reference: ${keep ? path.relative(rootDir, referenceComparePath) : path.relative(rootDir, referencePath)}`);
     console.log(`candidate: ${keep ? path.relative(rootDir, candidatePath) : '(scratch cleaned)'}`);
     console.log(`diff: ${keep ? path.relative(rootDir, diffPath) : '(scratch cleaned)'}`);
+    console.log(`metrics: ${keep ? path.relative(rootDir, metricsPath) : '(scratch cleaned)'}`);
     console.log(`archive: ${archive.dir}`);
     if (archive.reference) {
       console.log(`shared reference: ${archive.reference}${archive.referenceChanged ? '' : ' (unchanged)'}`);
     }
     console.log(`font: Montserrat loaded=${fontStatus.montserratLoaded}`);
     console.log(
-      `purity: imageCount=${purity.imageCount} chartImgCount=${purity.chartImgCount} rasterAllowed=${purity.rasterAllowed}`
+      `purity: imageCount=${purity.imageCount} expectedRasterAnnotations=${purity.expectedRasterHrefs.length} chartImgCount=${purity.chartImgCount} rasterAllowed=${purity.rasterAllowed}`
     );
     logLabelLayoutAudit(labelLayoutAudit);
-    console.log(`viewport: ${metrics.width}x${metrics.height}`);
-    console.log(`RGB MAE: ${metrics.rgbMae.toFixed(4)}`);
-    console.log(`MAE similarity: ${metrics.maeSimilarity.toFixed(6)}`);
-    console.log(`max channel difference: ${metrics.maxChannelDifference}`);
-    console.log(`same-pixel ratio: ${metrics.samePixelRatio.toFixed(6)}`);
+    console.log(`viewport: ${metrics.full.width}x${metrics.full.height}`);
+    console.log(`RGB MAE: ${metrics.full.mae.toFixed(4)}`);
+    console.log(`MAE similarity: ${metrics.full.similarity.toFixed(6)}`);
+    console.log(`max channel difference: ${metrics.full.maxChannelDiff}`);
+    console.log(`same-pixel ratio: ${metrics.full.samePixelRatio.toFixed(6)}`);
+    console.log(`changed-pixel ratio: ${metrics.full.changedPixelRatio.toFixed(6)}`);
+    console.log(`diff bounding box: ${formatDiffBoundingBox(metrics.full.diffBoundingBox)}`);
+    console.log(`region metrics: ${metrics.regions.length} region(s)`);
+    metrics.regions
+      .slice()
+      .sort((a, b) => b.changedPixelRatio - a.changedPixelRatio || b.mae - a.mae)
+      .slice(0, 8)
+      .forEach((region) => {
+        console.log(
+          `  region ${region.region}: mae=${region.mae.toFixed(4)} similarity=${region.similarity.toFixed(6)} changed=${region.changedPixelRatio.toFixed(6)} box=${region.x},${region.y},${region.width},${region.height}`
+        );
+      });
     if (labelLayoutAudit.horizontalViolations.length) {
       const details = labelLayoutAudit.horizontalViolations
         .slice(0, 5)

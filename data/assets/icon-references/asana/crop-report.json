@@ -1,0 +1,117 @@
+{
+  "source": "input/processed/asana-q1-fy27.png",
+  "spec": "input/icon-crop-specs/asana-q1-fy27.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-27T13:44:10.057438+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "asana-company-logo",
+      "output": "data/assets/icon-references/asana/crops/company-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 26613,
+        "losslessBytes": 26613,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 8,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 76591,
+        "transparentPixelRatio": 0.7355
+      },
+      "searchBox": {
+        "x": 666,
+        "y": 218,
+        "width": 410,
+        "height": 254
+      },
+      "componentCount": 8,
+      "subjectBox": {
+        "x0": 682,
+        "y0": 220,
+        "x1": 1059,
+        "y1": 468
+      },
+      "cropBox": {
+        "x0": 666,
+        "y0": 218,
+        "x1": 1076,
+        "y1": 472
+      },
+      "validation": {
+        "width": 410,
+        "height": 254,
+        "foregroundPixels": 22639,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 16,
+          "right": 17,
+          "top": 2,
+          "bottom": 4
+        },
+        "centerOffset": {
+          "x": -0.0012,
+          "y": -0.0039
+        },
+        "passes": true
+      },
+      "note": "Asana company symbol and wordmark above the revenue hub; excludes chart labels, flows, source publisher watermarks, website URL, social badges, How They Make Money mark, and App Economy Insights attribution.",
+      "excludedPixels": 272,
+      "validationSheet": "data/assets/icon-references/asana/validation-sheets/asana-company-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 256,
+        "bytes": 83681,
+        "losslessBytes": 225064,
+        "savingsVsLossless": 0.6282,
+        "metrics": {
+          "meanAbsoluteError": 0.1901,
+          "rootMeanSquareError": 1.3362,
+          "p99AbsoluteError": 6.0,
+          "maxChannelDiff": 65,
+          "changedPixelRatio": 0.0663
+        }
+      }
+    }
+  ]
+}

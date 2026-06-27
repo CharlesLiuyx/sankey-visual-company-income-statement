@@ -1,6 +1,7 @@
 {
   "source": "input/processed/spacex-fy25.png",
   "outputDir": "data/assets/icon-references/spacex",
+  "runtimeOutputDir": "data/assets/raster-annotations/spacex",
   "validationSheetDir": "data/assets/icon-references/spacex/validation-sheets",
   "report": "crop-report.json",
   "backgroundSampleBlocks": [

@@ -20,10 +20,19 @@
       <text x="318" y="204" font-size="135" font-weight="800" fill="${BLUE}">How</text>
       <text x="2407" y="204" font-size="135" font-weight="800" fill="${BLUE}">Makes Money</text>
     </g>`;
+  const spacexTitleZh = `
+    <g font-family="Montserrat,Arial,sans-serif">
+      <text x="318" y="204" font-size="135" font-weight="800" fill="${BLUE}">如何</text>
+      <text x="2407" y="204" font-size="135" font-weight="800" fill="${BLUE}">赚钱</text>
+    </g>`;
 
   const annotations = `
     <g font-family="Montserrat,Arial,sans-serif">
       ${spacexTitle}
+    </g>`;
+  const annotationsZh = `
+    <g font-family="Montserrat,Arial,sans-serif">
+      ${spacexTitleZh}
     </g>`;
 
   window.DATASETS = window.DATASETS || [];
@@ -72,7 +81,7 @@
     rasterAnnotations: [
       {
         key: 'company-wordmark',
-        href: 'data/assets/icon-references/spacex/crops/company-wordmark.png',
+        href: 'data/assets/raster-annotations/spacex/company-wordmark.png',
         x: 790,
         y: 100,
         width: 1430,
@@ -80,7 +89,7 @@
       },
       {
         key: 'business-space-rocket',
-        href: 'data/assets/icon-references/spacex/crops/business-space-rocket.png',
+        href: 'data/assets/raster-annotations/spacex/business-space-rocket.png',
         x: 130,
         y: 355,
         width: 350,
@@ -88,7 +97,7 @@
       },
       {
         key: 'business-connectivity-starlink',
-        href: 'data/assets/icon-references/spacex/crops/business-connectivity-starlink.png',
+        href: 'data/assets/raster-annotations/spacex/business-connectivity-starlink.png',
         x: 165,
         y: 1010,
         width: 445,
@@ -96,7 +105,7 @@
       },
       {
         key: 'business-ai-cluster',
-        href: 'data/assets/icon-references/spacex/crops/business-ai-cluster.png',
+        href: 'data/assets/raster-annotations/spacex/business-ai-cluster.png',
         x: 85,
         y: 1560,
         width: 500,
@@ -379,5 +388,208 @@
       { source: 'operating_expenses', target: 'restructuring', value: 0.5, width: 16, sourceOrder: 2, targetOrder: 0 },
       { source: 'operating_expenses', target: 'impairment', value: 0.038, width: 2, sourceOrder: 3, targetOrder: 0 },
     ],
+
+    i18n: {
+      zh: {
+        name: 'SpaceX · 2025 财年',
+        meta: {
+          period: '2025 财年',
+          periodNote: '截至 2025 年 12 月',
+        },
+        annotationsSvg: annotationsZh,
+        nodes: {
+          space: { label: '航天', notes: ['同比 +8%', '毛利率 67%', '营业利润率 (16%)'] },
+          connectivity: { label: '连接服务', notes: ['同比 +50%', '毛利率 48%', '营业利润率 39%'] },
+          ai: { label: 'AI', notes: ['同比 +22%', '毛利率 32%', '营业利润率 (198%)'] },
+          revenue: { label: '收入', notes: ['同比 +33%'] },
+          gross_profit: { label: '毛利润', notes: ['利润率 49%', '同比 +6 个百分点'] },
+          cost_of_revenue: { label: ['收入', '成本'] },
+          operating_loss: { label: ['营业', '亏损'], notes: ['利润率 (14%)', '同比 (17 个百分点)'] },
+          operating_expenses: { label: ['营业', '费用'] },
+          rnd: { label: '研发', notes: ['占收入 46%', '同比 +22 个百分点'] },
+          sga: { label: '销售、一般及行政', notes: ['占收入 14%', '同比 +1 个百分点'] },
+          restructuring: { label: '重组费用', notes: ['占收入 3%', '同比 +1 个百分点'] },
+          impairment: { label: '减值', notes: ['占收入 0%', '同比 (1 个百分点)'] },
+          tax: { label: '税费' },
+        },
+        layout: {
+          labels: {
+            space: {
+              blocks: [
+                {
+                  x: 695, top: 550, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '$value', size: 48, weight: 400 },
+                    { text: '同比 +8%', size: 34, weight: 400, color: NOTE },
+                  ],
+                },
+                {
+                  x: 224, top: 726, anchor: 'middle', lineGap: 11,
+                  lines: [
+                    { text: '航天', size: 55, weight: 800 },
+                    { text: '毛利率 67%', size: 34, weight: 400, color: NOTE },
+                    { text: '营业利润率 (16%)', size: 34, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            connectivity: {
+              blocks: [
+                {
+                  x: 695, top: 1025, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '$value', size: 48, weight: 400 },
+                    { text: '同比 +50%', size: 34, weight: 400, color: NOTE },
+                  ],
+                },
+                {
+                  x: 246, top: 1255, anchor: 'middle', lineGap: 11,
+                  lines: [
+                    { text: '连接服务', size: 55, weight: 800 },
+                    { text: '毛利率 48%', size: 34, weight: 400, color: NOTE },
+                    { text: '营业利润率 39%', size: 34, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            ai: {
+              blocks: [
+                {
+                  x: 695, top: 1578, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '$value', size: 48, weight: 400 },
+                    { text: '同比 +22%', size: 34, weight: 400, color: NOTE },
+                  ],
+                },
+                {
+                  x: 268, top: 1750, anchor: 'middle', lineGap: 11,
+                  lines: [
+                    { text: 'AI', size: 55, weight: 800 },
+                    { text: '毛利率 32%', size: 34, weight: 400, color: NOTE },
+                    { text: '营业利润率 (198%)', size: 34, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            revenue: {
+              blocks: [
+                {
+                  x: 1404, top: 785, anchor: 'middle', lineGap: 11,
+                  lines: [
+                    { text: '收入', size: 54, weight: 800 },
+                    { text: '$value', size: 49, weight: 400 },
+                    { text: '同比 +33%', size: 34, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            gross_profit: {
+              blocks: [
+                {
+                  x: 2110, top: 526, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '毛利润', size: 50, weight: 800 },
+                    { text: '$value', size: 49, weight: 400 },
+                    { text: '利润率 49%', size: 34, weight: 400, color: NOTE },
+                    { text: '同比 +6 个百分点', size: 34, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            cost_of_revenue: {
+              blocks: [
+                {
+                  x: 2110, top: 1745, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '收入', size: 45, weight: 800 },
+                    { text: '成本', size: 45, weight: 800 },
+                    { text: '$value', size: 43, weight: 400 },
+                  ],
+                },
+              ],
+            },
+            operating_loss: {
+              blocks: [
+                {
+                  x: 2502, top: 1516, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '营业', size: 45, weight: 800 },
+                    { text: '亏损', size: 45, weight: 800 },
+                    { text: '$value', size: 43, weight: 400 },
+                    { text: '利润率 (14%)', size: 34, weight: 400, color: NOTE },
+                    { text: '同比 (17 个百分点)', size: 34, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            operating_expenses: {
+              blocks: [
+                {
+                  x: 2835, top: 770, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '营业', size: 45, weight: 800 },
+                    { text: '费用', size: 45, weight: 800 },
+                    { text: '$value', size: 43, weight: 400 },
+                  ],
+                },
+              ],
+            },
+            rnd: {
+              blocks: [
+                {
+                  x: 3772, top: 732, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '研发', size: 42, weight: 800 },
+                    { text: '$value', size: 38, weight: 400 },
+                    { text: '占收入 46%', size: 34, weight: 400, color: NOTE },
+                    { text: '同比 +22 个百分点', size: 34, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            sga: {
+              blocks: [
+                {
+                  x: 3772, top: 1110, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '销售、一般', size: 38, weight: 800 },
+                    { text: '及行政', size: 38, weight: 800 },
+                    { text: '$value', size: 38, weight: 400 },
+                    { text: '占收入 14%', size: 34, weight: 400, color: NOTE },
+                    { text: '同比 +1 个百分点', size: 34, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            restructuring: {
+              blocks: [
+                {
+                  x: 3772, top: 1426, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '重组费用', size: 40, weight: 800 },
+                    { text: '$value', size: 36, weight: 400 },
+                    { text: '占收入 3%', size: 34, weight: 400, color: NOTE },
+                    { text: '同比 +1 个百分点', size: 34, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            impairment: {
+              blocks: [
+                {
+                  x: 3772, top: 1722, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '减值', size: 40, weight: 800 },
+                    { text: '($38M)', size: 36, weight: 400 },
+                    { text: '占收入 0%', size: 34, weight: 400, color: NOTE },
+                    { text: '同比 (1 个百分点)', size: 34, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
   });
 })();

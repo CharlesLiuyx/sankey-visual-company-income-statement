@@ -4,7 +4,7 @@
  */
 (function () {
   window.DATASET_FILE_METADATA = {
-  "generatedAt": "2026-06-27T13:39:23.957Z",
+  "generatedAt": "2026-06-27T15:00:15.121Z",
   "source": "dataset file modification times from index.html registrations",
   "files": {
     "alphabet-q1-fy26": {
@@ -97,6 +97,11 @@
       "mtimeMs": 1782069340599,
       "mtime": "2026-06-21T19:15:40.599Z"
     },
+    "datadog-q1-fy26": {
+      "path": "data/datasets/datadog-q1-fy26.js",
+      "mtimeMs": 1782569781027,
+      "mtime": "2026-06-27T14:16:21.027Z"
+    },
     "dell-q1-fy27": {
       "path": "data/datasets/dell-q1-fy27.js",
       "mtimeMs": 1782072199241,
@@ -106,6 +111,11 @@
       "path": "data/datasets/digital-ocean-q1-fy26.js",
       "mtimeMs": 1782542346641,
       "mtime": "2026-06-27T06:39:06.641Z"
+    },
+    "disney-q2-fy26-by-segment": {
+      "path": "data/datasets/disney-q2-fy26-by-segment.js",
+      "mtimeMs": 1782572415121,
+      "mtime": "2026-06-27T15:00:15.121Z"
     },
     "duolingo-q1-fy26": {
       "path": "data/datasets/duolingo-q1-fy26.js",
@@ -237,6 +247,16 @@
       "mtimeMs": 1782565522642,
       "mtime": "2026-06-27T13:05:22.642Z"
     },
+    "paramount-q1-fy26": {
+      "path": "data/datasets/paramount-q1-fy26.js",
+      "mtimeMs": 1782572110982,
+      "mtime": "2026-06-27T14:55:10.982Z"
+    },
+    "paycom-q1-fy26": {
+      "path": "data/datasets/paycom-q1-fy26.js",
+      "mtimeMs": 1782570000793,
+      "mtime": "2026-06-27T14:20:00.793Z"
+    },
     "uber-q1-fy26": {
       "path": "data/datasets/uber-q1-fy26.js",
       "mtimeMs": 1782043945971,
@@ -246,6 +266,11 @@
       "path": "data/datasets/uipath-q1-fy27.js",
       "mtimeMs": 1782565522690,
       "mtime": "2026-06-27T13:05:22.690Z"
+    },
+    "warner-bros-q1-fy26": {
+      "path": "data/datasets/warner-bros-q1-fy26.js",
+      "mtimeMs": 1782570468966,
+      "mtime": "2026-06-27T14:27:48.966Z"
     },
     "walmart-q1-fy27": {
       "path": "data/datasets/walmart-q1-fy27.js",

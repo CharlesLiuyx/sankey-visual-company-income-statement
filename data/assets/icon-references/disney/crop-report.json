@@ -1,0 +1,568 @@
+{
+  "source": "input/processed/disney-q2-fy26-by-segment.png",
+  "spec": "input/icon-crop-specs/disney-q2-fy26-by-segment.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-27T15:06:00.476167+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 7
+  },
+  "runtimeOutputDir": "data/assets/raster-annotations/disney",
+  "crops": [
+    {
+      "key": "disney-company-wordmark",
+      "output": "data/assets/icon-references/disney/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 8957,
+        "losslessBytes": 42805,
+        "savingsVsLossless": 0.7907,
+        "metrics": {
+          "meanAbsoluteError": 0.2401,
+          "rootMeanSquareError": 1.1853,
+          "p99AbsoluteError": 7.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.0822
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 7,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 119803,
+        "transparentPixelRatio": 0.7972
+      },
+      "searchBox": {
+        "x": 1180,
+        "y": 246,
+        "width": 548,
+        "height": 252
+      },
+      "componentCount": 20,
+      "subjectBox": {
+        "x0": 1193,
+        "y0": 247,
+        "x1": 1692,
+        "y1": 498
+      },
+      "cropBox": {
+        "x0": 1177,
+        "y0": 231,
+        "x1": 1708,
+        "y1": 514
+      },
+      "validation": {
+        "width": 531,
+        "height": 283,
+        "foregroundPixels": 28094,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 16,
+          "right": 16,
+          "top": 16,
+          "bottom": 16
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Central The Walt Disney Company logo/text cluster; excludes the title, revenue labels, chart nodes, and publisher marks.",
+      "runtimeOutput": "data/assets/raster-annotations/disney/company-wordmark.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 8957,
+        "losslessBytes": 42805,
+        "savingsVsLossless": 0.7907,
+        "metrics": {
+          "meanAbsoluteError": 0.2401,
+          "rootMeanSquareError": 1.1853,
+          "p99AbsoluteError": 7.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.0822
+        }
+      },
+      "validationSheet": "data/assets/icon-references/disney/validation-sheets/disney-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 313862,
+        "losslessBytes": 313862,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "disney-business-entertainment-streaming-tv-cluster",
+      "output": "data/assets/icon-references/disney/crops/business-entertainment-streaming-tv-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 96,
+        "bytes": 7018,
+        "losslessBytes": 29447,
+        "savingsVsLossless": 0.7617,
+        "metrics": {
+          "meanAbsoluteError": 0.6838,
+          "rootMeanSquareError": 2.2417,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 40,
+          "changedPixelRatio": 0.2495
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 7,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 40287,
+        "transparentPixelRatio": 0.75
+      },
+      "searchBox": {
+        "x": 14,
+        "y": 354,
+        "width": 190,
+        "height": 236
+      },
+      "componentCount": 19,
+      "subjectBox": {
+        "x0": 15,
+        "y0": 357,
+        "x1": 200,
+        "y1": 590
+      },
+      "cropBox": {
+        "x0": 3,
+        "y0": 345,
+        "x1": 212,
+        "y1": 602
+      },
+      "validation": {
+        "width": 209,
+        "height": 257,
+        "foregroundPixels": 11405,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 12,
+          "right": 12,
+          "top": 12,
+          "bottom": 12
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Entertainment streaming and TV brand cluster with Disney+, Hulu, Disney Channel, ABC, and National Geographic; excludes segment labels, values, chart marks, and attribution.",
+      "runtimeOutput": "data/assets/raster-annotations/disney/business-entertainment-streaming-tv-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 96,
+        "bytes": 7018,
+        "losslessBytes": 29447,
+        "savingsVsLossless": 0.7617,
+        "metrics": {
+          "meanAbsoluteError": 0.6838,
+          "rootMeanSquareError": 2.2417,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 40,
+          "changedPixelRatio": 0.2495
+        }
+      },
+      "validationSheet": "data/assets/icon-references/disney/validation-sheets/disney-business-entertainment-streaming-tv-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 256,
+        "bytes": 127797,
+        "losslessBytes": 351021,
+        "savingsVsLossless": 0.6359,
+        "metrics": {
+          "meanAbsoluteError": 0.4066,
+          "rootMeanSquareError": 2.2234,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 67,
+          "changedPixelRatio": 0.1063
+        }
+      }
+    },
+    {
+      "key": "disney-business-entertainment-content-cluster",
+      "output": "data/assets/icon-references/disney/crops/business-entertainment-content-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 21065,
+        "losslessBytes": 21065,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 7,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 12352,
+        "transparentPixelRatio": 0.4642
+      },
+      "searchBox": {
+        "x": 34,
+        "y": 629,
+        "width": 168,
+        "height": 130
+      },
+      "componentCount": 14,
+      "subjectBox": {
+        "x0": 35,
+        "y0": 632,
+        "x1": 196,
+        "y1": 759
+      },
+      "cropBox": {
+        "x0": 25,
+        "y0": 622,
+        "x1": 206,
+        "y1": 769
+      },
+      "validation": {
+        "width": 181,
+        "height": 147,
+        "foregroundPixels": 11216,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 10,
+          "right": 10,
+          "top": 10,
+          "bottom": 10
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Entertainment content-sales and licensing brand cluster with Marvel Studios, Pixar, and Lucasfilm; excludes labels, values, connectors, and publisher marks.",
+      "runtimeOutput": "data/assets/raster-annotations/disney/business-entertainment-content-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 21065,
+        "losslessBytes": 21065,
+        "savingsVsLossless": 0.0
+      },
+      "validationSheet": "data/assets/icon-references/disney/validation-sheets/disney-business-entertainment-content-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 360293,
+        "losslessBytes": 360293,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "disney-business-sports-espn-cluster",
+      "output": "data/assets/icon-references/disney/crops/business-sports-espn-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 5851,
+        "losslessBytes": 5851,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 7,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 15131,
+        "transparentPixelRatio": 0.6636
+      },
+      "searchBox": {
+        "x": 670,
+        "y": 823,
+        "width": 166,
+        "height": 94
+      },
+      "componentCount": 9,
+      "subjectBox": {
+        "x0": 679,
+        "y0": 826,
+        "x1": 836,
+        "y1": 915
+      },
+      "cropBox": {
+        "x0": 660,
+        "y0": 810,
+        "x1": 850,
+        "y1": 930
+      },
+      "validation": {
+        "width": 190,
+        "height": 120,
+        "foregroundPixels": 7199,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 19,
+          "right": 14,
+          "top": 16,
+          "bottom": 15
+        },
+        "centerOffset": {
+          "x": 0.0132,
+          "y": 0.0042
+        },
+        "passes": true
+      },
+      "note": "Sports segment ESPN and ESPN+ logo cluster; excludes the Sports label, value, Y/Y note, chart node, connectors, and publisher marks.",
+      "excludedPixels": 912,
+      "runtimeOutput": "data/assets/raster-annotations/disney/business-sports-espn-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 5851,
+        "losslessBytes": 5851,
+        "savingsVsLossless": 0.0
+      },
+      "validationSheet": "data/assets/icon-references/disney/validation-sheets/disney-business-sports-espn-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 302108,
+        "losslessBytes": 302108,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "disney-business-experiences-parks-cluster",
+      "output": "data/assets/icon-references/disney/crops/business-experiences-parks-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 64,
+        "bytes": 5914,
+        "losslessBytes": 25038,
+        "savingsVsLossless": 0.7638,
+        "metrics": {
+          "meanAbsoluteError": 0.6842,
+          "rootMeanSquareError": 2.5482,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 39,
+          "changedPixelRatio": 0.1977
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 7,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 33161,
+        "transparentPixelRatio": 0.8144
+      },
+      "searchBox": {
+        "x": 70,
+        "y": 900,
+        "width": 168,
+        "height": 228
+      },
+      "componentCount": 17,
+      "subjectBox": {
+        "x0": 91,
+        "y0": 922,
+        "x1": 227,
+        "y1": 1114
+      },
+      "cropBox": {
+        "x0": 68,
+        "y0": 897,
+        "x1": 242,
+        "y1": 1131
+      },
+      "validation": {
+        "width": 174,
+        "height": 234,
+        "foregroundPixels": 6975,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 23,
+          "right": 15,
+          "top": 25,
+          "bottom": 17
+        },
+        "centerOffset": {
+          "x": 0.023,
+          "y": 0.0171
+        },
+        "passes": true
+      },
+      "note": "Experiences parks, cruise line, and vacation club logo cluster; excludes segment labels, values, chart marks, and attribution.",
+      "runtimeOutput": "data/assets/raster-annotations/disney/business-experiences-parks-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 64,
+        "bytes": 5914,
+        "losslessBytes": 25038,
+        "savingsVsLossless": 0.7638,
+        "metrics": {
+          "meanAbsoluteError": 0.6842,
+          "rootMeanSquareError": 2.5482,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 39,
+          "changedPixelRatio": 0.1977
+        }
+      },
+      "validationSheet": "data/assets/icon-references/disney/validation-sheets/disney-business-experiences-parks-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 347873,
+        "losslessBytes": 347873,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "disney-business-experiences-consumer-products-cluster",
+      "output": "data/assets/icon-references/disney/crops/business-experiences-consumer-products-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 19836,
+        "losslessBytes": 19836,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 7,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 12415,
+        "transparentPixelRatio": 0.6689
+      },
+      "searchBox": {
+        "x": 105,
+        "y": 1138,
+        "width": 160,
+        "height": 122
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 126,
+        "y0": 1156,
+        "x1": 251,
+        "y1": 1234
+      },
+      "cropBox": {
+        "x0": 105,
+        "y0": 1138,
+        "x1": 265,
+        "y1": 1254
+      },
+      "validation": {
+        "width": 160,
+        "height": 116,
+        "foregroundPixels": 5589,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 21,
+          "right": 14,
+          "top": 18,
+          "bottom": 20
+        },
+        "centerOffset": {
+          "x": 0.0219,
+          "y": -0.0086
+        },
+        "passes": true
+      },
+      "note": "Consumer products character art cluster; excludes the Consumer Products label, values, chart marks, and bottom publisher marks.",
+      "runtimeOutput": "data/assets/raster-annotations/disney/business-experiences-consumer-products-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 19836,
+        "losslessBytes": 19836,
+        "savingsVsLossless": 0.0
+      },
+      "validationSheet": "data/assets/icon-references/disney/validation-sheets/disney-business-experiences-consumer-products-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 373520,
+        "losslessBytes": 373520,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

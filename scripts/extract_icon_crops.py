@@ -469,6 +469,22 @@ def apply_exclusions(crop: Image.Image, spec: dict[str, Any], crop_box: Box) -> 
     return out, excluded_pixels
 
 
+def apply_transparent_color_filters(crop: Image.Image, spec: dict[str, Any]) -> tuple[Image.Image, int]:
+    filters = spec.get("transparentColors") or []
+    if not filters:
+        return crop, 0
+    out = crop.convert("RGBA")
+    pixels = out.load()
+    transparent_pixels = 0
+    for y in range(out.height):
+        for x in range(out.width):
+            r, g, b, a = pixels[x, y]
+            if a and any(filter_pixel((r, g, b), item) for item in filters):
+                pixels[x, y] = (r, g, b, 0)
+                transparent_pixels += 1
+    return out, transparent_pixels
+
+
 def connected_components(mask: list[bytearray], origin: Box, min_area: int) -> list[dict[str, int]]:
     height = len(mask)
     width = len(mask[0]) if height else 0
@@ -782,6 +798,7 @@ def main() -> None:
         )
         crop, background_removal_result = remove_solid_background(crop, crop_background_removal)
         crop, excluded_pixels = apply_exclusions(crop, spec, crop_box)
+        crop, transparent_color_pixels = apply_transparent_color_filters(crop, spec)
         output_path = output_dir / spec["output"]
         crop_compression = save_compressed_png(crop, output_path, compression)
         runtime_output_path = None
@@ -817,6 +834,8 @@ def main() -> None:
         }
         if excluded_pixels:
             item["excludedPixels"] = excluded_pixels
+        if transparent_color_pixels:
+            item["transparentColorPixels"] = transparent_color_pixels
         if runtime_output_path:
             item["runtimeOutput"] = str(runtime_output_path.relative_to(ROOT))
         if runtime_compression:

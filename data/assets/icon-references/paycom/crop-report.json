@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/paycom-q1-fy26.png",
+  "spec": "input/icon-crop-specs/paycom-q1-fy26.json",
+  "background": [
+    239,
+    239,
+    239
+  ],
+  "generatedAt": "2026-06-27T15:06:14.444069+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 9
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "paycom-company-logo-wordmark",
+      "output": "data/assets/icon-references/paycom/crops/company-logo-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 5670,
+        "losslessBytes": 27099,
+        "savingsVsLossless": 0.7908,
+        "metrics": {
+          "meanAbsoluteError": 0.4697,
+          "rootMeanSquareError": 1.7485,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 34,
+          "changedPixelRatio": 0.2056
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 9,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 75155,
+        "transparentPixelRatio": 0.7117
+      },
+      "searchBox": {
+        "x": 520,
+        "y": 270,
+        "width": 640,
+        "height": 165
+      },
+      "componentCount": 8,
+      "subjectBox": {
+        "x0": 524,
+        "y0": 275,
+        "x1": 1145,
+        "y1": 412
+      },
+      "cropBox": {
+        "x0": 520,
+        "y0": 270,
+        "x1": 1160,
+        "y1": 435
+      },
+      "validation": {
+        "width": 640,
+        "height": 165,
+        "foregroundPixels": 27426,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 4,
+          "right": 15,
+          "top": 5,
+          "bottom": 23
+        },
+        "centerOffset": {
+          "x": -0.0086,
+          "y": -0.0545
+        },
+        "passes": true
+      },
+      "note": "Paycom company logo and wordmark; excludes title, chart labels, connector marks, website URL, How They Make Money mark, and App Economy Insights attribution.",
+      "validationSheet": "data/assets/icon-references/paycom/validation-sheets/paycom-company-logo-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 214936,
+        "losslessBytes": 214936,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

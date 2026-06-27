@@ -1,0 +1,75 @@
+{
+  "source": "input/processed/paramount-q1-fy26.png",
+  "outputDir": "data/assets/icon-references/paramount",
+  "runtimeOutputDir": "data/assets/raster-annotations/paramount",
+  "validationSheetDir": "data/assets/icon-references/paramount/validation-sheets",
+  "report": "crop-report.json",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  },
+  "crops": [
+    {
+      "key": "paramount-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "runtimeOutput": "company-wordmark.png",
+      "searchBox": { "x": 790, "y": 258, "width": 685, "height": 226 },
+      "cropBox": { "x": 786, "y": 258, "width": 700, "height": 226 },
+      "threshold": 12,
+      "minComponentArea": 28,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.12,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Paramount Skydance company wordmark near the top center; excludes title text, chart labels, and publisher marks."
+    },
+    {
+      "key": "paramount-business-filmed-entertainment-cluster",
+      "output": "crops/business-filmed-entertainment-cluster.png",
+      "runtimeOutput": "business-filmed-entertainment-cluster.png",
+      "searchBox": { "x": 22, "y": 292, "width": 178, "height": 132 },
+      "cropBox": { "x": 16, "y": 288, "width": 196, "height": 142 },
+      "threshold": 12,
+      "minComponentArea": 18,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.12,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Filmed Entertainment brand cluster with Paramount mountain and Nickelodeon; excludes segment text, values, margins, chart marks, and publisher marks."
+    },
+    {
+      "key": "paramount-business-tv-media-cluster",
+      "output": "crops/business-tv-media-cluster.png",
+      "runtimeOutput": "business-tv-media-cluster.png",
+      "searchBox": { "x": 14, "y": 650, "width": 184, "height": 148 },
+      "cropBox": { "x": 10, "y": 644, "width": 190, "height": 160 },
+      "threshold": 12,
+      "minComponentArea": 18,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.14,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "TV Media brand cluster with CBS, Showtime, MTV, Paramount Network, and Nickelodeon; excludes segment text, values, margins, chart marks, and publisher marks."
+    },
+    {
+      "key": "paramount-business-direct-to-consumer-cluster",
+      "output": "crops/business-direct-to-consumer-cluster.png",
+      "runtimeOutput": "business-direct-to-consumer-cluster.png",
+      "searchBox": { "x": 22, "y": 858, "width": 188, "height": 198 },
+      "cropBox": { "x": 18, "y": 854, "width": 198, "height": 206 },
+      "threshold": 12,
+      "minComponentArea": 18,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.14,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Direct-to-consumer app and brand cluster with Paramount+, Showtime, Pluto TV, and BET+; excludes segment text, values, margins, chart marks, and publisher marks."
+    }
+  ]
+}

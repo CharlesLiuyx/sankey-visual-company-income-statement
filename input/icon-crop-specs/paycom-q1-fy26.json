@@ -1,0 +1,39 @@
+{
+  "source": "input/processed/paycom-q1-fy26.png",
+  "outputDir": "data/assets/icon-references/paycom",
+  "validationSheetDir": "data/assets/icon-references/paycom/validation-sheets",
+  "report": "crop-report.json",
+  "background": [239, 239, 239],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 9
+  },
+  "crops": [
+    {
+      "key": "paycom-company-logo-wordmark",
+      "output": "crops/company-logo-wordmark.png",
+      "searchBox": { "x": 520, "y": 270, "width": 640, "height": 165 },
+      "cropBox": { "x": 520, "y": 270, "width": 640, "height": 165 },
+      "threshold": 18,
+      "minComponentArea": 60,
+      "padding": 12,
+      "validation": {
+        "borderBand": 3,
+        "maxCenterOffset": 0.12,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Paycom company logo and wordmark; excludes title, chart labels, connector marks, website URL, How They Make Money mark, and App Economy Insights attribution."
+    }
+  ],
+  "skipped": [
+    {
+      "key": "publisher-how-they-make-money",
+      "reason": "Source publisher branding and not part of Paycom's income-statement semantics."
+    },
+    {
+      "key": "publisher-app-economy-insights",
+      "reason": "Source publisher website URL, social badge, and attribution are intentionally excluded."
+    }
+  ]
+}

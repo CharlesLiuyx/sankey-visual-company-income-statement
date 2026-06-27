@@ -1,0 +1,166 @@
+{
+  "source": "input/processed/disney-q2-fy26-by-segment.png",
+  "outputDir": "data/assets/icon-references/disney",
+  "runtimeOutputDir": "data/assets/raster-annotations/disney",
+  "validationSheetDir": "data/assets/icon-references/disney/validation-sheets",
+  "report": "crop-report.json",
+  "backgroundSampleBlocks": [
+    [0, 0, 80, 80],
+    [2587, 0, 80, 80],
+    [0, 1420, 80, 80],
+    [1160, 1360, 80, 80]
+  ],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 7
+  },
+  "crops": [
+    {
+      "key": "disney-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": {
+        "x": 1180,
+        "y": 246,
+        "width": 548,
+        "height": 252
+      },
+      "threshold": 16,
+      "minComponentArea": 30,
+      "padding": 16,
+      "validation": {
+        "borderBand": 4,
+        "maxCenterOffset": 0.025,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Central The Walt Disney Company logo/text cluster; excludes the title, revenue labels, chart nodes, and publisher marks."
+    },
+    {
+      "key": "disney-business-entertainment-streaming-tv-cluster",
+      "output": "crops/business-entertainment-streaming-tv-cluster.png",
+      "searchBox": {
+        "x": 14,
+        "y": 354,
+        "width": 190,
+        "height": 236
+      },
+      "threshold": 16,
+      "minComponentArea": 24,
+      "padding": 12,
+      "validation": {
+        "borderBand": 3,
+        "maxCenterOffset": 0.025,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Entertainment streaming and TV brand cluster with Disney+, Hulu, Disney Channel, ABC, and National Geographic; excludes segment labels, values, chart marks, and attribution."
+    },
+    {
+      "key": "disney-business-entertainment-content-cluster",
+      "output": "crops/business-entertainment-content-cluster.png",
+      "searchBox": {
+        "x": 34,
+        "y": 629,
+        "width": 168,
+        "height": 130
+      },
+      "threshold": 16,
+      "minComponentArea": 24,
+      "padding": 10,
+      "validation": {
+        "borderBand": 3,
+        "maxCenterOffset": 0.025,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Entertainment content-sales and licensing brand cluster with Marvel Studios, Pixar, and Lucasfilm; excludes labels, values, connectors, and publisher marks."
+    },
+    {
+      "key": "disney-business-sports-espn-cluster",
+      "output": "crops/business-sports-espn-cluster.png",
+      "searchBox": {
+        "x": 670,
+        "y": 823,
+        "width": 166,
+        "height": 94
+      },
+      "cropBox": {
+        "x": 660,
+        "y": 810,
+        "width": 190,
+        "height": 120
+      },
+      "excludeBoxes": [
+        {
+          "x": 838,
+          "y": 810,
+          "width": 20,
+          "height": 36
+        },
+        {
+          "x": 846,
+          "y": 810,
+          "width": 14,
+          "height": 120
+        }
+      ],
+      "threshold": 16,
+      "minComponentArea": 24,
+      "padding": 10,
+      "validation": {
+        "borderBand": 3,
+        "maxCenterOffset": 0.025,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Sports segment ESPN and ESPN+ logo cluster; excludes the Sports label, value, Y/Y note, chart node, connectors, and publisher marks."
+    },
+    {
+      "key": "disney-business-experiences-parks-cluster",
+      "output": "crops/business-experiences-parks-cluster.png",
+      "searchBox": {
+        "x": 70,
+        "y": 900,
+        "width": 168,
+        "height": 228
+      },
+      "cropBox": {
+        "x": 68,
+        "y": 897,
+        "width": 174,
+        "height": 234
+      },
+      "threshold": 16,
+      "minComponentArea": 20,
+      "padding": 12,
+      "validation": {
+        "borderBand": 3,
+        "maxCenterOffset": 0.025,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Experiences parks, cruise line, and vacation club logo cluster; excludes segment labels, values, chart marks, and attribution."
+    },
+    {
+      "key": "disney-business-experiences-consumer-products-cluster",
+      "output": "crops/business-experiences-consumer-products-cluster.png",
+      "searchBox": {
+        "x": 105,
+        "y": 1138,
+        "width": 160,
+        "height": 122
+      },
+      "cropBox": {
+        "x": 105,
+        "y": 1138,
+        "width": 160,
+        "height": 116
+      },
+      "threshold": 16,
+      "minComponentArea": 14,
+      "padding": 10,
+      "validation": {
+        "borderBand": 3,
+        "maxCenterOffset": 0.04,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Consumer products character art cluster; excludes the Consumer Products label, values, chart marks, and bottom publisher marks."
+    }
+  ]
+}

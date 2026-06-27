@@ -1,0 +1,85 @@
+{
+  "source": "input/processed/warner-bros-q1-fy26.png",
+  "outputDir": "data/assets/icon-references/warner-bros",
+  "runtimeOutputDir": "data/assets/raster-annotations/warner-bros",
+  "validationSheetDir": "data/assets/icon-references/warner-bros/validation-sheets",
+  "report": "crop-report.json",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 5
+  },
+  "crops": [
+    {
+      "key": "warner-bros-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "runtimeOutput": "company-wordmark.png",
+      "searchBox": { "x": 580, "y": 276, "width": 708, "height": 234 },
+      "cropBox": { "x": 560, "y": 258, "width": 748, "height": 270 },
+      "threshold": 10,
+      "minComponentArea": 30,
+      "foreground": {
+        "any": [
+          { "channels": { "r": [0, 80], "g": [0, 95], "b": [105, 235] } },
+          { "channels": { "r": [225, 255], "g": [150, 230], "b": [0, 80] } }
+        ]
+      },
+      "transparentColors": [
+        { "channels": { "r": [90, 185], "g": [100, 190], "b": [165, 245] } },
+        { "channels": { "r": [180, 240], "g": [180, 240], "b": [195, 255] } }
+      ],
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.06,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Warner Bros. Discovery shield and wordmark above the revenue flow; excludes title text, source values, chart links, and publisher marks."
+    },
+    {
+      "key": "warner-bros-business-studios-cluster",
+      "output": "crops/business-studios-cluster.png",
+      "runtimeOutput": "business-studios-cluster.png",
+      "searchBox": { "x": 36, "y": 372, "width": 149, "height": 153 },
+      "cropBox": { "x": 26, "y": 360, "width": 169, "height": 177 },
+      "threshold": 10,
+      "minComponentArea": 18,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.08,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Studios brand cluster containing Warner Bros., DC, and New Line Cinema marks; excludes the Studios label, values, margin text, and flow marks."
+    },
+    {
+      "key": "warner-bros-business-networks-cluster",
+      "output": "crops/business-networks-cluster.png",
+      "runtimeOutput": "business-networks-cluster.png",
+      "searchBox": { "x": 38, "y": 659, "width": 134, "height": 213 },
+      "cropBox": { "x": 24, "y": 640, "width": 162, "height": 251 },
+      "threshold": 10,
+      "minComponentArea": 18,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.08,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Networks brand cluster containing TBS, CNN, HGTV, TNT, Discovery, TLC, TVN, and Eurosport; excludes the Networks label, values, margin text, and flow marks."
+    },
+    {
+      "key": "warner-bros-business-streaming-cluster",
+      "output": "crops/business-streaming-cluster.png",
+      "runtimeOutput": "business-streaming-cluster.png",
+      "searchBox": { "x": 65, "y": 1017, "width": 78, "height": 156 },
+      "cropBox": { "x": 51, "y": 1000, "width": 106, "height": 190 },
+      "threshold": 10,
+      "minComponentArea": 18,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.08,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Streaming brand cluster containing Max and discovery+ app icons; excludes the Streaming label, values, margin text, and flow marks."
+    }
+  ]
+}

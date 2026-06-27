@@ -661,6 +661,82 @@
         },
       },
       {
+        key: 'datadog-q1-fy26',
+        company: 'Datadog',
+        period: 'Q1 FY26',
+        periodNote: 'Quarter ended Mar. 31, 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/datadog-q1-fy26.png',
+        roundingTolerance: 1.1,
+        revenue: {
+          total: 1006,
+          notes: ['+32% Y/Y'],
+          items: [
+            { id: 'north_america', label: 'North America', value: 724, notes: ['+36% Y/Y'] },
+            { id: 'international', label: 'International', value: 282, notes: ['+24% Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 209 },
+          operatingExpenses: {
+            total: 790,
+            items: [
+              { id: 'rnd', label: 'R&D', value: 435, notes: ['43% of revenue', '(2pp) Y/Y'] },
+              { id: 'sm', label: 'S&M', value: 280, notes: ['28% of revenue', '(0pp) Y/Y'] },
+              { id: 'ga', label: 'G&A', value: 75, notes: ['7% of revenue', '(1pp) Y/Y'] },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 6 },
+        },
+        otherIncome: {
+          total: 52,
+          items: [{ id: 'other', label: 'Other', value: 52 }],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 797, notes: ['79% margin', '(0pp) Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 7, notes: ['1% margin', '+2pp Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 53, notes: ['5% margin', '+6pp Y/Y'] },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月 31 日的季度',
+            revenue: {
+              notes: ['同比 +32%'],
+              items: [
+                { id: 'north_america', label: '北美', notes: ['同比 +36%'] },
+                { id: 'international', label: '国际', notes: ['同比 +24%'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                items: [
+                  { id: 'rnd', label: '研发', notes: ['占收入 43%', '同比 (2 个百分点)'] },
+                  { id: 'sm', label: '销售与营销', notes: ['占收入 28%', '同比 (0 个百分点)'] },
+                  { id: 'ga', label: '管理费用', notes: ['占收入 7%', '同比 (1 个百分点)'] },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            otherIncome: {
+              items: [{ id: 'other', label: '其他' }],
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 79%', '同比 (0 个百分点)'] },
+              operating: { label: '营业利润', notes: ['利润率 1%', '同比 +2 个百分点'] },
+              net: { label: '净利润', notes: ['利润率 5%', '同比 +6 个百分点'] },
+            },
+          },
+        },
+      },
+      {
         key: 'digital-ocean-q1-fy26',
         company: 'DigitalOcean',
         period: 'Q1 FY26',
@@ -738,6 +814,174 @@
               gross: { label: '毛利润', notes: ['利润率 56%', '同比 (5 个百分点)'] },
               operating: { label: '营业利润', notes: ['利润率 14%', '同比 (3 个百分点)'] },
               net: { label: '净利润', notes: ['利润率 6%', '同比 (12 个百分点)'] },
+            },
+          },
+        },
+      },
+      {
+        key: 'disney-q2-fy26-by-segment',
+        company: 'Disney',
+        period: 'Q2 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/disney-q2-fy26-by-segment.png',
+        roundingTolerance: 0.15,
+        revenue: {
+          total: 25.168,
+          notes: ['+7% Y/Y'],
+          items: [
+            {
+              id: 'entertainment_total',
+              label: 'Entertainment',
+              value: 11.715,
+              notes: ['+10% Y/Y'],
+              children: [
+                { id: 'subscription', label: 'Subscription', value: 7.8, notes: ['+14% Y/Y'] },
+                { id: 'advertising', label: 'Advertising', value: 1.7, notes: ['+5% Y/Y'] },
+                { id: 'content_sales_licensing', label: 'Content Sales Licensing', value: 1.7, notes: ['+8% Y/Y'] },
+                { id: 'entertainment_other', label: 'Other', value: 0.5, notes: ['(18%) Y/Y'] },
+              ],
+            },
+            { id: 'sports', label: 'Sports', value: 4.609, notes: ['+2% Y/Y'] },
+            {
+              id: 'experiences_total',
+              label: 'Experiences',
+              value: 9.487,
+              notes: ['+7% Y/Y'],
+              children: [
+                { id: 'parks_experiences', label: 'Parks & Experiences', value: 8.5, notes: ['+7% Y/Y'] },
+                { id: 'consumer_products', label: 'Consumer Products', value: 1.0, notes: ['+3% Y/Y'] },
+              ],
+            },
+            {
+              label: 'Eliminations',
+              value: -0.643,
+              notes: ['Intersegment eliminations shown as ($0.7B) in the source chart.'],
+            },
+          ],
+        },
+        costs: {
+          costOfRevenue: {
+            label: 'Cost of revenue',
+            value: 0,
+            notes: ['The source chart is a segment view and does not show a separate gross-profit or cost-of-revenue layer.'],
+          },
+          operatingExpenses: {
+            total: 20.565,
+            notes: ['Derived as revenue less total segment operating income; shown in the source chart as Segment Costs & expenses.'],
+            items: [
+              { id: 'operating_expenses', label: 'Segment Costs & expenses', value: 20.565 },
+            ],
+          },
+          tax: {
+            label: 'Tax',
+            value: 0,
+            notes: ['The source chart does not show tax in this segment operating income view.'],
+          },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: {
+            id: 'revenue',
+            label: 'Revenue',
+            value: 25.168,
+            notes: ['Used as the gross layer because the source chart is a segment operating income bridge.'],
+          },
+          operating: {
+            id: 'segment_operating_profit',
+            label: 'Segment operating profit',
+            value: 4.603,
+            notes: ['18% margin', '(1pp) Y/Y'],
+            items: [
+              { id: 'entertainment_profit', label: 'Entertainment', value: 1.336, notes: ['11% margin', '(0pp) Y/Y'] },
+              { id: 'sports_profit', label: 'Sports', value: 0.652, notes: ['14% margin', '(1pp) Y/Y'] },
+              { id: 'experiences_profit', label: 'Experiences', value: 2.615, notes: ['28% margin', '(0pp) Y/Y'] },
+            ],
+          },
+          net: {
+            id: 'segment_operating_profit',
+            label: 'Segment operating profit',
+            value: 4.603,
+            notes: ['No separate net income line is shown in the source chart.'],
+          },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第二季度',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 +7%'],
+              items: [
+                {
+                  id: 'entertainment_total',
+                  label: '娱乐',
+                  notes: ['同比 +10%'],
+                  children: [
+                    { id: 'subscription', label: '订阅', notes: ['同比 +14%'] },
+                    { id: 'advertising', label: '广告', notes: ['同比 +5%'] },
+                    { id: 'content_sales_licensing', label: '内容销售授权', notes: ['同比 +8%'] },
+                    { id: 'entertainment_other', label: '其他', notes: ['同比 (18%)'] },
+                  ],
+                },
+                { id: 'sports', label: '体育', notes: ['同比 +2%'] },
+                {
+                  id: 'experiences_total',
+                  label: '体验',
+                  notes: ['同比 +7%'],
+                  children: [
+                    { id: 'parks_experiences', label: '乐园及体验', notes: ['同比 +7%'] },
+                    { id: 'consumer_products', label: '消费品', notes: ['同比 +3%'] },
+                  ],
+                },
+                {
+                  label: '抵销',
+                  notes: ['来源图表显示分部间抵销为 ($0.7B)。'],
+                },
+              ],
+            },
+            costs: {
+              costOfRevenue: {
+                label: '收入成本',
+                notes: ['来源图表为分部视图，未显示单独的毛利润或收入成本层级。'],
+              },
+              operatingExpenses: {
+                notes: ['按收入减去总分部营业利润推导；来源图表显示为 Segment Costs & expenses。'],
+                items: [
+                  { id: 'operating_expenses', label: '分部成本及费用' },
+                ],
+              },
+              tax: {
+                label: '税费',
+                notes: ['来源图表的分部营业利润视图未显示税费。'],
+              },
+            },
+            profit: {
+              gross: {
+                label: '收入',
+                notes: ['由于来源图表为分部营业利润桥图，这里将收入作为总利润桥层级。'],
+              },
+              operating: {
+                label: '分部营业利润',
+                notes: ['利润率 18%', '同比 (1 个百分点)'],
+                items: [
+                  { id: 'entertainment_profit', label: '娱乐', notes: ['利润率 11%', '同比 (0 个百分点)'] },
+                  { id: 'sports_profit', label: '体育', notes: ['利润率 14%', '同比 (1 个百分点)'] },
+                  { id: 'experiences_profit', label: '体验', notes: ['利润率 28%', '同比 (0 个百分点)'] },
+                ],
+              },
+              net: {
+                label: '分部营业利润',
+                notes: ['来源图表未显示单独的净利润项目。'],
+              },
             },
           },
         },
@@ -2029,6 +2273,249 @@
               gross: { label: '毛利润', notes: ['利润率 87%', '同比 +6 个百分点'] },
               operating: { label: '营业利润', notes: ['利润率 46%', '同比 +26 个百分点'] },
               net: { label: '净利润', notes: ['利润率 54%', '同比 +29 个百分点'] },
+            },
+          },
+        },
+      },
+      {
+        key: 'paramount-q1-fy26',
+        company: 'Paramount',
+        period: 'Q1 FY26',
+        periodNote: 'Quarter ended Mar. 31, 2026',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/paramount-q1-fy26.png',
+        roundingTolerance: 0.2,
+        revenue: {
+          total: 7.4,
+          notes: ['+2% Y/Y', 'Official Q1 2026 total revenues were $7.347B; source chart displays $7.4B.'],
+          items: [
+            { id: 'filmed_entertainment', label: 'Filmed Entertainment', value: 1.3, notes: ['+11% Y/Y', '13% adj. margin', '+6pp Y/Y'] },
+            { id: 'tv_media', label: 'TV Media', value: 3.7, notes: ['(6%) Y/Y', '29% adj. margin', '+3pp Y/Y'] },
+            { id: 'direct_to_consumer', label: 'Direct to consumer', value: 2.4, notes: ['+11% Y/Y', '10% adj. margin', '+11pp Y/Y'] },
+          ],
+        },
+        costs: {
+          costOfRevenue: {
+            label: 'Cost of revenue',
+            value: 0,
+            notes: ['Source chart flows revenue directly to operating profit and total costs and expenses; no separate gross-profit or cost-of-revenue layer is shown.'],
+          },
+          operatingExpenses: {
+            total: 6.7,
+            notes: [
+              'Source chart labels this bridge as Costs and expenses; official total costs and expenses were $6.731B.',
+              'Rounded source-chart item labels are preserved; official statements list Operating $4.855B, SG&A $1.411B, depreciation and amortization $0.362B, and restructuring/transaction-related items $0.103B.',
+            ],
+            items: [
+              { id: 'operating', label: 'Operating', value: 4.9 },
+              { id: 'sga', label: 'SG&A', value: 1.4 },
+              {
+                id: 'restructuring',
+                label: 'Restructuring',
+                value: 0.4,
+                notes: ['Source chart displays Restructuring as ($0.4B); official Q1 statement lists depreciation and amortization as $0.362B.'],
+              },
+              {
+                id: 'amortization',
+                label: 'Amortization',
+                value: 0.1,
+                notes: ['Source chart displays Amortization as ($0.1B); official Q1 statement lists restructuring and transaction-related items as $0.103B.'],
+              },
+            ],
+          },
+          tax: {
+            id: 'tax',
+            label: 'Tax',
+            value: 0.2,
+            notes: ['Official provision for income taxes was $155M; source chart displays ($0.2B).'],
+          },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0.3,
+          items: [
+            {
+              id: 'other',
+              label: 'Other',
+              value: 0.3,
+              notes: ['Source chart groups interest expense, interest income, other items, and equity losses into Other.'],
+            },
+          ],
+        },
+        profit: {
+          gross: {
+            label: 'Gross profit bridge',
+            value: 7.4,
+            notes: ['SSOT bridge for arithmetic only; source chart does not display gross profit.'],
+          },
+          operating: {
+            id: 'operating_profit',
+            label: 'Operating profit',
+            value: 0.6,
+            notes: ['8% margin', '+1pp Y/Y', 'Official operating income was $616M.'],
+          },
+          net: {
+            id: 'net_profit',
+            label: 'Net profit',
+            value: 0.2,
+            notes: ['2% margin', '+0pp Y/Y', 'Official net earnings attributable to Parent were $168M.'],
+          },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月 31 日的季度',
+            revenue: {
+              notes: ['同比 +2%', '官方 2026 年第一季度总收入为 $7.347B；来源图表显示为 $7.4B。'],
+              items: [
+                { id: 'filmed_entertainment', label: '影视娱乐', notes: ['同比 +11%', '调整后利润率 13%', '同比 +6 个百分点'] },
+                { id: 'tv_media', label: '电视媒体', notes: ['同比 (6%)', '调整后利润率 29%', '同比 +3 个百分点'] },
+                { id: 'direct_to_consumer', label: '直接面向消费者', notes: ['同比 +11%', '调整后利润率 10%', '同比 +11 个百分点'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: {
+                label: '收入成本',
+                notes: ['来源图表将收入直接拆分为营业利润和总成本费用；未显示单独毛利润或收入成本层。'],
+              },
+              operatingExpenses: {
+                notes: [
+                  '来源图表将该桥接项标为成本和费用；官方总成本和费用为 $6.731B。',
+                  '保留来源图表的四舍五入项目标签；官方报表列示运营 $4.855B、SG&A $1.411B、折旧和摊销 $0.362B，以及重组/交易相关项目 $0.103B。',
+                ],
+                items: [
+                  { id: 'operating', label: '运营成本' },
+                  { id: 'sga', label: '销售、一般及行政' },
+                  {
+                    id: 'restructuring',
+                    label: '重组',
+                    notes: ['来源图表将重组显示为 ($0.4B)；官方 Q1 报表列示折旧和摊销为 $0.362B。'],
+                  },
+                  {
+                    id: 'amortization',
+                    label: '摊销',
+                    notes: ['来源图表将摊销显示为 ($0.1B)；官方 Q1 报表列示重组和交易相关项目为 $0.103B。'],
+                  },
+                ],
+              },
+              tax: {
+                label: '税费',
+                notes: ['官方所得税拨备为 $155M；来源图表显示为 ($0.2B)。'],
+              },
+            },
+            otherExpenses: {
+              items: [
+                {
+                  id: 'other',
+                  label: '其他',
+                  notes: ['来源图表将利息费用、利息收入、其他项目和权益法投资亏损归入其他。'],
+                },
+              ],
+            },
+            profit: {
+              gross: {
+                label: '毛利润桥接',
+                notes: ['仅用于 SSOT 算术桥接；来源图表未显示毛利润。'],
+              },
+              operating: { label: '营业利润', notes: ['利润率 8%', '同比 +1 个百分点', '官方营业利润为 $616M。'] },
+              net: { label: '净利润', notes: ['利润率 2%', '同比 +0 个百分点', '归属于母公司的官方净利润为 $168M。'] },
+            },
+          },
+        },
+      },
+      {
+        key: 'paycom-q1-fy26',
+        company: 'Paycom',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'M',
+        decimals: 0,
+        sourceImage: 'input/processed/paycom-q1-fy26.png',
+        roundingTolerance: 1.1,
+        revenue: {
+          total: 571.9,
+          notes: ['+8% Y/Y'],
+          items: [
+            { id: 'recurring', label: 'Recurring', value: 544.0, notes: ['+9% Y/Y', 'Reported by Paycom as recurring and other revenues.'] },
+            {
+              id: 'implementation_other',
+              label: 'Implementation and other',
+              value: 27.8,
+              notes: ['(9%) Y/Y', 'Reported by Paycom as interest on funds held for clients.'],
+            },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 87.3 },
+          operatingExpenses: {
+            total: 274.3,
+            notes: ['Operating expense detail sums to $274.4M due to rounding.'],
+            items: [
+              { id: 'sm', label: 'S&M', value: 117.6, notes: ['21% of revenue', '(0pp) Y/Y'] },
+              { id: 'ga', label: 'G&A', value: 69.4, notes: ['12% of revenue', '(0pp) Y/Y'] },
+              { id: 'rnd', label: 'R&D', value: 60.7, notes: ['11% of revenue', '(1pp) Y/Y'] },
+              { id: 'depreciation', label: 'Depreciation', value: 26.7 },
+            ],
+          },
+          tax: { id: 'tax', label: 'Tax', value: 59.5 },
+        },
+        otherIncome: {
+          total: 5.0,
+          items: [
+            {
+              id: 'other',
+              label: 'Other',
+              value: 5.0,
+              notes: ['Net of other income, net and interest expense; source chart displays the line as $4M.'],
+            },
+          ],
+        },
+        otherExpenses: {
+          total: 0,
+          items: [],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 484.5, notes: ['85% margin', '+1pp Y/Y'] },
+          operating: { id: 'operating_profit', label: 'Operating profit', value: 210.2, notes: ['37% margin', '+2pp Y/Y'] },
+          net: { id: 'net_profit', label: 'Net profit', value: 155.7, notes: ['27% margin', '+1pp Y/Y'] },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 +8%'],
+              items: [
+                { label: '经常性收入', notes: ['同比 +9%', 'Paycom 披露为经常性及其他收入。'] },
+                { label: '实施及其他', notes: ['同比 (9%)', 'Paycom 披露为客户资金利息收入。'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                notes: ['由于四舍五入，营业费用明细合计为 274.4M 美元。'],
+                items: [
+                  { label: '销售与市场', notes: ['占收入 21%', '同比 (0 个百分点)'] },
+                  { label: '一般及行政', notes: ['占收入 12%', '同比 (0 个百分点)'] },
+                  { label: '研发', notes: ['占收入 11%', '同比 (1 个百分点)'] },
+                  { label: '折旧摊销' },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            otherIncome: {
+              items: [{ label: '其他', notes: ['其他收入净额扣除利息费用后的净额；来源图显示为 4M 美元。'] }],
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 85%', '同比 +1 个百分点'] },
+              operating: { label: '营业利润', notes: ['利润率 37%', '同比 +2 个百分点'] },
+              net: { label: '净利润', notes: ['利润率 27%', '同比 +1 个百分点'] },
             },
           },
         },
@@ -5275,6 +5762,107 @@
               gross: { label: '毛利润', notes: ['利润率 72%', '同比 (8 个百分点)'] },
               operating: { label: '营业利润', notes: ['利润率 5%', '同比 (18 个百分点)'] },
               net: { label: '净利润', notes: ['利润率 1%', '同比 (21 个百分点)'] },
+            },
+          },
+        },
+      },
+      {
+        key: 'warner-bros-q1-fy26',
+        company: 'Warner Bros. Discovery',
+        period: 'Q1 FY26',
+        periodNote: 'Ending Mar. 2026',
+        currency: '$',
+        unit: 'B',
+        decimals: 1,
+        sourceImage: 'input/processed/warner-bros-q1-fy26.png',
+        roundingTolerance: 0.15,
+        revenue: {
+          total: 8.893,
+          notes: ['(1%) Y/Y'],
+          items: [
+            { id: 'studios', label: 'Studios', value: 3.125, notes: ['+35% Y/Y', '25% adj. margin', '+14pp Y/Y'] },
+            { id: 'networks', label: 'Networks', value: 4.377, notes: ['(8%) Y/Y', '37% adj. margin', '(0pp) Y/Y'] },
+            { id: 'streaming', label: 'Streaming', value: 2.887, notes: ['+9% Y/Y', '15% adj. margin', '+2pp Y/Y'] },
+            {
+              label: 'Eliminations',
+              value: -1.497,
+              notes: ['Inter-segment eliminations shown in the source chart as a separate red outflow.'],
+            },
+          ],
+        },
+        costs: {
+          costOfRevenue: { id: 'cost_of_revenue', label: 'Cost of revenue', value: 4.628 },
+          operatingExpenses: {
+            total: 6.734,
+            items: [
+              { id: 'sga', label: 'SG&A', value: 2.469, notes: ['28% of revenue', '+3pp Y/Y'] },
+              { id: 'amortization', label: 'Amortization', value: 1.247, notes: ['14% of revenue', '(3pp) Y/Y'] },
+              { id: 'other', label: 'Other', value: 0.218, notes: ['2% of revenue', '+0pp Y/Y'] },
+              { id: 'netflix_termination_fee', label: 'Netflix Termination Fee', value: 2.8, notes: ['New'] },
+            ],
+          },
+          tax: { label: 'Tax', value: 0 },
+        },
+        otherIncome: {
+          total: 0,
+          items: [],
+        },
+        otherExpenses: {
+          total: 0.431,
+          items: [
+            {
+              label: 'Net non-operating expense and attributable adjustments',
+              value: 0.431,
+              notes: ['Bridge from source-chart operating loss to the official approximately $2.9B net loss.'],
+            },
+          ],
+        },
+        profit: {
+          gross: { id: 'gross_profit', label: 'Gross profit', value: 4.265, notes: ['48% margin', '+5pp Y/Y'] },
+          operating: { label: 'Operating loss', value: -2.469, notes: ['(28%) margin', '(27pp) Y/Y'] },
+          net: {
+            label: 'Net loss',
+            value: -2.9,
+            notes: ['Official release states net loss available to Warner Bros. Discovery, Inc. was $2.9B.'],
+          },
+        },
+        i18n: {
+          zh: {
+            period: '2026 财年第一季度',
+            periodNote: '截至 2026 年 3 月',
+            revenue: {
+              notes: ['同比 (1%)'],
+              items: [
+                { label: '影视工作室', notes: ['同比 +35%', '调整后利润率 25%', '同比 +14 个百分点'] },
+                { label: '线性网络', notes: ['同比 (8%)', '调整后利润率 37%', '同比 (0 个百分点)'] },
+                { label: '流媒体', notes: ['同比 +9%', '调整后利润率 15%', '同比 +2 个百分点'] },
+                { label: '抵销', notes: ['来源图中作为单独红色流出的分部间抵销。'] },
+              ],
+            },
+            costs: {
+              costOfRevenue: { label: '收入成本' },
+              operatingExpenses: {
+                items: [
+                  { label: '销售、一般及行政', notes: ['占收入 28%', '同比 +3 个百分点'] },
+                  { label: '摊销', notes: ['占收入 14%', '同比 (3 个百分点)'] },
+                  { label: '其他', notes: ['占收入 2%', '同比 +0 个百分点'] },
+                  { label: 'Netflix 解约费', notes: ['新增'] },
+                ],
+              },
+              tax: { label: '税费' },
+            },
+            otherExpenses: {
+              items: [
+                {
+                  label: '净非经营费用及归属调整',
+                  notes: ['用于从来源图中的经营亏损桥接到官方约 $2.9B 净亏损。'],
+                },
+              ],
+            },
+            profit: {
+              gross: { label: '毛利润', notes: ['利润率 48%', '同比 +5 个百分点'] },
+              operating: { label: '经营亏损', notes: ['利润率 (28%)', '同比 (27 个百分点)'] },
+              net: { label: '净亏损', notes: ['官方公告称 Warner Bros. Discovery, Inc. 应占净亏损为 $2.9B。'] },
             },
           },
         },

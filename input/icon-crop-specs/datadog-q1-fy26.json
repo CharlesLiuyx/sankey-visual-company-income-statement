@@ -1,0 +1,45 @@
+{
+  "source": "input/processed/datadog-q1-fy26.png",
+  "outputDir": "data/assets/icon-references/datadog",
+  "runtimeOutputDir": "data/assets/raster-annotations/datadog",
+  "validationSheetDir": "data/assets/icon-references/datadog/validation-sheets",
+  "report": "crop-report.json",
+  "background": [242, 242, 242],
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 8
+  },
+  "compression": {
+    "enabled": true,
+    "paletteColors": [256, 192, 128, 96, 64, 48, 32, 24],
+    "maxMeanAbsoluteError": 1.2,
+    "maxRootMeanSquareError": 3,
+    "maxP99AbsoluteError": 12,
+    "maxMaxChannelDiff": 72
+  },
+  "crops": [
+    {
+      "key": "datadog-company-wordmark",
+      "output": "crops/company-wordmark.png",
+      "searchBox": { "x": 550, "y": 290, "width": 610, "height": 160 },
+      "cropBox": { "x": 540, "y": 285, "width": 620, "height": 170 },
+      "threshold": 18,
+      "foreground": {
+        "channels": {
+          "r": [70, 145],
+          "g": [20, 95],
+          "b": [120, 210]
+        }
+      },
+      "minComponentArea": 35,
+      "padding": 18,
+      "validation": {
+        "borderBand": 0,
+        "maxCenterOffset": 0.12,
+        "maxForbiddenForegroundPixels": 0
+      },
+      "note": "Datadog company dog mark and wordmark near the top center; excludes the title, revenue labels, chart marks, website URL, How They Make Money mark, and App Economy Insights attribution."
+    }
+  ]
+}

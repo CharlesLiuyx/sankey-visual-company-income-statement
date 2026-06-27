@@ -1,0 +1,387 @@
+{
+  "source": "input/processed/warner-bros-q1-fy26.png",
+  "spec": "input/icon-crop-specs/warner-bros-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-27T15:06:14.437477+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 5
+  },
+  "runtimeOutputDir": "data/assets/raster-annotations/warner-bros",
+  "crops": [
+    {
+      "key": "warner-bros-company-wordmark",
+      "output": "data/assets/icon-references/warner-bros/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 81594,
+        "losslessBytes": 81594,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 5,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 137977,
+        "transparentPixelRatio": 0.6832
+      },
+      "searchBox": {
+        "x": 580,
+        "y": 276,
+        "width": 708,
+        "height": 234
+      },
+      "componentCount": 26,
+      "subjectBox": {
+        "x0": 594,
+        "y0": 278,
+        "x1": 1287,
+        "y1": 490
+      },
+      "cropBox": {
+        "x0": 560,
+        "y0": 258,
+        "x1": 1308,
+        "y1": 528
+      },
+      "validation": {
+        "width": 748,
+        "height": 270,
+        "foregroundPixels": 41099,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 34,
+          "right": 21,
+          "top": 20,
+          "bottom": 38
+        },
+        "centerOffset": {
+          "x": 0.0087,
+          "y": -0.0333
+        },
+        "passes": true
+      },
+      "note": "Warner Bros. Discovery shield and wordmark above the revenue flow; excludes title text, source values, chart links, and publisher marks.",
+      "transparentColorPixels": 15415,
+      "runtimeOutput": "data/assets/raster-annotations/warner-bros/company-wordmark.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 81594,
+        "losslessBytes": 81594,
+        "savingsVsLossless": 0.0
+      },
+      "validationSheet": "data/assets/icon-references/warner-bros/validation-sheets/warner-bros-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 273252,
+        "losslessBytes": 273252,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "warner-bros-business-studios-cluster",
+      "output": "data/assets/icon-references/warner-bros/crops/business-studios-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 3851,
+        "losslessBytes": 15788,
+        "savingsVsLossless": 0.7561,
+        "metrics": {
+          "meanAbsoluteError": 0.5969,
+          "rootMeanSquareError": 2.0835,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 40,
+          "changedPixelRatio": 0.2912
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 5,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 17581,
+        "transparentPixelRatio": 0.5877
+      },
+      "searchBox": {
+        "x": 36,
+        "y": 372,
+        "width": 149,
+        "height": 153
+      },
+      "componentCount": 18,
+      "subjectBox": {
+        "x0": 36,
+        "y0": 372,
+        "x1": 185,
+        "y1": 525
+      },
+      "cropBox": {
+        "x0": 26,
+        "y0": 360,
+        "x1": 195,
+        "y1": 537
+      },
+      "validation": {
+        "width": 169,
+        "height": 177,
+        "foregroundPixels": 9468,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 10,
+          "right": 10,
+          "top": 12,
+          "bottom": 12
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Studios brand cluster containing Warner Bros., DC, and New Line Cinema marks; excludes the Studios label, values, margin text, and flow marks.",
+      "runtimeOutput": "data/assets/raster-annotations/warner-bros/business-studios-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 3851,
+        "losslessBytes": 15788,
+        "savingsVsLossless": 0.7561,
+        "metrics": {
+          "meanAbsoluteError": 0.5969,
+          "rootMeanSquareError": 2.0835,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 40,
+          "changedPixelRatio": 0.2912
+        }
+      },
+      "validationSheet": "data/assets/icon-references/warner-bros/validation-sheets/warner-bros-business-studios-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 320235,
+        "losslessBytes": 320235,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "warner-bros-business-networks-cluster",
+      "output": "data/assets/icon-references/warner-bros/crops/business-networks-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 96,
+        "bytes": 5761,
+        "losslessBytes": 21906,
+        "savingsVsLossless": 0.737,
+        "metrics": {
+          "meanAbsoluteError": 0.59,
+          "rootMeanSquareError": 1.972,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 48,
+          "changedPixelRatio": 0.2981
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 5,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 27409,
+        "transparentPixelRatio": 0.6741
+      },
+      "searchBox": {
+        "x": 38,
+        "y": 659,
+        "width": 134,
+        "height": 213
+      },
+      "componentCount": 10,
+      "subjectBox": {
+        "x0": 38,
+        "y0": 659,
+        "x1": 172,
+        "y1": 872
+      },
+      "cropBox": {
+        "x0": 24,
+        "y0": 640,
+        "x1": 186,
+        "y1": 891
+      },
+      "validation": {
+        "width": 162,
+        "height": 251,
+        "foregroundPixels": 12241,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 14,
+          "right": 14,
+          "top": 19,
+          "bottom": 19
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Networks brand cluster containing TBS, CNN, HGTV, TNT, Discovery, TLC, TVN, and Eurosport; excludes the Networks label, values, margin text, and flow marks.",
+      "runtimeOutput": "data/assets/raster-annotations/warner-bros/business-networks-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 96,
+        "bytes": 5761,
+        "losslessBytes": 21906,
+        "savingsVsLossless": 0.737,
+        "metrics": {
+          "meanAbsoluteError": 0.59,
+          "rootMeanSquareError": 1.972,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 48,
+          "changedPixelRatio": 0.2981
+        }
+      },
+      "validationSheet": "data/assets/icon-references/warner-bros/validation-sheets/warner-bros-business-networks-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 301885,
+        "losslessBytes": 301885,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "warner-bros-business-streaming-cluster",
+      "output": "data/assets/icon-references/warner-bros/crops/business-streaming-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 17100,
+        "losslessBytes": 17100,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 5,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 8907,
+        "transparentPixelRatio": 0.4423
+      },
+      "searchBox": {
+        "x": 65,
+        "y": 1017,
+        "width": 78,
+        "height": 156
+      },
+      "componentCount": 2,
+      "subjectBox": {
+        "x0": 65,
+        "y0": 1017,
+        "x1": 143,
+        "y1": 1173
+      },
+      "cropBox": {
+        "x0": 51,
+        "y0": 1000,
+        "x1": 157,
+        "y1": 1190
+      },
+      "validation": {
+        "width": 106,
+        "height": 190,
+        "foregroundPixels": 11135,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 14,
+          "right": 14,
+          "top": 17,
+          "bottom": 17
+        },
+        "centerOffset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Streaming brand cluster containing Max and discovery+ app icons; excludes the Streaming label, values, margin text, and flow marks.",
+      "runtimeOutput": "data/assets/raster-annotations/warner-bros/business-streaming-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 17100,
+        "losslessBytes": 17100,
+        "savingsVsLossless": 0.0
+      },
+      "validationSheet": "data/assets/icon-references/warner-bros/validation-sheets/warner-bros-business-streaming-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 295488,
+        "losslessBytes": 295488,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

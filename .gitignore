@@ -1,6 +1,8 @@
 .DS_Store
 node_modules/
 .playwright-cli/
+__pycache__/
+*.py[cod]
 compare/*
 !compare/.gitkeep
 output/*

@@ -1,0 +1,400 @@
+{
+  "source": "input/processed/paramount-q1-fy26.png",
+  "spec": "input/icon-crop-specs/paramount-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-27T15:06:00.474249+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  },
+  "runtimeOutputDir": "data/assets/raster-annotations/paramount",
+  "crops": [
+    {
+      "key": "paramount-company-wordmark",
+      "output": "data/assets/icon-references/paramount/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 10587,
+        "losslessBytes": 54368,
+        "savingsVsLossless": 0.8053,
+        "metrics": {
+          "meanAbsoluteError": 0.3896,
+          "rootMeanSquareError": 2.0752,
+          "p99AbsoluteError": 10.01,
+          "maxChannelDiff": 34,
+          "changedPixelRatio": 0.1116
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 118179,
+        "transparentPixelRatio": 0.747
+      },
+      "searchBox": {
+        "x": 790,
+        "y": 258,
+        "width": 685,
+        "height": 226
+      },
+      "componentCount": 23,
+      "subjectBox": {
+        "x0": 796,
+        "y0": 267,
+        "x1": 1460,
+        "y1": 472
+      },
+      "cropBox": {
+        "x0": 786,
+        "y0": 258,
+        "x1": 1486,
+        "y1": 484
+      },
+      "validation": {
+        "width": 700,
+        "height": 226,
+        "foregroundPixels": 36330,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 10,
+          "right": 26,
+          "top": 9,
+          "bottom": 12
+        },
+        "centerOffset": {
+          "x": -0.0114,
+          "y": -0.0066
+        },
+        "passes": true
+      },
+      "note": "Paramount Skydance company wordmark near the top center; excludes title text, chart labels, and publisher marks.",
+      "runtimeOutput": "data/assets/raster-annotations/paramount/company-wordmark.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 10587,
+        "losslessBytes": 54368,
+        "savingsVsLossless": 0.8053,
+        "metrics": {
+          "meanAbsoluteError": 0.3896,
+          "rootMeanSquareError": 2.0752,
+          "p99AbsoluteError": 10.01,
+          "maxChannelDiff": 34,
+          "changedPixelRatio": 0.1116
+        }
+      },
+      "validationSheet": "data/assets/icon-references/paramount/validation-sheets/paramount-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 289036,
+        "losslessBytes": 289036,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "paramount-business-filmed-entertainment-cluster",
+      "output": "data/assets/icon-references/paramount/crops/business-filmed-entertainment-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 3789,
+        "losslessBytes": 17166,
+        "savingsVsLossless": 0.7793,
+        "metrics": {
+          "meanAbsoluteError": 0.568,
+          "rootMeanSquareError": 2.123,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 35,
+          "changedPixelRatio": 0.3389
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 18650,
+        "transparentPixelRatio": 0.6701
+      },
+      "searchBox": {
+        "x": 22,
+        "y": 292,
+        "width": 178,
+        "height": 132
+      },
+      "componentCount": 17,
+      "subjectBox": {
+        "x0": 24,
+        "y0": 292,
+        "x1": 198,
+        "y1": 417
+      },
+      "cropBox": {
+        "x0": 16,
+        "y0": 288,
+        "x1": 212,
+        "y1": 430
+      },
+      "validation": {
+        "width": 196,
+        "height": 142,
+        "foregroundPixels": 8878,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 8,
+          "right": 14,
+          "top": 4,
+          "bottom": 13
+        },
+        "centerOffset": {
+          "x": -0.0153,
+          "y": -0.0317
+        },
+        "passes": true
+      },
+      "note": "Filmed Entertainment brand cluster with Paramount mountain and Nickelodeon; excludes segment text, values, margins, chart marks, and publisher marks.",
+      "runtimeOutput": "data/assets/raster-annotations/paramount/business-filmed-entertainment-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 3789,
+        "losslessBytes": 17166,
+        "savingsVsLossless": 0.7793,
+        "metrics": {
+          "meanAbsoluteError": 0.568,
+          "rootMeanSquareError": 2.123,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 35,
+          "changedPixelRatio": 0.3389
+        }
+      },
+      "validationSheet": "data/assets/icon-references/paramount/validation-sheets/paramount-business-filmed-entertainment-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 326558,
+        "losslessBytes": 326558,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "paramount-business-tv-media-cluster",
+      "output": "data/assets/icon-references/paramount/crops/business-tv-media-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 4874,
+        "losslessBytes": 21576,
+        "savingsVsLossless": 0.7741,
+        "metrics": {
+          "meanAbsoluteError": 0.7188,
+          "rootMeanSquareError": 2.5818,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 44,
+          "changedPixelRatio": 0.2514
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 18604,
+        "transparentPixelRatio": 0.612
+      },
+      "searchBox": {
+        "x": 14,
+        "y": 650,
+        "width": 184,
+        "height": 148
+      },
+      "componentCount": 14,
+      "subjectBox": {
+        "x0": 14,
+        "y0": 650,
+        "x1": 189,
+        "y1": 791
+      },
+      "cropBox": {
+        "x0": 10,
+        "y0": 644,
+        "x1": 200,
+        "y1": 804
+      },
+      "validation": {
+        "width": 190,
+        "height": 160,
+        "foregroundPixels": 11313,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 4,
+          "right": 11,
+          "top": 6,
+          "bottom": 13
+        },
+        "centerOffset": {
+          "x": -0.0184,
+          "y": -0.0219
+        },
+        "passes": true
+      },
+      "note": "TV Media brand cluster with CBS, Showtime, MTV, Paramount Network, and Nickelodeon; excludes segment text, values, margins, chart marks, and publisher marks.",
+      "runtimeOutput": "data/assets/raster-annotations/paramount/business-tv-media-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 48,
+        "bytes": 4874,
+        "losslessBytes": 21576,
+        "savingsVsLossless": 0.7741,
+        "metrics": {
+          "meanAbsoluteError": 0.7188,
+          "rootMeanSquareError": 2.5818,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 44,
+          "changedPixelRatio": 0.2514
+        }
+      },
+      "validationSheet": "data/assets/icon-references/paramount/validation-sheets/paramount-business-tv-media-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 344968,
+        "losslessBytes": 344968,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "paramount-business-direct-to-consumer-cluster",
+      "output": "data/assets/icon-references/paramount/crops/business-direct-to-consumer-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 20092,
+        "losslessBytes": 20092,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          216,
+          100,
+          242
+        ],
+        "transparentPixels": 0,
+        "transparentPixelRatio": 0.0
+      },
+      "searchBox": {
+        "x": 22,
+        "y": 858,
+        "width": 188,
+        "height": 198
+      },
+      "componentCount": 4,
+      "subjectBox": {
+        "x0": 22,
+        "y0": 858,
+        "x1": 209,
+        "y1": 1050
+      },
+      "cropBox": {
+        "x0": 18,
+        "y0": 854,
+        "x1": 216,
+        "y1": 1060
+      },
+      "validation": {
+        "width": 198,
+        "height": 206,
+        "foregroundPixels": 29138,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 4,
+          "right": 7,
+          "top": 4,
+          "bottom": 10
+        },
+        "centerOffset": {
+          "x": -0.0076,
+          "y": -0.0146
+        },
+        "passes": true
+      },
+      "note": "Direct-to-consumer app and brand cluster with Paramount+, Showtime, Pluto TV, and BET+; excludes segment text, values, margins, chart marks, and publisher marks.",
+      "runtimeOutput": "data/assets/raster-annotations/paramount/business-direct-to-consumer-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 20092,
+        "losslessBytes": 20092,
+        "savingsVsLossless": 0.0
+      },
+      "validationSheet": "data/assets/icon-references/paramount/validation-sheets/paramount-business-direct-to-consumer-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 326881,
+        "losslessBytes": 326881,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

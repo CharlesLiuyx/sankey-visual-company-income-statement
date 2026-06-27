@@ -193,7 +193,15 @@ Runtime raster annotation rules are defined in `docs/fidelity-loop-rules.md`.
 Before running or reporting any d3-Sankey fidelity loop, load and follow
 `docs/fidelity-loop-rules.md`. That file is the SSOT for d3 output purity,
 allowed changes, image/raster exceptions, metrics, iteration, localization
-layout checks, temporary `compare/` handling, and icon SVG/vector subloops.
+layout checks, temporary `compare/` handling, user-feedback learning, red-box
+attention reference images, Task information, and icon SVG/vector subloops.
+
+When a user points out a fidelity issue, treat it as a process-improvement
+signal as well as a local fix. Follow `docs/fidelity-loop-rules.md` to either
+generalize the lesson back into the rules or record the dataset-specific
+exception in the loop Task information. Each manual loop round must maintain
+the current Task information and, when there are open attention areas, produce
+the required red-box reference image for the next round.
 
 If `AGENTS.md`, `README.md`, or another project note differs from
 `docs/fidelity-loop-rules.md` on fidelity-loop behavior, follow
@@ -271,7 +279,10 @@ Before final response, verify:
 - If renderer code changed, `node --check src/sankey-engine.js` passes.
 - If a d3 fidelity loop is required, `docs/fidelity-loop-rules.md` was loaded
   and its required verification, purity, metric, localization-layout, and
-  `compare/` cleanup checks were completed.
+  `compare/` cleanup checks were completed. Also verify that the latest Task
+  information is complete, required red-box reference images or closure notes
+  exist, and user-feedback lessons were either added to
+  `docs/fidelity-loop-rules.md` or recorded as dataset-specific exceptions.
 
 ## Reporting
 
@@ -282,5 +293,8 @@ In the final response, include:
 - Which icon assets were extracted, and whether all relevant business clusters
   were accounted for.
 - For dataset or renderer changes, the final d3 loop result required by
-  `docs/fidelity-loop-rules.md`.
+  `docs/fidelity-loop-rules.md`, including the latest Task information and
+  red-box reference image status when a fidelity loop was run.
+- Whether user-feedback lessons changed `docs/fidelity-loop-rules.md` or were
+  recorded as dataset-specific exceptions.
 - Any commands that could not be run.

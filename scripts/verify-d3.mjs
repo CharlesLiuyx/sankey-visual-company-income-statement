@@ -15,13 +15,17 @@ const compareDir = path.join(rootDir, 'compare');
 const outputCompareDir = path.join(rootDir, 'output', 'compare');
 
 function usage() {
-  console.error('Usage: pnpm verify:d3 -- <dataset-key> [--keep] [--language <code>]');
+  console.error(
+    'Usage: pnpm verify:d3 -- <dataset-key> [--keep] [--language <code>] [--round <n>] [--focus <main-check-direction>]'
+  );
 }
 
 function parseArgs(argv) {
   const args = argv.slice(2);
   let keep = false;
   let language = 'en';
+  let round = null;
+  let focus = 'unspecified';
   const positional = [];
 
   for (let index = 0; index < args.length; index += 1) {
@@ -40,6 +44,25 @@ function parseArgs(argv) {
       }
       continue;
     }
+    if (arg === '--round' || arg === '--loop-round') {
+      const rawRound = args[index + 1];
+      index += 1;
+      if (!rawRound || rawRound.startsWith('--') || !/^\d+$/.test(rawRound) || Number(rawRound) < 1) {
+        usage();
+        process.exit(2);
+      }
+      round = Number(rawRound);
+      continue;
+    }
+    if (arg === '--focus' || arg === '--main-check' || arg === '--direction') {
+      focus = args[index + 1];
+      index += 1;
+      if (!focus || focus.startsWith('--')) {
+        usage();
+        process.exit(2);
+      }
+      continue;
+    }
     positional.push(arg);
   }
 
@@ -48,7 +71,7 @@ function parseArgs(argv) {
     usage();
     process.exit(2);
   }
-  return { datasetKey, keep, language };
+  return { datasetKey, keep, language, round, focus };
 }
 
 async function cleanCompare() {
@@ -60,10 +83,6 @@ async function cleanCompare() {
       .map((entry) => rm(path.join(compareDir, entry.name), { recursive: true, force: true }))
   );
   await writeFile(path.join(compareDir, '.gitkeep'), '');
-}
-
-function archiveTimestamp() {
-  return new Date().toISOString().replace(/[:.]/g, '-');
 }
 
 async function filesEqual(leftPath, rightPath) {
@@ -78,9 +97,116 @@ async function copyFileIfDifferent(sourcePath, outputPath) {
   return true;
 }
 
-async function archiveCompare(datasetKey) {
+function archiveSegment(value, fallback) {
+  const segment = String(value || '')
+    .trim()
+    .normalize('NFKC')
+    .toLowerCase()
+    .replace(/[\\/]/g, '-')
+    .replace(/[:*?"<>|]/g, '-')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+  return (segment || fallback).slice(0, 96).replace(/-+$/g, '') || fallback;
+}
+
+function roundSegment(round) {
+  return String(round).padStart(2, '0');
+}
+
+function improvementSegment(previousFull, currentFull) {
+  if (!previousFull || typeof previousFull.similarity !== 'number') return 'baseline';
+  const delta = currentFull.similarity - previousFull.similarity;
+  const sign = delta >= 0 ? '+' : '';
+  return `sim${sign}${delta.toFixed(6)}`;
+}
+
+async function existingArchiveDirs(datasetCompareDir) {
+  if (!existsSync(datasetCompareDir)) return [];
+  const entries = await readdir(datasetCompareDir, { withFileTypes: true });
+  const dirs = await Promise.all(
+    entries
+      .filter((entry) => entry.isDirectory())
+      .map(async (entry) => {
+        const dirPath = path.join(datasetCompareDir, entry.name);
+        const info = await stat(dirPath);
+        return { name: entry.name, path: dirPath, mtimeMs: info.mtimeMs };
+      })
+  );
+  return dirs.sort((a, b) => b.mtimeMs - a.mtimeMs || b.name.localeCompare(a.name));
+}
+
+async function readJson(filePath) {
+  try {
+    return JSON.parse(await readFile(filePath, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+async function latestPreviousMetrics(archiveDirs, language) {
+  for (const dir of archiveDirs) {
+    let files = [];
+    try {
+      files = await readdir(dir.path, { withFileTypes: true });
+    } catch {
+      continue;
+    }
+
+    const metricsFiles = files
+      .filter((entry) => entry.isFile() && entry.name.endsWith('-metrics.json'))
+      .map((entry) => path.join(dir.path, entry.name));
+
+    for (const metricsFile of metricsFiles) {
+      const metrics = await readJson(metricsFile);
+      if (!metrics?.full) continue;
+      if (language && metrics.language && metrics.language !== language) continue;
+      return {
+        archive: path.relative(rootDir, dir.path),
+        full: metrics.full,
+      };
+    }
+  }
+  return null;
+}
+
+async function uniqueArchiveDir(datasetCompareDir, archiveName) {
+  let candidate = path.join(datasetCompareDir, archiveName);
+  if (!existsSync(candidate)) return candidate;
+
+  for (let suffix = 2; suffix < 1000; suffix += 1) {
+    candidate = path.join(datasetCompareDir, `${archiveName}-${suffix}`);
+    if (!existsSync(candidate)) return candidate;
+  }
+
+  throw new Error(`Could not create unique archive directory for ${archiveName}`);
+}
+
+async function createArchivePlan(datasetKey, options) {
   const datasetCompareDir = path.join(outputCompareDir, datasetKey);
-  const archiveDir = path.join(datasetCompareDir, archiveTimestamp());
+  const existingDirs = await existingArchiveDirs(datasetCompareDir);
+  const previous = await latestPreviousMetrics(existingDirs, options.language);
+  const round = options.round || existingDirs.length + 1;
+  const roundName = roundSegment(round);
+  const improvement = improvementSegment(previous?.full, options.fullMetrics);
+  const focus = archiveSegment(options.focus, 'unspecified');
+  const archiveName = `${roundName}-${improvement}-${focus}`;
+  const archiveDir = await uniqueArchiveDir(datasetCompareDir, archiveName);
+
+  return {
+    datasetCompareDir,
+    archiveDir,
+    archiveName: path.basename(archiveDir),
+    round: roundName,
+    improvement,
+    focus,
+    previousArchive: previous?.archive || null,
+  };
+}
+
+async function archiveCompare(datasetKey, archivePlan) {
+  const datasetCompareDir = archivePlan.datasetCompareDir;
+  const archiveDir = archivePlan.archiveDir;
   const referenceName = `${datasetKey}-reference.png`;
   await mkdir(archiveDir, { recursive: true });
   const entries = await readdir(compareDir, { withFileTypes: true });
@@ -112,6 +238,11 @@ async function archiveCompare(datasetKey) {
 
   return {
     dir: path.relative(rootDir, archiveDir),
+    name: archivePlan.archiveName,
+    round: archivePlan.round,
+    improvement: archivePlan.improvement,
+    focus: archivePlan.focus,
+    previousArchive: archivePlan.previousArchive,
     files: archived,
     reference,
     referenceChanged,
@@ -475,7 +606,7 @@ function logLabelLayoutAudit(audit) {
 }
 
 async function main() {
-  const { datasetKey, keep, language } = parseArgs(process.argv);
+  const { datasetKey, keep, language, round, focus } = parseArgs(process.argv);
   const datasetScript = datasetScriptForKey(datasetKey);
   const datasetPath = path.join(rootDir, datasetScript);
   if (!existsSync(datasetPath)) {
@@ -852,6 +983,12 @@ async function main() {
     const referencePath = path.join(rootDir, meta.referenceSrc);
     await copyFile(referencePath, referenceComparePath);
     const metrics = await pngMetrics(referencePath, candidatePath, diffPath, renderedRegions);
+    const archivePlan = await createArchivePlan(datasetKey, {
+      focus,
+      fullMetrics: metrics.full,
+      language: meta.language,
+      round,
+    });
     await writeFile(
       metricsPath,
       `${JSON.stringify(
@@ -865,12 +1002,20 @@ async function main() {
           full: metrics.full,
           regions: metrics.regions,
           labelLayoutAudit,
+          archive: {
+            dir: path.relative(rootDir, archivePlan.archiveDir),
+            name: archivePlan.archiveName,
+            round: archivePlan.round,
+            improvement: archivePlan.improvement,
+            focus: archivePlan.focus,
+            previousArchive: archivePlan.previousArchive,
+          },
         },
         null,
         2
       )}\n`
     );
-    const archive = await archiveCompare(datasetKey);
+    const archive = await archiveCompare(datasetKey, archivePlan);
     if (pageErrors.length) {
       throw new Error(`Page errors during render; comparison artifacts archived at ${archive.dir}:\n${pageErrors.join('\n')}`);
     }
@@ -882,6 +1027,9 @@ async function main() {
     console.log(`diff: ${keep ? path.relative(rootDir, diffPath) : '(scratch cleaned)'}`);
     console.log(`metrics: ${keep ? path.relative(rootDir, metricsPath) : '(scratch cleaned)'}`);
     console.log(`archive: ${archive.dir}`);
+    console.log(`archive round: ${archive.round}`);
+    console.log(`archive improvement: ${archive.improvement}${archive.previousArchive ? ` vs ${archive.previousArchive}` : ' (baseline)'}`);
+    console.log(`archive focus: ${archive.focus}`);
     if (archive.reference) {
       console.log(`shared reference: ${archive.reference}${archive.referenceChanged ? '' : ' (unchanged)'}`);
     }

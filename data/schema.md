@@ -16,6 +16,11 @@ dataset.
 registering a new company's first dataset so Table mode can show company-level
 context separately from period-specific financial statements.
 
+`data/products.js` is the Product SSOT for the Trace top-level model. It is
+currently an empty catalog because Product is not rendered as a first-class UI
+entity yet. Future Product records and time-varying Company/Product ownership
+links should be added there instead of being hidden inside Sankey adapters.
+
 `src/i18n.js` defines the project-wide language list. English fields are the
 canonical/default data used for verification. For every non-default supported
 language, add `i18n.<language>` overlays on datasets, financial SSOT records,
@@ -148,6 +153,41 @@ Table view, also keep `founded`, `headquarters`, `fiscalYearEnd`, `website`,
 sorting and display. Do not duplicate period-specific financials in company
 metadata; latest-period revenue, currency, unit, and net profit belong in
 `data/income-statements.js`.
+
+---
+
+## Product catalog SSOT
+
+```js
+{
+  schemaVersion: 1,
+  products: [
+    {
+      key: 'youtube',
+      name: 'YouTube',
+      type: 'product',
+      serviceType: 'platform',
+      description: 'Product-level profile used by future Product views.',
+      sourceUrls: ['https://www.youtube.com/'],
+    },
+  ],
+  companyProductRelationships: [
+    {
+      companyKey: 'alphabet',
+      productKey: 'youtube',
+      relationship: 'owns',
+      validFrom: '2006-11-13',
+      validTo: null,
+      sourceUrls: ['https://abc.xyz/'],
+      confidence: 1,
+    },
+  ],
+}
+```
+
+Keep Product records separate from Income Statement line items. A revenue line
+may refer to a product or service family, but the first-class Product identity
+and its time-varying Company relationship belong in `data/products.js`.
 
 ### Company list sorting fields
 

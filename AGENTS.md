@@ -9,6 +9,17 @@ datasets and reusable icon/vector assets. When `input/pending/` contains new
 source PNGs, process them into stable datasets, extract validated icon
 reference assets when needed, and run a d3-sankey fidelity loop automatically.
 
+## Trace Architecture Boundaries
+
+- `docs/trace-specification.zh-CN.md` is the top-level Trace product/model spec.
+- Keep Trace domain normalization in `src/trace-domain.js`; keep `src/app.js`
+  focused on UI state, interaction, tables, and view switching.
+- `data/products.js` is the first-class Product SSOT and the home for future
+  time-varying Company/Product relationships. Do not hide Product identity or
+  ownership history inside Sankey adapters.
+- `data/income-statements.js` remains the pure Income Statement Metric SSOT;
+  `data/datasets/<dataset-key>.js` remains the Sankey View Adapter layer.
+
 ## Input Workflow
 
 1. Inspect `input/pending/` and ignore `.gitkeep`.

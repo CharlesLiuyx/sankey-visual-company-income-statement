@@ -24,6 +24,8 @@
       viewModeLabel: 'Data view',
       viewSankey: 'Sankey',
       viewSankeyTitle: 'Sankey view',
+      viewTrend: 'Trend',
+      viewTrendTitle: 'Trend view',
       viewTable: 'Table',
       viewTableTitle: 'Table view',
       mainControlsLabel: 'Metric and view controls',
@@ -31,6 +33,7 @@
       metricModeLabel: 'Metric',
       metricCompanyInfo: 'Company Info',
       metricIncomeStatement: 'Income Statement',
+      metricRevenue: 'Revenue',
       viewLabel: 'View',
       globalSettingsLabel: 'Global settings',
       languageToggleTitle: 'Switch language to Chinese',
@@ -46,6 +49,8 @@
       downloadCompaniesCsvTitle: 'Download companies CSV',
       downloadStatementsCsv: 'Statements CSV',
       downloadStatementsCsvTitle: 'Download income statements CSV',
+      downloadRevenueCsv: 'Revenue CSV',
+      downloadRevenueCsvTitle: 'Download revenue CSV',
       datasetNavigationLabel: 'Dataset navigation',
       companyLabel: 'Company',
       companiesLabel: 'Companies',
@@ -85,6 +90,7 @@
       periodsLabel: 'Data point times',
       resizeDatasetPanelLabel: 'Resize dataset panel',
       incomeStatementsLabel: 'Income Statements',
+      revenueMetricsLabel: 'Revenue Metrics',
       collapseDatasetPanel: 'Collapse dataset panel',
       showDatasetPanel: 'Show dataset panel',
       missing: 'Missing',
@@ -93,8 +99,12 @@
       companiesCountMany: '{count} companies',
       statementsCountOne: '1 statement',
       statementsCountMany: '{count} statements',
+      revenueRowsCountOne: '1 revenue point',
+      revenueRowsCountMany: '{count} revenue points',
       noCompaniesRegistered: 'No companies registered.',
       noIncomeStatementsRegistered: 'No income statements registered.',
+      noRevenueMetricsRegistered: 'No revenue metrics registered.',
+      noRevenueTrendData: 'No revenue trend data.',
       noDataPointSelected: 'No data point selected',
       noMatchingCompanies: 'No matching companies.',
       noMatchingTimePoints: 'No matching time points.',
@@ -130,6 +140,16 @@
       tableTax: 'Tax',
       tableNetProfit: 'Net profit',
       tableSourceImage: 'Source image',
+      tableMetric: 'Metric',
+      tableDate: 'Date',
+      tableAnnualizedRevenue: 'Annualized revenue',
+      tableMomGrowth: 'MoM growth',
+      tableNotes: 'Notes',
+      tableDefinition: 'Definition',
+      trendLatest: 'Latest {value} on {date}',
+      trendLatestArr: 'Latest ARR',
+      trendLatestMom: 'Latest MoM',
+      trendPeakMom: 'Peak MoM',
     },
     zh: {
       documentTitle: 'Trace（公司与产品指标可视化器）',
@@ -138,6 +158,8 @@
       viewModeLabel: '数据视图',
       viewSankey: '桑基图',
       viewSankeyTitle: '桑基图视图',
+      viewTrend: '趋势',
+      viewTrendTitle: '趋势视图',
       viewTable: '表格',
       viewTableTitle: '表格视图',
       mainControlsLabel: '指标与视图控制',
@@ -145,6 +167,7 @@
       metricModeLabel: '指标',
       metricCompanyInfo: '公司信息',
       metricIncomeStatement: '利润表',
+      metricRevenue: '收入',
       viewLabel: '视图',
       globalSettingsLabel: '全局设置',
       languageToggleTitle: '切换到英文',
@@ -160,6 +183,8 @@
       downloadCompaniesCsvTitle: '下载公司 CSV',
       downloadStatementsCsv: '报表 CSV',
       downloadStatementsCsvTitle: '下载利润表 CSV',
+      downloadRevenueCsv: '收入 CSV',
+      downloadRevenueCsvTitle: '下载收入 CSV',
       datasetNavigationLabel: '数据集导航',
       companyLabel: '公司',
       companiesLabel: '公司',
@@ -199,6 +224,7 @@
       periodsLabel: '数据期间',
       resizeDatasetPanelLabel: '调整数据集面板宽度',
       incomeStatementsLabel: '利润表',
+      revenueMetricsLabel: '收入指标',
       collapseDatasetPanel: '收起数据集面板',
       showDatasetPanel: '显示数据集面板',
       missing: '缺失',
@@ -207,8 +233,12 @@
       companiesCountMany: '{count} 家公司',
       statementsCountOne: '1 份报表',
       statementsCountMany: '{count} 份报表',
+      revenueRowsCountOne: '1 个收入数据点',
+      revenueRowsCountMany: '{count} 个收入数据点',
       noCompaniesRegistered: '暂无已注册公司。',
       noIncomeStatementsRegistered: '暂无已注册利润表。',
+      noRevenueMetricsRegistered: '暂无已注册收入指标。',
+      noRevenueTrendData: '暂无收入趋势数据。',
       noDataPointSelected: '未选择数据期间',
       noMatchingCompanies: '没有匹配的公司。',
       noMatchingTimePoints: '没有匹配的数据期间。',
@@ -244,6 +274,16 @@
       tableTax: '税费',
       tableNetProfit: '净利润',
       tableSourceImage: '来源图片',
+      tableMetric: '指标',
+      tableDate: '日期',
+      tableAnnualizedRevenue: '年化收入',
+      tableMomGrowth: '月环比增速',
+      tableNotes: '备注',
+      tableDefinition: '定义',
+      trendLatest: '最新 {date} 为 {value}',
+      trendLatestArr: '最新年化收入',
+      trendLatestMom: '最新月增速',
+      trendPeakMom: '最高月增速',
     },
   };
 
@@ -820,6 +860,7 @@
     'Internet services': '互联网服务',
     'digital advertising': '数字广告',
     'cloud computing': '云计算',
+    'Due to the source methodology, this observation may understate the metric by approximately 20%.': '由于源头的计算口径，该观测值可能会低估约 20%。',
     'software': '软件',
     'online services': '在线服务',
     'digital platforms': '数字平台',
@@ -1610,6 +1651,28 @@
     return out;
   }
 
+  function localizeRevenueMetricRecord(record, language) {
+    const code = normalizeLanguage(language);
+    if (!record || code === DEFAULT_LANGUAGE) return record;
+
+    const out = clone(record);
+    out.displayName = translateText(out.displayName, code);
+    out.period = translateText(out.period, code);
+    out.periodNote = translateText(out.periodNote, code);
+    out.definition = translateText(out.definition, code);
+    out.lineage = translateText(out.lineage, code);
+    if (out.conditions) {
+      Object.keys(out.conditions).forEach((key) => {
+        out.conditions[key] = translateText(out.conditions[key], code);
+      });
+    }
+    (out.observations || []).forEach((observation) => {
+      observation.notes = localizeNotes(observation.notes, code);
+    });
+    mergeOverlay(out, record.i18n?.[code]);
+    return out;
+  }
+
   function localizeCompanyMetadata(company, language) {
     const code = normalizeLanguage(language);
     if (!company || code === DEFAULT_LANGUAGE) return company;
@@ -1640,6 +1703,7 @@
     mergeOverlay,
     localizeDataset,
     localizeFinancialRecord,
+    localizeRevenueMetricRecord,
     localizeCompanyMetadata,
   };
 })(window);

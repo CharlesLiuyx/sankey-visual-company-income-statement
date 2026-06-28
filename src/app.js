@@ -34,6 +34,9 @@ const periodScrollThumb = document.getElementById('periodScrollThumb');
 const app = document.querySelector('.app');
 const topShell = document.querySelector('.top-shell');
 const actionTitle = document.getElementById('actionTitle');
+const companyScopeCount = document.getElementById('companyScopeCount');
+const metricScopeCount = document.getElementById('metricScopeCount');
+const viewScopeCount = document.getElementById('viewScopeCount');
 const sidebarToggle = document.getElementById('sidebarToggle');
 const sidebarRestoreToggle = document.getElementById('sidebarRestoreToggle');
 const sidebarResizer = document.getElementById('sidebarResizer');
@@ -43,19 +46,27 @@ const viewActionbar = document.querySelector('.view-actionbar');
 const metricMode = document.getElementById('metricMode');
 const viewMode = document.getElementById('viewMode');
 const sankeyView = document.getElementById('sankeyView');
+const trendView = document.getElementById('trendView');
 const tableView = document.getElementById('tableView');
+const trendChart = document.getElementById('trendChart');
+const trendChartTitle = document.getElementById('trendChartTitle');
+const trendChartSubtitle = document.getElementById('trendChartSubtitle');
 const sankeyActions = document.getElementById('sankeyActions');
 const tableActions = document.getElementById('tableActions');
 const companiesTableSection = document.getElementById('companiesTableSection');
 const statementsTableSection = document.getElementById('statementsTableSection');
+const revenueTableSection = document.getElementById('revenueTableSection');
 const companiesTable = document.getElementById('companiesTable');
 const statementsTable = document.getElementById('statementsTable');
+const revenueTable = document.getElementById('revenueTable');
 const companiesTableCount = document.getElementById('companiesTableCount');
 const statementsTableCount = document.getElementById('statementsTableCount');
+const revenueTableCount = document.getElementById('revenueTableCount');
 const svgBtn = document.getElementById('svgBtn');
 const pngBtn = document.getElementById('pngBtn');
 const companiesCsvBtn = document.getElementById('companiesCsvBtn');
 const statementsCsvBtn = document.getElementById('statementsCsvBtn');
+const revenueCsvBtn = document.getElementById('revenueCsvBtn');
 const languageToggle = document.getElementById('languageToggle');
 const languageToggleText = document.getElementById('languageToggleText');
 const themeToggle = document.getElementById('themeToggle');
@@ -72,7 +83,13 @@ const SIDEBAR_MIN = 220;
 const SIDEBAR_MAX = 560;
 const SIDEBAR_DEFAULT = 282;
 const DESKTOP_BREAKPOINT = 900;
-const METRIC_MODES = ['companyInfo', 'incomeStatement'];
+const METRIC_MODES = ['companyInfo', 'incomeStatement', 'revenue'];
+const METRIC_MODE_LABEL_KEYS = {
+  companyInfo: 'metricCompanyInfo',
+  incomeStatement: 'metricIncomeStatement',
+  revenue: 'metricRevenue',
+};
+const VIEW_MODES = ['sankey', 'trend', 'table'];
 const TABLE_COLUMN_SAMPLE_LIMIT = 80;
 const TABLE_OVERSCAN_VIEWPORTS = 2;
 const TABLE_COLUMN_PRESETS = {
@@ -87,6 +104,7 @@ const TABLE_COLUMN_PRESETS = {
 };
 const virtualTables = new WeakMap();
 let virtualTableFrame = 0;
+let revenueTrendChart = null;
 const I18N_API = window.SANKEY_I18N || {};
 const I18N = I18N_API.ui || {
   en: {
@@ -96,6 +114,8 @@ const I18N = I18N_API.ui || {
     viewModeLabel: 'Data view',
     viewSankey: 'Sankey',
     viewSankeyTitle: 'Sankey view',
+    viewTrend: 'Trend',
+    viewTrendTitle: 'Trend view',
     viewTable: 'Table',
     viewTableTitle: 'Table view',
     mainControlsLabel: 'Metric and view controls',
@@ -103,6 +123,7 @@ const I18N = I18N_API.ui || {
     metricModeLabel: 'Metric',
     metricCompanyInfo: 'Company Info',
     metricIncomeStatement: 'Income Statement',
+    metricRevenue: 'Revenue',
     viewLabel: 'View',
     globalSettingsLabel: 'Global settings',
     languageToggleTitle: 'Switch language to Chinese',
@@ -118,6 +139,8 @@ const I18N = I18N_API.ui || {
     downloadCompaniesCsvTitle: 'Download companies CSV',
     downloadStatementsCsv: 'Statements CSV',
     downloadStatementsCsvTitle: 'Download income statements CSV',
+    downloadRevenueCsv: 'Revenue CSV',
+    downloadRevenueCsvTitle: 'Download revenue CSV',
     datasetNavigationLabel: 'Dataset navigation',
     companyLabel: 'Company',
     companiesLabel: 'Companies',
@@ -157,6 +180,7 @@ const I18N = I18N_API.ui || {
     periodsLabel: 'Data point times',
     resizeDatasetPanelLabel: 'Resize dataset panel',
     incomeStatementsLabel: 'Income Statements',
+    revenueMetricsLabel: 'Revenue Metrics',
     collapseDatasetPanel: 'Collapse dataset panel',
     showDatasetPanel: 'Show dataset panel',
     missing: 'Missing',
@@ -165,8 +189,12 @@ const I18N = I18N_API.ui || {
     companiesCountMany: '{count} companies',
     statementsCountOne: '1 statement',
     statementsCountMany: '{count} statements',
+    revenueRowsCountOne: '1 revenue point',
+    revenueRowsCountMany: '{count} revenue points',
     noCompaniesRegistered: 'No companies registered.',
     noIncomeStatementsRegistered: 'No income statements registered.',
+    noRevenueMetricsRegistered: 'No revenue metrics registered.',
+    noRevenueTrendData: 'No revenue trend data.',
     noDataPointSelected: 'No data point selected',
     noMatchingCompanies: 'No matching companies.',
     noMatchingTimePoints: 'No matching time points.',
@@ -202,6 +230,16 @@ const I18N = I18N_API.ui || {
     tableTax: 'Tax',
     tableNetProfit: 'Net profit',
     tableSourceImage: 'Source image',
+    tableMetric: 'Metric',
+    tableDate: 'Date',
+    tableAnnualizedRevenue: 'Annualized revenue',
+    tableMomGrowth: 'MoM growth',
+    tableNotes: 'Notes',
+    tableDefinition: 'Definition',
+    trendLatest: 'Latest {value} on {date}',
+    trendLatestArr: 'Latest ARR',
+    trendLatestMom: 'Latest MoM',
+    trendPeakMom: 'Peak MoM',
   },
   zh: {
     documentTitle: 'Trace（公司与产品指标可视化器）',
@@ -210,6 +248,8 @@ const I18N = I18N_API.ui || {
     viewModeLabel: '数据视图',
     viewSankey: '桑基图',
     viewSankeyTitle: '桑基图视图',
+    viewTrend: '趋势',
+    viewTrendTitle: '趋势视图',
     viewTable: '表格',
     viewTableTitle: '表格视图',
     mainControlsLabel: '指标与视图控制',
@@ -217,6 +257,7 @@ const I18N = I18N_API.ui || {
     metricModeLabel: '指标',
     metricCompanyInfo: '公司信息',
     metricIncomeStatement: '利润表',
+    metricRevenue: '收入',
     viewLabel: '视图',
     globalSettingsLabel: '全局设置',
     languageToggleTitle: '切换到英文',
@@ -232,6 +273,8 @@ const I18N = I18N_API.ui || {
     downloadCompaniesCsvTitle: '下载公司 CSV',
     downloadStatementsCsv: '报表 CSV',
     downloadStatementsCsvTitle: '下载利润表 CSV',
+    downloadRevenueCsv: '收入 CSV',
+    downloadRevenueCsvTitle: '下载收入 CSV',
     datasetNavigationLabel: '数据集导航',
     companyLabel: '公司',
     companiesLabel: '公司',
@@ -271,6 +314,7 @@ const I18N = I18N_API.ui || {
     periodsLabel: '数据期间',
     resizeDatasetPanelLabel: '调整数据集面板宽度',
     incomeStatementsLabel: '利润表',
+    revenueMetricsLabel: '收入指标',
     collapseDatasetPanel: '收起数据集面板',
     showDatasetPanel: '显示数据集面板',
     missing: '缺失',
@@ -279,8 +323,12 @@ const I18N = I18N_API.ui || {
     companiesCountMany: '{count} 家公司',
     statementsCountOne: '1 份报表',
     statementsCountMany: '{count} 份报表',
+    revenueRowsCountOne: '1 个收入数据点',
+    revenueRowsCountMany: '{count} 个收入数据点',
     noCompaniesRegistered: '暂无已注册公司。',
     noIncomeStatementsRegistered: '暂无已注册利润表。',
+    noRevenueMetricsRegistered: '暂无已注册收入指标。',
+    noRevenueTrendData: '暂无收入趋势数据。',
     noDataPointSelected: '未选择数据期间',
     noMatchingCompanies: '没有匹配的公司。',
     noMatchingTimePoints: '没有匹配的数据期间。',
@@ -316,11 +364,22 @@ const I18N = I18N_API.ui || {
     tableTax: '税费',
     tableNetProfit: '净利润',
     tableSourceImage: '来源图片',
+    tableMetric: '指标',
+    tableDate: '日期',
+    tableAnnualizedRevenue: '年化收入',
+    tableMomGrowth: '月环比增速',
+    tableNotes: '备注',
+    tableDefinition: '定义',
+    trendLatest: '最新 {date} 为 {value}',
+    trendLatestArr: '最新年化收入',
+    trendLatestMom: '最新月增速',
+    trendPeakMom: '最高月增速',
   },
 };
 const i18nObjectCaches = {
   datasets: new Map(),
   financialRecords: new Map(),
+  revenueRecords: new Map(),
   companies: new Map(),
   records: new Map(),
   groups: new Map(),
@@ -353,7 +412,8 @@ function writeStoredValue(key, value) {
 }
 function readStoredViewMode() {
   try {
-    return window.localStorage.getItem(VIEW_MODE_KEY) === 'table' ? 'table' : 'sankey';
+    const value = window.localStorage.getItem(VIEW_MODE_KEY);
+    return VIEW_MODES.includes(value) ? value : 'sankey';
   } catch (error) {
     return 'sankey';
   }
@@ -409,8 +469,11 @@ function readStoredCompanySortDirection(sortKey) {
 }
 function t(key, values = {}, language = state?.language) {
   const code = languageCode(language);
-  if (I18N_API.t) return I18N_API.t(key, values, code);
   const bundle = I18N[code] || I18N.en;
+  if (I18N_API.t) {
+    const translated = I18N_API.t(key, values, code);
+    if (translated !== key || !(bundle[key] || I18N.en[key])) return translated;
+  }
   const text = bundle[key] || I18N.en[key] || key;
   return text.replace(/\{(\w+)\}/g, (_match, name) => values[name] ?? '');
 }
@@ -456,7 +519,10 @@ function matches(text, query) {
   return normalize(query).split(' ').filter(Boolean).every((token) => haystack.includes(token));
 }
 const records = traceCatalog.records;
-const groups = traceCatalog.groups;
+const statementGroups = traceCatalog.groups;
+const revenueRecords = traceCatalog.revenueRecords;
+const revenueGroups = traceCatalog.revenueGroups;
+const groups = traceCatalog.allCompanyGroups || statementGroups;
 const financialRecords = traceCatalog.financialRecords;
 const financialRecordByKey = traceCatalog.financialRecordByKey;
 const companyMetadata = traceCatalog.companyMetadata;
@@ -483,18 +549,70 @@ function syncDatasetHash(record) {
   if (window.location.hash === nextHash) return;
   window.history.replaceState(null, '', nextHash);
 }
+function clearDatasetHash() {
+  if (!window.location.hash) return;
+  window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+}
+function companyGroupsForMetric(mode) {
+  if (mode === 'incomeStatement') return statementGroups;
+  if (mode === 'revenue') return revenueGroups;
+  return groups;
+}
+function metricGroupForCompany(company, mode = state?.metricMode) {
+  return companyGroupsForMetric(mode).find((group) => group.company === company) || null;
+}
+function hasCompanyMetricData(company, mode) {
+  if (mode === 'incomeStatement') return Boolean(metricGroupForCompany(company, mode)?.records?.length);
+  if (mode === 'revenue') return Boolean(metricGroupForCompany(company, mode)?.revenueRecords?.length);
+  return Boolean(groups.find((group) => group.company === company));
+}
+function metricModesForCompany(company = state?.company) {
+  const modes = METRIC_MODES.filter((mode) => hasCompanyMetricData(company, mode));
+  return modes.length ? modes : ['companyInfo'];
+}
+function normalizeMetricModeForCompany(company, mode) {
+  const modes = metricModesForCompany(company);
+  return modes.includes(mode) ? mode : bestMetricModeForCompany(company, mode);
+}
+function bestMetricModeForCompany(company, preferredMode = state?.metricMode) {
+  if (preferredMode !== 'companyInfo' && hasCompanyMetricData(company, preferredMode)) return preferredMode;
+  if (hasCompanyMetricData(company, 'incomeStatement')) return 'incomeStatement';
+  if (hasCompanyMetricData(company, 'revenue')) return 'revenue';
+  return 'companyInfo';
+}
+function defaultViewModeForMetric(mode) {
+  if (mode === 'companyInfo') return 'table';
+  if (mode === 'revenue') return 'trend';
+  return 'sankey';
+}
+function allowedViewModesForMetric(mode) {
+  if (mode === 'companyInfo') return ['table'];
+  if (mode === 'revenue') return ['trend', 'table'];
+  return ['sankey', 'table'];
+}
+function normalizeViewModeForMetric(mode, viewModeValue) {
+  return allowedViewModesForMetric(mode).includes(viewModeValue)
+    ? viewModeValue
+    : defaultViewModeForMetric(mode);
+}
+function initialCompanyForMetric(mode, fallbackRecord) {
+  const modeGroups = companyGroupsForMetric(mode);
+  if (fallbackRecord && modeGroups.some((group) => group.company === fallbackRecord.company)) return fallbackRecord.company;
+  return modeGroups[0]?.company || groups[0]?.company || '';
+}
 
 const activeStart = recordFromHash() || records[defaultIndex >= 0 ? defaultIndex : 0];
 const storedCompanySort = readStoredCompanySort();
 const storedMetricMode = readStoredMetricMode();
+const storedViewMode = normalizeViewModeForMetric(storedMetricMode, readStoredViewMode());
 const state = {
   sort: 'desc',
   companySort: storedCompanySort,
   companySortDirection: readStoredCompanySortDirection(storedCompanySort),
   activeIndex: activeStart?.index || 0,
-  company: activeStart?.company || groups[0]?.company || '',
+  company: initialCompanyForMetric(storedMetricMode, activeStart),
   metricMode: storedMetricMode,
-  viewMode: storedMetricMode === 'companyInfo' ? 'table' : readStoredViewMode(),
+  viewMode: storedViewMode,
   periodExpanded: readStoredBoolean(PERIOD_EXPANDED_KEY, false),
   language: readStoredLanguage(),
   theme: readStoredTheme(),
@@ -664,8 +782,13 @@ function isCompanyInfoMetric() {
 function isIncomeStatementMetric() {
   return state.metricMode === 'incomeStatement';
 }
+function isRevenueMetric() {
+  return state.metricMode === 'revenue';
+}
 function activeTableKind() {
-  return isCompanyInfoMetric() ? 'company' : 'statement';
+  if (isCompanyInfoMetric()) return 'company';
+  if (isRevenueMetric()) return 'revenue';
+  return 'statement';
 }
 function updatePeriodScrollIndicator() {
   if (!periodScrollMeter || !periodScrollThumb || !periodList) return;
@@ -688,6 +811,9 @@ function localizedDataset(dataset, language = state.language) {
 }
 function localizedFinancialRecord(record, language = state.language) {
   return cachedLocalizedObject(i18nObjectCaches.financialRecords, record, I18N_API.localizeFinancialRecord, language);
+}
+function localizedRevenueRecord(record, language = state.language) {
+  return cachedLocalizedObject(i18nObjectCaches.revenueRecords, record, I18N_API.localizeRevenueMetricRecord, language);
 }
 function localizedCompanyRecord(company, language = state.language) {
   return cachedLocalizedObject(i18nObjectCaches.companies, company, I18N_API.localizeCompanyMetadata, language);
@@ -718,8 +844,30 @@ function displayRecord(record, language = state.language) {
   }
   const byLanguage = languageObjectCache(i18nObjectCaches.records, code);
   if (byLanguage.has(record)) return byLanguage.get(record);
-  const dataset = localizedDataset(record.dataset, code) || record.dataset;
   const meta = localizedCompanyRecord(metadataFor(record.company), code);
+  if (record.metric) {
+    const metric = localizedRevenueRecord(record.metric, code) || record.metric;
+    const display = {
+      dataset: null,
+      metric,
+      company: clean(meta.displayName || meta.name || record.company),
+      period: clean(metric.period || record.period),
+      periodNote: clean(metric.periodNote || record.periodNote),
+      label: clean(metric.displayName || metric.metricName || record.label),
+      variantLabel: t('defaultVariant', {}, code),
+    };
+    display.searchText = [
+      record.searchText,
+      companyMetadataSearchText(record.company, code),
+      display.company,
+      display.period,
+      display.periodNote,
+      display.label,
+    ].join(' ');
+    byLanguage.set(record, display);
+    return display;
+  }
+  const dataset = localizedDataset(record.dataset, code) || record.dataset;
   const display = {
     dataset,
     company: clean(meta.displayName || meta.name || record.company),
@@ -752,8 +900,11 @@ function displayPeriodNote(record, language = state.language) {
 function displayLabel(record, language = state.language) {
   return displayRecord(record, language).label;
 }
-function groupFor(company) {
-  return groups.find((group) => group.company === company) || groups[0];
+function currentCompanyGroups() {
+  return companyGroupsForMetric(state.metricMode);
+}
+function groupFor(company, mode = state.metricMode) {
+  return metricGroupForCompany(company, mode) || (mode === 'companyInfo' ? groups.find((group) => group.company === company) || groups[0] : null);
 }
 function sortedRecordList(recordList) {
   const direction = state.sort === 'asc' ? 1 : -1;
@@ -848,6 +999,10 @@ function periodTreeFor(group) {
 function metadataFor(company) {
   return companyMetadataByName.get(normalize(company)) || fallbackCompanyMetadata(company);
 }
+function displayCompanyName(company, language = state.language) {
+  const meta = localizedCompanyRecord(metadataFor(company), language);
+  return clean(meta.displayName || meta.name || company);
+}
 function supportedSearchLanguages(primary = state.language) {
   return [
     primary,
@@ -915,6 +1070,24 @@ function formatAmount(record, value, cost = false) {
   const decimals = typeof record?.decimals === 'number' ? record.decimals : 1;
   const amount = `${record?.currency || '$'}${Math.abs(value).toFixed(decimals)}${record?.unit || ''}`;
   return cost || value < 0 ? `(${amount})` : amount;
+}
+function formatRevenueValue(metric, value) {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return '';
+  const decimals = typeof metric?.decimals === 'number' ? metric.decimals : 1;
+  return `${metric?.currency || '$'}${Math.abs(value).toFixed(decimals)}${metric?.unit || 'B'}`;
+}
+function formatPercent(value) {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return '';
+  return `${value.toFixed(Number.isInteger(value) ? 0 : 1)}%`;
+}
+function formatMetricDate(value, language = state.language) {
+  const time = Date.parse(`${clean(value)}T00:00:00Z`);
+  if (!Number.isFinite(time)) return clean(value);
+  const locale = languageCode(language) === 'zh' ? 'zh-CN' : 'en-US';
+  return new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' }).format(new Date(time));
+}
+function sourceImageForRevenueMetric(metric) {
+  return (metric?.sources || []).find((source) => source.sourceImage)?.sourceImage?.src || '';
 }
 function describeItemList(items, record, prefix = '') {
   return (items || []).flatMap((item) => {
@@ -1061,9 +1234,407 @@ function renderVirtualTableBody(table, force = false, focusIndex = null) {
     spacerRow(bottomHeight, info.columns.length, 'bottom'),
   ].join('');
 }
+function revenueRecordsForCompany(company = state.company) {
+  return groupFor(company)?.revenueRecords || [];
+}
+function formatTrendDate(value, language = state.language) {
+  const time = Date.parse(`${clean(value)}T00:00:00Z`);
+  if (!Number.isFinite(time)) return clean(value);
+  const locale = languageCode(language) === 'zh' ? 'zh-CN' : 'en-US';
+  return new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(time));
+}
+function cssVar(name, fallback = '') {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+}
+function colorWithAlpha(color, alpha) {
+  const trimmed = clean(color);
+  const hex = trimmed.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i)?.[1];
+  if (!hex) return trimmed;
+  const expanded = hex.length === 3 ? hex.split('').map((part) => part + part).join('') : hex;
+  const value = Number.parseInt(expanded, 16);
+  const r = (value >> 16) & 255;
+  const g = (value >> 8) & 255;
+  const b = value & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+function destroyRevenueTrendChart() {
+  if (!revenueTrendChart) return;
+  revenueTrendChart.destroy();
+  revenueTrendChart = null;
+}
+const revenueTrendValueLabelsPlugin = {
+  id: 'revenueTrendValueLabels',
+  afterDatasetsDraw(chart, _args, options) {
+    const meta = chart.getDatasetMeta(0);
+    const dataset = chart.data.datasets[0];
+    const observations = options.observations || [];
+    if (!meta?.data?.length || !dataset) return;
+    const { ctx, chartArea } = chart;
+    ctx.save();
+    ctx.fillStyle = options.color || '#263238';
+    ctx.font = `600 ${options.fontSize || 15}px ${options.fontFamily || 'Montserrat, Arial, sans-serif'}`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    meta.data.forEach((point, index) => {
+      const observation = observations[index] || {};
+      const showLabel = index === meta.data.length - 1 || observation.momGrowthPct >= 25;
+      if (!showLabel) return;
+      const label = options.formatValue ? options.formatValue(dataset.data[index]) : String(dataset.data[index]);
+      const textWidth = ctx.measureText(label).width;
+      const x = clamp(point.x, chartArea.left + textWidth / 2, chartArea.right - textWidth / 2);
+      const y = point.y - 12 < chartArea.top ? point.y + 28 : point.y - 12;
+      ctx.fillText(label, x, y);
+    });
+    ctx.restore();
+  },
+};
+const revenueTrendHoverGuidePlugin = {
+  id: 'revenueTrendHoverGuide',
+  beforeDatasetsDraw(chart, _args, options) {
+    const activeIndex = chart.getActiveElements?.()[0]?.index ?? chart.tooltip?.dataPoints?.[0]?.dataIndex;
+    if (!Number.isInteger(activeIndex)) return;
+    const bar = chart.getDatasetMeta(0)?.data?.[activeIndex];
+    const { chartArea, ctx } = chart;
+    if (!bar || !chartArea) return;
+    const fallbackWidth = (chartArea.right - chartArea.left) / Math.max(1, chart.data.labels.length);
+    const bandWidth = Math.max(bar.width || 0, fallbackWidth * 0.56);
+    ctx.save();
+    ctx.fillStyle = options.bandColor || 'rgba(20, 67, 107, 0.04)';
+    ctx.fillRect(bar.x - bandWidth / 2, chartArea.top, bandWidth, chartArea.bottom - chartArea.top);
+    ctx.restore();
+  },
+  afterDatasetsDraw(chart, _args, options) {
+    const activeIndex = chart.getActiveElements?.()[0]?.index ?? chart.tooltip?.dataPoints?.[0]?.dataIndex;
+    if (!Number.isInteger(activeIndex)) return;
+    const bar = chart.getDatasetMeta(0)?.data?.[activeIndex];
+    const { chartArea, ctx } = chart;
+    if (!bar || !chartArea) return;
+    ctx.save();
+    ctx.strokeStyle = options.lineColor || 'rgba(20, 67, 107, 0.18)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 4]);
+    ctx.beginPath();
+    ctx.moveTo(bar.x, chartArea.top);
+    ctx.lineTo(bar.x, chartArea.bottom);
+    ctx.stroke();
+    ctx.restore();
+  },
+};
+function getMetricChartTooltip(chart) {
+  const host = chart.canvas.closest('.trend-canvas-wrap') || chart.canvas.parentNode;
+  let tooltip = host.querySelector('.metric-chart-tooltip');
+  if (!tooltip) {
+    tooltip = document.createElement('div');
+    tooltip.className = 'metric-chart-tooltip';
+    tooltip.setAttribute('role', 'status');
+    tooltip.setAttribute('aria-live', 'polite');
+    tooltip.setAttribute('aria-hidden', 'true');
+    host.appendChild(tooltip);
+  }
+  return tooltip;
+}
+function metricChartTooltipHtml({ title, rows }) {
+  return `
+    <div class="metric-chart-tooltip-title">${escapeHtml(title)}</div>
+    <div class="metric-chart-tooltip-rows">
+      ${rows.map((row) => row.kind === 'note' ? `
+        <div class="metric-chart-tooltip-row note">
+          <span class="metric-chart-tooltip-label">${escapeHtml(row.label)}</span>
+          <span class="metric-chart-tooltip-note">${escapeHtml(row.value)}</span>
+        </div>
+      ` : `
+        <div class="metric-chart-tooltip-row">
+          <span
+            class="metric-chart-tooltip-marker"
+            style="--marker-color:${escapeHtml(row.color)};--marker-bg:${escapeHtml(row.background || row.color)}"
+            aria-hidden="true"
+          ></span>
+          <span class="metric-chart-tooltip-label">${escapeHtml(row.label)}</span>
+          <strong>${escapeHtml(row.value)}</strong>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+function createMetricChartExternalTooltip({ titleForIndex, rowsForIndex }) {
+  return ({ chart, tooltip }) => {
+    const tooltipEl = getMetricChartTooltip(chart);
+    const index = tooltip?.dataPoints?.[0]?.dataIndex;
+    if (!tooltip || tooltip.opacity === 0 || !Number.isInteger(index)) {
+      tooltipEl.classList.remove('visible');
+      tooltipEl.setAttribute('aria-hidden', 'true');
+      return;
+    }
+
+    tooltipEl.innerHTML = metricChartTooltipHtml({
+      title: titleForIndex(index),
+      rows: rowsForIndex(index),
+    });
+    tooltipEl.classList.add('visible');
+    tooltipEl.setAttribute('aria-hidden', 'false');
+
+    const { chartArea } = chart;
+    const margin = 10;
+    const cardWidth = tooltipEl.offsetWidth || 240;
+    const cardHeight = tooltipEl.offsetHeight || 96;
+    const midpoint = chartArea.left + (chartArea.right - chartArea.left) / 2;
+    const dockLeft = (tooltip.caretX || midpoint) > midpoint;
+    const canvasLeft = chart.canvas.offsetLeft || 0;
+    const canvasTop = chart.canvas.offsetTop || 0;
+    const left = dockLeft
+      ? chartArea.left + margin
+      : chartArea.right - cardWidth - margin;
+    const top = chartArea.top + margin;
+
+    tooltipEl.style.left = `${canvasLeft + clamp(left, margin, chart.width - cardWidth - margin)}px`;
+    tooltipEl.style.top = `${canvasTop + clamp(top, margin, chart.height - cardHeight - margin)}px`;
+  };
+}
+function renderRevenueTrend() {
+  if (!trendChart) return;
+  const record = revenueRecordsForCompany()[0];
+  const metric = localizedRevenueRecord(record?.metric) || record?.metric;
+  const observations = [...(metric?.observations || [])]
+    .filter((observation) => Number.isFinite(Number(observation.value)) && Number.isFinite(Date.parse(`${observation.date}T00:00:00Z`)))
+    .sort((a, b) => Date.parse(`${a.date}T00:00:00Z`) - Date.parse(`${b.date}T00:00:00Z`));
+  const latest = observations[observations.length - 1];
+  trendChartTitle.textContent = [displayCompanyName(state.company), metric?.displayName].filter(Boolean).join(' · ') || t('metricRevenue');
+  trendChartSubtitle.textContent = latest
+    ? t('trendLatest', { value: formatRevenueValue(metric, latest.value), date: formatMetricDate(latest.date) })
+    : t('noRevenueTrendData');
+
+  if (!observations.length) {
+    destroyRevenueTrendChart();
+    trendChart.innerHTML = `<div class="empty-state">${escapeHtml(t('noRevenueTrendData'))}</div>`;
+    return;
+  }
+
+  const maxValue = Math.max(...observations.map((observation) => observation.value));
+  const yMax = Math.ceil((maxValue * 1.1) / 5) * 5 || 10;
+  const growthValues = observations.map((observation) => observation.momGrowthPct ?? null);
+  const growthObservations = observations.filter((observation) => typeof observation.momGrowthPct === 'number' && Number.isFinite(observation.momGrowthPct));
+  const peakGrowth = growthObservations.reduce((peak, observation) => (
+    !peak || observation.momGrowthPct > peak.momGrowthPct ? observation : peak
+  ), null);
+  const latestGrowthText = latest?.momGrowthPct == null ? t('missing') : formatPercent(latest.momGrowthPct);
+  const peakGrowthText = peakGrowth
+    ? `${formatPercent(peakGrowth.momGrowthPct)} · ${formatTrendDate(peakGrowth.date)}`
+    : t('missing');
+  destroyRevenueTrendChart();
+  trendChart.innerHTML = `
+    <div class="trend-summary">
+      <div class="trend-summary-item">
+        <span>${escapeHtml(t('trendLatestArr'))}</span>
+        <strong>${escapeHtml(formatRevenueValue(metric, latest?.value))}</strong>
+      </div>
+      <div class="trend-summary-item">
+        <span>${escapeHtml(t('trendLatestMom'))}</span>
+        <strong>${escapeHtml(latestGrowthText)}</strong>
+      </div>
+      <div class="trend-summary-item">
+        <span>${escapeHtml(t('trendPeakMom'))}</span>
+        <strong>${escapeHtml(peakGrowthText)}</strong>
+      </div>
+    </div>
+    <div class="trend-canvas-wrap">
+      <canvas id="revenueTrendCanvas" role="img" aria-label="${escapeHtml(trendChartTitle.textContent)}"></canvas>
+    </div>
+  `;
+  const canvas = document.getElementById('revenueTrendCanvas');
+  if (!canvas || !window.Chart) {
+    trendChart.innerHTML = `<div class="empty-state">${escapeHtml(t('noRevenueTrendData'))}</div>`;
+    return;
+  }
+
+  const ink = cssVar('--ink', '#15436b');
+  const text = cssVar('--text-strong', '#263238');
+  const muted = cssVar('--muted', '#6a7078');
+  const grid = cssVar('--table-cell-line', '#edf0f0');
+  const tableBg = cssVar('--table-bg', '#ffffff');
+  const growthColor = cssVar('--trend-growth', '#9a6a2f');
+  const labels = observations.map((observation) => formatTrendDate(observation.date));
+  const values = observations.map((observation) => observation.value);
+  const maxGrowth = Math.max(0, ...growthValues.filter((value) => typeof value === 'number' && Number.isFinite(value)));
+  const growthMax = Math.max(10, Math.ceil(maxGrowth / 10) * 10);
+  const fontFamily = 'Montserrat, Arial, sans-serif';
+  const revenueBarFill = values.map((_value, index) => (
+    index === values.length - 1 ? colorWithAlpha(ink, 0.28) : colorWithAlpha(ink, 0.1)
+  ));
+  const revenueBarBorder = values.map((_value, index) => (
+    index === values.length - 1 ? colorWithAlpha(ink, 0.44) : colorWithAlpha(ink, 0.18)
+  ));
+
+  revenueTrendChart = new window.Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: t('tableAnnualizedRevenue'),
+          type: 'bar',
+          yAxisID: 'y',
+          data: values,
+          backgroundColor: revenueBarFill,
+          borderColor: revenueBarBorder,
+          borderWidth: 1,
+          borderRadius: 4,
+          borderSkipped: false,
+          barPercentage: 0.62,
+          categoryPercentage: 0.74,
+          hoverBackgroundColor: colorWithAlpha(ink, 0.22),
+          hoverBorderColor: colorWithAlpha(ink, 0.5),
+        },
+        {
+          label: t('tableMomGrowth'),
+          type: 'line',
+          yAxisID: 'yGrowth',
+          data: growthValues,
+          borderColor: growthColor,
+          backgroundColor: growthColor,
+          pointBackgroundColor: tableBg,
+          pointBorderColor: growthColor,
+          pointBorderWidth: 1.4,
+          pointHoverBackgroundColor: growthColor,
+          pointHoverBorderColor: tableBg,
+          pointHoverBorderWidth: 2,
+          pointHoverRadius: 4.5,
+          pointRadius: 2.4,
+          borderWidth: 1.8,
+          fill: false,
+          tension: 0.24,
+          spanGaps: false,
+        },
+      ],
+    },
+    plugins: [revenueTrendHoverGuidePlugin, revenueTrendValueLabelsPlugin],
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      layout: {
+        padding: { top: 2, right: 12, bottom: 0, left: 6 },
+      },
+      interaction: {
+        mode: 'index',
+        intersect: false,
+      },
+      hover: {
+        mode: 'index',
+        intersect: false,
+      },
+      scales: {
+        x: {
+          offset: true,
+          grid: {
+            display: false,
+          },
+          border: {
+            color: cssVar('--table-line', '#d9dfdf'),
+          },
+          ticks: {
+            color: muted,
+            font: { family: fontFamily, size: 12, weight: '500' },
+            maxRotation: 0,
+            autoSkip: true,
+            autoSkipPadding: 22,
+          },
+        },
+        y: {
+          beginAtZero: true,
+          max: yMax,
+          grid: {
+            color: grid,
+          },
+          border: {
+            color: cssVar('--table-line', '#d9dfdf'),
+          },
+          ticks: {
+            color: muted,
+            count: 6,
+            font: { family: fontFamily, size: 12, weight: '500' },
+            callback: (value) => formatRevenueValue(metric, Number(value)),
+          },
+        },
+        yGrowth: {
+          beginAtZero: true,
+          max: growthMax,
+          position: 'right',
+          grid: {
+            drawOnChartArea: false,
+          },
+          border: {
+            color: colorWithAlpha(growthColor, 0.22),
+          },
+          ticks: {
+            color: growthColor,
+            count: 6,
+            font: { family: fontFamily, size: 12, weight: '500' },
+            callback: (value) => formatPercent(Number(value)),
+          },
+          title: {
+            display: false,
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          align: 'end',
+          labels: {
+            usePointStyle: false,
+            boxWidth: 12,
+            boxHeight: 6,
+            padding: 10,
+            color: muted,
+            font: { family: fontFamily, size: 11, weight: '500' },
+          },
+        },
+        tooltip: {
+          enabled: false,
+          filter: (context) => context.parsed.y != null,
+          external: createMetricChartExternalTooltip({
+            titleForIndex: (index) => formatMetricDate(observations[index]?.date),
+            rowsForIndex: (index) => [
+              {
+                label: metric?.displayName || t('metricRevenue'),
+                value: formatRevenueValue(metric, observations[index]?.value),
+                color: ink,
+                background: colorWithAlpha(ink, 0.16),
+              },
+              {
+                label: t('tableMomGrowth'),
+                value: observations[index]?.momGrowthPct == null ? t('missing') : formatPercent(observations[index].momGrowthPct),
+                color: growthColor,
+                background: colorWithAlpha(growthColor, 0.14),
+              },
+              ...(notesText(observations[index]?.notes) ? [{
+                kind: 'note',
+                label: t('tableNotes'),
+                value: notesText(observations[index].notes),
+              }] : []),
+            ],
+          }),
+        },
+        revenueTrendHoverGuide: {
+          bandColor: colorWithAlpha(ink, 0.035),
+          lineColor: colorWithAlpha(ink, 0.2),
+        },
+        revenueTrendValueLabels: {
+          observations,
+          color: text,
+          fontFamily,
+          fontSize: 15,
+          formatValue: (value) => formatRevenueValue(metric, value),
+        },
+      },
+    },
+  });
+}
 function updateVirtualTables(force = false) {
   if (state.viewMode !== 'table') return;
   if (isCompanyInfoMetric()) renderVirtualTableBody(companiesTable, force);
+  else if (isRevenueMetric()) renderVirtualTableBody(revenueTable, force);
   else renderVirtualTableBody(statementsTable, force);
 }
 function requestVirtualTableUpdate() {
@@ -1091,6 +1662,7 @@ function websiteHtml(url) {
   return safe ? `<a href="${escapeHtml(safe)}" target="_blank" rel="noopener">${escapeHtml(safe.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</a>` : '';
 }
 function financialFor(record) {
+  if (!record?.dataset?.key) return null;
   return financialRecordByKey.get(record.dataset.key);
 }
 function marketCapValueUsd(company) {
@@ -1105,7 +1677,7 @@ function financialValueUsd(record, value) {
   return amountValueUsd(value, record.currency, record.unit);
 }
 function latestFinancialForGroup(group) {
-  return group?.latest ? financialFor(group.latest) : null;
+  return group?.latestStatementRecord ? financialFor(group.latestStatementRecord) : group?.latest ? financialFor(group.latest) : null;
 }
 function latestNetProfitUsd(group) {
   const financial = latestFinancialForGroup(group);
@@ -1116,7 +1688,8 @@ function foundedYear(company) {
   return match ? Number(match[1]) : null;
 }
 function displayCompanyForGroup(group, language = state.language) {
-  return displayCompany(group?.latest, language) || group?.company || '';
+  if (group?.latest) return displayCompany(group.latest, language) || group.company || '';
+  return displayCompanyName(group?.company, language);
 }
 function compareNullableNumber(a, b, direction = -1) {
   const left = finiteNumber(a);
@@ -1184,7 +1757,7 @@ function companySortMetaText(group) {
   if (state.companySort === 'founded') {
     return t('companySortMetaFounded', { value: metadataFor(group.company).founded || t('missing') });
   }
-  return `${t('latest')} ${displayPeriod(group.latest)}`;
+  return group.latest ? `${t('latest')} ${displayPeriod(group.latest)}` : t('metricCompanyInfo');
 }
 function tableModelForLanguage(language = state.language) {
   const code = languageCode(language);
@@ -1230,7 +1803,30 @@ function tableModelForLanguage(language = state.language) {
         tableAttrs: `data-dataset-key="${escapeHtml(record.dataset.key)}"`,
       };
     });
-  const model = { companyRows, statementRows };
+  const revenueRows = [...revenueRecords]
+    .sort((a, b) => a.company.localeCompare(b.company) || b.sortValue - a.sortValue || a.period.localeCompare(b.period))
+    .flatMap((record) => {
+      const metric = localizedRevenueRecord(record.metric, code) || record.metric;
+      const observations = [...(metric.observations || [])].sort((a, b) => Date.parse(`${b.date}T00:00:00Z`) - Date.parse(`${a.date}T00:00:00Z`));
+      return observations.map((observation) => ({
+        record,
+        metric,
+        observation,
+        displayCompany: displayCompanyName(record.company, code),
+        displayMetric: clean(metric.displayName || record.label),
+        displayPeriod: clean(metric.period || record.period),
+        displayPeriodNote: clean(metric.periodNote || record.periodNote),
+        displayDate: formatMetricDate(observation.date, code),
+        revenueValue: formatRevenueValue(metric, observation.value),
+        momGrowth: observation.momGrowthPct == null ? '' : formatPercent(observation.momGrowthPct),
+        notes: notesText(observation.notes),
+        definition: clean(metric.definition),
+        sourceImage: sourceImageForRevenueMetric(metric),
+        sourceUrls: (metric.sources || []).map((source) => source.url).filter(Boolean),
+        tableAttrs: `data-revenue-key="${escapeHtml(metric.key)}" data-revenue-date="${escapeHtml(observation.date)}"`,
+      }));
+    });
+  const model = { companyRows, statementRows, revenueRows };
   tableModelCache.set(code, model);
   return model;
 }
@@ -1248,6 +1844,12 @@ function statementRows() {
   return tableModelForLanguage().statementRows.map((row) => ({
     ...row,
     active: row.record.index === state.activeIndex,
+  }));
+}
+function revenueRows() {
+  return tableModelForLanguage().revenueRows.map((row) => ({
+    ...row,
+    active: row.record.company === state.company,
   }));
 }
 function scheduleIdleTask(callback) {
@@ -1296,6 +1898,7 @@ function renderDataTable(table, columns, rows, emptyText, targetWidth = 0) {
 function renderTables() {
   const companies = companyRows();
   const statements = statementRows();
+  const revenue = revenueRows();
   const companyColumns = [
     { label: t('tableCompany'), className: 'nowrap', widthPreset: 'text', maxWidth: 118, grow: 0, value: (row) => row.company },
     { label: t('tableLegalName'), className: 'nowrap', widthPreset: 'text', minWidth: 116, maxWidth: 150, grow: 0, value: (row) => row.legalName },
@@ -1329,22 +1932,40 @@ function renderTables() {
     { label: t('tableNetProfit'), className: 'num', widthPreset: 'money', maxWidth: 104, grow: 0, value: (row) => row.netProfit },
     { label: t('tableSourceImage'), className: 'nowrap', widthPreset: 'id', maxWidth: 150, grow: 0.1, value: (row) => row.sourceImage },
   ];
+  const revenueColumns = [
+    { label: t('tableMetric'), className: 'nowrap', widthPreset: 'id', maxWidth: 190, grow: 0.3, value: (row) => row.record.metric.key },
+    { label: t('tableCompany'), className: 'nowrap', widthPreset: 'text', maxWidth: 120, grow: 0.2, value: (row) => row.displayCompany },
+    { label: t('tableDate'), className: 'nowrap', widthPreset: 'compact', minWidth: 90, maxWidth: 112, grow: 0, value: (row) => row.displayDate },
+    { label: t('tableAnnualizedRevenue'), className: 'num', widthPreset: 'money', minWidth: 118, maxWidth: 136, grow: 0, value: (row) => row.revenueValue },
+    { label: t('tableMomGrowth'), className: 'num', widthPreset: 'compact', minWidth: 86, maxWidth: 98, grow: 0, value: (row) => row.momGrowth },
+    { label: t('tableNotes'), className: 'wide', widthPreset: 'description', maxWidth: 320, grow: 1, value: (row) => row.notes },
+    { label: t('tablePeriod'), className: 'nowrap', widthPreset: 'text', maxWidth: 130, grow: 0.2, value: (row) => row.displayPeriod },
+    { label: t('tableDefinition'), className: 'wide', widthPreset: 'description', maxWidth: 360, grow: 1.4, value: (row) => row.definition },
+    { label: t('tableSources'), className: 'nowrap', widthPreset: 'link', minWidth: 78, maxWidth: 86, grow: 0, html: (row) => linksHtml(row.sourceUrls) },
+    { label: t('tableSourceImage'), className: 'nowrap', widthPreset: 'id', maxWidth: 180, grow: 0.1, value: (row) => row.sourceImage },
+  ];
   companiesTableCount.textContent = countText('companiesCountOne', 'companiesCountMany', companies.length);
   statementsTableCount.textContent = countText('statementsCountOne', 'statementsCountMany', statements.length);
+  revenueTableCount.textContent = countText('revenueRowsCountOne', 'revenueRowsCountMany', revenue.length);
   renderDataTable(companiesTable, companyColumns, companies, t('noCompaniesRegistered'), content.clientWidth);
   renderDataTable(statementsTable, statementColumns, statements, t('noIncomeStatementsRegistered'), content.clientWidth);
+  renderDataTable(revenueTable, revenueColumns, revenue, t('noRevenueMetricsRegistered'), content.clientWidth);
 }
 function escapeSelector(value) {
   if (window.CSS?.escape) return window.CSS.escape(value);
   return String(value).replace(/["\\]/g, '\\$&');
 }
 function virtualTableTarget(kind) {
-  const table = kind === 'company' ? companiesTable : statementsTable;
+  const table = kind === 'company' ? companiesTable : kind === 'revenue' ? revenueTable : statementsTable;
   const info = virtualTables.get(table);
   if (!info) return null;
   if (kind === 'company') {
     const key = companyKey(state.company);
     const index = info.rows.findIndex((row) => companyKey(row.companyCanonical || row.company) === key);
+    return index >= 0 ? { table, info, index } : null;
+  }
+  if (kind === 'revenue') {
+    const index = info.rows.findIndex((row) => row.record?.company === state.company);
     return index >= 0 ? { table, info, index } : null;
   }
   const key = currentRecord()?.dataset?.key;
@@ -1403,7 +2024,14 @@ function timelineColors(record, group) {
 function renderActiveSummary() {
   const record = currentRecord();
   if (isCompanyInfoMetric()) {
-    actionTitle.textContent = [t('metricCompanyInfo'), displayCompany(record)].filter(Boolean).join(' · ');
+    actionTitle.textContent = [t('metricCompanyInfo'), displayCompanyName(state.company)].filter(Boolean).join(' · ');
+    return;
+  }
+  if (isRevenueMetric()) {
+    const group = groupFor(state.company);
+    const latest = group?.latestRevenueRecord;
+    const value = latest?.latestObservation ? formatRevenueValue(latest.metric, latest.latestObservation.value) : '';
+    actionTitle.textContent = [t('metricRevenue'), displayCompanyName(state.company), value].filter(Boolean).join(' · ');
     return;
   }
   actionTitle.textContent = record
@@ -1423,22 +2051,46 @@ function focusActiveCompanyItem() {
   button.focus({ preventScroll: true });
   button.scrollIntoView({ block: 'nearest' });
 }
-function selectCompanyGroup(group, { closeSearch = false, focusCompany = false, scrollKind = activeTableKind() } = {}) {
+function groupMetricCount(group) {
+  return (group?.records?.length || 0) + (group?.revenueRecords?.length || 0);
+}
+function setScopeCount(element, count) {
+  if (!element) return;
+  const safeCount = Number.isFinite(Number(count)) ? Math.max(0, Number(count)) : 0;
+  element.textContent = String(safeCount);
+}
+function syncEntityScopeCounts(companyCount = visibleCompanyGroups().length) {
+  setScopeCount(companyScopeCount, companyCount);
+  setScopeCount(metricScopeCount, metricModesForCompany(state.company).length);
+  setScopeCount(viewScopeCount, allowedViewModesForMetric(state.metricMode).length);
+}
+function selectCompanyGroup(group, { closeSearch = false, focusCompany = false, scrollKind = null } = {}) {
   if (!group) return;
-  const groupRecords = sortedRecords(group);
+  const targetMode = bestMetricModeForCompany(group.company, state.metricMode);
+  const targetGroup = groupFor(group.company, targetMode) || group;
+  const groupRecords = sortedRecords(targetGroup);
   state.company = group.company;
-  const next = isIncomeStatementMetric()
+  if (state.metricMode !== targetMode) {
+    state.metricMode = targetMode;
+    state.viewMode = defaultViewModeForMetric(targetMode);
+    writeStoredValue(METRIC_MODE_KEY, state.metricMode);
+    writeStoredValue(VIEW_MODE_KEY, state.viewMode);
+  }
+  const next = targetMode === 'incomeStatement'
     ? groupRecords.find((record) => matches(searchTextForRecord(record), periodSearch.value)) || groupRecords[0]
-    : groupRecords[0];
+    : targetMode === 'companyInfo' ? groupRecords[0] : null;
   if (next) {
     state.activeIndex = next.index;
     syncDatasetHash(next);
+  } else {
+    clearDatasetHash();
   }
+  const targetScrollKind = targetMode === 'companyInfo' ? 'company' : targetMode === 'revenue' ? 'revenue' : 'statement';
   renderAll();
   draw({ renderTable: false, syncView: false });
   if (closeSearch) companySearchController.setOpen(false);
   if (focusCompany) requestAnimationFrame(focusActiveCompanyItem);
-  scrollActiveTableRow(scrollKind);
+  scrollActiveTableRow(scrollKind || targetScrollKind);
 }
 function moveCompanySelection(offset, { returnBoundary = false } = {}) {
   const visibleGroups = visibleCompanyGroups();
@@ -1456,6 +2108,7 @@ function moveCompanySelection(offset, { returnBoundary = false } = {}) {
 }
 function renderCompanies() {
   const visibleGroups = visibleCompanyGroups();
+  syncEntityScopeCounts(visibleGroups.length);
   companyList.innerHTML = '';
   if (!visibleGroups.length) {
     companyList.removeAttribute('aria-activedescendant');
@@ -1475,12 +2128,13 @@ function renderCompanies() {
     button.tabIndex = isActive || (!selectedVisible && index === 0) ? 0 : -1;
     button.dataset.company = group.company;
     button.dataset.companyKey = key;
+    button.title = displayCompanyForGroup(group);
     button.innerHTML = `
       <div class="item-top">
-        <span class="item-name">${escapeHtml(displayCompany(group.latest))}</span>
-        <span class="item-meta">${escapeHtml(companySortMetaText(group))}</span>
-        <span class="count-pill">${group.records.length}</span>
+        <span class="item-name">${escapeHtml(displayCompanyForGroup(group))}</span>
+        <span class="count-pill">${groupMetricCount(group)}</span>
       </div>
+      <div class="item-meta company-item-meta">${escapeHtml(companySortMetaText(group))}</div>
     `;
     button.addEventListener('click', () => {
       selectCompanyGroup(group, { closeSearch: true, focusCompany: true });
@@ -1573,32 +2227,51 @@ function renderAll() {
   syncToolbarHeight();
   requestAnimationFrame(updatePeriodScrollIndicator);
 }
+function renderMetricModeButtons(availableModes) {
+  metricMode.innerHTML = availableModes.map((mode) => {
+    const active = mode === state.metricMode;
+    const label = t(METRIC_MODE_LABEL_KEYS[mode] || mode);
+    return `
+      <button
+        data-metric="${escapeHtml(mode)}"
+        type="button"
+        class="${active ? 'active' : ''}"
+        aria-pressed="${active ? 'true' : 'false'}"
+      >${escapeHtml(label)}</button>
+    `;
+  }).join('');
+}
 function syncMetricModeControls() {
   if (!METRIC_MODES.includes(state.metricMode)) state.metricMode = 'incomeStatement';
-  if (isCompanyInfoMetric() && state.viewMode !== 'table') state.viewMode = 'table';
+  state.metricMode = normalizeMetricModeForCompany(state.company, state.metricMode);
+  syncMetricCompanySelection();
+  state.metricMode = normalizeMetricModeForCompany(state.company, state.metricMode);
+  state.viewMode = normalizeViewModeForMetric(state.metricMode, state.viewMode);
   app.classList.toggle('metric-company-info', isCompanyInfoMetric());
   app.classList.toggle('metric-income-statement', isIncomeStatementMetric());
+  app.classList.toggle('metric-revenue', isRevenueMetric());
   periodSection.hidden = !isIncomeStatementMetric();
-  [...metricMode.querySelectorAll('button')].forEach((button) => {
-    const active = button.dataset.metric === state.metricMode;
-    button.classList.toggle('active', active);
-    button.setAttribute('aria-pressed', active ? 'true' : 'false');
-  });
+  renderMetricModeButtons(metricModesForCompany(state.company));
 }
 function syncViewModeControls() {
-  if (isCompanyInfoMetric() && state.viewMode !== 'table') state.viewMode = 'table';
+  state.viewMode = normalizeViewModeForMetric(state.metricMode, state.viewMode);
   const isSankey = isIncomeStatementMetric() && state.viewMode === 'sankey';
+  const isTrend = isRevenueMetric() && state.viewMode === 'trend';
   const isTable = state.viewMode === 'table';
   sankeyView.hidden = !isSankey;
+  trendView.hidden = !isTrend;
   tableView.hidden = !isTable;
   companiesTableSection.hidden = !(isTable && isCompanyInfoMetric());
   statementsTableSection.hidden = !(isTable && isIncomeStatementMetric());
+  revenueTableSection.hidden = !(isTable && isRevenueMetric());
   sankeyActions.hidden = !isSankey;
   tableActions.hidden = !isTable;
   companiesCsvBtn.hidden = !isTable || !isCompanyInfoMetric();
   statementsCsvBtn.hidden = !isTable || !isIncomeStatementMetric();
+  revenueCsvBtn.hidden = !isTable || !isRevenueMetric();
+  const allowedViews = allowedViewModesForMetric(state.metricMode);
   [...viewMode.querySelectorAll('button')].forEach((button) => {
-    const allowed = button.dataset.view === 'table' || isIncomeStatementMetric();
+    const allowed = allowedViews.includes(button.dataset.view);
     const active = allowed && button.dataset.view === state.viewMode;
     button.hidden = !allowed;
     button.classList.toggle('active', active);
@@ -1607,8 +2280,7 @@ function syncViewModeControls() {
   syncToolbarHeight();
 }
 function setViewMode(mode, persist = true) {
-  if (isCompanyInfoMetric()) mode = 'table';
-  if (mode !== 'sankey' && mode !== 'table') return;
+  mode = normalizeViewModeForMetric(state.metricMode, mode);
   if (state.viewMode === mode) {
     if (mode === 'table') scrollActiveTableRow(activeTableKind());
     return;
@@ -1621,12 +2293,14 @@ function setViewMode(mode, persist = true) {
 }
 function setMetricMode(mode, persist = true) {
   if (!METRIC_MODES.includes(mode)) return;
+  if (!metricModesForCompany(state.company).includes(mode)) return;
   if (state.metricMode === mode) {
     if (state.viewMode === 'table') scrollActiveTableRow(activeTableKind());
     return;
   }
   state.metricMode = mode;
-  state.viewMode = mode === 'companyInfo' ? 'table' : 'sankey';
+  state.viewMode = defaultViewModeForMetric(mode);
+  syncMetricCompanySelection();
   if (persist) {
     writeStoredValue(METRIC_MODE_KEY, mode);
     writeStoredValue(VIEW_MODE_KEY, state.viewMode);
@@ -1699,6 +2373,22 @@ function syncPeriodExpansionControls() {
   periodExpandToggle.title = label;
   periodExpandToggle.setAttribute('aria-label', label);
   periodExpandToggle.setAttribute('aria-expanded', state.periodExpanded ? 'true' : 'false');
+}
+function syncMetricCompanySelection() {
+  const modeGroups = currentCompanyGroups();
+  if (!modeGroups.length) return;
+  const group = metricGroupForCompany(state.company, state.metricMode) || modeGroups[0];
+  state.company = group.company;
+  if (isIncomeStatementMetric()) {
+    const current = recordByIndex(state.activeIndex);
+    if (current && current.company === group.company) return;
+    const next = sortedRecords(group).find((record) => matches(searchTextForRecord(record), periodSearch.value)) || sortedRecords(group)[0];
+    if (next) state.activeIndex = next.index;
+  } else if (isCompanyInfoMetric() && group.records?.[0]) {
+    const current = recordByIndex(state.activeIndex);
+    if (current && current.company === group.company) return;
+    state.activeIndex = group.records[0].index;
+  }
 }
 function companySortLabel(sortKey = state.companySort) {
   const key = COMPANY_SORT_CONFIG[sortKey]?.labelKey || COMPANY_SORT_CONFIG.name.labelKey;
@@ -1942,6 +2632,11 @@ function draw({ renderTable = true, syncView = true } = {}) {
     svgBtn.disabled = true;
     return;
   }
+  if (state.viewMode === 'trend') {
+    renderRevenueTrend();
+    svgBtn.disabled = true;
+    return;
+  }
   const d = localizedDataset(currentDataset());
   const maxWidth = chartWidth(d);
   document.querySelector('.card').style.maxWidth = maxWidth + 'px';
@@ -2077,4 +2772,23 @@ statementsCsvBtn.onclick = () => {
     { label: 'source_image', value: (row) => row.financial?.sourceImage || '' },
   ];
   downloadText('income-statements.csv', csvFromRows(columns, statementRows()));
+};
+revenueCsvBtn.onclick = () => {
+  const columns = [
+    { label: 'metric_key', value: (row) => row.record.metric.key },
+    { label: 'company', value: (row) => row.displayCompany },
+    { label: 'metric', value: (row) => row.displayMetric },
+    { label: 'date', value: (row) => row.observation.date },
+    { label: 'annualized_revenue', value: (row) => row.observation.value },
+    { label: 'currency', value: (row) => row.metric.currency || '' },
+    { label: 'unit', value: (row) => row.metric.unit || '' },
+    { label: 'mom_growth_pct', value: (row) => row.observation.momGrowthPct ?? '' },
+    { label: 'notes', value: (row) => notesText(row.observation.notes) },
+    { label: 'period', value: (row) => row.displayPeriod },
+    { label: 'period_note', value: (row) => row.displayPeriodNote },
+    { label: 'definition', value: (row) => row.definition },
+    { label: 'source_urls', value: (row) => (row.sourceUrls || []).join(' ') },
+    { label: 'source_image', value: (row) => row.sourceImage },
+  ];
+  downloadText('revenue-metrics.csv', csvFromRows(columns, revenueRows()));
 };

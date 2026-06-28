@@ -21,6 +21,13 @@ currently an empty catalog because Product is not rendered as a first-class UI
 entity yet. Future Product records and time-varying Company/Product ownership
 links should be added there instead of being hidden inside Sankey adapters.
 
+`data/revenue-metrics.js` is the pure Revenue Metric SSOT for revenue
+observations that are not full income statements, such as ARR or annualized
+revenue run-rate time series. Keep it to metric identity, time, conditions,
+definition, values, source metadata, confidence, and lineage. Do not put
+Sankey nodes, links, layout, SVG, chart geometry, or table-only fields in that
+file.
+
 `src/i18n.js` defines the project-wide language list. English fields are the
 canonical/default data used for verification. For every non-default supported
 language, add `i18n.<language>` overlays on datasets, financial SSOT records,
@@ -105,6 +112,62 @@ SSOT record, compares key totals and line items against Sankey node values, and
 allows small published-rounding differences via `roundingTolerance`. It also
 checks every company in the financial SSOT has a matching
 `data/company-metadata.js` entry.
+
+### Revenue metric record
+
+```js
+{
+  key: 'openai-arr-annualized-revenue-yipit-2025-08-2026-06',
+  company: 'OpenAI',
+  subjectType: 'company',
+  subjectId: 'openai',
+  metricFamily: 'revenue',
+  metricName: 'annualized_revenue_run_rate',
+  displayName: 'Annualized revenue run-rate',
+  period: 'Aug. 2025-Jun. 2026',
+  periodNote: 'Monthly observations through Jun. 30, 2026',
+  currency: '$',
+  unit: 'B',
+  decimals: 1,
+  definition: 'Source-specific metric definition.',
+  conditions: {
+    geography: 'Global',
+    basis: 'Third-party estimated annualized revenue run-rate',
+    timeGrain: 'Month-end observation',
+  },
+  observations: [
+    {
+      date: '2026-06-30',
+      value: 43.0,
+      momGrowthPct: 16,
+      notes: ['Source-specific methodology note.'],
+    },
+  ],
+  sources: [
+    {
+      name: 'YipitData',
+      url: 'https://www.yipitdata.com/',
+      sourceImage: { src: 'input/processed/example.png', width: 1125, height: 1412 },
+    },
+  ],
+  confidence: 0.72,
+  lineage: 'How this observation was extracted or inferred.',
+  i18n: {
+    zh: {
+      displayName: '年化收入运行率',
+      definition: '本地化定义。',
+    },
+  },
+}
+```
+
+The verifier checks that revenue observations are sorted, numeric, sourced,
+matched to company metadata, and internally consistent: each non-initial
+`momGrowthPct` should equal the rounded month-over-month growth from the prior
+observation.
+Observation-level `notes` are optional, user-visible methodology or caveat
+strings attached to individual data points. Localize them through the revenue
+metric i18n flow when present.
 
 ---
 

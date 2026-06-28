@@ -24,6 +24,7 @@ function loadBrowserData(scripts) {
 
   vm.runInContext(readProjectFile('src/icons.js'), context, { filename: 'src/icons.js' });
   vm.runInContext(readProjectFile('data/income-statements.js'), context, { filename: 'data/income-statements.js' });
+  vm.runInContext(readProjectFile('data/revenue-metrics.js'), context, { filename: 'data/revenue-metrics.js' });
   vm.runInContext(readProjectFile('data/company-metadata.js'), context, { filename: 'data/company-metadata.js' });
   for (const script of scripts) {
     vm.runInContext(readProjectFile(script), context, { filename: script });
@@ -31,6 +32,7 @@ function loadBrowserData(scripts) {
 
   return {
     records: context.INCOME_STATEMENT_SSOT?.records || [],
+    revenueRecords: context.REVENUE_METRIC_SSOT?.records || [],
     companies: context.COMPANY_METADATA?.companies || [],
     datasets: context.DATASETS || [],
   };
@@ -75,6 +77,20 @@ function validateRecordShape(record, errors) {
   for (const field of ['key', 'company', 'period', 'currency', 'unit', 'revenue', 'costs', 'profit']) {
     assert(record[field] !== undefined, `${record.key || '<missing key>'}: missing required field "${field}"`, errors);
   }
+}
+
+function validateRevenueMetricRecordShape(record, errors) {
+  const forbidden = ['nodes', 'links', 'layout', 'render'];
+  for (const field of forbidden) {
+    assert(record[field] === undefined, `${record.key}: revenue SSOT record must not contain view field "${field}"`, errors);
+  }
+  for (const field of ['key', 'company', 'subjectType', 'subjectId', 'metricFamily', 'metricName', 'displayName', 'period', 'currency', 'unit', 'definition', 'conditions', 'observations', 'sources']) {
+    assert(record[field] !== undefined && record[field] !== '', `${record.key || '<missing key>'}: missing required revenue field "${field}"`, errors);
+  }
+  assert(record.metricFamily === 'revenue', `${record.key}: metricFamily must be "revenue"`, errors);
+  assert(record.subjectType === 'company' || record.subjectType === 'product', `${record.key}: subjectType must be company or product`, errors);
+  assert(Array.isArray(record.observations) && record.observations.length > 0, `${record.key}: observations must be a non-empty array`, errors);
+  assert(Array.isArray(record.sources) && record.sources.length > 0, `${record.key}: sources must be a non-empty array`, errors);
 }
 
 function validateCompanyMetadata(records, companies, errors) {
@@ -175,6 +191,56 @@ function validateArithmetic(record, errors) {
   );
 }
 
+function dateValue(date) {
+  const time = Date.parse(`${date}T00:00:00Z`);
+  return Number.isFinite(time) ? time : null;
+}
+
+function validateRevenueMetric(record, errors) {
+  validateRevenueMetricRecordShape(record, errors);
+  const observations = [...(record.observations || [])];
+  const sorted = [...observations].sort((a, b) => dateValue(a.date) - dateValue(b.date));
+  assert(sorted.length === observations.length && sorted.every((item, index) => item === observations[index]), `${record.key}: observations must be sorted by ascending date`, errors);
+
+  sorted.forEach((observation, index) => {
+    assert(dateValue(observation.date) != null, `${record.key}: observation ${index} has invalid date "${observation.date}"`, errors);
+    assert(typeof observation.value === 'number' && Number.isFinite(observation.value), `${record.key}: observation ${observation.date} missing numeric value`, errors);
+    if (observation.notes !== undefined) {
+      assert(
+        Array.isArray(observation.notes) && observation.notes.every((note) => typeof note === 'string' && note.trim()),
+        `${record.key}: observation ${observation.date} notes must be a non-empty string array`,
+        errors
+      );
+    }
+    if (index === 0) {
+      assert(observation.momGrowthPct == null, `${record.key}: first observation should not have momGrowthPct`, errors);
+      return;
+    }
+    const previous = sorted[index - 1];
+    const expectedGrowth = Math.round(((observation.value - previous.value) / previous.value) * 100);
+    assert(
+      observation.momGrowthPct === expectedGrowth,
+      `${record.key}: ${observation.date} momGrowthPct ${observation.momGrowthPct} should be ${expectedGrowth}`,
+      errors
+    );
+  });
+
+  const latest = sorted[sorted.length - 1];
+  if (latest && record.value) {
+    assert(record.value.latestDate === latest.date, `${record.key}: value.latestDate does not match latest observation`, errors);
+    assertClose(record.value.latest, latest.value, 0, `${record.key}: value.latest`, errors);
+    assert(record.value.latestMoMGrowthPct === latest.momGrowthPct, `${record.key}: value.latestMoMGrowthPct does not match latest observation`, errors);
+  }
+
+  for (const source of record.sources || []) {
+    assert(source.name, `${record.key}: source missing name`, errors);
+    assert(source.url, `${record.key}: source missing url`, errors);
+    if (source.sourceImage?.src) {
+      assert(existsSync(path.join(rootDir, source.sourceImage.src)), `${record.key}: source image does not exist: ${source.sourceImage.src}`, errors);
+    }
+  }
+}
+
 function main() {
   const scripts = dataScripts();
   const missing = scripts.filter((script) => !existsSync(path.join(rootDir, script)));
@@ -182,7 +248,7 @@ function main() {
     throw new Error(`Missing registered data script(s): ${missing.join(', ')}`);
   }
 
-  const { records, companies, datasets } = loadBrowserData(scripts);
+  const { records, revenueRecords, companies, datasets } = loadBrowserData(scripts);
   const errors = [];
   const datasetKeys = scripts.map((script) => path.basename(script, '.js'));
   const recordKeys = records.map((record) => record.key);
@@ -204,7 +270,10 @@ function main() {
     if (dataset) validateDatasetParity(record, dataset, errors);
     validateArithmetic(record, errors);
   }
-  validateCompanyMetadata(records, companies, errors);
+  const revenueKeys = revenueRecords.map((record) => record.key);
+  assert(new Set(revenueKeys).size === revenueKeys.length, 'Revenue SSOT contains duplicate record keys', errors);
+  for (const record of revenueRecords) validateRevenueMetric(record, errors);
+  validateCompanyMetadata([...records, ...revenueRecords], companies, errors);
 
   if (errors.length) {
     console.error(`SSOT verification failed with ${errors.length} error(s):`);
@@ -212,7 +281,7 @@ function main() {
     process.exit(1);
   }
 
-  console.log(`SSOT verification passed: ${records.length} record(s), ${datasetKeys.length} registered dataset(s).`);
+  console.log(`SSOT verification passed: ${records.length} income statement record(s), ${revenueRecords.length} revenue metric record(s), ${datasetKeys.length} registered dataset(s).`);
 }
 
 main();

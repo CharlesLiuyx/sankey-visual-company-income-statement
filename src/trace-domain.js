@@ -26,6 +26,7 @@
   const TIME_PERMANENT = 'permanent';
   const METRIC_FAMILIES = Object.freeze({
     incomeStatement: 'income-statement',
+    revenue: 'revenue',
   });
 
   const VIEW_TYPES = Object.freeze({
@@ -314,21 +315,142 @@
     }).sort((a, b) => a.company.localeCompare(b.company));
   }
 
+  function observationDateMs(observation) {
+    return timestampMs(`${clean(observation?.date)}T00:00:00Z`);
+  }
+
+  function sortedObservations(observations = []) {
+    return [...observations].sort((a, b) => (observationDateMs(a) || 0) - (observationDateMs(b) || 0));
+  }
+
+  function revenueMetricPeriod(metric, observations) {
+    if (metric?.period) return clean(metric.period);
+    const first = observations[0]?.date;
+    const latest = observations[observations.length - 1]?.date;
+    return [first, latest].filter(Boolean).join(' - ') || 'Unspecified';
+  }
+
+  function createRevenueMetricRecords(metrics = []) {
+    return metrics.map((metric, index) => {
+      const observations = sortedObservations(metric.observations);
+      const latestObservation = observations[observations.length - 1] || null;
+      const firstObservation = observations[0] || null;
+      const period = revenueMetricPeriod(metric, observations);
+      const periodNote = clean(metric.periodNote || latestObservation?.date);
+      const label = clean(metric.displayName || metric.metricName || metric.key || `Revenue metric ${index + 1}`);
+      const company = clean(metric.company);
+      const sortValue = observationDateMs(latestObservation) || index;
+      const sourceText = (metric.sources || []).map((source) => [source.name, source.url].filter(Boolean).join(' ')).join(' ');
+      return {
+        metric,
+        index,
+        company,
+        period,
+        periodNote,
+        label,
+        firstObservation,
+        latestObservation,
+        sortValue,
+        searchText: [
+          company,
+          metric.key,
+          metric.metricFamily,
+          metric.metricName,
+          metric.displayName,
+          metric.definition,
+          period,
+          periodNote,
+          sourceText,
+          ...observations.map((observation) => `${observation.date} ${observation.value} ${observation.momGrowthPct ?? ''}`),
+        ].join(' '),
+      };
+    });
+  }
+
+  function createRevenueMetricGroups(revenueRecords = []) {
+    return Array.from(revenueRecords.reduce((map, record) => {
+      if (!map.has(record.company)) map.set(record.company, { company: record.company, records: [], revenueRecords: [] });
+      map.get(record.company).revenueRecords.push(record);
+      return map;
+    }, new Map()).values()).map((group) => {
+      group.revenueRecords.sort((a, b) => b.sortValue - a.sortValue || a.period.localeCompare(b.period));
+      group.latestRevenueRecord = group.revenueRecords[0] || null;
+      group.latest = group.latestRevenueRecord;
+      group.updatedSortValue = null;
+      group.searchText = [group.company, ...group.revenueRecords.map((record) => record.searchText)].join(' ');
+      return group;
+    }).sort((a, b) => a.company.localeCompare(b.company));
+  }
+
+  function createCombinedCompanyGroups(statementGroups = [], revenueGroups = [], companyMetadata = []) {
+    const map = new Map();
+    const ensure = (company) => {
+      const key = clean(company);
+      if (!map.has(key)) {
+        map.set(key, {
+          company: key,
+          records: [],
+          revenueRecords: [],
+          latestStatementRecord: null,
+          latestRevenueRecord: null,
+          latest: null,
+          updatedSortValue: null,
+          searchText: '',
+        });
+      }
+      return map.get(key);
+    };
+
+    statementGroups.forEach((group) => {
+      const target = ensure(group.company);
+      target.records = [...(group.records || [])];
+      target.latestStatementRecord = group.latest || target.records[0] || null;
+      target.updatedSortValue = group.updatedSortValue ?? null;
+    });
+    revenueGroups.forEach((group) => {
+      const target = ensure(group.company);
+      target.revenueRecords = [...(group.revenueRecords || [])];
+      target.latestRevenueRecord = group.latestRevenueRecord || target.revenueRecords[0] || null;
+    });
+    companyMetadata.forEach((company) => {
+      ensure(company.name || company.key);
+    });
+
+    return Array.from(map.values()).map((group) => {
+      group.latest = group.latestStatementRecord || group.latestRevenueRecord;
+      group.searchText = [
+        group.company,
+        ...group.records.map((record) => record.searchText),
+        ...group.revenueRecords.map((record) => record.searchText),
+      ].join(' ');
+      return group;
+    }).sort((a, b) => a.company.localeCompare(b.company));
+  }
+
   function createCatalog(source = global) {
     const datasets = source.DATASETS || [];
     const datasetFileMetadata = source.DATASET_FILE_METADATA || {};
     const financialRecords = source.INCOME_STATEMENT_SSOT?.records || [];
+    const revenueMetrics = source.REVENUE_METRIC_SSOT?.records || [];
     const companyMetadata = source.COMPANY_METADATA?.companies || [];
     const productCatalog = source.PRODUCT_CATALOG || {};
     const records = createDatasetRecords(datasets, datasetFileMetadata);
+    const revenueRecords = createRevenueMetricRecords(revenueMetrics);
+    const groups = createCompanyGroups(records);
+    const revenueGroups = createRevenueMetricGroups(revenueRecords);
 
     return {
       datasets,
       datasetFileMetadata,
       records,
-      groups: createCompanyGroups(records),
+      groups,
       financialRecords,
       financialRecordByKey: new Map(financialRecords.map((record) => [record.key, record])),
+      revenueMetrics,
+      revenueRecords,
+      revenueRecordByKey: new Map(revenueRecords.map((record) => [record.metric.key, record])),
+      revenueGroups,
+      allCompanyGroups: createCombinedCompanyGroups(groups, revenueGroups, companyMetadata),
       companyMetadata,
       companyMetadataByName: buildCompanyMetadataIndex(companyMetadata),
       products: productCatalog.products || [],
@@ -373,6 +495,9 @@
     fallbackCompanyMetadata,
     createDatasetRecords,
     createCompanyGroups,
+    createRevenueMetricRecords,
+    createRevenueMetricGroups,
+    createCombinedCompanyGroups,
     createCatalog,
   });
 })(window);

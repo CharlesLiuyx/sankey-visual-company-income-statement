@@ -52,7 +52,10 @@
             <button class="btn icon-btn panel-collapse-btn" id="sidebarToggle" aria-label="Collapse dataset panel" aria-expanded="true" aria-controls="datasetPanel" title="Collapse dataset panel">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="m16 9-3 3 3 3"/></svg>
             </button>
-            <label for="companySearch" data-i18n="companyLabel">Company</label>
+            <span class="entity-heading section-heading">
+              <label for="companySearch" data-i18n="companyLabel">Company</label>
+              <span class="scope-count-pill" id="companyScopeCount" aria-label="Company count"></span>
+            </span>
             <div class="search-box header-search-box" id="companySearchBox">
               <input id="companySearch" type="search" placeholder="Search companies" autocomplete="off" data-i18n-placeholder="companySearchPlaceholder" />
             </div>
@@ -79,10 +82,14 @@
       <main class="content">
         <section class="control-strip" aria-label="Metric and view controls" data-i18n-aria-label="mainControlsLabel">
           <div class="control-group metric-control">
-            <span class="control-label" data-i18n="metricLabel">Metric</span>
+            <span class="entity-heading control-heading">
+              <span class="control-label" data-i18n="metricLabel">Metric</span>
+              <span class="scope-count-pill" id="metricScopeCount" aria-label="Metric count"></span>
+            </span>
             <div class="seg control-seg metric-seg" id="metricMode" aria-label="Metric" data-i18n-aria-label="metricModeLabel">
               <button data-metric="companyInfo" type="button" data-i18n="metricCompanyInfo">Company Info</button>
               <button data-metric="incomeStatement" type="button" data-i18n="metricIncomeStatement">Income Statement</button>
+              <button data-metric="revenue" type="button" data-i18n="metricRevenue">Revenue</button>
             </div>
           </div>
 
@@ -110,13 +117,17 @@
             <span class="control-label" data-i18n="viewLabel">View</span>
             <div class="seg control-seg view-seg" id="viewMode" aria-label="Data view" data-i18n-aria-label="viewModeLabel">
               <button data-view="sankey" class="active" title="Sankey view" data-i18n="viewSankey" data-i18n-title="viewSankeyTitle">Sankey</button>
+              <button data-view="trend" title="Trend view" data-i18n="viewTrend" data-i18n-title="viewTrendTitle">Trend</button>
               <button data-view="table" title="Table view" data-i18n="viewTable" data-i18n-title="viewTableTitle">Table</button>
             </div>
           </div>
         </section>
 
         <div class="view-actionbar">
-          <span class="view-label" data-i18n="viewLabel">View</span>
+          <span class="entity-heading actionbar-heading">
+            <span class="view-label" data-i18n="viewLabel">View</span>
+            <span class="scope-count-pill" id="viewScopeCount" aria-label="View count"></span>
+          </span>
           <div class="action-title" id="actionTitle"></div>
           <div class="spacer"></div>
           <div class="toolbar-actions" aria-label="View actions" data-i18n-aria-label="viewActionsLabel">
@@ -139,11 +150,24 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
                 <span data-i18n="downloadStatementsCsv">Statements CSV</span>
               </button>
+              <button class="btn primary" id="revenueCsvBtn" title="Download revenue CSV" data-i18n-title="downloadRevenueCsvTitle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                <span data-i18n="downloadRevenueCsv">Revenue CSV</span>
+              </button>
             </div>
           </div>
         </div>
 
         <div class="stage view-pane" id="sankeyView"><div class="card"><div id="chart"></div></div></div>
+        <div class="trend-view view-pane" id="trendView" hidden>
+          <section class="trend-panel" aria-labelledby="trendChartTitle">
+            <div class="trend-heading">
+              <h2 id="trendChartTitle"></h2>
+              <span id="trendChartSubtitle"></span>
+            </div>
+            <div id="trendChart"></div>
+          </section>
+        </div>
         <div class="table-view view-pane" id="tableView" hidden>
           <section class="table-section" id="companiesTableSection" aria-labelledby="companiesTableTitle">
             <div class="table-heading">
@@ -163,6 +187,15 @@
               <table id="statementsTable"></table>
             </div>
           </section>
+          <section class="table-section" id="revenueTableSection" aria-labelledby="revenueTableTitle">
+            <div class="table-heading">
+              <h2 id="revenueTableTitle" data-i18n="revenueMetricsLabel">Revenue Metrics</h2>
+              <span id="revenueTableCount"></span>
+            </div>
+            <div class="table-wrap">
+              <table id="revenueTable"></table>
+            </div>
+          </section>
         </div>
       </main>
     </div>
@@ -170,13 +203,15 @@
     <!-- libraries (vendored, offline) -->
     <script src="vendor/d3.min.js"></script>
     <script src="vendor/d3-sankey.min.js"></script>
+    <script src="vendor/chart.umd.min.js"></script>
     <!-- shared icons + renderers -->
     <script src="src/icons.js"></script>
     <script src="src/sankey-engine.js"></script>
     <script src="src/i18n.js"></script>
     <script src="src/trace-domain.js"></script>
-    <!-- pure financial-statement SSOT -->
+    <!-- pure data SSOT -->
     <script src="data/income-statements.js"></script>
+    <script src="data/revenue-metrics.js"></script>
     <script src="data/company-metadata.js"></script>
     <script src="data/products.js"></script>
     <script src="data/dataset-file-metadata.js"></script>

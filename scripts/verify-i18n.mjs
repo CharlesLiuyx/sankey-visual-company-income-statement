@@ -56,6 +56,7 @@ function loadBrowserData() {
     'src/sankey-engine.js',
     'src/i18n.js',
     'data/income-statements.js',
+    'data/revenue-metrics.js',
     'data/company-metadata.js',
     ...dataScriptsFromIndex(readProjectFile('index.html')),
   ]) {
@@ -66,6 +67,7 @@ function loadBrowserData() {
     i18n: context.SANKEY_I18N,
     datasets: context.DATASETS || [],
     records: context.INCOME_STATEMENT_SSOT?.records || [],
+    revenueRecords: context.REVENUE_METRIC_SSOT?.records || [],
     companies: context.COMPANY_METADATA?.companies || [],
   };
 }
@@ -250,6 +252,22 @@ function collectFinancialTexts(record, localized) {
   return list;
 }
 
+function collectRevenueMetricTexts(record, localized) {
+  const list = [];
+  addText(list, record.key, 'displayName', record.displayName, localized.displayName);
+  addText(list, record.key, 'period', record.period, localized.period);
+  addText(list, record.key, 'periodNote', record.periodNote, localized.periodNote);
+  addText(list, record.key, 'definition', record.definition, localized.definition);
+  addText(list, record.key, 'lineage', record.lineage, localized.lineage);
+  Object.keys(record.conditions || {}).forEach((key) => {
+    addText(list, record.key, `conditions.${key}`, record.conditions[key], localized.conditions?.[key]);
+  });
+  (record.observations || []).forEach((observation, index) => {
+    addText(list, record.key, `observations[${index}].notes`, observation.notes, localized.observations?.[index]?.notes);
+  });
+  return list;
+}
+
 function collectCompanyTexts(company, localized) {
   const list = [];
   for (const field of ['sector', 'industry', 'headquarters', 'fiscalYearEnd', 'description']) {
@@ -293,7 +311,7 @@ function compositeLayoutPhraseIssues(items) {
 
 function main() {
   const { strict, keys } = parseArgs(process.argv.slice(2));
-  const { i18n, datasets, records, companies } = loadBrowserData();
+  const { i18n, datasets, records, revenueRecords, companies } = loadBrowserData();
   const errors = [];
   const warnings = [];
 
@@ -313,10 +331,18 @@ function main() {
 
   const selectedDatasets = keys.size ? datasets.filter((dataset) => keys.has(dataset.key)) : datasets;
   const selectedRecords = records.filter((record) => !keys.size || keys.has(record.key));
-  const selectedCompanyNames = new Set(selectedRecords.map((record) => clean(record.company).toLowerCase()));
+  const selectedRevenueRecords = revenueRecords.filter((record) => !keys.size || keys.has(record.key));
+  const selectedCompanyNames = new Set([
+    ...selectedRecords.map((record) => clean(record.company).toLowerCase()),
+    ...selectedRevenueRecords.map((record) => clean(record.company).toLowerCase()),
+  ]);
   if (keys.size) {
     for (const key of keys) {
-      assert(datasets.some((dataset) => dataset.key === key), `Unknown dataset key "${key}"`, errors);
+      assert(
+        datasets.some((dataset) => dataset.key === key) || revenueRecords.some((record) => record.key === key),
+        `Unknown dataset or revenue metric key "${key}"`,
+        errors
+      );
     }
   }
 
@@ -366,6 +392,20 @@ function main() {
       }
     }
 
+    for (const record of selectedRevenueRecords) {
+      const localized = i18n.localizeRevenueMetricRecord(record, language);
+      const fallbacks = fallbackItems(collectRevenueMetricTexts(record, localized));
+      if (fallbacks.length) {
+        const sample = fallbacks.slice(0, 5).map((item) => `${item.path}="${item.source}"`).join('; ');
+        const message = `${record.key}: ${fallbacks.length} revenue SSOT fallback(s) for ${language}; ${sample}`;
+        if (strict) errors.push(message);
+        else warnings.push(message);
+      }
+      if (strict) {
+        assert(record.i18n?.[language], `${record.key}: missing explicit revenue record i18n.${language} overlay`, errors);
+      }
+    }
+
     {
       for (const company of companies.filter((company) => !keys.size || selectedCompanyNames.has(clean(company.name).toLowerCase()) || (company.aliases || []).some((alias) => selectedCompanyNames.has(clean(alias).toLowerCase())))) {
         const localized = i18n.localizeCompanyMetadata(company, language);
@@ -391,7 +431,7 @@ function main() {
 
   for (const warning of warnings.slice(0, 80)) console.warn(`warning: ${warning}`);
   if (warnings.length > 80) console.warn(`warning: ${warnings.length - 80} additional fallback warning(s) omitted`);
-  console.log(`i18n verification passed: ${languages.length} language(s), ${selectedDatasets.length} dataset(s), strict=${strict}.`);
+  console.log(`i18n verification passed: ${languages.length} language(s), ${selectedDatasets.length} dataset(s), ${selectedRevenueRecords.length} revenue metric(s), strict=${strict}.`);
 }
 
 main();

@@ -18,8 +18,8 @@
 
   const UI = {
     en: {
-      documentTitle: 'Income Statement Sankey Visualizer',
-      appTitle: 'Income Statement Sankey Visualizer',
+      documentTitle: 'Trace (Company & Product Metric Visualizer)',
+      appTitle: 'Trace (Company & Product Metric Visualizer)',
       byline: 'by',
       viewModeLabel: 'Data view',
       viewSankey: 'Sankey',
@@ -124,8 +124,8 @@
       tableSourceImage: 'Source image',
     },
     zh: {
-      documentTitle: '利润表桑基图可视化',
-      appTitle: '利润表桑基图可视化',
+      documentTitle: 'Trace（公司与产品指标可视化器）',
+      appTitle: 'Trace（公司与产品指标可视化器）',
       byline: '作者',
       viewModeLabel: '数据视图',
       viewSankey: '桑基图',

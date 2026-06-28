@@ -7,7 +7,7 @@ import { chromium } from 'playwright';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
-const defaultHtml = 'output/sankey-visual-company-income-statement.html';
+const defaultHtml = 'output/trace-company-product-metric-visualizer.html';
 
 function parseArgs(argv) {
   const args = argv.slice(2);

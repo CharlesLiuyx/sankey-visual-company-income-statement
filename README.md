@@ -1,7 +1,8 @@
-# sankey-visual-company-income-statement
+# Trace (Company & Product Metric Visualizer)
 
-A small, reusable engine that renders a company's income statement as a polished
-Sankey flow diagram — in the style of the NVIDIA "Q1 FY27 Income Statement"
+Trace is a small, reusable engine for visualizing company and product metrics.
+The current dataset catalog focuses on income statements rendered as polished
+Sankey flow diagrams in the style of the NVIDIA "Q1 FY27 Income Statement"
 infographic. Green = value retained, red = costs, teal = revenue collection.
 
 Drop in a new company's numbers and you get the same chart.
@@ -30,7 +31,7 @@ pnpm verify:standalone
 ```
 
 The generated file is
-`output/sankey-visual-company-income-statement.html`. It inlines the viewer CSS,
+`output/trace-company-product-metric-visualizer.html`. It inlines the viewer CSS,
 all ordered scripts, local Montserrat font files, and datasets. It does not
 inline or request processed reference PNGs; those remain verification inputs
 only.

@@ -8,7 +8,7 @@ import { scriptSources } from './script-sources.mjs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
-const defaultOutput = 'output/sankey-visual-company-income-statement.html';
+const defaultOutput = 'output/trace-company-product-metric-visualizer.html';
 const runtimeRasterAssetRe = /(['"])(data\/assets\/raster-annotations\/[^'"]+\.(?:png|jpe?g|webp|svg))\1/g;
 const mimeByExt = {
   '.jpg': 'image/jpeg',

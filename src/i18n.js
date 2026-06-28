@@ -78,6 +78,9 @@
       companySortMetaNetProfit: 'Net profit {value}',
       companySortMetaFounded: 'Founded {value}',
       companySortMetaUpdated: 'Updated {value}',
+      companyMultiExitTitle: 'Exit company multi-select',
+      comparisonNoData: 'No data for this metric',
+      comparisonScopeSummary: '{count} selected companies',
       periodLabel: 'Data point time',
       periodSortLabel: 'Sort time points',
       sortDesc: 'Desc',
@@ -212,6 +215,9 @@
       companySortMetaNetProfit: '净利润 {value}',
       companySortMetaFounded: '成立于 {value}',
       companySortMetaUpdated: '更新 {value}',
+      companyMultiExitTitle: '退出公司多选',
+      comparisonNoData: '该指标暂无数据',
+      comparisonScopeSummary: '已选择 {count} 家公司',
       periodLabel: '数据期间',
       periodSortLabel: '排序数据期间',
       sortDesc: '降序',
@@ -1182,11 +1188,35 @@
     return value;
   }
 
+  function mergeArrayOverlayByIndex(target, overlay) {
+    overlay.forEach((item, index) => {
+      if (item == null) return;
+      const prev = target[index];
+      if (
+        prev &&
+        item &&
+        typeof prev === 'object' &&
+        typeof item === 'object' &&
+        !Array.isArray(prev) &&
+        !Array.isArray(item)
+      ) {
+        mergeOverlay(prev, item);
+      } else {
+        target[index] = clone(item);
+      }
+    });
+    return target;
+  }
+
   function mergeOverlay(target, overlay) {
     if (!overlay || typeof overlay !== 'object') return target;
     Object.keys(overlay).forEach((key) => {
       const next = overlay[key];
       const prev = target[key];
+      if (key === 'observations' && Array.isArray(prev) && Array.isArray(next)) {
+        mergeArrayOverlayByIndex(prev, next);
+        return;
+      }
       if (Array.isArray(prev) && Array.isArray(next) && next.every((item) => item && typeof item === 'object' && item.id)) {
         next.forEach((item) => {
           const match = prev.find((candidate) => candidate && candidate.id === item.id);

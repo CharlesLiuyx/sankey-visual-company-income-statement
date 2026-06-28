@@ -4,8 +4,8 @@
  */
 (function () {
   window.DATASET_FILE_METADATA = {
-  "generatedAt": "2026-06-27T15:00:15.121Z",
-  "source": "dataset file modification times from index.html registrations",
+  "generatedAt": "2026-06-28T18:22:19.949Z",
+  "source": "dataset view and metric source file modification times",
   "files": {
     "alphabet-q1-fy26": {
       "path": "data/datasets/alphabet-q1-fy26.js",
@@ -129,8 +129,8 @@
     },
     "goldman-sachs-q1-fy26": {
       "path": "data/datasets/goldman-sachs-q1-fy26.js",
-      "mtimeMs": 1782016369167,
-      "mtime": "2026-06-21T04:32:49.167Z"
+      "mtimeMs": 1782662426071,
+      "mtime": "2026-06-28T16:00:26.071Z"
     },
     "hilton-q1-fy26": {
       "path": "data/datasets/hilton-q1-fy26.js",
@@ -204,8 +204,8 @@
     },
     "netflix-q1-fy26": {
       "path": "data/datasets/netflix-q1-fy26.js",
-      "mtimeMs": 1781986472696,
-      "mtime": "2026-06-20T20:14:32.696Z"
+      "mtimeMs": 1782660870826,
+      "mtime": "2026-06-28T15:34:30.826Z"
     },
     "netease-q1-fy26": {
       "path": "data/datasets/netease-q1-fy26.js",
@@ -426,6 +426,11 @@
       "path": "data/datasets/nvidia-q4-fy26.js",
       "mtimeMs": 1782134856098,
       "mtime": "2026-06-22T13:27:36.098Z"
+    },
+    "data/revenue-metrics.js": {
+      "path": "data/revenue-metrics.js",
+      "mtimeMs": 1782670939949,
+      "mtime": "2026-06-28T18:22:19.949Z"
     }
   }
 };

@@ -11,6 +11,7 @@
  * ==================================================================== */
 (function (global) {
   'use strict';
+  let renderIdSequence = 0;
 
   /* ---- default theme / layout tokens (override per-call via 4th arg) ---- */
   const DEFAULTS = {
@@ -252,6 +253,8 @@
 
     const W = cfg.width;
     const H = cfg.height;
+    renderIdSequence += 1;
+    const idPrefix = `sankey-${renderIdSequence}`;
 
     const svg = root
       .append('svg')
@@ -364,7 +367,7 @@
         ? cfg.linkTint.cost
         : tintOf(tNode) || tintOf(sNode) || cfg.linkTint.source);
 
-      const gid = `lg-${i}`;
+      const gid = `${idPrefix}-lg-${i}`;
       const grad = defs
         .append('linearGradient')
         .attr('id', gid)

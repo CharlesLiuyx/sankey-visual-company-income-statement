@@ -167,6 +167,16 @@
     return timestampMs(entry?.mtimeMs ?? entry?.mtime);
   }
 
+  function sourceFileUpdatedAtMs(relativePath, datasetFileMetadata = {}) {
+    const entry = datasetFileMetadata.files?.[relativePath];
+    return timestampMs(entry?.mtimeMs ?? entry?.mtime);
+  }
+
+  function maxUpdatedAt(...values) {
+    const timestamps = values.map(finiteNumber).filter((value) => value != null);
+    return timestamps.length ? Math.max(...timestamps) : null;
+  }
+
   function fiscalYearLabel(year) {
     if (!Number.isFinite(year) || year <= 0) return '';
     return `FY${String(year).slice(-2).padStart(2, '0')}`;
@@ -256,11 +266,18 @@
   function buildCompanyMetadataIndex(companies = []) {
     const byName = new Map();
     companies.forEach((company) => {
-      [company.name, company.legalName, ...(company.aliases || [])].filter(Boolean).forEach((name) => {
+      [company.key, company.name, company.legalName, ...(company.aliases || [])].filter(Boolean).forEach((name) => {
         byName.set(normalize(name), company);
       });
     });
     return byName;
+  }
+
+  function canonicalCompanyName(company, companyMetadataByName) {
+    const name = clean(company);
+    if (!name) return name;
+    const metadata = companyMetadataByName?.get(normalize(name));
+    return clean(metadata?.name || name);
   }
 
   function fallbackCompanyMetadata(company) {
@@ -282,11 +299,11 @@
     };
   }
 
-  function createDatasetRecords(datasets = [], datasetFileMetadata = {}) {
+  function createDatasetRecords(datasets = [], datasetFileMetadata = {}, companyMetadataByName = new Map()) {
     const records = datasets.map((dataset, index) => {
       const period = periodFor(dataset);
       const periodNote = clean(dataset?.meta?.periodNote);
-      const company = companyFor(dataset);
+      const company = canonicalCompanyName(companyFor(dataset), companyMetadataByName);
       const label = clean(dataset?.name || dataset?.meta?.title || dataset?.key || `Dataset ${index + 1}`);
       return { dataset, index, company, period, periodNote, label, sortValue: 0, updatedSortValue: null, periodParts: null, variantFeature: '' };
     });
@@ -308,8 +325,7 @@
     }, new Map()).values()).map((group) => {
       group.records.sort((a, b) => b.sortValue - a.sortValue || a.period.localeCompare(b.period));
       group.latest = group.records[0];
-      group.updatedSortValue = group.records.reduce((latest, record) => Math.max(latest, record.updatedSortValue ?? -Infinity), -Infinity);
-      if (group.updatedSortValue === -Infinity) group.updatedSortValue = null;
+      group.updatedSortValue = maxUpdatedAt(...group.records.map((record) => record.updatedSortValue));
       group.searchText = [group.company, ...group.records.map((record) => record.searchText)].join(' ');
       return group;
     }).sort((a, b) => a.company.localeCompare(b.company));
@@ -330,7 +346,8 @@
     return [first, latest].filter(Boolean).join(' - ') || 'Unspecified';
   }
 
-  function createRevenueMetricRecords(metrics = []) {
+  function createRevenueMetricRecords(metrics = [], companyMetadataByName = new Map(), datasetFileMetadata = {}) {
+    const revenueMetricSourceUpdatedAt = sourceFileUpdatedAtMs('data/revenue-metrics.js', datasetFileMetadata);
     return metrics.map((metric, index) => {
       const observations = sortedObservations(metric.observations);
       const latestObservation = observations[observations.length - 1] || null;
@@ -338,8 +355,9 @@
       const period = revenueMetricPeriod(metric, observations);
       const periodNote = clean(metric.periodNote || latestObservation?.date);
       const label = clean(metric.displayName || metric.metricName || metric.key || `Revenue metric ${index + 1}`);
-      const company = clean(metric.company);
+      const company = canonicalCompanyName(metric.company, companyMetadataByName);
       const sortValue = observationDateMs(latestObservation) || index;
+      const updatedSortValue = timestampMs(metric.updatedAtMs ?? metric.updatedAt) ?? revenueMetricSourceUpdatedAt;
       const sourceText = (metric.sources || []).map((source) => [source.name, source.url].filter(Boolean).join(' ')).join(' ');
       return {
         metric,
@@ -351,6 +369,7 @@
         firstObservation,
         latestObservation,
         sortValue,
+        updatedSortValue,
         searchText: [
           company,
           metric.key,
@@ -376,16 +395,16 @@
       group.revenueRecords.sort((a, b) => b.sortValue - a.sortValue || a.period.localeCompare(b.period));
       group.latestRevenueRecord = group.revenueRecords[0] || null;
       group.latest = group.latestRevenueRecord;
-      group.updatedSortValue = null;
+      group.updatedSortValue = maxUpdatedAt(...group.revenueRecords.map((record) => record.updatedSortValue));
       group.searchText = [group.company, ...group.revenueRecords.map((record) => record.searchText)].join(' ');
       return group;
     }).sort((a, b) => a.company.localeCompare(b.company));
   }
 
-  function createCombinedCompanyGroups(statementGroups = [], revenueGroups = [], companyMetadata = []) {
+  function createCombinedCompanyGroups(statementGroups = [], revenueGroups = [], companyMetadata = [], companyMetadataByName = buildCompanyMetadataIndex(companyMetadata)) {
     const map = new Map();
     const ensure = (company) => {
-      const key = clean(company);
+      const key = canonicalCompanyName(company, companyMetadataByName);
       if (!map.has(key)) {
         map.set(key, {
           company: key,
@@ -405,12 +424,13 @@
       const target = ensure(group.company);
       target.records = [...(group.records || [])];
       target.latestStatementRecord = group.latest || target.records[0] || null;
-      target.updatedSortValue = group.updatedSortValue ?? null;
+      target.updatedSortValue = maxUpdatedAt(target.updatedSortValue, group.updatedSortValue);
     });
     revenueGroups.forEach((group) => {
       const target = ensure(group.company);
       target.revenueRecords = [...(group.revenueRecords || [])];
       target.latestRevenueRecord = group.latestRevenueRecord || target.revenueRecords[0] || null;
+      target.updatedSortValue = maxUpdatedAt(target.updatedSortValue, group.updatedSortValue);
     });
     companyMetadata.forEach((company) => {
       ensure(company.name || company.key);
@@ -433,9 +453,10 @@
     const financialRecords = source.INCOME_STATEMENT_SSOT?.records || [];
     const revenueMetrics = source.REVENUE_METRIC_SSOT?.records || [];
     const companyMetadata = source.COMPANY_METADATA?.companies || [];
+    const companyMetadataByName = buildCompanyMetadataIndex(companyMetadata);
     const productCatalog = source.PRODUCT_CATALOG || {};
-    const records = createDatasetRecords(datasets, datasetFileMetadata);
-    const revenueRecords = createRevenueMetricRecords(revenueMetrics);
+    const records = createDatasetRecords(datasets, datasetFileMetadata, companyMetadataByName);
+    const revenueRecords = createRevenueMetricRecords(revenueMetrics, companyMetadataByName, datasetFileMetadata);
     const groups = createCompanyGroups(records);
     const revenueGroups = createRevenueMetricGroups(revenueRecords);
 
@@ -450,9 +471,9 @@
       revenueRecords,
       revenueRecordByKey: new Map(revenueRecords.map((record) => [record.metric.key, record])),
       revenueGroups,
-      allCompanyGroups: createCombinedCompanyGroups(groups, revenueGroups, companyMetadata),
+      allCompanyGroups: createCombinedCompanyGroups(groups, revenueGroups, companyMetadata, companyMetadataByName),
       companyMetadata,
-      companyMetadataByName: buildCompanyMetadataIndex(companyMetadata),
+      companyMetadataByName,
       products: productCatalog.products || [],
       companyProductRelationships: productCatalog.companyProductRelationships || [],
     };

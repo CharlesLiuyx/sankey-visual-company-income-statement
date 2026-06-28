@@ -8,6 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const outputPath = 'data/dataset-file-metadata.js';
+const metricSourceFiles = [
+  'data/revenue-metrics.js',
+];
 
 function parseArgs(argv) {
   const allowed = new Set(['--check']);
@@ -46,11 +49,28 @@ async function datasetEntries() {
   return entries;
 }
 
+async function fileEntry(relativePath) {
+  const info = await stat(projectPath(relativePath));
+  const mtimeMs = Math.round(info.mtimeMs);
+  return [
+    relativePath,
+    {
+      path: relativePath,
+      mtimeMs,
+      mtime: new Date(mtimeMs).toISOString(),
+    },
+  ];
+}
+
+async function sourceFileEntries() {
+  return Promise.all(metricSourceFiles.map(fileEntry));
+}
+
 function renderSource(entries) {
   const maxMtimeMs = entries.reduce((max, [, entry]) => Math.max(max, entry.mtimeMs || 0), 0);
   const metadata = {
     generatedAt: maxMtimeMs ? new Date(maxMtimeMs).toISOString() : '',
-    source: 'dataset file modification times from index.html registrations',
+    source: 'dataset view and metric source file modification times',
     files: Object.fromEntries(entries),
   };
   const body = JSON.stringify(metadata, null, 2);
@@ -59,7 +79,10 @@ function renderSource(entries) {
 
 async function main() {
   const { check } = parseArgs(process.argv);
-  const source = renderSource(await datasetEntries());
+  const source = renderSource([
+    ...await datasetEntries(),
+    ...await sourceFileEntries(),
+  ]);
   const target = projectPath(outputPath);
   if (check) {
     let existing = '';

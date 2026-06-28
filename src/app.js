@@ -18,6 +18,7 @@ const traceCatalog = TraceDomain.createCatalog(window);
 const sets = traceCatalog.datasets;
 const companySearch = document.getElementById('companySearch');
 const companySearchToggle = document.getElementById('companySearchToggle');
+const companyMultiExitToggle = document.getElementById('companyMultiExitToggle');
 const companySortToggle = document.getElementById('companySortToggle');
 const companySortMenu = document.getElementById('companySortMenu');
 const companySortOptions = document.getElementById('companySortOptions');
@@ -46,6 +47,8 @@ const viewActionbar = document.querySelector('.view-actionbar');
 const metricMode = document.getElementById('metricMode');
 const viewMode = document.getElementById('viewMode');
 const sankeyView = document.getElementById('sankeyView');
+const singleChartCard = document.getElementById('singleChartCard');
+const sankeyComparison = document.getElementById('sankeyComparison');
 const trendView = document.getElementById('trendView');
 const tableView = document.getElementById('tableView');
 const trendChart = document.getElementById('trendChart');
@@ -105,6 +108,8 @@ const TABLE_COLUMN_PRESETS = {
 const virtualTables = new WeakMap();
 let virtualTableFrame = 0;
 let revenueTrendChart = null;
+let revenueTrendCharts = [];
+let revenueTrendHoverSyncing = false;
 const I18N_API = window.SANKEY_I18N || {};
 const I18N = I18N_API.ui || {
   en: {
@@ -168,6 +173,9 @@ const I18N = I18N_API.ui || {
     companySortMetaNetProfit: 'Net profit {value}',
     companySortMetaFounded: 'Founded {value}',
     companySortMetaUpdated: 'Updated {value}',
+    companyMultiExitTitle: 'Exit company multi-select',
+    comparisonNoData: 'No data for this metric',
+    comparisonScopeSummary: '{count} selected companies',
     periodLabel: 'Data point time',
     periodSortLabel: 'Sort time points',
     sortDesc: 'Desc',
@@ -302,6 +310,9 @@ const I18N = I18N_API.ui || {
     companySortMetaNetProfit: '净利润 {value}',
     companySortMetaFounded: '成立于 {value}',
     companySortMetaUpdated: '更新 {value}',
+    companyMultiExitTitle: '退出公司多选',
+    comparisonNoData: '该指标暂无数据',
+    comparisonScopeSummary: '已选择 {count} 家公司',
     periodLabel: '数据期间',
     periodSortLabel: '排序数据期间',
     sortDesc: '降序',
@@ -566,13 +577,34 @@ function hasCompanyMetricData(company, mode) {
   if (mode === 'revenue') return Boolean(metricGroupForCompany(company, mode)?.revenueRecords?.length);
   return Boolean(groups.find((group) => group.company === company));
 }
-function metricModesForCompany(company = state?.company) {
-  const modes = METRIC_MODES.filter((mode) => hasCompanyMetricData(company, mode));
+function uniqueCompanies(companies = []) {
+  return [...new Set((companies || []).map(clean).filter(Boolean))];
+}
+function scopeCompanies() {
+  const selected = uniqueCompanies(state?.multiCompanyMode ? state.selectedCompanies : [state?.company]);
+  return selected.length ? selected : uniqueCompanies([state?.company]);
+}
+function isMultiCompanyScope() {
+  return Boolean(state?.multiCompanyMode && scopeCompanies().length > 1);
+}
+function metricModesForCompanies(companies = scopeCompanies()) {
+  const scope = uniqueCompanies(companies);
+  const modes = METRIC_MODES.filter((mode) => scope.some((company) => hasCompanyMetricData(company, mode)));
   return modes.length ? modes : ['companyInfo'];
+}
+function metricModesForCompany(company = state?.company) {
+  return metricModesForCompanies([company]);
+}
+function metricModesForScope() {
+  return metricModesForCompanies(scopeCompanies());
 }
 function normalizeMetricModeForCompany(company, mode) {
   const modes = metricModesForCompany(company);
   return modes.includes(mode) ? mode : bestMetricModeForCompany(company, mode);
+}
+function normalizeMetricModeForScope(mode) {
+  const modes = metricModesForScope();
+  return modes.includes(mode) ? mode : modes[0] || 'companyInfo';
 }
 function bestMetricModeForCompany(company, preferredMode = state?.metricMode) {
   if (preferredMode !== 'companyInfo' && hasCompanyMetricData(company, preferredMode)) return preferredMode;
@@ -605,12 +637,17 @@ const activeStart = recordFromHash() || records[defaultIndex >= 0 ? defaultIndex
 const storedCompanySort = readStoredCompanySort();
 const storedMetricMode = readStoredMetricMode();
 const storedViewMode = normalizeViewModeForMetric(storedMetricMode, readStoredViewMode());
+const initialCompany = initialCompanyForMetric(storedMetricMode, activeStart);
+const initialActiveIndex = activeStart?.index || 0;
 const state = {
   sort: 'desc',
   companySort: storedCompanySort,
   companySortDirection: readStoredCompanySortDirection(storedCompanySort),
-  activeIndex: activeStart?.index || 0,
-  company: initialCompanyForMetric(storedMetricMode, activeStart),
+  activeIndex: initialActiveIndex,
+  activeIndexByCompany: initialCompany ? { [initialCompany]: initialActiveIndex } : {},
+  company: initialCompany,
+  selectedCompanies: initialCompany ? [initialCompany] : [],
+  multiCompanyMode: false,
   metricMode: storedMetricMode,
   viewMode: storedViewMode,
   periodExpanded: readStoredBoolean(PERIOD_EXPANDED_KEY, false),
@@ -906,6 +943,44 @@ function currentCompanyGroups() {
 function groupFor(company, mode = state.metricMode) {
   return metricGroupForCompany(company, mode) || (mode === 'companyInfo' ? groups.find((group) => group.company === company) || groups[0] : null);
 }
+function selectedCompanySet() {
+  return new Set(scopeCompanies());
+}
+function setSelectedCompanies(companies) {
+  const next = uniqueCompanies(companies);
+  if (!next.length && state.company) next.push(state.company);
+  if (state.company && !next.includes(state.company)) next.unshift(state.company);
+  state.selectedCompanies = uniqueCompanies(next);
+  if (!state.selectedCompanies.length && groups[0]?.company) {
+    state.company = groups[0].company;
+    state.selectedCompanies = [state.company];
+  }
+  if (state.multiCompanyMode && state.selectedCompanies.length <= 1) {
+    state.multiCompanyMode = false;
+  }
+}
+function syncSingleCompanyScope() {
+  if (state.multiCompanyMode) return;
+  state.selectedCompanies = state.company ? [state.company] : [];
+}
+function companiesSupportingMetric(mode = state.metricMode, companies = scopeCompanies()) {
+  return uniqueCompanies(companies).filter((company) => hasCompanyMetricData(company, mode));
+}
+function primaryCompanyForMetric(mode = state.metricMode) {
+  const supported = companiesSupportingMetric(mode);
+  if (supported.includes(state.company)) return state.company;
+  return supported[0] || state.company || groups[0]?.company || '';
+}
+function companyActiveIndex(company) {
+  const index = state.activeIndexByCompany?.[company];
+  const record = recordByIndex(index);
+  return record?.company === company ? index : null;
+}
+function setCompanyActiveRecord(record) {
+  if (!record) return;
+  state.activeIndexByCompany[record.company] = record.index;
+  if (record.company === state.company) state.activeIndex = record.index;
+}
 function sortedRecordList(recordList) {
   const direction = state.sort === 'asc' ? 1 : -1;
   return [...(recordList || [])].sort((a, b) =>
@@ -916,6 +991,23 @@ function sortedRecordList(recordList) {
 }
 function sortedRecords(group) {
   return sortedRecordList(group?.records || []);
+}
+function defaultRecordForCompanyMetric(company, mode = state.metricMode) {
+  const group = metricGroupForCompany(company, mode);
+  if (!group) return null;
+  if (mode === 'incomeStatement') {
+    const stored = recordByIndex(companyActiveIndex(company));
+    if (stored?.company === company) return stored;
+    return sortedRecords(group).find((record) => matches(searchTextForRecord(record), periodSearch.value)) || sortedRecords(group)[0] || null;
+  }
+  if (mode === 'revenue') return group.revenueRecords?.[0] || null;
+  const companyGroup = groups.find((item) => item.company === company);
+  return companyGroup?.records?.[0] || group.records?.[0] || null;
+}
+function scopeRecordsForMetric(mode = state.metricMode) {
+  return scopeCompanies()
+    .map((company) => defaultRecordForCompanyMetric(company, mode))
+    .filter(Boolean);
 }
 function sortedVariantRecords(recordList) {
   return [...(recordList || [])].sort((a, b) =>
@@ -934,6 +1026,9 @@ function selectRecord(record, scrollKind = 'statement') {
   if (!record) return;
   state.activeIndex = record.index;
   state.company = record.company;
+  setCompanyActiveRecord(record);
+  if (!state.multiCompanyMode) syncSingleCompanyScope();
+  else if (!state.selectedCompanies.includes(record.company)) setSelectedCompanies([...state.selectedCompanies, record.company]);
   syncDatasetHash(record);
   renderAll();
   draw({ renderTable: false, syncView: false });
@@ -1235,7 +1330,7 @@ function renderVirtualTableBody(table, force = false, focusIndex = null) {
   ].join('');
 }
 function revenueRecordsForCompany(company = state.company) {
-  return groupFor(company)?.revenueRecords || [];
+  return metricGroupForCompany(company, 'revenue')?.revenueRecords || [];
 }
 function formatTrendDate(value, language = state.language) {
   const time = Date.parse(`${clean(value)}T00:00:00Z`);
@@ -1258,9 +1353,13 @@ function colorWithAlpha(color, alpha) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 function destroyRevenueTrendChart() {
-  if (!revenueTrendChart) return;
-  revenueTrendChart.destroy();
-  revenueTrendChart = null;
+  if (revenueTrendChart) {
+    revenueTrendChart.destroy();
+    revenueTrendChart = null;
+  }
+  revenueTrendCharts.forEach((chart) => chart.destroy());
+  revenueTrendCharts = [];
+  revenueTrendHoverSyncing = false;
 }
 const revenueTrendValueLabelsPlugin = {
   id: 'revenueTrendValueLabels',
@@ -1269,17 +1368,20 @@ const revenueTrendValueLabelsPlugin = {
     const dataset = chart.data.datasets[0];
     const observations = options.observations || [];
     if (!meta?.data?.length || !dataset) return;
+    const activeIndex = revenueTrendActiveIndex(chart);
     const { ctx, chartArea } = chart;
     ctx.save();
-    ctx.fillStyle = options.color || '#263238';
-    ctx.font = `600 ${options.fontSize || 15}px ${options.fontFamily || 'Montserrat, Arial, sans-serif'}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'bottom';
     meta.data.forEach((point, index) => {
       const observation = observations[index] || {};
-      const showLabel = index === meta.data.length - 1 || observation.momGrowthPct >= 25;
+      const isActive = index === activeIndex;
+      const showLabel = isActive || index === meta.data.length - 1 || observation.momGrowthPct >= 25;
       if (!showLabel) return;
       const label = options.formatValue ? options.formatValue(dataset.data[index]) : String(dataset.data[index]);
+      const fontSize = isActive ? (options.activeFontSize || options.fontSize || 15) : (options.fontSize || 15);
+      ctx.fillStyle = isActive ? (options.activeColor || options.color || '#263238') : (options.color || '#263238');
+      ctx.font = `${isActive ? 700 : 600} ${fontSize}px ${options.fontFamily || 'Montserrat, Arial, sans-serif'}`;
       const textWidth = ctx.measureText(label).width;
       const x = clamp(point.x, chartArea.left + textWidth / 2, chartArea.right - textWidth / 2);
       const y = point.y - 12 < chartArea.top ? point.y + 28 : point.y - 12;
@@ -1291,107 +1393,456 @@ const revenueTrendValueLabelsPlugin = {
 const revenueTrendHoverGuidePlugin = {
   id: 'revenueTrendHoverGuide',
   beforeDatasetsDraw(chart, _args, options) {
-    const activeIndex = chart.getActiveElements?.()[0]?.index ?? chart.tooltip?.dataPoints?.[0]?.dataIndex;
+    const activeIndex = revenueTrendActiveIndex(chart);
     if (!Number.isInteger(activeIndex)) return;
-    const bar = chart.getDatasetMeta(0)?.data?.[activeIndex];
+    const meta = chart.getDatasetMeta(0);
+    const bar = meta?.data?.[activeIndex];
     const { chartArea, ctx } = chart;
     if (!bar || !chartArea) return;
-    const fallbackWidth = (chartArea.right - chartArea.left) / Math.max(1, chart.data.labels.length);
-    const bandWidth = Math.max(bar.width || 0, fallbackWidth * 0.56);
+    const previousBar = meta.data?.[activeIndex - 1];
+    const nextBar = meta.data?.[activeIndex + 1];
+    const left = previousBar ? (previousBar.x + bar.x) / 2 : Math.max(chartArea.left, bar.x - (nextBar ? (nextBar.x - bar.x) / 2 : (bar.width || 24)));
+    const right = nextBar ? (bar.x + nextBar.x) / 2 : Math.min(chartArea.right, bar.x + (previousBar ? (bar.x - previousBar.x) / 2 : (bar.width || 24)));
     ctx.save();
-    ctx.fillStyle = options.bandColor || 'rgba(20, 67, 107, 0.04)';
-    ctx.fillRect(bar.x - bandWidth / 2, chartArea.top, bandWidth, chartArea.bottom - chartArea.top);
+    ctx.fillStyle = options.rangeColor || 'rgba(20, 67, 107, 0.035)';
+    ctx.fillRect(left, chartArea.top, Math.max(1, right - left), chartArea.bottom - chartArea.top);
     ctx.restore();
   },
   afterDatasetsDraw(chart, _args, options) {
-    const activeIndex = chart.getActiveElements?.()[0]?.index ?? chart.tooltip?.dataPoints?.[0]?.dataIndex;
+    const activeIndex = revenueTrendActiveIndex(chart);
     if (!Number.isInteger(activeIndex)) return;
     const bar = chart.getDatasetMeta(0)?.data?.[activeIndex];
+    const point = chart.getDatasetMeta(1)?.data?.[activeIndex];
     const { chartArea, ctx } = chart;
     if (!bar || !chartArea) return;
     ctx.save();
     ctx.strokeStyle = options.lineColor || 'rgba(20, 67, 107, 0.18)';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([3, 4]);
+    ctx.lineWidth = options.lineWidth || 1;
+    ctx.setLineDash(options.lineDash || [2, 5]);
     ctx.beginPath();
     ctx.moveTo(bar.x, chartArea.top);
     ctx.lineTo(bar.x, chartArea.bottom);
     ctx.stroke();
+
+    const hasNote = typeof options.hasNote === 'function' ? options.hasNote(activeIndex) : false;
+    if (hasNote) {
+      const radius = options.noteRadius || 3;
+      const y = chartArea.top + Math.max(7, radius + 3);
+      ctx.setLineDash([]);
+      ctx.fillStyle = options.noteColor || options.lineColor || 'rgba(20, 67, 107, 0.32)';
+      ctx.strokeStyle = options.noteRingColor || 'rgba(255, 255, 255, 0.86)';
+      ctx.lineWidth = options.noteRingWidth || 1.4;
+      ctx.beginPath();
+      ctx.arc(bar.x, y, radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    const barLeft = bar.x - bar.width / 2;
+    const barTop = Math.min(bar.y, bar.base);
+    const barHeight = Math.abs(bar.base - bar.y);
+    if (Number.isFinite(barLeft) && Number.isFinite(barTop) && Number.isFinite(barHeight) && barHeight > 0) {
+      const radius = Math.min(options.activeBarRadius || 4, bar.width / 2, barHeight / 2);
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      if (typeof ctx.roundRect === 'function') {
+        ctx.roundRect(barLeft, barTop, bar.width, barHeight, radius);
+      } else {
+        ctx.rect(barLeft, barTop, bar.width, barHeight);
+      }
+      ctx.fillStyle = options.activeBarFill || 'rgba(20, 67, 107, 0.06)';
+      ctx.strokeStyle = options.activeBarBorder || 'rgba(20, 67, 107, 0.48)';
+      ctx.lineWidth = options.activeBarLineWidth || 1.4;
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    if (point && Number.isFinite(point.x) && Number.isFinite(point.y)) {
+      const radius = options.activePointRadius || 4.4;
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.fillStyle = options.activePointHalo || 'rgba(154, 106, 47, 0.14)';
+      ctx.arc(point.x, point.y, radius + 3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.fillStyle = options.activePointFill || '#fff';
+      ctx.strokeStyle = options.activePointBorder || 'rgba(154, 106, 47, 1)';
+      ctx.lineWidth = options.activePointLineWidth || 2.2;
+      ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      const growthValue = options.growthValues?.[activeIndex];
+      if (typeof growthValue === 'number' && Number.isFinite(growthValue)) {
+        const label = options.formatGrowthValue ? options.formatGrowthValue(growthValue) : `${growthValue}%`;
+        const fontSize = options.activeGrowthFontSize || 14;
+        ctx.font = `700 ${fontSize}px ${options.fontFamily || 'Montserrat, Arial, sans-serif'}`;
+        ctx.textAlign = 'center';
+        const textWidth = ctx.measureText(label).width;
+        const labelX = clamp(point.x, chartArea.left + textWidth / 2, chartArea.right - textWidth / 2);
+        let labelY = point.y + radius + 8;
+        ctx.textBaseline = 'top';
+        if (labelY + fontSize + 2 > chartArea.bottom) {
+          labelY = point.y - radius - 8;
+          ctx.textBaseline = 'bottom';
+        }
+        ctx.strokeStyle = options.activeLabelHalo || 'rgba(255, 255, 255, 0.88)';
+        ctx.lineWidth = options.activeLabelHaloWidth || 3;
+        ctx.strokeText(label, labelX, labelY);
+        ctx.fillStyle = options.activeGrowthColor || '#263238';
+        ctx.fillText(label, labelX, labelY);
+      }
+    }
     ctx.restore();
   },
 };
-function getMetricChartTooltip(chart) {
-  const host = chart.canvas.closest('.trend-canvas-wrap') || chart.canvas.parentNode;
-  let tooltip = host.querySelector('.metric-chart-tooltip');
-  if (!tooltip) {
-    tooltip = document.createElement('div');
-    tooltip.className = 'metric-chart-tooltip';
-    tooltip.setAttribute('role', 'status');
-    tooltip.setAttribute('aria-live', 'polite');
-    tooltip.setAttribute('aria-hidden', 'true');
-    host.appendChild(tooltip);
-  }
-  return tooltip;
+function revenueTrendActiveIndex(chart) {
+  const activeElement = chart.getActiveElements?.()[0];
+  if (Number.isInteger(activeElement?.index)) return activeElement.index;
+  if (chart.tooltip?.opacity > 0) return chart.tooltip.dataPoints?.[0]?.dataIndex;
+  return undefined;
 }
-function metricChartTooltipHtml({ title, rows }) {
-  return `
-    <div class="metric-chart-tooltip-title">${escapeHtml(title)}</div>
-    <div class="metric-chart-tooltip-rows">
-      ${rows.map((row) => row.kind === 'note' ? `
-        <div class="metric-chart-tooltip-row note">
-          <span class="metric-chart-tooltip-label">${escapeHtml(row.label)}</span>
-          <span class="metric-chart-tooltip-note">${escapeHtml(row.value)}</span>
-        </div>
-      ` : `
-        <div class="metric-chart-tooltip-row">
-          <span
-            class="metric-chart-tooltip-marker"
-            style="--marker-color:${escapeHtml(row.color)};--marker-bg:${escapeHtml(row.background || row.color)}"
-            aria-hidden="true"
-          ></span>
-          <span class="metric-chart-tooltip-label">${escapeHtml(row.label)}</span>
-          <strong>${escapeHtml(row.value)}</strong>
-        </div>
+function revenueTrendActiveElements(chart, index) {
+  if (!Number.isInteger(index)) return [];
+  return chart.data.datasets
+    .map((_dataset, datasetIndex) => ({ datasetIndex, index }))
+    .filter(({ datasetIndex }) => {
+      const meta = chart.getDatasetMeta(datasetIndex);
+      return meta?.data?.[index] && chart.data.datasets[datasetIndex]?.data?.[index] != null;
+    });
+}
+function setRevenueTrendActiveIndex(chart, index) {
+  const active = revenueTrendActiveElements(chart, index);
+  const point = chart.getDatasetMeta(0)?.data?.[index];
+  chart.setActiveElements(active);
+  chart.tooltip?.setActiveElements(active, point ? { x: point.x, y: point.y } : { x: 0, y: 0 });
+  chart.update('none');
+}
+function clearRevenueTrendActive(chart) {
+  chart.setActiveElements([]);
+  chart.tooltip?.setActiveElements([], { x: 0, y: 0 });
+  chart.update('none');
+}
+function syncRevenueTrendHover(sourceChart, sourceIndex) {
+  if (revenueTrendHoverSyncing || !Number.isInteger(sourceIndex)) return;
+  revenueTrendHoverSyncing = true;
+  const sourceDate = sourceChart.$trendDates?.[sourceIndex];
+  revenueTrendCharts.forEach((chart) => {
+    const targetIndex = sourceDate
+      ? chart.$trendDates?.indexOf(sourceDate)
+      : sourceIndex;
+    if (Number.isInteger(targetIndex) && targetIndex >= 0) setRevenueTrendActiveIndex(chart, targetIndex);
+    else clearRevenueTrendActive(chart);
+  });
+  revenueTrendHoverSyncing = false;
+}
+function clearRevenueTrendHoverSync() {
+  if (revenueTrendHoverSyncing) return;
+  revenueTrendHoverSyncing = true;
+  revenueTrendCharts.forEach(clearRevenueTrendActive);
+  revenueTrendHoverSyncing = false;
+}
+const revenueTrendSyncHoverPlugin = {
+  id: 'revenueTrendSyncHover',
+  afterEvent(chart, args) {
+    if (!chart.$trendComparison || revenueTrendHoverSyncing) return;
+    const type = args.event?.type;
+    if (type === 'mouseout') {
+      clearRevenueTrendHoverSync();
+      return;
+    }
+    if (!['mousemove', 'touchmove', 'touchstart', 'click'].includes(type)) return;
+    const activeIndex = chart.getActiveElements?.()[0]?.index ?? chart.tooltip?.dataPoints?.[0]?.dataIndex;
+    if (Number.isInteger(activeIndex)) syncRevenueTrendHover(chart, activeIndex);
+  },
+};
+function createRevenueTrendChartConfig({
+  metric,
+  observations,
+  values,
+  yMax,
+  growthMax,
+  compact = false,
+  comparison = false,
+  yTickFormatter = (value) => formatRevenueValue(metric, Number(value)),
+  valueLabelFormatter = (value) => formatRevenueValue(metric, value),
+}) {
+  const ink = cssVar('--ink', '#15436b');
+  const text = cssVar('--text-strong', '#263238');
+  const muted = cssVar('--muted', '#6a7078');
+  const grid = cssVar('--table-cell-line', '#edf0f0');
+  const tableBg = cssVar('--table-bg', '#ffffff');
+  const growthColor = cssVar('--trend-growth', '#9a6a2f');
+  const fontFamily = 'Montserrat, Arial, sans-serif';
+  const labels = observations.map((observation) => formatTrendDate(observation.date));
+  const growthValues = observations.map((observation) => observation.momGrowthPct ?? null);
+  const tickSize = compact ? 10 : 12;
+  const legendSize = compact ? 10 : 11;
+  const valueLabelSize = compact ? 10 : 15;
+  const revenueBarFill = values.map((_value, index) => (
+    index === values.length - 1 ? colorWithAlpha(ink, 0.28) : colorWithAlpha(ink, 0.1)
+  ));
+  const revenueBarBorder = values.map((_value, index) => (
+    index === values.length - 1 ? colorWithAlpha(ink, 0.44) : colorWithAlpha(ink, 0.18)
+  ));
+  const revenueBarHoverFill = values.map((_value, index) => (
+    index === values.length - 1 ? colorWithAlpha(ink, 0.36) : colorWithAlpha(ink, 0.24)
+  ));
+  const revenueBarHoverBorder = values.map((_value, index) => (
+    index === values.length - 1 ? colorWithAlpha(ink, 0.62) : colorWithAlpha(ink, 0.46)
+  ));
+  const defaultPointRadius = compact ? 2 : 2.4;
+  const activePointRadius = compact ? 3.8 : 4.4;
+
+  return {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: metric?.displayName || t('tableAnnualizedRevenue'),
+          type: 'bar',
+          yAxisID: 'y',
+          data: values,
+          backgroundColor: revenueBarFill,
+          borderColor: revenueBarBorder,
+          borderWidth: 1,
+          borderRadius: 4,
+          borderSkipped: false,
+          barPercentage: 0.62,
+          categoryPercentage: 0.74,
+          hoverBackgroundColor: revenueBarHoverFill,
+          hoverBorderColor: revenueBarHoverBorder,
+          hoverBorderWidth: 1.4,
+        },
+        {
+          label: t('tableMomGrowth'),
+          type: 'line',
+          yAxisID: 'yGrowth',
+          data: growthValues,
+          borderColor: growthColor,
+          backgroundColor: growthColor,
+          pointBackgroundColor: tableBg,
+          pointBorderColor: growthColor,
+          pointBorderWidth: 1.4,
+          pointHoverBackgroundColor: tableBg,
+          pointHoverBorderColor: growthColor,
+          pointHoverBorderWidth: compact ? 2 : 2.2,
+          pointHoverRadius: activePointRadius,
+          pointRadius: defaultPointRadius,
+          hitRadius: compact ? 8 : 10,
+          borderWidth: compact ? 1.6 : 1.8,
+          fill: false,
+          tension: 0.24,
+          spanGaps: false,
+        },
+      ],
+    },
+    plugins: comparison
+      ? [revenueTrendSyncHoverPlugin, revenueTrendHoverGuidePlugin, revenueTrendValueLabelsPlugin]
+      : [revenueTrendHoverGuidePlugin, revenueTrendValueLabelsPlugin],
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      layout: {
+        padding: compact
+          ? { top: 2, right: 10, bottom: 0, left: 4 }
+          : { top: 2, right: 12, bottom: 0, left: 6 },
+      },
+      interaction: {
+        mode: 'index',
+        intersect: false,
+      },
+      hover: {
+        mode: 'index',
+        intersect: false,
+      },
+      scales: {
+        x: {
+          offset: true,
+          grid: {
+            display: false,
+          },
+          border: {
+            color: cssVar('--table-line', '#d9dfdf'),
+          },
+          ticks: {
+            color: muted,
+            font: { family: fontFamily, size: tickSize, weight: '500' },
+            maxRotation: 0,
+            autoSkip: true,
+            autoSkipPadding: compact ? 12 : 22,
+          },
+        },
+        y: {
+          beginAtZero: true,
+          max: yMax,
+          grid: {
+            color: grid,
+          },
+          border: {
+            color: cssVar('--table-line', '#d9dfdf'),
+          },
+          ticks: {
+            color: muted,
+            count: compact ? 5 : 6,
+            font: { family: fontFamily, size: tickSize, weight: '500' },
+            callback: (value) => yTickFormatter(Number(value)),
+          },
+        },
+        yGrowth: {
+          beginAtZero: true,
+          max: growthMax,
+          position: 'right',
+          grid: {
+            drawOnChartArea: false,
+          },
+          border: {
+            color: colorWithAlpha(growthColor, 0.22),
+          },
+          ticks: {
+            color: growthColor,
+            count: compact ? 5 : 6,
+            font: { family: fontFamily, size: tickSize, weight: '500' },
+            callback: (value) => formatPercent(Number(value)),
+          },
+          title: {
+            display: false,
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          align: 'end',
+          labels: {
+            usePointStyle: false,
+            boxWidth: compact ? 10 : 12,
+            boxHeight: compact ? 5 : 6,
+            padding: compact ? 7 : 10,
+            color: muted,
+            font: { family: fontFamily, size: legendSize, weight: '500' },
+          },
+        },
+        tooltip: {
+          enabled: false,
+        },
+        revenueTrendHoverGuide: {
+          lineColor: colorWithAlpha(ink, 0.18),
+          rangeColor: colorWithAlpha(ink, 0.032),
+          noteColor: colorWithAlpha(ink, 0.36),
+          activeBarFill: colorWithAlpha(ink, 0.055),
+          activeBarBorder: colorWithAlpha(ink, 0.48),
+          activePointFill: tableBg,
+          activePointBorder: growthColor,
+          activePointHalo: colorWithAlpha(growthColor, 0.14),
+          activePointRadius,
+          activeGrowthColor: text,
+          activeGrowthFontSize: compact ? 10 : 14,
+          activeLabelHalo: tableBg,
+          fontFamily,
+          growthValues,
+          formatGrowthValue: formatPercent,
+          hasNote: (index) => Boolean(notesText(observations[index]?.notes)),
+        },
+        revenueTrendValueLabels: {
+          observations,
+          color: text,
+          activeColor: text,
+          fontFamily,
+          fontSize: valueLabelSize,
+          activeFontSize: valueLabelSize,
+          formatValue: valueLabelFormatter,
+        },
+      },
+    },
+  };
+}
+function renderRevenueTrendComparison() {
+  if (!trendChart) return;
+  const recordsForScope = scopeCompanies()
+    .map((company) => revenueRecordsForCompany(company)[0])
+    .filter(Boolean);
+  const chartModels = recordsForScope.map((record) => {
+    const metric = localizedRevenueRecord(record.metric) || record.metric;
+    const observations = [...(metric?.observations || [])]
+      .filter((observation) => Number.isFinite(Number(observation.value)) && Number.isFinite(Date.parse(`${observation.date}T00:00:00Z`)))
+      .sort((a, b) => Date.parse(`${a.date}T00:00:00Z`) - Date.parse(`${b.date}T00:00:00Z`));
+    return { record, metric, observations, latest: observations[observations.length - 1] || null };
+  });
+  const allUsdValues = chartModels.flatMap(({ metric, observations }) => (
+    observations.map((observation) => amountValueUsd(observation.value, metric?.currency, metric?.unit)).filter((value) => value != null)
+  ));
+  const allGrowthValues = chartModels.flatMap(({ observations }) => (
+    observations.map((observation) => observation.momGrowthPct).filter((value) => typeof value === 'number' && Number.isFinite(value))
+  ));
+  const maxUsd = Math.max(0, ...allUsdValues);
+  const yMax = Math.ceil((maxUsd * 1.1) / 1e9) * 1e9 || 10;
+  const maxGrowth = Math.max(0, ...allGrowthValues);
+  const growthMax = Math.max(10, Math.ceil(maxGrowth / 10) * 10);
+  const latestTotal = chartModels.reduce((sum, model) => {
+    const valueUsd = amountValueUsd(model.latest?.value, model.metric?.currency, model.metric?.unit);
+    return valueUsd == null ? sum : sum + valueUsd;
+  }, 0);
+
+  trendChartTitle.textContent = [t('metricRevenue'), t('comparisonScopeSummary', { count: scopeCompanies().length })].join(' · ');
+  trendChartSubtitle.textContent = latestTotal ? `${t('latest')} ${formatUsdShort(latestTotal)}` : t('noRevenueTrendData');
+  destroyRevenueTrendChart();
+
+  if (!chartModels.length) {
+    trendChart.innerHTML = `<div class="empty-state">${escapeHtml(t('noRevenueTrendData'))}</div>`;
+    return;
+  }
+
+  trendChart.innerHTML = `
+    <div class="comparison-grid revenue-comparison-grid">
+      ${chartModels.map((model, index) => `
+        <section class="comparison-card revenue-comparison-card">
+          <div class="comparison-card-header">
+            <strong>${escapeHtml(displayCompanyName(model.record.company))}</strong>
+            <span>${escapeHtml(model.metric?.displayName || t('metricRevenue'))}</span>
+          </div>
+          <div class="comparison-card-metrics">
+            ${escapeHtml(model.latest ? `${formatMetricDate(model.latest.date)} · ${formatRevenueValue(model.metric, model.latest.value)}` : t('noRevenueTrendData'))}
+          </div>
+          <div class="trend-canvas-wrap comparison-trend-canvas-wrap">
+            <canvas id="revenueTrendCanvas-${index}" role="img" aria-label="${escapeHtml(displayCompanyName(model.record.company))}"></canvas>
+          </div>
+        </section>
       `).join('')}
     </div>
   `;
-}
-function createMetricChartExternalTooltip({ titleForIndex, rowsForIndex }) {
-  return ({ chart, tooltip }) => {
-    const tooltipEl = getMetricChartTooltip(chart);
-    const index = tooltip?.dataPoints?.[0]?.dataIndex;
-    if (!tooltip || tooltip.opacity === 0 || !Number.isInteger(index)) {
-      tooltipEl.classList.remove('visible');
-      tooltipEl.setAttribute('aria-hidden', 'true');
-      return;
-    }
 
-    tooltipEl.innerHTML = metricChartTooltipHtml({
-      title: titleForIndex(index),
-      rows: rowsForIndex(index),
-    });
-    tooltipEl.classList.add('visible');
-    tooltipEl.setAttribute('aria-hidden', 'false');
-
-    const { chartArea } = chart;
-    const margin = 10;
-    const cardWidth = tooltipEl.offsetWidth || 240;
-    const cardHeight = tooltipEl.offsetHeight || 96;
-    const midpoint = chartArea.left + (chartArea.right - chartArea.left) / 2;
-    const dockLeft = (tooltip.caretX || midpoint) > midpoint;
-    const canvasLeft = chart.canvas.offsetLeft || 0;
-    const canvasTop = chart.canvas.offsetTop || 0;
-    const left = dockLeft
-      ? chartArea.left + margin
-      : chartArea.right - cardWidth - margin;
-    const top = chartArea.top + margin;
-
-    tooltipEl.style.left = `${canvasLeft + clamp(left, margin, chart.width - cardWidth - margin)}px`;
-    tooltipEl.style.top = `${canvasTop + clamp(top, margin, chart.height - cardHeight - margin)}px`;
-  };
+  const ink = cssVar('--ink', '#15436b');
+  chartModels.forEach((model, index) => {
+    const canvas = document.getElementById(`revenueTrendCanvas-${index}`);
+    if (!canvas || !window.Chart) return;
+    const valuesUsd = model.observations.map((observation) => amountValueUsd(observation.value, model.metric?.currency, model.metric?.unit) || 0);
+    const chart = new window.Chart(canvas, createRevenueTrendChartConfig({
+      metric: model.metric,
+      observations: model.observations,
+      values: valuesUsd,
+      yMax,
+      growthMax,
+      compact: true,
+      comparison: true,
+      yTickFormatter: (value) => formatUsdShort(Number(value)),
+      valueLabelFormatter: (value) => formatUsdShort(value),
+    }));
+    chart.$trendComparison = true;
+    chart.$trendDates = model.observations.map((observation) => observation.date);
+    chart.$trendHoverColor = ink;
+    revenueTrendCharts.push(chart);
+  });
 }
 function renderRevenueTrend() {
   if (!trendChart) return;
+  if (isMultiCompanyScope()) {
+    renderRevenueTrendComparison();
+    return;
+  }
   const record = revenueRecordsForCompany()[0];
   const metric = localizedRevenueRecord(record?.metric) || record?.metric;
   const observations = [...(metric?.observations || [])]
@@ -1446,190 +1897,17 @@ function renderRevenueTrend() {
     return;
   }
 
-  const ink = cssVar('--ink', '#15436b');
-  const text = cssVar('--text-strong', '#263238');
-  const muted = cssVar('--muted', '#6a7078');
-  const grid = cssVar('--table-cell-line', '#edf0f0');
-  const tableBg = cssVar('--table-bg', '#ffffff');
-  const growthColor = cssVar('--trend-growth', '#9a6a2f');
-  const labels = observations.map((observation) => formatTrendDate(observation.date));
   const values = observations.map((observation) => observation.value);
   const maxGrowth = Math.max(0, ...growthValues.filter((value) => typeof value === 'number' && Number.isFinite(value)));
   const growthMax = Math.max(10, Math.ceil(maxGrowth / 10) * 10);
-  const fontFamily = 'Montserrat, Arial, sans-serif';
-  const revenueBarFill = values.map((_value, index) => (
-    index === values.length - 1 ? colorWithAlpha(ink, 0.28) : colorWithAlpha(ink, 0.1)
-  ));
-  const revenueBarBorder = values.map((_value, index) => (
-    index === values.length - 1 ? colorWithAlpha(ink, 0.44) : colorWithAlpha(ink, 0.18)
-  ));
 
-  revenueTrendChart = new window.Chart(canvas, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        {
-          label: t('tableAnnualizedRevenue'),
-          type: 'bar',
-          yAxisID: 'y',
-          data: values,
-          backgroundColor: revenueBarFill,
-          borderColor: revenueBarBorder,
-          borderWidth: 1,
-          borderRadius: 4,
-          borderSkipped: false,
-          barPercentage: 0.62,
-          categoryPercentage: 0.74,
-          hoverBackgroundColor: colorWithAlpha(ink, 0.22),
-          hoverBorderColor: colorWithAlpha(ink, 0.5),
-        },
-        {
-          label: t('tableMomGrowth'),
-          type: 'line',
-          yAxisID: 'yGrowth',
-          data: growthValues,
-          borderColor: growthColor,
-          backgroundColor: growthColor,
-          pointBackgroundColor: tableBg,
-          pointBorderColor: growthColor,
-          pointBorderWidth: 1.4,
-          pointHoverBackgroundColor: growthColor,
-          pointHoverBorderColor: tableBg,
-          pointHoverBorderWidth: 2,
-          pointHoverRadius: 4.5,
-          pointRadius: 2.4,
-          borderWidth: 1.8,
-          fill: false,
-          tension: 0.24,
-          spanGaps: false,
-        },
-      ],
-    },
-    plugins: [revenueTrendHoverGuidePlugin, revenueTrendValueLabelsPlugin],
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: false,
-      layout: {
-        padding: { top: 2, right: 12, bottom: 0, left: 6 },
-      },
-      interaction: {
-        mode: 'index',
-        intersect: false,
-      },
-      hover: {
-        mode: 'index',
-        intersect: false,
-      },
-      scales: {
-        x: {
-          offset: true,
-          grid: {
-            display: false,
-          },
-          border: {
-            color: cssVar('--table-line', '#d9dfdf'),
-          },
-          ticks: {
-            color: muted,
-            font: { family: fontFamily, size: 12, weight: '500' },
-            maxRotation: 0,
-            autoSkip: true,
-            autoSkipPadding: 22,
-          },
-        },
-        y: {
-          beginAtZero: true,
-          max: yMax,
-          grid: {
-            color: grid,
-          },
-          border: {
-            color: cssVar('--table-line', '#d9dfdf'),
-          },
-          ticks: {
-            color: muted,
-            count: 6,
-            font: { family: fontFamily, size: 12, weight: '500' },
-            callback: (value) => formatRevenueValue(metric, Number(value)),
-          },
-        },
-        yGrowth: {
-          beginAtZero: true,
-          max: growthMax,
-          position: 'right',
-          grid: {
-            drawOnChartArea: false,
-          },
-          border: {
-            color: colorWithAlpha(growthColor, 0.22),
-          },
-          ticks: {
-            color: growthColor,
-            count: 6,
-            font: { family: fontFamily, size: 12, weight: '500' },
-            callback: (value) => formatPercent(Number(value)),
-          },
-          title: {
-            display: false,
-          },
-        },
-      },
-      plugins: {
-        legend: {
-          display: true,
-          position: 'top',
-          align: 'end',
-          labels: {
-            usePointStyle: false,
-            boxWidth: 12,
-            boxHeight: 6,
-            padding: 10,
-            color: muted,
-            font: { family: fontFamily, size: 11, weight: '500' },
-          },
-        },
-        tooltip: {
-          enabled: false,
-          filter: (context) => context.parsed.y != null,
-          external: createMetricChartExternalTooltip({
-            titleForIndex: (index) => formatMetricDate(observations[index]?.date),
-            rowsForIndex: (index) => [
-              {
-                label: metric?.displayName || t('metricRevenue'),
-                value: formatRevenueValue(metric, observations[index]?.value),
-                color: ink,
-                background: colorWithAlpha(ink, 0.16),
-              },
-              {
-                label: t('tableMomGrowth'),
-                value: observations[index]?.momGrowthPct == null ? t('missing') : formatPercent(observations[index].momGrowthPct),
-                color: growthColor,
-                background: colorWithAlpha(growthColor, 0.14),
-              },
-              ...(notesText(observations[index]?.notes) ? [{
-                kind: 'note',
-                label: t('tableNotes'),
-                value: notesText(observations[index].notes),
-              }] : []),
-            ],
-          }),
-        },
-        revenueTrendHoverGuide: {
-          bandColor: colorWithAlpha(ink, 0.035),
-          lineColor: colorWithAlpha(ink, 0.2),
-        },
-        revenueTrendValueLabels: {
-          observations,
-          color: text,
-          fontFamily,
-          fontSize: 15,
-          formatValue: (value) => formatRevenueValue(metric, value),
-        },
-      },
-    },
-  });
+  revenueTrendChart = new window.Chart(canvas, createRevenueTrendChartConfig({
+    metric,
+    observations,
+    values,
+    yMax,
+    growthMax,
+  }));
 }
 function updateVirtualTables(force = false) {
   if (state.viewMode !== 'table') return;
@@ -1675,6 +1953,41 @@ function marketCapValueUsd(company) {
 function financialValueUsd(record, value) {
   if (!record) return null;
   return amountValueUsd(value, record.currency, record.unit);
+}
+function scopeFinancialRows() {
+  return scopeRecordsForMetric('incomeStatement')
+    .map((record) => ({ record, financial: financialFor(record) }))
+    .filter((row) => row.financial);
+}
+function financialMetricRawValue(financial, metric) {
+  if (!financial) return null;
+  if (metric === 'revenue') return finiteNumber(financial.revenue?.total);
+  if (metric === 'grossProfit') return finiteNumber(financial.profit?.gross?.value);
+  if (metric === 'operatingProfit') return finiteNumber(financial.profit?.operating?.value);
+  if (metric === 'netProfit') return finiteNumber(financial.profit?.net?.value);
+  if (metric === 'costOfRevenue') return finiteNumber(financial.costs?.costOfRevenue?.value);
+  if (metric === 'operatingExpenses') return finiteNumber(financial.costs?.operatingExpenses?.total);
+  if (metric === 'tax') return finiteNumber(financial.costs?.tax?.value);
+  return null;
+}
+function formatScopeFinancialTotal(metric) {
+  const rows = scopeFinancialRows()
+    .map(({ financial }) => ({ financial, value: financialMetricRawValue(financial, metric) }))
+    .filter((row) => row.value != null);
+  if (!rows.length) return '';
+  const first = rows[0].financial;
+  const sameUnit = rows.every(({ financial }) => (
+    clean(financial.currency) === clean(first.currency)
+    && clean(financial.unit) === clean(first.unit)
+    && Number(financial.decimals ?? 1) === Number(first.decimals ?? 1)
+  ));
+  const total = rows.reduce((sum, row) => sum + row.value, 0);
+  if (sameUnit) return formatAmount(first, total, ['costOfRevenue', 'operatingExpenses', 'tax'].includes(metric));
+  const totalUsd = rows.reduce((sum, row) => {
+    const valueUsd = financialValueUsd(row.financial, row.value);
+    return valueUsd == null ? sum : sum + valueUsd;
+  }, 0);
+  return formatUsdShort(totalUsd);
 }
 function latestFinancialForGroup(group) {
   return group?.latestStatementRecord ? financialFor(group.latestStatementRecord) : group?.latest ? financialFor(group.latest) : null;
@@ -1832,25 +2145,35 @@ function tableModelForLanguage(language = state.language) {
 }
 function companyRows() {
   const rowByCompany = new Map(tableModelForLanguage().companyRows.map((row) => [row.companyCanonical, row]));
-  return sortedCompanyGroups(groups).map((group) => {
+  const scope = selectedCompanySet();
+  const sourceGroups = state.multiCompanyMode ? groups.filter((group) => scope.has(group.company)) : groups;
+  return sortedCompanyGroups(sourceGroups).map((group) => {
     const row = rowByCompany.get(group.company) || { company: displayCompanyForGroup(group), companyCanonical: group.company };
     return {
       ...row,
-      active: row.companyCanonical === state.company,
+      active: state.multiCompanyMode ? scope.has(row.companyCanonical) : row.companyCanonical === state.company,
     };
   });
 }
 function statementRows() {
-  return tableModelForLanguage().statementRows.map((row) => ({
-    ...row,
-    active: row.record.index === state.activeIndex,
-  }));
+  const scope = selectedCompanySet();
+  return tableModelForLanguage().statementRows
+    .filter((row) => !state.multiCompanyMode || scope.has(row.record.company))
+    .map((row) => ({
+      ...row,
+      active: state.multiCompanyMode
+        ? companyActiveIndex(row.record.company) === row.record.index
+        : row.record.index === state.activeIndex,
+    }));
 }
 function revenueRows() {
-  return tableModelForLanguage().revenueRows.map((row) => ({
-    ...row,
-    active: row.record.company === state.company,
-  }));
+  const scope = selectedCompanySet();
+  return tableModelForLanguage().revenueRows
+    .filter((row) => !state.multiCompanyMode || scope.has(row.record.company))
+    .map((row) => ({
+      ...row,
+      active: state.multiCompanyMode ? scope.has(row.record.company) : row.record.company === state.company,
+    }));
 }
 function scheduleIdleTask(callback) {
   if ('requestIdleCallback' in window) {
@@ -2023,6 +2346,34 @@ function timelineColors(record, group) {
 }
 function renderActiveSummary() {
   const record = currentRecord();
+  if (isMultiCompanyScope()) {
+    const count = scopeCompanies().length;
+    if (isCompanyInfoMetric()) {
+      actionTitle.textContent = [t('metricCompanyInfo'), t('comparisonScopeSummary', { count })].join(' · ');
+      return;
+    }
+    if (isRevenueMetric()) {
+      const recordsForScope = scopeCompanies().flatMap((company) => revenueRecordsForCompany(company)).filter(Boolean);
+      const latestTotal = recordsForScope.reduce((sum, revenueRecord) => {
+        const value = revenueRecord.latestObservation?.value;
+        const valueUsd = amountValueUsd(value, revenueRecord.metric?.currency, revenueRecord.metric?.unit);
+        return valueUsd == null ? sum : sum + valueUsd;
+      }, 0);
+      actionTitle.textContent = [
+        t('metricRevenue'),
+        t('comparisonScopeSummary', { count }),
+        latestTotal ? formatUsdShort(latestTotal) : '',
+      ].filter(Boolean).join(' · ');
+      return;
+    }
+    actionTitle.textContent = [
+      t('metricIncomeStatement'),
+      t('comparisonScopeSummary', { count }),
+      `${t('tableRevenue')} ${formatScopeFinancialTotal('revenue')}`,
+      `${t('tableNetProfit')} ${formatScopeFinancialTotal('netProfit')}`,
+    ].filter(Boolean).join(' · ');
+    return;
+  }
   if (isCompanyInfoMetric()) {
     actionTitle.textContent = [t('metricCompanyInfo'), displayCompanyName(state.company)].filter(Boolean).join(' · ');
     return;
@@ -2054,14 +2405,32 @@ function focusActiveCompanyItem() {
 function groupMetricCount(group) {
   return (group?.records?.length || 0) + (group?.revenueRecords?.length || 0);
 }
-function setScopeCount(element, count) {
-  if (!element) return;
-  const safeCount = Number.isFinite(Number(count)) ? Math.max(0, Number(count)) : 0;
-  element.textContent = String(safeCount);
+function companyMetricDataPointCount(company) {
+  if (!company) return 0;
+  const hasCompanyInfo = hasCompanyMetricData(company, 'companyInfo') ? 1 : 0;
+  const statementCount = metricGroupForCompany(company, 'incomeStatement')?.records?.length || 0;
+  const revenueCount = metricGroupForCompany(company, 'revenue')?.revenueRecords?.length || 0;
+  return hasCompanyInfo + statementCount + revenueCount;
 }
-function syncEntityScopeCounts(companyCount = visibleCompanyGroups().length) {
-  setScopeCount(companyScopeCount, companyCount);
-  setScopeCount(metricScopeCount, metricModesForCompany(state.company).length);
+function scopeMetricDataPointCount(companies = scopeCompanies()) {
+  return uniqueCompanies(companies).reduce((sum, company) => sum + companyMetricDataPointCount(company), 0);
+}
+function setScopeCount(element, value, options = {}) {
+  if (!element) return;
+  const text = value == null ? '' : String(value);
+  element.textContent = text;
+  if (options.title) element.title = options.title;
+  else element.removeAttribute('title');
+  if (options.ariaLabel) element.setAttribute('aria-label', options.ariaLabel);
+}
+function syncEntityScopeCounts(companyCount = groups.length) {
+  const selectedCompanyCount = scopeCompanies().length;
+  const totalCompanyCount = Math.max(0, companyCount);
+  setScopeCount(companyScopeCount, `${selectedCompanyCount}/${totalCompanyCount}`, {
+    title: `${selectedCompanyCount} selected of ${totalCompanyCount} companies`,
+    ariaLabel: `${selectedCompanyCount} selected of ${totalCompanyCount} companies`,
+  });
+  setScopeCount(metricScopeCount, scopeMetricDataPointCount());
   setScopeCount(viewScopeCount, allowedViewModesForMetric(state.metricMode).length);
 }
 function selectCompanyGroup(group, { closeSearch = false, focusCompany = false, scrollKind = null } = {}) {
@@ -2070,6 +2439,8 @@ function selectCompanyGroup(group, { closeSearch = false, focusCompany = false, 
   const targetGroup = groupFor(group.company, targetMode) || group;
   const groupRecords = sortedRecords(targetGroup);
   state.company = group.company;
+  if (!state.multiCompanyMode) syncSingleCompanyScope();
+  else if (!state.selectedCompanies.includes(group.company)) setSelectedCompanies([...state.selectedCompanies, group.company]);
   if (state.metricMode !== targetMode) {
     state.metricMode = targetMode;
     state.viewMode = defaultViewModeForMetric(targetMode);
@@ -2081,6 +2452,7 @@ function selectCompanyGroup(group, { closeSearch = false, focusCompany = false, 
     : targetMode === 'companyInfo' ? groupRecords[0] : null;
   if (next) {
     state.activeIndex = next.index;
+    setCompanyActiveRecord(next);
     syncDatasetHash(next);
   } else {
     clearDatasetHash();
@@ -2091,6 +2463,48 @@ function selectCompanyGroup(group, { closeSearch = false, focusCompany = false, 
   if (closeSearch) companySearchController.setOpen(false);
   if (focusCompany) requestAnimationFrame(focusActiveCompanyItem);
   scrollActiveTableRow(scrollKind || targetScrollKind);
+}
+function toggleCompanyInScope(group, { focusCompany = false, closeSearch = false } = {}) {
+  if (!group) return;
+  const company = group.company;
+  let nextCompanies = scopeCompanies();
+  if (!state.multiCompanyMode) {
+    state.multiCompanyMode = true;
+    nextCompanies = uniqueCompanies([state.company, company]);
+    state.company = company;
+  } else if (nextCompanies.includes(company)) {
+    if (nextCompanies.length > 1) {
+      nextCompanies = nextCompanies.filter((item) => item !== company);
+      if (state.company === company) state.company = nextCompanies[0] || state.company;
+    }
+  } else {
+    nextCompanies.push(company);
+    state.company = company;
+  }
+
+  setSelectedCompanies(nextCompanies);
+  state.metricMode = normalizeMetricModeForScope(state.metricMode);
+  state.viewMode = normalizeViewModeForMetric(state.metricMode, state.viewMode);
+  syncMetricCompanySelection();
+  writeStoredValue(METRIC_MODE_KEY, state.metricMode);
+  writeStoredValue(VIEW_MODE_KEY, state.viewMode);
+  renderAll();
+  draw({ renderTable: false, syncView: false });
+  if (closeSearch) companySearchController.setOpen(false);
+  if (focusCompany) requestAnimationFrame(focusActiveCompanyItem);
+  if (state.viewMode === 'table') scrollActiveTableRow(activeTableKind());
+}
+function exitMultiCompanyMode({ render = true, focusCompany = false } = {}) {
+  if (!state.multiCompanyMode) return;
+  state.multiCompanyMode = false;
+  syncSingleCompanyScope();
+  state.metricMode = normalizeMetricModeForScope(state.metricMode);
+  state.viewMode = normalizeViewModeForMetric(state.metricMode, state.viewMode);
+  syncMetricCompanySelection();
+  if (!render) return;
+  renderAll();
+  draw({ renderTable: false, syncView: false });
+  if (focusCompany) requestAnimationFrame(focusActiveCompanyItem);
 }
 function moveCompanySelection(offset, { returnBoundary = false } = {}) {
   const visibleGroups = visibleCompanyGroups();
@@ -2108,8 +2522,12 @@ function moveCompanySelection(offset, { returnBoundary = false } = {}) {
 }
 function renderCompanies() {
   const visibleGroups = visibleCompanyGroups();
-  syncEntityScopeCounts(visibleGroups.length);
+  syncEntityScopeCounts();
   companyList.innerHTML = '';
+  const scope = selectedCompanySet();
+  companyList.setAttribute('aria-multiselectable', state.multiCompanyMode ? 'true' : 'false');
+  if (companyMultiExitToggle) companyMultiExitToggle.hidden = !state.multiCompanyMode;
+  app.classList.toggle('company-multi-selecting', state.multiCompanyMode);
   if (!visibleGroups.length) {
     companyList.removeAttribute('aria-activedescendant');
     companyList.innerHTML = `<div class="empty-state">${escapeHtml(t('noMatchingCompanies'))}</div>`;
@@ -2118,25 +2536,32 @@ function renderCompanies() {
   const selectedVisible = visibleGroups.some((group) => group.company === state.company);
   visibleGroups.forEach((group, index) => {
     const isActive = group.company === state.company;
+    const isSelected = scope.has(group.company);
     const key = companyKey(group.company);
     const button = document.createElement('button');
     button.type = 'button';
-    button.className = 'nav-item company-item' + (isActive ? ' active' : '');
+    button.className = 'nav-item company-item' + (isSelected ? ' selected' : '') + (isActive ? ' active' : '');
     button.id = `company-option-${key}`;
     button.setAttribute('role', 'option');
-    button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    button.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+    if (isActive) button.setAttribute('aria-current', 'true');
     button.tabIndex = isActive || (!selectedVisible && index === 0) ? 0 : -1;
     button.dataset.company = group.company;
     button.dataset.companyKey = key;
     button.title = displayCompanyForGroup(group);
     button.innerHTML = `
       <div class="item-top">
+        <span class="scope-check" aria-hidden="true"></span>
         <span class="item-name">${escapeHtml(displayCompanyForGroup(group))}</span>
         <span class="count-pill">${groupMetricCount(group)}</span>
       </div>
       <div class="item-meta company-item-meta">${escapeHtml(companySortMetaText(group))}</div>
     `;
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (event) => {
+      if (event.shiftKey || state.multiCompanyMode) {
+        toggleCompanyInScope(group, { closeSearch: false, focusCompany: true });
+        return;
+      }
       selectCompanyGroup(group, { closeSearch: true, focusCompany: true });
     });
     companyList.appendChild(button);
@@ -2243,15 +2668,15 @@ function renderMetricModeButtons(availableModes) {
 }
 function syncMetricModeControls() {
   if (!METRIC_MODES.includes(state.metricMode)) state.metricMode = 'incomeStatement';
-  state.metricMode = normalizeMetricModeForCompany(state.company, state.metricMode);
+  state.metricMode = normalizeMetricModeForScope(state.metricMode);
   syncMetricCompanySelection();
-  state.metricMode = normalizeMetricModeForCompany(state.company, state.metricMode);
+  state.metricMode = normalizeMetricModeForScope(state.metricMode);
   state.viewMode = normalizeViewModeForMetric(state.metricMode, state.viewMode);
   app.classList.toggle('metric-company-info', isCompanyInfoMetric());
   app.classList.toggle('metric-income-statement', isIncomeStatementMetric());
   app.classList.toggle('metric-revenue', isRevenueMetric());
   periodSection.hidden = !isIncomeStatementMetric();
-  renderMetricModeButtons(metricModesForCompany(state.company));
+  renderMetricModeButtons(metricModesForScope());
 }
 function syncViewModeControls() {
   state.viewMode = normalizeViewModeForMetric(state.metricMode, state.viewMode);
@@ -2293,7 +2718,7 @@ function setViewMode(mode, persist = true) {
 }
 function setMetricMode(mode, persist = true) {
   if (!METRIC_MODES.includes(mode)) return;
-  if (!metricModesForCompany(state.company).includes(mode)) return;
+  if (!metricModesForScope().includes(mode)) return;
   if (state.metricMode === mode) {
     if (state.viewMode === 'table') scrollActiveTableRow(activeTableKind());
     return;
@@ -2377,17 +2802,25 @@ function syncPeriodExpansionControls() {
 function syncMetricCompanySelection() {
   const modeGroups = currentCompanyGroups();
   if (!modeGroups.length) return;
-  const group = metricGroupForCompany(state.company, state.metricMode) || modeGroups[0];
+  if (!state.multiCompanyMode) syncSingleCompanyScope();
+  const targetCompany = state.multiCompanyMode ? primaryCompanyForMetric(state.metricMode) : state.company;
+  const group = metricGroupForCompany(targetCompany, state.metricMode) || modeGroups[0];
   state.company = group.company;
+  if (!state.multiCompanyMode) syncSingleCompanyScope();
+  else setSelectedCompanies(state.selectedCompanies);
   if (isIncomeStatementMetric()) {
     const current = recordByIndex(state.activeIndex);
     if (current && current.company === group.company) return;
-    const next = sortedRecords(group).find((record) => matches(searchTextForRecord(record), periodSearch.value)) || sortedRecords(group)[0];
-    if (next) state.activeIndex = next.index;
+    const next = defaultRecordForCompanyMetric(group.company, 'incomeStatement');
+    if (next) {
+      state.activeIndex = next.index;
+      setCompanyActiveRecord(next);
+    }
   } else if (isCompanyInfoMetric() && group.records?.[0]) {
     const current = recordByIndex(state.activeIndex);
     if (current && current.company === group.company) return;
     state.activeIndex = group.records[0].index;
+    setCompanyActiveRecord(group.records[0]);
   }
 }
 function companySortLabel(sortKey = state.companySort) {
@@ -2511,6 +2944,9 @@ companyList.addEventListener('keydown', (e) => {
   const result = moveCompanySelection(e.key === 'ArrowDown' ? 1 : -1, { returnBoundary: true });
   if (result === 'boundary') companySearchController.focusInput();
 });
+companyMultiExitToggle?.addEventListener('click', () => {
+  exitMultiCompanyMode({ focusCompany: true });
+});
 periodSortToggle.addEventListener('click', () => {
   state.sort = state.sort === 'desc' ? 'asc' : 'desc';
   syncPeriodSortToggle();
@@ -2563,6 +2999,13 @@ document.addEventListener('pointerdown', (e) => {
 document.addEventListener('keydown', (e) => {
   if (e.key !== 'Escape' || !isCompanySortMenuOpen()) return;
   setCompanySortMenuOpen(false);
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape' || e.isComposing || !state.multiCompanyMode) return;
+  if (e.target === companySearch || e.target === periodSearch) return;
+  if (companySortMenu?.contains(e.target)) return;
+  e.preventDefault();
+  exitMultiCompanyMode({ focusCompany: true });
 });
 metricMode.addEventListener('click', (e) => {
   const button = e.target.closest('button');
@@ -2625,23 +3068,181 @@ sidebarResizer.addEventListener('keydown', (e) => {
 function chartWidth(d) {
   return d.render?.width || window.SankeyEngine.DEFAULTS?.width || 2862;
 }
+function chartHeight(d) {
+  return d.render?.height || window.SankeyEngine.DEFAULTS?.height || 1462;
+}
+function clearSingleChart() {
+  document.querySelector('#chart')?.replaceChildren();
+}
+function clearSankeyComparison() {
+  if (sankeyComparison) sankeyComparison.replaceChildren();
+}
+function nodeLabelText(node) {
+  return labelText(node?.label).toLowerCase();
+}
+function revenueNodeForDataset(dataset) {
+  return (dataset?.nodes || []).find((node) => node.id === 'revenue')
+    || (dataset?.nodes || []).find((node) => node.type === 'hub' && /^(revenue|sales|net sales)$/i.test(nodeLabelText(node)))
+    || (dataset?.nodes || []).find((node) => node.type === 'hub');
+}
+function fixedNodeHeight(dataset, node) {
+  const spec = node?.id ? dataset?.layout?.nodes?.[node.id] : null;
+  return finiteNumber(spec?.height);
+}
+function pxPerDatasetValue(dataset) {
+  const authoredScale = finiteNumber(dataset?.layout?.scale);
+  if (authoredScale != null) return authoredScale;
+  const node = revenueNodeForDataset(dataset);
+  const height = fixedNodeHeight(dataset, node);
+  const value = finiteNumber(node?.value);
+  return height != null && value ? height / value : null;
+}
+function pxPerUsdForDataset(dataset) {
+  const pxPerValue = pxPerDatasetValue(dataset);
+  const usdPerValue = amountValueUsd(1, dataset?.meta?.currency, dataset?.meta?.unit);
+  if (pxPerValue == null || usdPerValue == null || usdPerValue === 0) return null;
+  return pxPerValue / usdPerValue;
+}
+function comparisonScaleFactors(records) {
+  const entries = records
+    .map((record) => {
+      const dataset = localizedDataset(record.dataset);
+      return { key: record.dataset.key, pxPerUsd: pxPerUsdForDataset(dataset) };
+    })
+    .filter((entry) => entry.pxPerUsd != null && entry.pxPerUsd > 0);
+  if (!entries.length) return new Map();
+  const common = Math.min(...entries.map((entry) => entry.pxPerUsd));
+  return new Map(entries.map((entry) => [entry.key, common / entry.pxPerUsd]));
+}
+function comparisonColumnCount(count) {
+  const viewport = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+  if (viewport <= 900) return 1;
+  if (viewport <= 1100 && (count === 3 || count >= 5)) return 2;
+  if (count <= 1) return 1;
+  if (count === 2) return 2;
+  if (count === 3) return 3;
+  if (count === 4) return 2;
+  return 3;
+}
+function comparisonFitFactor(records, scaleFactors) {
+  const count = Math.max(records.length, 1);
+  const columns = comparisonColumnCount(count);
+  const availableWidth = Math.max(1, (sankeyView?.clientWidth || content?.clientWidth || window.innerWidth || 1) - 20);
+  const gap = 8;
+  const columnWidth = Math.max(1, (availableWidth - gap * (columns - 1)) / columns);
+  const maxNaturalWidth = records.reduce((max, record) => {
+    const dataset = localizedDataset(record.dataset);
+    const scale = scaleFactors.get(record.dataset.key) || 1;
+    return Math.max(max, chartWidth(dataset) * scale);
+  }, 1);
+  return Math.min(1, columnWidth / maxNaturalWidth);
+}
+function comparisonFinancialLine(record) {
+  const financial = financialFor(record);
+  if (!financial) return '';
+  return [
+    `${t('tableRevenue')} ${formatAmount(financial, financial.revenue?.total)}`,
+    `${t('tableNetProfit')} ${formatAmount(financial, financial.profit?.net?.value)}`,
+  ].filter(Boolean).join(' · ');
+}
+function renderSankeyComparison() {
+  if (!sankeyComparison) return;
+  const companies = scopeCompanies();
+  const recordsForCompanies = companies.map((company) => ({
+    company,
+    record: defaultRecordForCompanyMetric(company, 'incomeStatement'),
+  }));
+  const recordsWithData = recordsForCompanies.map((item) => item.record).filter(Boolean);
+  const scaleFactors = comparisonScaleFactors(recordsWithData);
+  const fitFactor = comparisonFitFactor(recordsWithData, scaleFactors);
+  sankeyComparison.innerHTML = '';
+
+  const summary = document.createElement('div');
+  summary.className = 'comparison-summary';
+  summary.innerHTML = `
+    <span>${escapeHtml(t('comparisonScopeSummary', { count: companies.length }))}</span>
+    <strong>${escapeHtml(`${t('tableRevenue')} ${formatScopeFinancialTotal('revenue')}`)}</strong>
+    <strong>${escapeHtml(`${t('tableNetProfit')} ${formatScopeFinancialTotal('netProfit')}`)}</strong>
+  `;
+  sankeyComparison.appendChild(summary);
+
+  const grid = document.createElement('div');
+  grid.className = `comparison-grid comparison-grid-${Math.min(Math.max(recordsForCompanies.length, 1), 6)}`;
+  sankeyComparison.appendChild(grid);
+
+  recordsForCompanies.forEach(({ company, record }) => {
+    const card = document.createElement('section');
+    card.className = 'comparison-card';
+    if (!record) {
+      card.classList.add('empty');
+      card.innerHTML = `
+        <div class="comparison-card-header">
+          <strong>${escapeHtml(displayCompanyName(company))}</strong>
+          <span>${escapeHtml(t('comparisonNoData'))}</span>
+        </div>
+      `;
+      grid.appendChild(card);
+      return;
+    }
+
+    const dataset = localizedDataset(record.dataset);
+    const width = chartWidth(dataset);
+    const scale = (scaleFactors.get(record.dataset.key) || 1) * fitFactor;
+    card.innerHTML = `
+      <div class="comparison-card-header">
+        <strong>${escapeHtml(displayCompany(record))}</strong>
+        <span>${escapeHtml([displayPeriod(record), displayPeriodNote(record)].filter(Boolean).join(' · '))}</span>
+      </div>
+      <div class="comparison-card-metrics">${escapeHtml(comparisonFinancialLine(record))}</div>
+      <div class="comparison-chart-frame">
+        <div class="comparison-chart-host"></div>
+      </div>
+    `;
+    const frame = card.querySelector('.comparison-chart-frame');
+    const host = card.querySelector('.comparison-chart-host');
+    frame.style.maxWidth = '100%';
+    host.style.width = `${Math.max(1, width * scale)}px`;
+    host.dataset.datasetKey = record.dataset.key;
+    host.dataset.scaleFactor = String(scale);
+    grid.appendChild(card);
+    window.SankeyEngine.render(host, dataset);
+  });
+}
 function draw({ renderTable = true, syncView = true } = {}) {
   if (syncView) syncViewModeControls();
   if (state.viewMode === 'table') {
+    clearSingleChart();
+    clearSankeyComparison();
     if (renderTable) renderTables();
     svgBtn.disabled = true;
+    pngBtn.disabled = true;
     return;
   }
   if (state.viewMode === 'trend') {
+    clearSingleChart();
+    clearSankeyComparison();
     renderRevenueTrend();
     svgBtn.disabled = true;
+    pngBtn.disabled = true;
     return;
   }
   const d = localizedDataset(currentDataset());
   const maxWidth = chartWidth(d);
-  document.querySelector('.card').style.maxWidth = maxWidth + 'px';
+  const compare = isMultiCompanyScope();
+  if (singleChartCard) singleChartCard.hidden = compare;
+  if (sankeyComparison) sankeyComparison.hidden = !compare;
+  if (compare) {
+    clearSingleChart();
+    renderSankeyComparison();
+    svgBtn.disabled = true;
+    pngBtn.disabled = true;
+    return;
+  }
+  clearSankeyComparison();
+  if (singleChartCard) singleChartCard.style.maxWidth = maxWidth + 'px';
   if (d) window.SankeyEngine.render('#chart', d);
   svgBtn.disabled = !document.querySelector('#chart svg');
+  pngBtn.disabled = !document.querySelector('#chart svg');
 }
 
 window.addEventListener('hashchange', () => {
@@ -2650,6 +3251,9 @@ window.addEventListener('hashchange', () => {
   if (record.index === state.activeIndex && record.company === state.company) return;
   state.activeIndex = record.index;
   state.company = record.company;
+  setCompanyActiveRecord(record);
+  if (!state.multiCompanyMode) syncSingleCompanyScope();
+  else if (!state.selectedCompanies.includes(record.company)) setSelectedCompanies([...state.selectedCompanies, record.company]);
   renderAll();
   draw({ renderTable: false, syncView: false });
   scrollActiveTableRow('statement');

@@ -785,8 +785,39 @@
       return (linksToSum || []).reduce((sum, lk) => sum + numericLinkValue(lk), 0);
     }
 
-    function linkPercent(lk) {
+    function isBackgroundTint(value) {
+      const color = String(value == null ? '' : value).trim().toLowerCase();
+      const background = String(cfg.background || '').trim().toLowerCase();
+      return (
+        Boolean(color) &&
+        (color === background || color === 'transparent' || color === 'none')
+      );
+    }
+
+    function isHiddenBridgeLink(lk) {
       const raw = lk.raw || {};
+      const tint = raw.linkTint;
+      if (!tint) return false;
+      const colors =
+        typeof tint === 'string' ? [tint] : [tint.left, tint.right].filter((v) => v != null);
+      return colors.length > 0 && colors.every(isBackgroundTint);
+    }
+
+    function hiddenBridgeDenominator(lk) {
+      const hiddenIncoming = (lk.source && lk.source.targetLinks ? lk.source.targetLinks : []).filter(
+        isHiddenBridgeLink
+      );
+      if (hiddenIncoming.length !== 1) return 0;
+      const upstreamSourceLinks =
+        hiddenIncoming[0].source && hiddenIncoming[0].source.sourceLinks
+          ? hiddenIncoming[0].source.sourceLinks
+          : [];
+      return linkSum(upstreamSourceLinks);
+    }
+
+    function linkPercent(lk, denominatorOverride) {
+      const raw = lk.raw || {};
+      if (isHiddenBridgeLink(lk)) return '';
       if (raw.percentText != null) return String(raw.percentText);
       if (raw.percentageText != null) return String(raw.percentageText);
 
@@ -802,11 +833,20 @@
       const targetLinks = lk.target && lk.target.targetLinks ? lk.target.targetLinks : [];
       const sourceTotal = linkSum(sourceLinks);
       const targetTotal = linkSum(targetLinks);
-      let denominator = 0;
+      let denominator =
+        denominatorOverride && Number.isFinite(Number(denominatorOverride))
+          ? Number(denominatorOverride)
+          : 0;
 
-      if (sourceLinks.length > 1 && sourceTotal > 0) denominator = sourceTotal;
-      else if (targetLinks.length > 1 && targetTotal > 0) denominator = targetTotal;
-      else denominator = sourceTotal || targetTotal;
+      if (!denominator) {
+        const bridgeDenominator = hiddenBridgeDenominator(lk);
+        if (bridgeDenominator > 0) denominator = bridgeDenominator;
+      }
+      if (!denominator) {
+        if (sourceLinks.length > 1 && sourceTotal > 0) denominator = sourceTotal;
+        else if (targetLinks.length > 1 && targetTotal > 0) denominator = targetTotal;
+        else denominator = sourceTotal || targetTotal;
+      }
 
       if (!denominator) return '';
       return `${trimFixed((value / denominator) * 100, decimals)}%`;
@@ -823,10 +863,45 @@
       return [(lk.source.x1 + lk.target.x0) / 2, (lk.y0 + lk.y1) / 2];
     }
 
+    const linkPathByIndex = new Map();
+
+    function expandTooltipItems(items) {
+      const rows = [];
+      const seen = new Set();
+
+      function add(item, denominatorOverride) {
+        const lk = item.lk;
+        if (!lk || seen.has(lk.index)) return;
+        seen.add(lk.index);
+        rows.push(Object.assign({}, item, { denominatorOverride }));
+      }
+
+      (items || []).forEach((item) => {
+        if (!isHiddenBridgeLink(item.lk)) {
+          add(item, item.denominatorOverride);
+          return;
+        }
+
+        const downstream = item.lk.target && item.lk.target.sourceLinks
+          ? item.lk.target.sourceLinks.filter((lk) => !isHiddenBridgeLink(lk))
+          : [];
+        const denominator = linkSum(
+          item.lk.source && item.lk.source.sourceLinks ? item.lk.source.sourceLinks : []
+        );
+        downstream.forEach((lk) =>
+          add({ path: linkPathByIndex.get(lk.index), lk }, denominator)
+        );
+      });
+
+      return rows;
+    }
+
     function showLinkTooltips(items) {
       if (!linkTooltipLayer) return;
-      const rows = items
-        .map((item) => Object.assign({}, item, { text: linkPercent(item.lk) }))
+      const rows = expandTooltipItems(items)
+        .map((item) =>
+          Object.assign({}, item, { text: linkPercent(item.lk, item.denominatorOverride) })
+        )
         .filter((item) => item.text);
 
       linkTooltipLayer.style('display', rows.length ? null : 'none');
@@ -908,7 +983,6 @@
       const linkPaths = linkLayer.selectAll('path.sankey-link');
       const nodeRects = nodeLayer.selectAll('rect.sankey-node');
       const labelItems = labelLayer.selectAll('.sankey-label');
-      const linkPathByIndex = new Map();
       linkPaths.each(function (lk) {
         linkPathByIndex.set(lk.index, this);
       });

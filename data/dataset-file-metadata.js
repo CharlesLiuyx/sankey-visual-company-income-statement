@@ -4,7 +4,7 @@
  */
 (function () {
   window.DATASET_FILE_METADATA = {
-  "generatedAt": "2026-06-29T11:46:48.758Z",
+  "generatedAt": "2026-06-29T17:39:52.844Z",
   "source": "dataset view and metric source file modification times",
   "files": {
     "alphabet-q1-fy26": {
@@ -151,6 +151,11 @@
       "path": "data/datasets/hilton-q1-fy26.js",
       "mtimeMs": 1782071737049,
       "mtime": "2026-06-21T19:55:37.049Z"
+    },
+    "marriott-q1-fy26": {
+      "path": "data/datasets/marriott-q1-fy26.js",
+      "mtimeMs": 1782754792844,
+      "mtime": "2026-06-29T17:39:52.844Z"
     },
     "hp-q2-fy26": {
       "path": "data/datasets/hp-q2-fy26.js",

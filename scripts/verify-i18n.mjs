@@ -21,6 +21,8 @@ const PRESERVED_ANNOTATION_TEXT = new Set([
   'Habit',
   'Hilton',
   'Hut',
+  'INTERNATIONAL',
+  'Marriott',
   'MARKET',
   'Paramount+',
   'Pizza',

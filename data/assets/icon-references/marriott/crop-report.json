@@ -1,0 +1,116 @@
+{
+  "source": "input/processed/marriott-q1-fy26.png",
+  "spec": "input/icon-crop-specs/marriott-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-29T17:44:29.342546+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 10
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "marriott-company-logo",
+      "output": "data/assets/icon-references/marriott/crops/company-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 5867,
+        "losslessBytes": 26049,
+        "savingsVsLossless": 0.7748,
+        "metrics": {
+          "meanAbsoluteError": 0.2782,
+          "rootMeanSquareError": 1.5561,
+          "p99AbsoluteError": 8.0,
+          "maxChannelDiff": 24,
+          "changedPixelRatio": 0.0777
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 10,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 99285,
+        "transparentPixelRatio": 0.6874
+      },
+      "searchBox": {
+        "x": 1035,
+        "y": 210,
+        "width": 645,
+        "height": 205
+      },
+      "componentCount": 21,
+      "subjectBox": {
+        "x0": 1035,
+        "y0": 214,
+        "x1": 1636,
+        "y1": 405
+      },
+      "cropBox": {
+        "x0": 1015,
+        "y0": 200,
+        "x1": 1643,
+        "y1": 430
+      },
+      "validation": {
+        "width": 628,
+        "height": 230,
+        "foregroundPixels": 38246,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 20,
+          "right": 7,
+          "top": 14,
+          "bottom": 25
+        },
+        "centerOffset": {
+          "x": 0.0104,
+          "y": -0.0239
+        },
+        "passes": true
+      },
+      "note": "Marriott company logo and wordmark near the top center of the source chart; excludes the title, flow labels, KPI cards, and publisher footer branding.",
+      "validationSheet": "data/assets/icon-references/marriott/validation-sheets/marriott-company-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 252935,
+        "losslessBytes": 252935,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

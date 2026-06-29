@@ -1,0 +1,776 @@
+{
+  "source": "input/processed/berkshire-hathaway-q1-fy26.png",
+  "spec": "input/icon-crop-specs/berkshire-hathaway-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-29T06:59:14.629057+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 6
+  },
+  "runtimeOutputDir": "data/assets/raster-annotations/berkshire-hathaway",
+  "crops": [
+    {
+      "key": "berkshire-hathaway-company-wordmark",
+      "output": "data/assets/icon-references/berkshire-hathaway/crops/company-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 5029,
+        "losslessBytes": 24788,
+        "savingsVsLossless": 0.7971,
+        "metrics": {
+          "meanAbsoluteError": 0.4829,
+          "rootMeanSquareError": 2.5189,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 45,
+          "changedPixelRatio": 0.1175
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 66253,
+        "transparentPixelRatio": 0.7857
+      },
+      "searchBox": {
+        "x": 685,
+        "y": 244,
+        "width": 486,
+        "height": 164
+      },
+      "componentCount": 17,
+      "subjectBox": {
+        "x0": 694,
+        "y0": 251,
+        "x1": 1161,
+        "y1": 402
+      },
+      "cropBox": {
+        "x0": 682,
+        "y0": 242,
+        "x1": 1178,
+        "y1": 412
+      },
+      "validation": {
+        "width": 496,
+        "height": 170,
+        "foregroundPixels": 16613,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 12,
+          "right": 17,
+          "top": 9,
+          "bottom": 10
+        },
+        "centerOffset": {
+          "x": -0.005,
+          "y": -0.0029
+        },
+        "passes": true
+      },
+      "note": "Large Berkshire Hathaway company wordmark near the center; excludes title text, revenue label, flows, and publisher marks.",
+      "runtimeOutput": "data/assets/raster-annotations/berkshire-hathaway/company-wordmark.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 5029,
+        "losslessBytes": 24788,
+        "savingsVsLossless": 0.7971,
+        "metrics": {
+          "meanAbsoluteError": 0.4829,
+          "rootMeanSquareError": 2.5189,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 45,
+          "changedPixelRatio": 0.1175
+        }
+      },
+      "validationSheet": "data/assets/icon-references/berkshire-hathaway/validation-sheets/berkshire-hathaway-company-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 254930,
+        "losslessBytes": 254930,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "berkshire-hathaway-business-insurance-cluster",
+      "output": "data/assets/icon-references/berkshire-hathaway/crops/business-insurance-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 8938,
+        "losslessBytes": 8938,
+        "savingsVsLossless": 0.0
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 7326,
+        "transparentPixelRatio": 0.421
+      },
+      "searchBox": {
+        "x": 16,
+        "y": 331,
+        "width": 142,
+        "height": 108
+      },
+      "componentCount": 4,
+      "subjectBox": {
+        "x0": 20,
+        "y0": 334,
+        "x1": 157,
+        "y1": 437
+      },
+      "cropBox": {
+        "x0": 14,
+        "y0": 328,
+        "x1": 164,
+        "y1": 444
+      },
+      "validation": {
+        "width": 150,
+        "height": 116,
+        "foregroundPixels": 9454,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 6,
+          "right": 7,
+          "top": 6,
+          "bottom": 7
+        },
+        "centerOffset": {
+          "x": -0.0033,
+          "y": -0.0043
+        },
+        "passes": true
+      },
+      "note": "Insurance logo cluster including GEICO and BH insurance marks; excludes the Insurance label, value text, and source flow.",
+      "runtimeOutput": "data/assets/raster-annotations/berkshire-hathaway/business-insurance-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "rgba-lossless",
+        "colors": null,
+        "bytes": 8938,
+        "losslessBytes": 8938,
+        "savingsVsLossless": 0.0
+      },
+      "validationSheet": "data/assets/icon-references/berkshire-hathaway/validation-sheets/berkshire-hathaway-business-insurance-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 283404,
+        "losslessBytes": 283404,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "berkshire-hathaway-business-bnsf-logo",
+      "output": "data/assets/icon-references/berkshire-hathaway/crops/business-bnsf-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 1203,
+        "losslessBytes": 4783,
+        "savingsVsLossless": 0.7485,
+        "metrics": {
+          "meanAbsoluteError": 0.7114,
+          "rootMeanSquareError": 2.048,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 28,
+          "changedPixelRatio": 0.3837
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 3371,
+        "transparentPixelRatio": 0.5497
+      },
+      "searchBox": {
+        "x": 12,
+        "y": 514,
+        "width": 154,
+        "height": 48
+      },
+      "componentCount": 3,
+      "subjectBox": {
+        "x0": 13,
+        "y0": 514,
+        "x1": 147,
+        "y1": 540
+      },
+      "cropBox": {
+        "x0": 8,
+        "y0": 508,
+        "x1": 154,
+        "y1": 550
+      },
+      "validation": {
+        "width": 146,
+        "height": 42,
+        "foregroundPixels": 2684,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 5,
+          "right": 7,
+          "top": 6,
+          "bottom": 10
+        },
+        "centerOffset": {
+          "x": -0.0068,
+          "y": -0.0476
+        },
+        "passes": true
+      },
+      "note": "BNSF Railway logo for the BNSF revenue segment; excludes labels, values, and flow marks.",
+      "runtimeOutput": "data/assets/raster-annotations/berkshire-hathaway/business-bnsf-logo.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 1203,
+        "losslessBytes": 4783,
+        "savingsVsLossless": 0.7485,
+        "metrics": {
+          "meanAbsoluteError": 0.7114,
+          "rootMeanSquareError": 2.048,
+          "p99AbsoluteError": 9.0,
+          "maxChannelDiff": 28,
+          "changedPixelRatio": 0.3837
+        }
+      },
+      "validationSheet": "data/assets/icon-references/berkshire-hathaway/validation-sheets/berkshire-hathaway-business-bnsf-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 260396,
+        "losslessBytes": 260396,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "berkshire-hathaway-business-bhe-logo",
+      "output": "data/assets/icon-references/berkshire-hathaway/crops/business-bhe-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 901,
+        "losslessBytes": 3994,
+        "savingsVsLossless": 0.7744,
+        "metrics": {
+          "meanAbsoluteError": 0.3591,
+          "rootMeanSquareError": 2.0809,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 37,
+          "changedPixelRatio": 0.0903
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 7204,
+        "transparentPixelRatio": 0.7207
+      },
+      "searchBox": {
+        "x": 40,
+        "y": 614,
+        "width": 88,
+        "height": 92
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 40,
+        "y0": 617,
+        "x1": 113,
+        "y1": 693
+      },
+      "cropBox": {
+        "x0": 36,
+        "y0": 610,
+        "x1": 134,
+        "y1": 712
+      },
+      "validation": {
+        "width": 98,
+        "height": 102,
+        "foregroundPixels": 2762,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 4,
+          "right": 21,
+          "top": 7,
+          "bottom": 19
+        },
+        "centerOffset": {
+          "x": -0.0867,
+          "y": -0.0588
+        },
+        "passes": true
+      },
+      "note": "Berkshire Hathaway Energy triangular logo for the BHE segment; excludes labels, values, and flow marks.",
+      "runtimeOutput": "data/assets/raster-annotations/berkshire-hathaway/business-bhe-logo.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 901,
+        "losslessBytes": 3994,
+        "savingsVsLossless": 0.7744,
+        "metrics": {
+          "meanAbsoluteError": 0.3591,
+          "rootMeanSquareError": 2.0809,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 37,
+          "changedPixelRatio": 0.0903
+        }
+      },
+      "validationSheet": "data/assets/icon-references/berkshire-hathaway/validation-sheets/berkshire-hathaway-business-bhe-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 277701,
+        "losslessBytes": 277701,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "berkshire-hathaway-business-pilot-logo",
+      "output": "data/assets/icon-references/berkshire-hathaway/crops/business-pilot-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 531,
+        "losslessBytes": 1708,
+        "savingsVsLossless": 0.6891,
+        "metrics": {
+          "meanAbsoluteError": 0.4982,
+          "rootMeanSquareError": 2.1336,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 33,
+          "changedPixelRatio": 0.2584
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 5294,
+        "transparentPixelRatio": 0.7563
+      },
+      "searchBox": {
+        "x": 18,
+        "y": 777,
+        "width": 132,
+        "height": 42
+      },
+      "componentCount": 6,
+      "subjectBox": {
+        "x0": 25,
+        "y0": 778,
+        "x1": 127,
+        "y1": 805
+      },
+      "cropBox": {
+        "x0": 16,
+        "y0": 773,
+        "x1": 156,
+        "y1": 823
+      },
+      "validation": {
+        "width": 140,
+        "height": 50,
+        "foregroundPixels": 1615,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 9,
+          "right": 29,
+          "top": 5,
+          "bottom": 18
+        },
+        "centerOffset": {
+          "x": -0.0714,
+          "y": -0.13
+        },
+        "passes": true
+      },
+      "note": "Pilot wordmark for the Pilot revenue segment; excludes labels, values, and flow marks.",
+      "runtimeOutput": "data/assets/raster-annotations/berkshire-hathaway/business-pilot-logo.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 531,
+        "losslessBytes": 1708,
+        "savingsVsLossless": 0.6891,
+        "metrics": {
+          "meanAbsoluteError": 0.4982,
+          "rootMeanSquareError": 2.1336,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 33,
+          "changedPixelRatio": 0.2584
+        }
+      },
+      "validationSheet": "data/assets/icon-references/berkshire-hathaway/validation-sheets/berkshire-hathaway-business-pilot-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 242282,
+        "losslessBytes": 242282,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "berkshire-hathaway-business-manufacturing-cluster",
+      "output": "data/assets/icon-references/berkshire-hathaway/crops/business-manufacturing-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 1876,
+        "losslessBytes": 8318,
+        "savingsVsLossless": 0.7745,
+        "metrics": {
+          "meanAbsoluteError": 0.7759,
+          "rootMeanSquareError": 2.4385,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 32,
+          "changedPixelRatio": 0.2775
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 8187,
+        "transparentPixelRatio": 0.6891
+      },
+      "searchBox": {
+        "x": 28,
+        "y": 986,
+        "width": 122,
+        "height": 82
+      },
+      "componentCount": 4,
+      "subjectBox": {
+        "x0": 28,
+        "y0": 986,
+        "x1": 132,
+        "y1": 1063
+      },
+      "cropBox": {
+        "x0": 24,
+        "y0": 982,
+        "x1": 156,
+        "y1": 1072
+      },
+      "validation": {
+        "width": 132,
+        "height": 90,
+        "foregroundPixels": 3388,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 4,
+          "right": 24,
+          "top": 4,
+          "bottom": 9
+        },
+        "centerOffset": {
+          "x": -0.0758,
+          "y": -0.0278
+        },
+        "passes": true
+      },
+      "note": "Manufacturing logo cluster with PCC and Lubrizol; excludes the Manufacturing label, value text, and flow marks.",
+      "runtimeOutput": "data/assets/raster-annotations/berkshire-hathaway/business-manufacturing-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 1876,
+        "losslessBytes": 8318,
+        "savingsVsLossless": 0.7745,
+        "metrics": {
+          "meanAbsoluteError": 0.7759,
+          "rootMeanSquareError": 2.4385,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 32,
+          "changedPixelRatio": 0.2775
+        }
+      },
+      "validationSheet": "data/assets/icon-references/berkshire-hathaway/validation-sheets/berkshire-hathaway-business-manufacturing-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 288637,
+        "losslessBytes": 288637,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "berkshire-hathaway-business-mclane-logo",
+      "output": "data/assets/icon-references/berkshire-hathaway/crops/business-mclane-logo.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 1141,
+        "losslessBytes": 4749,
+        "savingsVsLossless": 0.7597,
+        "metrics": {
+          "meanAbsoluteError": 0.5781,
+          "rootMeanSquareError": 2.5647,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 50,
+          "changedPixelRatio": 0.162
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 7995,
+        "transparentPixelRatio": 0.7829
+      },
+      "searchBox": {
+        "x": 17,
+        "y": 1109,
+        "width": 130,
+        "height": 66
+      },
+      "componentCount": 3,
+      "subjectBox": {
+        "x0": 17,
+        "y0": 1118,
+        "x1": 138,
+        "y1": 1164
+      },
+      "cropBox": {
+        "x0": 14,
+        "y0": 1106,
+        "x1": 152,
+        "y1": 1180
+      },
+      "validation": {
+        "width": 138,
+        "height": 74,
+        "foregroundPixels": 2187,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 3,
+          "right": 14,
+          "top": 12,
+          "bottom": 16
+        },
+        "centerOffset": {
+          "x": -0.0399,
+          "y": -0.027
+        },
+        "passes": true
+      },
+      "note": "McLane logo for the McLane revenue segment; excludes labels, values, and flow marks.",
+      "runtimeOutput": "data/assets/raster-annotations/berkshire-hathaway/business-mclane-logo.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 1141,
+        "losslessBytes": 4749,
+        "savingsVsLossless": 0.7597,
+        "metrics": {
+          "meanAbsoluteError": 0.5781,
+          "rootMeanSquareError": 2.5647,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 50,
+          "changedPixelRatio": 0.162
+        }
+      },
+      "validationSheet": "data/assets/icon-references/berkshire-hathaway/validation-sheets/berkshire-hathaway-business-mclane-logo.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 263291,
+        "losslessBytes": 263291,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "berkshire-hathaway-business-services-retailing-cluster",
+      "output": "data/assets/icon-references/berkshire-hathaway/crops/business-services-retailing-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 3659,
+        "losslessBytes": 16984,
+        "savingsVsLossless": 0.7846,
+        "metrics": {
+          "meanAbsoluteError": 0.8066,
+          "rootMeanSquareError": 2.6703,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 43,
+          "changedPixelRatio": 0.2213
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 6,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 16288,
+        "transparentPixelRatio": 0.6686
+      },
+      "searchBox": {
+        "x": 18,
+        "y": 1228,
+        "width": 132,
+        "height": 166
+      },
+      "componentCount": 26,
+      "subjectBox": {
+        "x0": 18,
+        "y0": 1228,
+        "x1": 129,
+        "y1": 1394
+      },
+      "cropBox": {
+        "x0": 14,
+        "y0": 1224,
+        "x1": 154,
+        "y1": 1398
+      },
+      "validation": {
+        "width": 140,
+        "height": 174,
+        "foregroundPixels": 7670,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 4,
+          "right": 25,
+          "top": 4,
+          "bottom": 4
+        },
+        "centerOffset": {
+          "x": -0.075,
+          "y": 0.0
+        },
+        "passes": true
+      },
+      "note": "Services and retailing logo cluster including FlightSafety, NetJets, Borsheims, and See's Candies; excludes labels, values, publisher marks, website, and social badge.",
+      "runtimeOutput": "data/assets/raster-annotations/berkshire-hathaway/business-services-retailing-cluster.png",
+      "runtimeCompression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 32,
+        "bytes": 3659,
+        "losslessBytes": 16984,
+        "savingsVsLossless": 0.7846,
+        "metrics": {
+          "meanAbsoluteError": 0.8066,
+          "rootMeanSquareError": 2.6703,
+          "p99AbsoluteError": 11.0,
+          "maxChannelDiff": 43,
+          "changedPixelRatio": 0.2213
+        }
+      },
+      "validationSheet": "data/assets/icon-references/berkshire-hathaway/validation-sheets/berkshire-hathaway-business-services-retailing-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 316353,
+        "losslessBytes": 316353,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}

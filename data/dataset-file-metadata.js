@@ -4,7 +4,7 @@
  */
 (function () {
   window.DATASET_FILE_METADATA = {
-  "generatedAt": "2026-06-29T05:32:27.101Z",
+  "generatedAt": "2026-06-29T07:33:44.465Z",
   "source": "dataset view and metric source file modification times",
   "files": {
     "alphabet-q1-fy26": {
@@ -72,6 +72,11 @@
       "mtimeMs": 1782545401575,
       "mtime": "2026-06-27T07:30:01.575Z"
     },
+    "berkshire-hathaway-q1-fy26": {
+      "path": "data/datasets/berkshire-hathaway-q1-fy26.js",
+      "mtimeMs": 1782718424465,
+      "mtime": "2026-06-29T07:33:44.465Z"
+    },
     "blackrock-q1-fy26": {
       "path": "data/datasets/blackrock-q1-fy26.js",
       "mtimeMs": 1782040069329,
@@ -129,8 +134,8 @@
     },
     "figma-q1-fy26": {
       "path": "data/datasets/figma-q1-fy26.js",
-      "mtimeMs": 1782711147101,
-      "mtime": "2026-06-29T05:32:27.101Z"
+      "mtimeMs": 1782711282453,
+      "mtime": "2026-06-29T05:34:42.453Z"
     },
     "goldman-sachs-q1-fy26": {
       "path": "data/datasets/goldman-sachs-q1-fy26.js",

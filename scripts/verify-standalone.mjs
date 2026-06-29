@@ -117,17 +117,35 @@ async function verifyInBrowser(filePath) {
     assert(d3State.svgButtonDisabled === false, 'SVG export button should be enabled in d3 mode');
     assert(d3State.montserratLoaded, 'Inline Montserrat font did not load');
 
-    const tencentUrl = `${documentUrl}#tencent-q1-fy26`;
-    await page.goto(tencentUrl, { waitUntil: 'load' });
-    await page.waitForSelector('#chart svg', { timeout: 10000 });
-    const tencentImages = await waitForSvgImages(page);
-    assert(tencentImages.count === 5, `Tencent should render 5 raster annotation image(s), got ${tencentImages.count}`);
-    assert(
-      tencentImages.hrefs.every((href) => /^data:image\/(?:png|jpeg|webp|svg\+xml);base64,/.test(href)),
-      `Tencent raster annotation(s) were not inlined:\n${tencentImages.hrefs.join('\n')}`
+    // Raster-annotation datasets are discovered from the bundled data, not hardcoded.
+    const rasterDatasets = await page.evaluate(() =>
+      (window.DATASETS || [])
+        .filter(
+          (d) =>
+            d?.render?.allowRasterAnnotations &&
+            Array.isArray(d.rasterAnnotations) &&
+            d.rasterAnnotations.length
+        )
+        .map((d) => ({ key: d.key, expected: d.rasterAnnotations.length }))
     );
 
-    console.log(JSON.stringify({ d3State, tencentImages: { count: tencentImages.count } }, null, 2));
+    const rasterResults = [];
+    for (const { key, expected } of rasterDatasets) {
+      await page.goto(`${documentUrl}#${key}`, { waitUntil: 'load' });
+      await page.waitForSelector('#chart svg', { timeout: 10000 });
+      const images = await waitForSvgImages(page);
+      assert(
+        images.count === expected,
+        `${key} should render ${expected} raster annotation image(s), got ${images.count}`
+      );
+      assert(
+        images.hrefs.every((href) => /^data:image\/(?:png|jpeg|webp|svg\+xml);base64,/.test(href)),
+        `${key} raster annotation(s) were not inlined:\n${images.hrefs.join('\n')}`
+      );
+      rasterResults.push({ key, count: images.count });
+    }
+
+    console.log(JSON.stringify({ d3State, rasterDatasets: rasterResults }, null, 2));
   } finally {
     await browser.close();
   }

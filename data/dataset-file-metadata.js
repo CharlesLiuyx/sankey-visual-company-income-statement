@@ -4,7 +4,7 @@
  */
 (function () {
   window.DATASET_FILE_METADATA = {
-  "generatedAt": "2026-06-29T09:43:22.237Z",
+  "generatedAt": "2026-06-29T11:46:48.758Z",
   "source": "dataset view and metric source file modification times",
   "files": {
     "alphabet-q1-fy26": {
@@ -191,6 +191,11 @@
       "path": "data/datasets/sap-q1-fy26.js",
       "mtimeMs": 1782013777739,
       "mtime": "2026-06-21T03:49:37.739Z"
+    },
+    "shopify-q1-fy26": {
+      "path": "data/datasets/shopify-q1-fy26.js",
+      "mtimeMs": 1782733608758,
+      "mtime": "2026-06-29T11:46:48.758Z"
     },
     "tsmc-q1-fy26": {
       "path": "data/datasets/tsmc-q1-fy26.js",

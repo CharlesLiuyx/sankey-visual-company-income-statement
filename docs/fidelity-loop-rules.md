@@ -90,6 +90,10 @@ sh scripts/clean-compare.sh
    bbox 计算出的间距低于 `4px` 是 hard fail。
 9. 短辅助柱、短横柱或小矩形与其上下同轴 label 的水平中心必须对齐；渲染 bbox 计算出
    的 `centerDelta > 4px` 是 hard fail。
+   当源图语义显示 label 属于某根柱子的正上方或正下方时，不能把它降级成左侧、右侧或
+   远离柱子的近邻 label；即使自动 overlap gate 通过，也必须按该柱子的渲染 bbox 复核
+   水平中心和 5px 边界距离。毛利、营业利润、营业费用、净利润/净亏损等中间汇总柱属于
+   高风险项，人工轮次必须优先检查。
 10. 左右相邻 label 与 node 的横向 overlap 是 hard fail。
 11. `node --check`、`pnpm verify:ssot`、`pnpm verify:i18n -- --strict <dataset-key>` 等
    数据一致性检查必须按 AGENTS.md 的验证清单执行。
@@ -154,6 +158,27 @@ sh scripts/clean-compare.sh
 
 如果观察到非主方向的新问题，只记录到 backlog。例外是自动硬门槛失败、画布裁剪、
 明显文本越界，或会阻塞当前方向判断的结构性错误。
+
+连接线主查方向必须逐条从原图追踪 source、target、socket 和是否绕过中间柱。不要只按
+财务算式或节点邻近关系推断 link。对于 waterfall-like 调整区，例如营业利润、投资/税费、
+净利润/净亏损，结果柱和调整项柱可能共享同一目标或平行进入同一目标；若原图显示一条带子
+绕过某个结果柱，就不得把该结果柱写成中间节点。细税线、短横线和多入口目标要记录显式
+`y0`/`y1` 或 curve 控制点，并在 Task 信息中说明每条线对应的原图关系。
+如果用户指出连接线仍然错误，不要只继续调 curve；必须先复核连接线两端节点自身的
+原图像素 bbox，尤其是短柱的 `x/y/height`。源柱或目标柱的垂直位置错位时，任何
+`y0`/`y1` 都只是对错误锚点的补丁；应先把节点和同轴 label 移到原图高度，再重新调整
+socket 和曲线。
+短距离多输入目标柱要额外检查目标柱高度是否等于或足以容纳输入带宽之和，且每条输入带
+在目标边界上的垂直区间必须连续对齐。默认水平 link 在短距离上容易呈现为硬矩形；如果
+源图显示为弯曲过渡，必须为这些短 link 写显式 cubic control points，并用局部 crop
+确认连接过程平滑、没有直角、台阶、空档或不该出现的重叠。
+当人工反馈要求某个已连接节点“往上/往下移动”时，必须把节点、同属 label、所有相关
+`y0`/`y1` 和 curve 控制点作为一个联动系统处理。移动后要重新核算目标柱的 stacked
+intervals，并用局部 crop 检查目标边界处的端点是否仍然贴合；不能只移动柱子或文字。
+当用户指出 hover tooltip 百分比错误时，必须明确记录该 link 的语义分母。对
+waterfall-like 区域、隐藏桥接、结果柱和调整项共用目标柱等启发式容易误判的关系，
+优先在 dataset link 上写 `percent` 或 `percentText`，而不是依赖 renderer 自动从
+source/target 分支数量推断。
 
 ## 人工反馈沉淀
 

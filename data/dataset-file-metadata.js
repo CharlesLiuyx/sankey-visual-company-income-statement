@@ -4,7 +4,7 @@
  */
 (function () {
   window.DATASET_FILE_METADATA = {
-  "generatedAt": "2026-06-29T07:33:44.465Z",
+  "generatedAt": "2026-06-29T09:43:22.237Z",
   "source": "dataset view and metric source file modification times",
   "files": {
     "alphabet-q1-fy26": {
@@ -21,6 +21,11 @@
       "path": "data/datasets/alibaba-q4-fy26.js",
       "mtimeMs": 1781937775673,
       "mtime": "2026-06-20T06:42:55.673Z"
+    },
+    "airbnb-q1-fy26": {
+      "path": "data/datasets/airbnb-q1-fy26.js",
+      "mtimeMs": 1782726202237,
+      "mtime": "2026-06-29T09:43:22.237Z"
     },
     "amd-q1-fy26": {
       "path": "data/datasets/amd-q1-fy26.js",
@@ -194,8 +199,8 @@
     },
     "tesla-q1-fy26": {
       "path": "data/datasets/tesla-q1-fy26.js",
-      "mtimeMs": 1781987035480,
-      "mtime": "2026-06-20T20:23:55.480Z"
+      "mtimeMs": 1782725912373,
+      "mtime": "2026-06-29T09:38:32.373Z"
     },
     "tencent-q1-fy26": {
       "path": "data/datasets/tencent-q1-fy26.js",

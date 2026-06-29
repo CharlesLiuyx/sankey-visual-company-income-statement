@@ -1,7 +1,8 @@
 # 保真循环规则
 
 本文档是 d3-Sankey 保真循环、runtime raster 例外、图标 crop/vector
-子循环和本地化固定布局检查的 SSOT。其他项目文档如果与本文档冲突，以本文档为准。
+子循环、本地化固定布局检查和最终输出概要的 SSOT。其他项目文档如果与本文档冲突，
+以本文档为准。
 
 质量判定以像素 Diff 为主要量化证据，但最终验收不是无条件追求最低 Diff。
 必须先把差异按语义分类：结构错误、文本/关联错误、可优化视觉差异、可接受残留、
@@ -202,6 +203,33 @@ Task 信息至少包含：
 - 本轮红框 region 清单：编号、bbox、问题分类、对应指标、下一步动作。
 - 用户反馈沉淀：已更新的规则、数据集特例或仍需处理的经验项。
 - 下一轮主检查方向和进入条件。
+
+## 最终输出概要
+
+当 Workflow 处理新增或实质修改的数据集、渲染器、图标资产或本地化固定布局后，最终
+大模型输出必须包含一个紧凑的 `Loop Fidelity Summary`。它不是完整轮次记录的替代品；
+完整证据仍以最新 Task 信息、metrics JSON、候选图、Diff 图和 archive 为准。
+
+如果本次工作没有运行 d3 保真循环，仍要在最终输出中明确写出
+`Loop Fidelity Summary: not run`，并说明原因，例如只修改文档、遇到重复 pending 图、
+没有 `dataset`/`render` 变更，或命令因环境限制无法执行。不要让读者误以为已经完成
+视觉保真验证。
+
+`Loop Fidelity Summary` 应保持可扫读，通常 5 到 9 行，至少包含：
+
+- Scope：dataset key、检查语言、是否包含图标 crop/vector 或 runtime raster。
+- Status：`not run`、`auto checks only`、`in progress`、`converged` 或 `blocked`。
+- Latest round：轮次、主检查方向、archive 路径、metrics JSON 路径。
+- Gates：自动硬门槛通过/失败摘要，包括 purity、尺寸、字体、raster、label-node overlap、
+  SSOT/i18n/语法。
+- Metrics：最新全图 `mae`、`similarity`、`changedPixelRatio`、`diffBoundingBox`。
+- Frozen/open：已冻结主方向、仍开放红框 region 或 backlog；没有开放项时写明 closure。
+- Red-box：红框参考图路径，或无开放红框的关闭说明。
+- Localization：非默认语言固定布局检查状态；未涉及时写 `not applicable`。
+- Feedback learning：用户反馈经验是否更新本文档、记录为数据集特例，或不适用。
+
+最终输出可以引用文件路径，不应粘贴整份 metrics JSON 或完整 Task 信息。若用户要求更
+详细记录，再展开最新 Task 信息、分区域指标和红框 region 表。
 
 ## 冻结和重开
 
@@ -515,6 +543,17 @@ Task 信息：
 - Backlog 主方向:
 - 下一轮主检查方向:
 
+Loop Fidelity Summary：
+- Scope:
+- Status:
+- Latest round:
+- Gates:
+- Metrics:
+- Frozen/open:
+- Red-box:
+- Localization:
+- Feedback learning:
+
 轮次：
 本轮主检查方向：
 冻结清单：
@@ -641,3 +680,4 @@ Label-node/文本（相关时）：
 - 收到用户修正意见后只修当前像素，不沉淀可复用检查经验。
 - 把接口错位、文本不可读或文本越界当成风格差异接受。
 - 在没有 Diff 图、metrics JSON 和主方向分区域指标的情况下声称已经收敛。
+- 最终输出只写“已通过”或“已收敛”，但没有提供 `Loop Fidelity Summary` 或未运行原因。

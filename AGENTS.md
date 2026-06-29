@@ -205,7 +205,8 @@ Before running or reporting any d3-Sankey fidelity loop, load and follow
 `docs/fidelity-loop-rules.md`. That file is the SSOT for d3 output purity,
 allowed changes, image/raster exceptions, metrics, iteration, localization
 layout checks, temporary `compare/` handling, user-feedback learning, red-box
-attention reference images, Task information, and icon SVG/vector subloops.
+attention reference images, Task information, final Loop Fidelity Summary, and
+icon SVG/vector subloops.
 
 When a user points out a fidelity issue, treat it as a process-improvement
 signal as well as a local fix. Follow `docs/fidelity-loop-rules.md` to either
@@ -304,8 +305,9 @@ In the final response, include:
 - Which icon assets were extracted, and whether all relevant business clusters
   were accounted for.
 - For dataset or renderer changes, the final d3 loop result required by
-  `docs/fidelity-loop-rules.md`, including the latest Task information and
-  red-box reference image status when a fidelity loop was run.
+  `docs/fidelity-loop-rules.md`, including the compact Loop Fidelity Summary,
+  latest Task information, and red-box reference image status when a fidelity
+  loop was run. If no loop was run, state why.
 - Whether user-feedback lessons changed `docs/fidelity-loop-rules.md` or were
   recorded as dataset-specific exceptions.
 - Any commands that could not be run.

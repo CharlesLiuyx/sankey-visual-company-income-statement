@@ -101,16 +101,16 @@
         energy_generation_storage: { x: 630, y: 1123, width: 72, height: 49 },
         services: { x: 907, y: 1264, width: 72, height: 76 },
         revenue: { x: 1200, y: 646, width: 72, height: 458 },
-        gross_profit: { x: 1575, y: 473, width: 72, height: 96 },
+        gross_profit: { x: 1574, y: 543, width: 73, height: 95 },
         cost_of_revenue: { x: 1575, y: 838, width: 72, height: 362 },
-        operating_profit: { x: 1952, y: 462, width: 72, height: 26 },
+        operating_profit: { x: 1948, y: 469, width: 72, height: 18 },
         operating_expenses: { x: 1952, y: 655, width: 72, height: 78 },
-        interest: { x: 2206, y: 443, width: 72, height: 6 },
-        net_profit: { x: 2326, y: 394, width: 72, height: 16 },
-        other: { x: 2326, y: 579, width: 72, height: 10 },
-        tax: { x: 2326, y: 705, width: 72, height: 6 },
-        rnd: { x: 2326, y: 846, width: 72, height: 39 },
-        sga: { x: 2326, y: 1060, width: 72, height: 37 },
+        interest: { x: 2214, y: 441, width: 72, height: 6 },
+        net_profit: { x: 2322, y: 394, width: 72, height: 16 },
+        other: { x: 2322, y: 579, width: 72, height: 10 },
+        tax: { x: 2322, y: 705, width: 72, height: 6 },
+        rnd: { x: 2322, y: 846, width: 72, height: 39 },
+        sga: { x: 2322, y: 1060, width: 72, height: 37 },
       },
       labels: {
         auto_sales: {
@@ -138,7 +138,7 @@
               ],
             },
             {
-              x: 420, top: 868, anchor: 'end',
+              x: 447, top: 868, anchor: 'end',
               lines: [{ text: 'Regulatory credits', size: 38, weight: 800 }],
             },
           ],
@@ -146,14 +146,14 @@
         leasing: {
           blocks: [
             {
-              x: 488, top: 914, anchor: 'middle', lineGap: 11,
+              x: 488, top: 912, anchor: 'middle', lineGap: 11,
               lines: [
                 { text: '$value', size: 39, weight: 400 },
                 { text: '(15%) Y/Y', size: 28, weight: 400, color: NOTE },
               ],
             },
             {
-              x: 420, top: 989, anchor: 'end',
+              x: 447, top: 989, anchor: 'end',
               lines: [{ text: 'Leasing', size: 38, weight: 800 }],
             },
           ],
@@ -180,7 +180,7 @@
               ],
             },
             {
-              x: 258, top: 1108, anchor: 'start', lineGap: 8,
+              x: 248, top: 1108, anchor: 'start', lineGap: 8,
               lines: [
                 { text: 'Energy generation', size: 38, weight: 800 },
                 { text: '& storage', size: 38, weight: 800 },
@@ -206,7 +206,7 @@
         revenue: {
           blocks: [
             {
-              x: 1236, top: 507, anchor: 'middle', lineGap: 11,
+              x: 1236, top: 505, anchor: 'middle', lineGap: 11,
               lines: [
                 { text: 'Revenue', size: 40, weight: 800 },
                 { text: '$value', size: 39, weight: 400 },
@@ -218,7 +218,7 @@
         gross_profit: {
           blocks: [
             {
-              x: 1611, top: 286, anchor: 'middle', lineGap: 10,
+              x: 1611, top: 352, anchor: 'middle', lineGap: 10,
               lines: [
                 { text: 'Gross profit', size: 38, weight: 800 },
                 { text: '$value', size: 39, weight: 400 },
@@ -268,7 +268,7 @@
         interest: {
           blocks: [
             {
-              x: 2244, top: 466, anchor: 'middle', lineGap: 8,
+              x: 2250, top: 466, anchor: 'middle', lineGap: 8,
               lines: [
                 { text: 'Interest', size: 32, weight: 800 },
                 { text: '$value', size: 31, weight: 400 },
@@ -314,7 +314,7 @@
         rnd: {
           blocks: [
             {
-              x: 2472, top: 839, anchor: 'middle', lineGap: 8,
+              x: 2500, top: 839, anchor: 'middle', lineGap: 8,
               lines: [
                 { text: 'R&D', size: 31, weight: 800 },
                 { text: '$value', size: 31, weight: 400 },
@@ -327,7 +327,7 @@
         sga: {
           blocks: [
             {
-              x: 2472, top: 1061, anchor: 'middle', lineGap: 8,
+              x: 2500, top: 1061, anchor: 'middle', lineGap: 8,
               lines: [
                 { text: 'SG&A', size: 31, weight: 800 },
                 { text: '$value', size: 31, weight: 400 },
@@ -411,7 +411,7 @@
       { source: 'revenue', target: 'gross_profit', value: 4.7, width: 96, sourceOrder: 0 },
       { source: 'revenue', target: 'cost_of_revenue', value: 17.7, width: 362, sourceOrder: 1 },
 
-      { source: 'gross_profit', target: 'operating_profit', value: 0.9, width: 18, sourceOrder: 0 },
+      { source: 'gross_profit', target: 'operating_profit', value: 0.9, width: 18, sourceOrder: 0, y0: 552, y1: 478 },
       { source: 'gross_profit', target: 'operating_expenses', value: 3.8, width: 78, sourceOrder: 1 },
 
       {
@@ -426,10 +426,11 @@
         source: 'operating_profit',
         target: 'net_profit',
         value: 0.5,
-        width: 10,
+        width: 4,
         sourceOrder: 0,
         targetOrder: 0,
-        curve: { c1x: 2130, c1y: 467, c2x: 2250, c2y: 399 },
+        y0: 469,
+        curve: { c1x: 2130, c1y: 469, c2x: 2250, c2y: 399 },
       },
       {
         source: 'operating_profit',
@@ -437,7 +438,8 @@
         value: 0.5,
         width: 10,
         sourceOrder: 1,
-        curve: { c1x: 2110, c1y: 477, c2x: 2238, c2y: 584 },
+        y0: 476,
+        curve: { c1x: 2110, c1y: 476, c2x: 2238, c2y: 584 },
       },
       {
         source: 'operating_profit',
@@ -445,10 +447,277 @@
         value: 0.3,
         width: 6,
         sourceOrder: 2,
-        curve: { c1x: 2110, c1y: 485, c2x: 2240, c2y: 708 },
+        y0: 484,
+        curve: { c1x: 2110, c1y: 484, c2x: 2240, c2y: 708 },
       },
       { source: 'operating_expenses', target: 'rnd', value: 1.9, width: 39, sourceOrder: 0 },
       { source: 'operating_expenses', target: 'sga', value: 1.8, width: 37, sourceOrder: 1 },
     ],
+
+    i18n: {
+      zh: {
+        name: 'Tesla · 2026 财年第一季度',
+        meta: {
+          title: 'Tesla 2026 财年第一季度利润表',
+          period: '2026 财年第一季度',
+          periodNote: '截至 2026 年 3 月',
+        },
+        annotationsSvg: `
+          <g font-family="Montserrat,Arial,sans-serif">
+            <g transform="translate(52 566) scale(0.78)">${businessIcons.teslaAutoCluster || ''}</g>
+            <g transform="translate(34 1094) scale(0.95)">${businessIcons.teslaEnergyCluster || ''}</g>
+            <g transform="translate(640 1254) scale(0.82)">${businessIcons.teslaCharger || ''}</g>
+            ${metricCard(2058, '产量', '408K', '同比 +13%')}
+            ${metricCard(2255, '交付量', '358K', '同比 +6%')}
+          </g>`,
+        nodes: {
+          auto_sales: { label: '汽车销售', notes: ['同比 +20%'] },
+          regulatory_credits: { label: '监管积分', notes: ['同比 (36%)'] },
+          leasing: { label: '租赁', notes: ['同比 (15%)'] },
+          auto: { label: '汽车业务', notes: ['同比 +16%'] },
+          energy_generation_storage: { label: '能源发电与储能', notes: ['同比 (12%)'] },
+          services: { label: '服务', notes: ['同比 +42%'] },
+          revenue: { label: '收入', notes: ['同比 +16%'] },
+          gross_profit: { label: '毛利润', notes: ['利润率 21%', '同比 +5 个百分点'] },
+          cost_of_revenue: { label: ['收入', '成本'] },
+          operating_profit: { label: '营业利润', notes: ['利润率 4%', '同比 +2 个百分点'] },
+          operating_expenses: { label: '运营费用' },
+          interest: { label: '利息' },
+          net_profit: { label: '净利润', notes: ['利润率 2%', '同比 +0 个百分点'] },
+          other: { label: '其他' },
+          tax: { label: '税费' },
+          rnd: { label: '研发', notes: ['占收入 9%', '同比 +1 个百分点'] },
+          sga: { label: '销售及管理', notes: ['占收入 8%', '同比 +2 个百分点'] },
+        },
+        layout: {
+          labels: {
+            auto_sales: {
+              blocks: [
+                {
+                  x: 488, top: 330, anchor: 'middle', lineGap: 11,
+                  lines: [
+                    { text: '$value', size: 39, weight: 400 },
+                    { text: '同比 +20%', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+                {
+                  x: 287, top: 506, anchor: 'middle',
+                  lines: [{ text: '汽车销售', size: 40, weight: 800 }],
+                },
+              ],
+            },
+            regulatory_credits: {
+              blocks: [
+                {
+                  x: 488, top: 778, anchor: 'middle', lineGap: 11,
+                  lines: [
+                    { text: '$value', size: 39, weight: 400 },
+                    { text: '同比 (36%)', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+                {
+                  x: 447, top: 868, anchor: 'end',
+                  lines: [{ text: '监管积分', size: 38, weight: 800 }],
+                },
+              ],
+            },
+            leasing: {
+              blocks: [
+                {
+                  x: 488, top: 912, anchor: 'middle', lineGap: 11,
+                  lines: [
+                    { text: '$value', size: 39, weight: 400 },
+                    { text: '同比 (15%)', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+                {
+                  x: 447, top: 989, anchor: 'end',
+                  lines: [{ text: '租赁', size: 38, weight: 800 }],
+                },
+              ],
+            },
+            auto: {
+              blocks: [
+                {
+                  x: 864, top: 399, anchor: 'middle', lineGap: 11,
+                  lines: [
+                    { text: '汽车业务', size: 39, weight: 800 },
+                    { text: '$value', size: 39, weight: 400 },
+                    { text: '同比 +16%', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            energy_generation_storage: {
+              blocks: [
+                {
+                  x: 666, top: 1026, anchor: 'middle', lineGap: 11,
+                  lines: [
+                    { text: '$value', size: 39, weight: 400 },
+                    { text: '同比 (12%)', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+                {
+                  x: 625, top: 1108, anchor: 'end', lineGap: 8,
+                  lines: [
+                    { text: '能源发电', size: 38, weight: 800 },
+                    { text: '与储能', size: 38, weight: 800 },
+                  ],
+                },
+              ],
+            },
+            services: {
+              blocks: [
+                {
+                  x: 943, top: 1174, anchor: 'middle', lineGap: 11,
+                  lines: [
+                    { text: '$value', size: 39, weight: 400 },
+                    { text: '同比 +42%', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+                {
+                  x: 802, top: 1290, anchor: 'middle',
+                  lines: [{ text: '服务', size: 40, weight: 800 }],
+                },
+              ],
+            },
+            revenue: {
+              blocks: [
+                {
+                  x: 1236, top: 505, anchor: 'middle', lineGap: 11,
+                  lines: [
+                    { text: '收入', size: 40, weight: 800 },
+                    { text: '$value', size: 39, weight: 400 },
+                    { text: '同比 +16%', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            gross_profit: {
+              blocks: [
+                {
+                  x: 1611, top: 352, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '毛利润', size: 38, weight: 800 },
+                    { text: '$value', size: 39, weight: 400 },
+                    { text: '利润率 21%', size: 28, weight: 400, color: NOTE },
+                    { text: '同比 +5 个百分点', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            cost_of_revenue: {
+              blocks: [
+                {
+                  x: 1611, top: 1215, anchor: 'middle', lineGap: 9,
+                  lines: [
+                    { text: '收入', size: 38, weight: 800 },
+                    { text: '成本', size: 38, weight: 800 },
+                    { text: '$value', size: 37, weight: 400 },
+                  ],
+                },
+              ],
+            },
+            operating_profit: {
+              blocks: [
+                {
+                  x: 1988, top: 282, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '营业利润', size: 38, weight: 800 },
+                    { text: '$value', size: 38, weight: 400 },
+                    { text: '利润率 4%', size: 28, weight: 400, color: NOTE },
+                    { text: '同比 +2 个百分点', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            operating_expenses: {
+              blocks: [
+                {
+                  x: 1978, top: 747, anchor: 'middle', lineGap: 9,
+                  lines: [
+                    { text: '运营', size: 38, weight: 800 },
+                    { text: '费用', size: 38, weight: 800 },
+                    { text: '$value', size: 37, weight: 400 },
+                  ],
+                },
+              ],
+            },
+            interest: {
+              blocks: [
+                {
+                  x: 2250, top: 466, anchor: 'middle', lineGap: 8,
+                  lines: [
+                    { text: '利息', size: 32, weight: 800 },
+                    { text: '$value', size: 31, weight: 400 },
+                  ],
+                },
+              ],
+            },
+            net_profit: {
+              blocks: [
+                {
+                  x: 2532, top: 320, anchor: 'middle', lineGap: 10,
+                  lines: [
+                    { text: '净利润', size: 38, weight: 800 },
+                    { text: '$value', size: 38, weight: 400 },
+                    { text: '利润率 2%', size: 28, weight: 400, color: NOTE },
+                    { text: '同比 +0 个百分点', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            other: {
+              blocks: [
+                {
+                  x: 2498, top: 548, anchor: 'middle', lineGap: 8,
+                  lines: [
+                    { text: '其他', size: 31, weight: 800 },
+                    { text: '$value', size: 31, weight: 400 },
+                  ],
+                },
+              ],
+            },
+            tax: {
+              blocks: [
+                {
+                  x: 2498, top: 674, anchor: 'middle', lineGap: 8,
+                  lines: [
+                    { text: '税费', size: 31, weight: 800 },
+                    { text: '$value', size: 31, weight: 400 },
+                  ],
+                },
+              ],
+            },
+            rnd: {
+              blocks: [
+                {
+                  x: 2508, top: 839, anchor: 'middle', lineGap: 8,
+                  lines: [
+                    { text: '研发', size: 31, weight: 800 },
+                    { text: '$value', size: 31, weight: 400 },
+                    { text: '占收入 9%', size: 28, weight: 400, color: NOTE },
+                    { text: '同比 +1 个百分点', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+            sga: {
+              blocks: [
+                {
+                  x: 2508, top: 1061, anchor: 'middle', lineGap: 8,
+                  lines: [
+                    { text: '销售及管理', size: 31, weight: 800 },
+                    { text: '$value', size: 31, weight: 400 },
+                    { text: '占收入 8%', size: 28, weight: 400, color: NOTE },
+                    { text: '同比 +2 个百分点', size: 28, weight: 400, color: NOTE },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
   });
 })();

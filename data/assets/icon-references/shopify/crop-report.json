@@ -1,0 +1,272 @@
+{
+  "source": "input/processed/shopify-q1-fy26.png",
+  "spec": "input/icon-crop-specs/shopify-q1-fy26.json",
+  "background": [
+    242,
+    242,
+    242
+  ],
+  "generatedAt": "2026-06-29T13:40:33.067136+00:00",
+  "compression": {
+    "enabled": true,
+    "paletteColors": [
+      256,
+      192,
+      128,
+      96,
+      64,
+      48,
+      32,
+      24,
+      16
+    ],
+    "limits": {
+      "maxMeanAbsoluteError": 1.2,
+      "maxRootMeanSquareError": 3.0,
+      "maxP99AbsoluteError": 12.0,
+      "maxMaxChannelDiff": 72
+    }
+  },
+  "backgroundRemoval": {
+    "enabled": true,
+    "mode": "edge-connected",
+    "tolerance": 10
+  },
+  "runtimeOutputDir": null,
+  "crops": [
+    {
+      "key": "shopify-company-bag",
+      "output": "data/assets/icon-references/shopify/crops/company-bag.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 4667,
+        "losslessBytes": 23019,
+        "savingsVsLossless": 0.7973,
+        "metrics": {
+          "meanAbsoluteError": 0.8173,
+          "rootMeanSquareError": 2.4901,
+          "p99AbsoluteError": 12.0,
+          "maxChannelDiff": 40,
+          "changedPixelRatio": 0.6359
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 10,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 34170,
+        "transparentPixelRatio": 0.368
+      },
+      "searchBox": {
+        "x": 1044,
+        "y": 224,
+        "width": 270,
+        "height": 300
+      },
+      "componentCount": 1,
+      "subjectBox": {
+        "x0": 1047,
+        "y0": 224,
+        "x1": 1310,
+        "y1": 522
+      },
+      "cropBox": {
+        "x0": 1034,
+        "y0": 216,
+        "x1": 1326,
+        "y1": 534
+      },
+      "validation": {
+        "width": 292,
+        "height": 318,
+        "foregroundPixels": 49702,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 13,
+          "right": 16,
+          "top": 8,
+          "bottom": 12
+        },
+        "centerOffset": {
+          "x": -0.0051,
+          "y": -0.0063
+        },
+        "passes": true
+      },
+      "note": "Main Shopify company bag icon above the revenue hub; excludes title, revenue text, flows, and publisher branding.",
+      "validationSheet": "data/assets/icon-references/shopify/validation-sheets/shopify-company-bag.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 285708,
+        "losslessBytes": 285708,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "shopify-merchant-solutions-cluster",
+      "output": "data/assets/icon-references/shopify/crops/merchant-solutions-cluster.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 16,
+        "bytes": 8584,
+        "losslessBytes": 45931,
+        "savingsVsLossless": 0.8131,
+        "metrics": {
+          "meanAbsoluteError": 0.861,
+          "rootMeanSquareError": 2.0798,
+          "p99AbsoluteError": 10.0,
+          "maxChannelDiff": 38,
+          "changedPixelRatio": 0.7664
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 10,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 41380,
+        "transparentPixelRatio": 0.2203
+      },
+      "searchBox": {
+        "x": 142,
+        "y": 610,
+        "width": 572,
+        "height": 282
+      },
+      "componentCount": 10,
+      "subjectBox": {
+        "x0": 143,
+        "y0": 610,
+        "x1": 714,
+        "y1": 892
+      },
+      "cropBox": {
+        "x0": 128,
+        "y0": 596,
+        "x1": 730,
+        "y1": 908
+      },
+      "validation": {
+        "width": 602,
+        "height": 312,
+        "foregroundPixels": 134881,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 15,
+          "right": 16,
+          "top": 14,
+          "bottom": 16
+        },
+        "centerOffset": {
+          "x": -0.0008,
+          "y": -0.0032
+        },
+        "passes": true
+      },
+      "note": "Merchant Solutions branded business cluster only; includes the source's in-cluster Shopify wordmark and merchant-service list, and excludes revenue labels, connector paths, and publisher marks.",
+      "validationSheet": "data/assets/icon-references/shopify/validation-sheets/shopify-merchant-solutions-cluster.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 290582,
+        "losslessBytes": 290582,
+        "savingsVsLossless": 0.0
+      }
+    },
+    {
+      "key": "shopify-plus-wordmark",
+      "output": "data/assets/icon-references/shopify/crops/shopify-plus-wordmark.png",
+      "compression": {
+        "enabled": true,
+        "mode": "palette",
+        "colors": 24,
+        "bytes": 3023,
+        "losslessBytes": 13689,
+        "savingsVsLossless": 0.7792,
+        "metrics": {
+          "meanAbsoluteError": 0.4729,
+          "rootMeanSquareError": 1.7119,
+          "p99AbsoluteError": 8.0,
+          "maxChannelDiff": 15,
+          "changedPixelRatio": 0.158
+        }
+      },
+      "backgroundRemoval": {
+        "enabled": true,
+        "mode": "edge-connected",
+        "tolerance": 10,
+        "background": [
+          242,
+          242,
+          242
+        ],
+        "transparentPixels": 19831,
+        "transparentPixelRatio": 0.732
+      },
+      "searchBox": {
+        "x": 70,
+        "y": 992,
+        "width": 280,
+        "height": 66
+      },
+      "componentCount": 14,
+      "subjectBox": {
+        "x0": 70,
+        "y0": 995,
+        "x1": 350,
+        "y1": 1056
+      },
+      "cropBox": {
+        "x0": 50,
+        "y0": 988,
+        "x1": 365,
+        "y1": 1074
+      },
+      "validation": {
+        "width": 315,
+        "height": 86,
+        "foregroundPixels": 5054,
+        "edgeForegroundPixels": 0,
+        "forbiddenForegroundPixels": 0,
+        "margins": {
+          "left": 20,
+          "right": 15,
+          "top": 7,
+          "bottom": 18
+        },
+        "centerOffset": {
+          "x": 0.0079,
+          "y": -0.064
+        },
+        "passes": true
+      },
+      "note": "Shopify Plus wordmark used for the subscription-solutions source line; excludes values, Y/Y text, connectors, and nodes.",
+      "validationSheet": "data/assets/icon-references/shopify/validation-sheets/shopify-plus-wordmark.png",
+      "validationSheetCompression": {
+        "enabled": true,
+        "mode": "rgb-lossless",
+        "colors": null,
+        "bytes": 272175,
+        "losslessBytes": 272175,
+        "savingsVsLossless": 0.0
+      }
+    }
+  ]
+}
